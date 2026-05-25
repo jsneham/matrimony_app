@@ -37,12 +37,9 @@
   --spacing-24: 96px;
   --spacing-30: 120px;
 
-  --font-sans: sans-regular;
-  --font-sans-light: sans-light;
-  --font-sans-medium: sans-medium;
-  --font-sans-semibold: sans-semibold;
-  --font-sans-bold: sans-bold;
-  --font-sans-extrabold: sans-extrabold;
+  --font-regular: Regular;
+  --font-medium: Medium;
+  --font-bold: Bold;
 }
 
 @layer components {
@@ -76,7 +73,7 @@
   }
 
   .home-user-name {
-    @apply ml-4 text-2xl font-sans-bold text-primary;
+    @apply ml-4 text-2xl font-bold text-primary;
   }
 
   .home-add-icon {
@@ -88,7 +85,7 @@
   }
 
   .home-balance-label {
-    @apply text-xl font-sans-semibold text-white/80;
+    @apply text-xl font-bold text-white/80;
   }
 
   .home-balance-row {
@@ -96,11 +93,11 @@
   }
 
   .home-balance-amount {
-    @apply text-4xl font-sans-extrabold text-white;
+    @apply text-4xl font-bold text-white;
   }
 
   .home-balance-date {
-    @apply text-xl font-sans-medium text-white;
+    @apply text-xl font-medium text-white;
   }
 
   .list-head {
@@ -108,7 +105,7 @@
   }
 
   .list-title {
-    @apply text-2xl font-sans-bold text-primary;
+    @apply text-2xl font-bold text-primary;
   }
 
   .list-action {
@@ -116,7 +113,7 @@
   }
 
   .list-action-text {
-    @apply text-lg font-sans-semibold text-primary;
+    @apply text-lg font-bold text-primary;
   }
 
   .upcoming-card {
@@ -132,15 +129,15 @@
   }
 
   .upcoming-price {
-    @apply text-lg font-sans-bold text-primary;
+    @apply text-lg font-bold text-primary;
   }
 
   .upcoming-meta {
-    @apply text-sm font-sans-semibold text-muted-foreground;
+    @apply text-sm font-bold text-muted-foreground;
   }
 
   .upcoming-name {
-    @apply mt-2 text-lg font-sans-bold text-primary;
+    @apply mt-2 text-lg font-bold text-primary;
   }
 
   .sub-card {
@@ -168,11 +165,11 @@
   }
 
   .sub-title {
-    @apply mb-1 text-lg font-sans-bold text-primary;
+    @apply mb-1 text-lg font-bold text-primary;
   }
 
   .sub-meta {
-    @apply text-sm font-sans-semibold text-muted-foreground;
+    @apply text-sm font-bold text-muted-foreground;
   }
 
   .sub-price-box {
@@ -180,11 +177,11 @@
   }
 
   .sub-price {
-    @apply mb-1 text-lg font-sans-bold text-primary;
+    @apply mb-1 text-lg font-bold text-primary;
   }
 
   .sub-billing {
-    @apply text-sm font-sans-medium text-muted-foreground;
+    @apply text-sm font-medium text-muted-foreground;
   }
 
   .sub-body {
@@ -204,11 +201,11 @@
   }
 
   .sub-label {
-    @apply shrink-0 text-base font-sans-medium text-muted-foreground;
+    @apply shrink-0 text-base font-medium text-muted-foreground;
   }
 
   .sub-value {
-    @apply flex-1 font-sans-bold text-primary;
+    @apply flex-1 font-bold text-primary;
   }
 
   .sub-cancel {
@@ -220,11 +217,11 @@
   }
 
   .sub-cancel-text {
-    @apply font-sans-bold text-background;
+    @apply font-bold text-background;
   }
 
   .home-empty-state {
-    @apply py-4 text-sm font-sans-medium text-black/60;
+    @apply py-4 text-sm font-medium text-black/60;
   }
 
   .auth-safe-area {
@@ -256,23 +253,23 @@
   }
 
   .auth-logo-mark-text {
-    @apply text-2xl font-sans-extrabold text-background;
+    @apply text-2xl font-bold text-background;
   }
 
   .auth-wordmark {
-    @apply text-3xl font-sans-extrabold text-primary;
+    @apply text-3xl font-bold text-primary;
   }
 
   .auth-wordmark-sub {
-    @apply -mt-1 text-xs font-sans-semibold uppercase tracking-[1px] text-muted-foreground;
+    @apply -mt-1 text-xs font-bold uppercase tracking-[1px] text-muted-foreground;
   }
 
   .auth-title {
-    @apply text-3xl font-sans-bold text-primary;
+    @apply text-3xl font-bold text-primary;
   }
 
   .auth-subtitle {
-    @apply mt-2 max-w-[320px] text-center text-base font-sans-medium text-muted-foreground;
+    @apply mt-2 max-w-[320px] text-center text-base font-medium text-muted-foreground;
   }
 
   .auth-card {
@@ -288,11 +285,11 @@
   }
 
   .auth-label {
-    @apply text-sm font-sans-semibold text-primary;
+    @apply text-sm font-bold text-primary;
   }
 
   .auth-input {
-    @apply rounded-2xl border border-border bg-background px-4 py-4 text-base font-sans-medium text-primary;
+    @apply rounded-2xl border border-border bg-background px-4 py-4 text-base font-medium text-primary;
   }
 
   .auth-input-error {
@@ -300,11 +297,11 @@
   }
 
   .auth-error {
-    @apply text-xs font-sans-medium text-destructive;
+    @apply text-xs font-medium text-destructive;
   }
 
   .auth-helper {
-    @apply text-sm font-sans-medium text-muted-foreground;
+    @apply text-sm font-medium text-muted-foreground;
   }
 
   .auth-button {
@@ -316,7 +313,7 @@
   }
 
   .auth-button-text {
-    @apply text-base font-sans-bold text-primary;
+    @apply text-base font-bold text-primary;
   }
 
   .auth-secondary-button {
@@ -324,7 +321,7 @@
   }
 
   .auth-secondary-button-text {
-    @apply text-sm font-sans-semibold text-accent;
+    @apply text-sm font-bold text-accent;
   }
 
   .auth-divider-row {
@@ -336,7 +333,7 @@
   }
 
   .auth-divider-text {
-    @apply text-[11px] font-sans-semibold uppercase tracking-[1px] text-muted-foreground;
+    @apply text-[11px] font-bold uppercase tracking-[1px] text-muted-foreground;
   }
 
   .auth-link-row {
@@ -344,11 +341,11 @@
   }
 
   .auth-link-copy {
-    @apply text-sm font-sans-medium text-muted-foreground;
+    @apply text-sm font-medium text-muted-foreground;
   }
 
   .auth-link {
-    @apply text-sm font-sans-bold text-accent;
+    @apply text-sm font-bold text-accent;
   }
 
   .modal-overlay {
@@ -364,7 +361,7 @@
   }
 
   .modal-title {
-    @apply text-xl font-sans-bold text-primary;
+    @apply text-xl font-bold text-primary;
   }
 
   .modal-close {
@@ -372,7 +369,7 @@
   }
 
   .modal-close-text {
-    @apply text-lg font-sans-bold text-primary;
+    @apply text-lg font-bold text-primary;
   }
 
   .modal-body {
@@ -392,7 +389,7 @@
   }
 
   .picker-option-text {
-    @apply text-sm font-sans-semibold text-muted-foreground;
+    @apply text-sm font-bold text-muted-foreground;
   }
 
   .picker-option-text-active {
@@ -412,7 +409,7 @@
   }
 
   .category-chip-text {
-    @apply text-sm font-sans-semibold text-muted-foreground;
+    @apply text-sm font-bold text-muted-foreground;
   }
 
   .category-chip-text-active {
