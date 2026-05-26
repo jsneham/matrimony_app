@@ -42,6 +42,7 @@ export default function LoginScreen() {
       username: username.trim(),
       password: password.trim(),
     });
+    // loginMutation.isSuccess && router.push("/(tabs)");
   };
 
   return (
