@@ -1,6 +1,7 @@
 import "@/global.css";
 
 import { LinearGradient } from "expo-linear-gradient";
+import { router } from "expo-router";
 import { styled } from "nativewind";
 import React from "react";
 import {
@@ -94,6 +95,7 @@ export default function App() {
               <StyledTouchableOpacity
                 className="bg-transparent border-2 border-white rounded-xl py-4 mb-6"
                 activeOpacity={0.8}
+                onPress={() => router.push("/login")}
               >
                 <StyledText className="text-white text-center text-lg font-semibold">
                   Already have an account? Login
