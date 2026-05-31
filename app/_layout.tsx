@@ -1,7 +1,6 @@
 import {
-  DarkTheme,
   DefaultTheme,
-  ThemeProvider,
+  ThemeProvider
 } from "@react-navigation/native";
 import { SplashScreen, Stack } from "expo-router";
 import "react-native-reanimated";
@@ -43,7 +42,7 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <ThemeProvider value={DefaultTheme}>
         <Stack
           screenOptions={{
             headerShown: false,
@@ -66,12 +65,12 @@ export default function RootLayout() {
           />
 
           {/* Main App Tabs - after login */}
-          {/* <Stack.Screen
+          <Stack.Screen
             name="(tabs)"
             options={{
               headerShown: false,
             }}
-          /> */}
+          />
         </Stack>
       </ThemeProvider>
     </QueryClientProvider>

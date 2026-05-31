@@ -1,10 +1,12 @@
 import "@/global.css";
 
+import { useSession } from "@/hooks/useSession";
 import { LinearGradient } from "expo-linear-gradient";
-import { router } from "expo-router";
+import { Redirect, router } from "expo-router";
 import { styled } from "nativewind";
 import React from "react";
 import {
+  ActivityIndicator,
   Image,
   ImageBackground,
   StatusBar,
@@ -37,6 +39,19 @@ export default function App() {
   //     setImage(result.assets[0].uri);
   //   }
   // };
+
+  const { isLoggedIn, isLoading } = useSession();
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+
+  if (isLoggedIn) {
+    return <Redirect href="/(tabs)" />;
+  }
 
   return (
     <StyledView className="flex-1">

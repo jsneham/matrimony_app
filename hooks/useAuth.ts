@@ -75,14 +75,14 @@ export const useLogin = () => {
 
       if (response.status === "success") {
         // Save token
-        return await saveUserSession(response.user_data, response.token);
+        await saveUserSession(response.user_data, response.token);
 
         // Navigate to dashboard with flags to clear stack
-        // router.replace('/(tabs)');
+        // router.push("/(tabs)" as Href);
       } else {
         // Show error message from API
         // Alert.alert('Login Failed', response.errmessage || 'Something went wrong');
-        return response.errmessage || "Something went wrong. Please try again.";
+        // return response.errmessage || "Something went wrong. Please try again.";
       }
     },
     onError: (error: any) => {
@@ -99,7 +99,7 @@ export const useLogin = () => {
         errorMessage = error.message;
       }
 
-      return errorMessage;
+      // return errorMessage;
       //   Alert.alert("Login Failed", errorMessage);
     },
   });

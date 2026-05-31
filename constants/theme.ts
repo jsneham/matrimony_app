@@ -15,6 +15,11 @@ export const colors = {
   icon: "#687076",
   tabIconDefault: "#687076",
   tabIconSelected: tintColorLight,
+  primary: "#116FB1",
+  accent: "#F33E6D",
+  white: "#fff",
+  black: "#000",
+  gray100: "#f7fafc",
 };
 // export const colors = {
 //   light: {
