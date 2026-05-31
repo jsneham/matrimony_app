@@ -1,20 +1,20 @@
 import "@/global.css";
 
 import { useLogin } from "@/hooks/useAuth";
-import { router } from "expo-router";
+import { Href, router } from "expo-router";
 import { styled } from "nativewind";
 import React, { useState } from "react";
 import {
-    ActivityIndicator,
-    Alert,
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
-    StatusBar,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StatusBar,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 const StyledView = styled(View);
@@ -25,24 +25,34 @@ const StyledScrollView = styled(ScrollView);
 const StyledKeyboardAvoidingView = styled(KeyboardAvoidingView);
 
 export default function LoginScreen() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("jj125575");
+  const [password, setPassword] = useState("radhika123");
 
   const loginMutation = useLogin();
 
   const handleLogin = () => {
-    // Validate inputs
     if (!username.trim() || !password.trim()) {
       Alert.alert("Error", "Please fill in all fields");
       return;
     }
 
-    // Call login mutation
-    loginMutation.mutate({
-      username: username.trim(),
-      password: password.trim(),
-    });
-    // loginMutation.isSuccess && router.push("/(tabs)");
+    loginMutation.mutate(
+      { username: username.trim(), password: password.trim() },
+      {
+        onSuccess: () => {
+          console.log("Login successful, navigating to dashboard...");
+          router.navigate("/(tabs)" as Href);
+        },
+        onError: (error: any) => {
+          const msg =
+            error.response?.data?.errmessage ||
+            error.response?.data?.message ||
+            error.message ||
+            "Something went wrong. Please try again.";
+          Alert.alert("Login Failed", msg);
+        },
+      },
+    );
   };
 
   return (
