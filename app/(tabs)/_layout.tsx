@@ -41,11 +41,11 @@ const TabLayout = () => {
   return (
     <Tabs
       screenOptions={{
-        headerShown: false,
+        headerShown: true,
         tabBarShowLabel: true,
         tabBarStyle: {
           position: "absolute",
-          bottom: Math.max(insets.bottom, tabBar.horizontalInset),
+          // bottom: Math.max(insets.bottom, tabBar.horizontalInset),
           height: tabBar.height,
           // marginHorizontal: tabBar.horizontalInset,
           // borderRadius: tabBar.radius,
@@ -69,6 +69,7 @@ const TabLayout = () => {
           name={tab.name}
           options={{
             title: tab.title,
+            headerTitleAlign: "center",
             tabBarIcon: ({ focused }) => (
               <TabIcon focused={focused} icon={tab.icon} />
             ),
