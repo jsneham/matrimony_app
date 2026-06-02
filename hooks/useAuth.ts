@@ -1,20 +1,8 @@
 import { authService } from "@/services/authService";
+import { SESSION_KEYS } from "@/types/common";
 import { LoginRequest } from "@/types/login";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import * as SecureStore from "expo-secure-store";
-
-// Session Manager Keys
-export const SESSION_KEYS = {
-  TOKEN: "csrf_token",
-  USER_ID: "user_id",
-  EMAIL: "email",
-  USERNAME: "username",
-  GENDER: "gender",
-  MATRI_ID: "matri_id",
-  PLAN_STATUS: "plan_status",
-  LOGIN_WITH: "login_with",
-  DEVICE_TOKEN: "device_token",
-};
 
 // Save user session data
 const saveUserSession = async (userData: any, token: string) => {
@@ -38,7 +26,7 @@ const saveUserSession = async (userData: any, token: string) => {
 };
 
 // Clear user session
-const clearUserSession = async () => {
+export const clearUserSession = async () => {
   try {
     await SecureStore.deleteItemAsync(SESSION_KEYS.TOKEN);
     await SecureStore.deleteItemAsync(SESSION_KEYS.USER_ID);
@@ -65,15 +53,59 @@ export const getSessionData = async (key: string): Promise<string | null> => {
   }
 };
 
+export const getSessionDataByKeys = async (
+  keys: string[],
+): Promise<Record<string, string | null>> => {
+  const result: Record<string, string | null> = {};
+
+  await Promise.all(
+    keys.map(async (key) => {
+      result[key] = await SecureStore.getItemAsync(key);
+    }),
+  );
+
+  return result;
+};
+
+// Get multiple session values at once
+export const getMultipleSessionData = async (
+  keys: string[],
+): Promise<Record<string, string | null>> => {
+  try {
+    const result: Record<string, string | null> = {};
+
+    await Promise.all(
+      keys.map(async (key) => {
+        result[key] = await SecureStore.getItemAsync(key);
+      }),
+    );
+
+    console.log("Session data retrieved:", Object.keys(result).join(", "));
+    return result;
+  } catch (error) {
+    console.error("Error getting multiple session data:", error);
+    return {};
+  }
+};
+
+// Get all session data
+export const getAllSessionData = async (): Promise<
+  Record<string, string | null>
+> => {
+  return getMultipleSessionData(Object.values(SESSION_KEYS));
+};
+
 export const useLogin = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (data: LoginRequest) => authService.login(data),
+
     onSuccess: async (response) => {
       console.log("Login response:", response);
 
       if (response.status === "success") {
+        queryClient.invalidateQueries({ queryKey: ["login"] });
         // Save token
         await saveUserSession(response.user_data, response.token);
 
@@ -112,7 +144,7 @@ export const useLogin = () => {
 //     mutationFn: (data: SignupRequest) => authService.signup(data),
 //     onSuccess: async (data) => {
 //       await saveToken(data.token);
-//       queryClient.invalidateQueries({ queryKey: ["user"] });
+// queryClient.invalidateQueries({ queryKey: ["user"] });
 //       //   router.replace("/(tabs)");
 //     },
 //     onError: (error: any) => {

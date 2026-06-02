@@ -2,7 +2,6 @@ import "@/global.css";
 
 import { useLogin } from "@/hooks/useAuth";
 import { Href, router } from "expo-router";
-import { styled } from "nativewind";
 import React, { useState } from "react";
 import {
   ActivityIndicator,
@@ -16,13 +15,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-
-const StyledView = styled(View);
-const StyledText = styled(Text);
-const StyledTouchableOpacity = styled(TouchableOpacity);
-const StyledTextInput = styled(TextInput);
-const StyledScrollView = styled(ScrollView);
-const StyledKeyboardAvoidingView = styled(KeyboardAvoidingView);
 
 export default function LoginScreen() {
   const [username, setUsername] = useState("jj125575");
@@ -56,36 +48,36 @@ export default function LoginScreen() {
   };
 
   return (
-    <StyledKeyboardAvoidingView
+    <KeyboardAvoidingView
       className="flex-1 bg-white"
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <StatusBar barStyle="dark-content" />
 
-      <StyledScrollView
+      <ScrollView
         className="flex-1"
         contentContainerStyle={{ flexGrow: 1 }}
         keyboardShouldPersistTaps="handled"
       >
-        <StyledView className="flex-1 justify-center px-6">
+        <View className="flex-1 justify-center px-6">
           {/* Back Button */}
-          <StyledTouchableOpacity
+          <TouchableOpacity
             className="absolute top-12 left-6"
             onPress={() => router.back()}
             disabled={loginMutation.isPending}
           >
-            <StyledText className="text-2xl">←</StyledText>
-          </StyledTouchableOpacity>
+            <Text className="text-2xl">←</Text>
+          </TouchableOpacity>
 
-          <StyledText className="text-3xl font-bold mb-2 text-center">
+          <Text className="text-3xl font-bold mb-2 text-center">
             Welcome Back
-          </StyledText>
-          <StyledText className="text-gray-500 mb-8 text-center">
+          </Text>
+          <Text className="text-gray-500 mb-8 text-center">
             Login to continue
-          </StyledText>
+          </Text>
 
           {/* Username Input */}
-          <StyledTextInput
+          <TextInput
             placeholder="Username or Email"
             className="border border-gray-300 rounded-xl px-4 py-4 mb-4"
             autoCapitalize="none"
@@ -95,7 +87,7 @@ export default function LoginScreen() {
           />
 
           {/* Password Input */}
-          <StyledTextInput
+          <TextInput
             placeholder="Password"
             className="border border-gray-300 rounded-xl px-4 py-4 mb-2"
             secureTextEntry
@@ -105,18 +97,16 @@ export default function LoginScreen() {
           />
 
           {/* Forgot Password Link */}
-          <StyledTouchableOpacity
+          <TouchableOpacity
             className="self-end mb-6"
             // onPress={() => router.push("/(auth)/forgot-password")}
             disabled={loginMutation.isPending}
           >
-            <StyledText className="text-blue-600 text-sm">
-              Forgot Password?
-            </StyledText>
-          </StyledTouchableOpacity>
+            <Text className="text-blue-600 text-sm">Forgot Password?</Text>
+          </TouchableOpacity>
 
           {/* Login Button */}
-          <StyledTouchableOpacity
+          <TouchableOpacity
             className={`rounded-xl py-4 mb-4 ${
               loginMutation.isPending ? "bg-blue-400" : "bg-blue-600"
             }`}
@@ -127,28 +117,24 @@ export default function LoginScreen() {
             {loginMutation.isPending ? (
               <ActivityIndicator color="white" />
             ) : (
-              <StyledText className="text-white text-center text-lg font-semibold">
+              <Text className="text-white text-center text-lg font-semibold">
                 Login
-              </StyledText>
+              </Text>
             )}
-          </StyledTouchableOpacity>
+          </TouchableOpacity>
 
           {/* Sign Up Link */}
-          <StyledView className="flex-row justify-center mt-4">
-            <StyledText className="text-gray-600">
-              Don't have an account?{" "}
-            </StyledText>
-            <StyledTouchableOpacity
+          <View className="flex-row justify-center mt-4">
+            <Text className="text-gray-600">Don't have an account? </Text>
+            <TouchableOpacity
               onPress={() => router.push("/(auth)/signup")}
               disabled={loginMutation.isPending}
             >
-              <StyledText className="text-blue-600 font-semibold">
-                Sign Up
-              </StyledText>
-            </StyledTouchableOpacity>
-          </StyledView>
-        </StyledView>
-      </StyledScrollView>
-    </StyledKeyboardAvoidingView>
+              <Text className="text-blue-600 font-semibold">Sign Up</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
