@@ -1,4 +1,5 @@
 import CurrentPlanCard from "@/components/CurrentPlanCard";
+import { Href, router } from "expo-router";
 import React from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 
@@ -31,6 +32,10 @@ export default function membership() {
           className="rounded-xl py-4 items-center justify-center"
           style={{ backgroundColor: "#0f7c8a" }}
           activeOpacity={0.85}
+          onPress={() => {
+            console.log("Button Pressed");
+            router.push("/(membership)" as Href);
+          }}
         >
           <Text className="text-white text-base font-bold tracking-wide">
             View Plans &amp; Upgrade Plan
