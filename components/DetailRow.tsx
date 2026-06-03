@@ -10,7 +10,7 @@ export const DetailRow: React.FC<PlanDetail> = ({
     <Text className="flex-1 text-gray-400 text-sm">{label}</Text>
     <Text className="text-gray-400 text-sm mr-3">:</Text>
     <Text
-      className={`text-sm font-semibold ${
+      className={`text-sm font-bold ${
         highlight ? "text-orange-500" : "text-gray-900"
       }`}
     >

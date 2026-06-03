@@ -13,7 +13,7 @@ const CurrentPlanCard = () => {
       {/* Card Header */}
       <View className="flex-row items-center px-5 py-4">
         <DiamondIcon />
-        <Text className="text-gray-900 text-base font-extrabold tracking-wide">
+        <Text className="text-gray-900 text-base font-bold tracking-wide">
           GOLD 1 MONTH
         </Text>
       </View>
@@ -57,7 +57,7 @@ const CurrentPlanCard = () => {
         className="flex-row items-center justify-center py-4"
         activeOpacity={0.7}
       >
-        <Text className="text-orange-500 text-sm font-semibold mr-1">
+        <Text className="text-orange-500 text-sm font-bold mr-1">
           {expanded ? "show less" : "show more"}
         </Text>
         <Ionicons

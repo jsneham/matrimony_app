@@ -33,7 +33,7 @@ const Help = () => {
         >
           <Ionicons name="logo-whatsapp" size={16} color="white" />
         </View>
-        <Text className="text-base font-semibold" style={{ color: "#25D366" }}>
+        <Text className="text-base font-bold" style={{ color: "#25D366" }}>
           WhatsApp Now
         </Text>
       </TouchableOpacity>
