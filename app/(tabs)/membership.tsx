@@ -1,20 +1,42 @@
-import { useSession } from "@/hooks/useSession";
-import { useRouter } from "expo-router";
+import CurrentPlanCard from "@/components/CurrentPlanCard";
 import React from "react";
-import { Button, View } from "react-native";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 
 export default function membership() {
-  const { logout } = useSession();
-  const router = useRouter();
+  // const { logout } = useSession();
+  // const router = useRouter();
 
-  const handleLogout = async () => {
-    await logout();
-    router.replace("/(auth)/login");
-  };
+  // const handleLogout = async () => {
+  //   await logout();
+  //   router.replace("/(auth)/login");
+  // };
 
   return (
-    <View>
-      <Button title="Logout" onPress={handleLogout} />
+    <View className="flex-1 bg-gray-100">
+      <ScrollView
+        className="flex-1"
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ padding: 16, paddingBottom: 100 }}
+      >
+        {/* ── Plan Card ────────────────────────────────── */}
+        <CurrentPlanCard />
+      </ScrollView>
+
+      {/* ── Sticky Bottom Button ─────────────────────── */}
+      <View
+        className="absolute bottom-0 left-0 right-0 px-4 pb-8 pt-3 mb-12"
+        style={{ backgroundColor: "#f3f4f6" }}
+      >
+        <TouchableOpacity
+          className="rounded-xl py-4 items-center justify-center"
+          style={{ backgroundColor: "#0f7c8a" }}
+          activeOpacity={0.85}
+        >
+          <Text className="text-white text-base font-bold tracking-wide">
+            View Plans &amp; Upgrade Plan
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
