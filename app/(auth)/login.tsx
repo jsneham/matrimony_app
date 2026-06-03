@@ -117,7 +117,7 @@ export default function LoginScreen() {
             {loginMutation.isPending ? (
               <ActivityIndicator color="white" />
             ) : (
-              <Text className="text-white text-center text-lg font-semibold">
+              <Text className="text-white text-center text-lg font-bold">
                 Login
               </Text>
             )}
@@ -130,7 +130,7 @@ export default function LoginScreen() {
               onPress={() => router.push("/(auth)/signup")}
               disabled={loginMutation.isPending}
             >
-              <Text className="text-blue-600 font-semibold">Sign Up</Text>
+              <Text className="text-blue-600 font-bold">Sign Up</Text>
             </TouchableOpacity>
           </View>
         </View>

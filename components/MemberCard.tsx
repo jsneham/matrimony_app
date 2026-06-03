@@ -32,7 +32,7 @@ export const MemberCard: React.FC<MemberCardProps> = ({
       )}
       {/* Name overlay */}
       <View className="absolute bottom-0 left-0 right-0 bg-black/50 px-2 py-1.5">
-        <Text className="text-white text-xs font-semibold" numberOfLines={1}>
+        <Text className="text-white text-xs font-bold" numberOfLines={1}>
           {name}
         </Text>
       </View>

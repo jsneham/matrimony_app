@@ -86,14 +86,14 @@ export default function MyMatchesScreen() {
       {!isLoading && isError && (
         <View className="flex-1 items-center justify-center px-6">
           <Ionicons name="alert-circle" size={48} color="#ef4444" />
-          <Text className="text-red-600 font-semibold mt-4 text-center">
+          <Text className="text-red-600 font-bold mt-4 text-center">
             Failed to load matches
           </Text>
           <TouchableOpacity
             onPress={() => setPage(1)}
             className="mt-4 px-6 py-3 bg-blue-600 rounded-lg"
           >
-            <Text className="text-white font-semibold">Try Again</Text>
+            <Text className="text-white font-bold">Try Again</Text>
           </TouchableOpacity>
         </View>
       )}

@@ -16,9 +16,11 @@ import home from "@/assets/icons/home.png";
 // import setting from "@/assets/icons/setting.png";
 // import spotify from "@/assets/icons/spotify.png";
 // import wallet from "@/assets/icons/wallet.png";
+import DiamondIcon from "@/assets/icons/DiamondIcon";
 
 export const icons = {
   home,
+  DiamondIcon,
   //   wallet,
   //   setting,
   //   activity,

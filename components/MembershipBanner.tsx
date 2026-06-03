@@ -6,7 +6,7 @@ export const MembershipBanner = () => (
     className="mx-4 mt-4 rounded-2xl px-5 py-4 flex-row items-center justify-between"
     style={{ backgroundColor: "#fdf6e3" }}
   >
-    <Text className="text-gray-800 text-base font-semibold">Gold 1 month</Text>
+    <Text className="text-gray-800 text-base font-bold">Gold 1 month</Text>
     <TouchableOpacity
       className="flex-row items-center px-5 py-2.5 rounded-xl"
       style={{ backgroundColor: "#b8960c" }}

@@ -25,9 +25,7 @@ export const ProfileCard = () => (
         </Text>
         <Text className="text-gray-400 text-sm mb-2">JJ125575</Text>
         <View className="flex-row items-center justify-between">
-          <Text className="text-sky-500 text-sm font-semibold">
-            79% COMPLETED
-          </Text>
+          <Text className="text-sky-500 text-sm font-bold">79% COMPLETED</Text>
           <TouchableOpacity>
             <Text className="text-orange-500 text-sm font-bold">
               UPDATE PROFILE &rsaquo;

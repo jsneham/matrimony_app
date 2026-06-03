@@ -10,7 +10,7 @@ const ProfileVisitors = () => {
           Profile Visitors
         </Text>
         <TouchableOpacity>
-          <Text className="text-orange-500 text-sm font-semibold">See All</Text>
+          <Text className="text-orange-500 text-sm font-bold">See All</Text>
         </TouchableOpacity>
       </View>
       <View className="bg-white rounded-2xl px-5 py-6 items-center shadow-sm border border-gray-100">

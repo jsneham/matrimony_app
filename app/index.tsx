@@ -1,11 +1,9 @@
 import "@/global.css";
 
-import { useSession } from "@/hooks/useSession";
 import { LinearGradient } from "expo-linear-gradient";
-import { Redirect, router } from "expo-router";
+import { router } from "expo-router";
 import React from "react";
 import {
-  ActivityIndicator,
   Image,
   ImageBackground,
   StatusBar,
@@ -16,18 +14,18 @@ import {
 import images from "../constants/images";
 
 export default function App() {
-  const { isLoggedIn, isLoading } = useSession();
-  if (isLoading) {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" />
-      </View>
-    );
-  }
+  // const { isLoggedIn, isLoading } = useSession();
+  // if (isLoading) {
+  //   return (
+  //     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+  //       <ActivityIndicator size="large" />
+  //     </View>
+  //   );
+  // }
 
-  if (isLoggedIn) {
-    return <Redirect href="/(tabs)" />;
-  }
+  // if (isLoggedIn) {
+  //   return <Redirect href="/(tabs)" />;
+  // }
 
   return (
     <View className="flex-1">
@@ -60,7 +58,7 @@ export default function App() {
               </View>
 
               <Text className="text-white text-4xl font-bold mb-1">Milan</Text>
-              <Text className="text-white text-lg tracking-widest mt-1">
+              <Text className="text-white text-lg tracking-widest mt-1 font-medium">
                 Matrimony
               </Text>
             </View>
@@ -75,7 +73,7 @@ export default function App() {
                 className="bg-white rounded-xl py-4 mb-4 shadow-lg"
                 activeOpacity={0.8}
               >
-                <Text className="text-black text-center text-lg font-semibold">
+                <Text className="text-black text-center text-lg font-bold">
                   New User? Create Account
                 </Text>
               </TouchableOpacity>
@@ -86,7 +84,7 @@ export default function App() {
                 activeOpacity={0.8}
                 onPress={() => router.push("/login")}
               >
-                <Text className="text-white text-center text-lg font-semibold">
+                <Text className="text-white text-center text-lg font-bold">
                   Already have an account? Login
                 </Text>
               </TouchableOpacity>
