@@ -8,3 +8,9 @@ export const tabs: AppTab[] = [
   { name: "message", title: "Message", icon: icons.home },
   { name: "membership", title: "Membership", icon: icons.home },
 ];
+
+export const TABS = [
+  { key: "search", label: "Search", icon: "search-outline" as const },
+  { key: "index", label: "My Matches", icon: null },
+  { key: "more-matches", label: "More Matches", icon: null },
+];

@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
-import "@/global.css";
-
 import { MatchCard } from "@/components/MatchCard";
 import { NoData } from "@/components/NoData";
 import { SkeletonCard } from "@/components/SkeletonCard";
@@ -39,33 +37,21 @@ export default function MyMatchesScreen() {
   // Show skeleton while session OR matches are loading
   const isLoading = isSessionLoading || isMatchesLoading;
 
-  // Mutations
-  // const likeProfile = useLikeProfile();
-  // const skipProfile = useSkipProfile();
-
-  // const handleLike = (profileId: string) => {
-  //   likeProfile.mutate(profileId);
-  // };
-
-  // const handleSkip = (profileId: string) => {
-  //   skipProfile.mutate(profileId);
-  // };
-
   return (
-    <View className="flex-1 bg-gray-50">
+    <View className="flex-1 bg-white">
       {/* Subtitle with Update Preferences */}
-      <View className="flex-row items-center justify-between m-4 bg-white rounded-lg px-4 py-3 shadow">
-        <Text className="text-gray-600 text-sm">
+      <View className="flex-row items-center justify-between mx-5 h-[34px] my-3">
+        <Text className="text-gray font-regular text-sm">
           According to Partner Preferences.
         </Text>
         <TouchableOpacity className="flex-row items-center">
-          <Text className="text-blue-600 text-sm font-medium">
+          <Text className="text-black text-sm font-bold">
             Update Preferences
           </Text>
           <Ionicons
             name="pencil"
             size={14}
-            color="#2563eb"
+            color="black"
             style={{ marginLeft: 6 }}
           />
         </TouchableOpacity>
