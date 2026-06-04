@@ -13,7 +13,7 @@ export const colors = {
   background: "#fff",
   tint: tintColorLight,
   icon: "#687076",
-  tabIconDefault: "#687076",
+  tabIconDefault: "#8B8B8B",
   tabIconSelected: tintColorLight,
   primary: "#116FB1",
   accent: "#F33E6D",
