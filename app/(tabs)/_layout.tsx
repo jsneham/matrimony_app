@@ -2,65 +2,65 @@ import { tabs } from "@/constants/data";
 import { colors, components } from "@/constants/theme";
 import { TabIconProps } from "@/types/dashboard";
 import { Tabs } from "expo-router";
-import { Image, View } from "react-native";
+import { Image, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const tabBar = components.tabBar;
 
 const TabIcon = ({ focused, icon }: TabIconProps) => {
   return (
-    <View className="tabs-icon">
-      {/* <View className={clsx("tabs-pill", focused && "tabs-active")}> */}
-      <View>
-        <Image
-          source={icon}
-          resizeMode="contain"
-          className="tabs-glyph"
-          style={{
-            tintColor: focused ? colors.accent : colors.tabIconDefault,
-          }}
-        />
-      </View>
+    <View className="size-12 items-center justify-center">
+      <Image
+        source={icon}
+        resizeMode="contain"
+        className="w-6 h-6"
+        style={{
+          tintColor: focused ? colors.accent : colors.tabIconDefault,
+        }}
+      />
     </View>
   );
 };
+
 const TabLayout = () => {
-  //   const { isSignedIn, isLoaded } = useAuth();
   const insets = useSafeAreaInsets();
-
-  // Wait for auth to load before rendering anything
-  //   if (!isLoaded) {
-  //     return null;
-  //   }
-
-  // Redirect to sign-in if user is not authenticated
-  //   if (!isSignedIn) {
-  //     return <Redirect href="/(auth)/sign-in" />;
-  //   }
 
   return (
     <Tabs
       screenOptions={{
         headerShown: true,
-        tabBarShowLabel: true,
+        tabBarActiveTintColor: colors.accent,
+        tabBarInactiveTintColor: colors.tabIconDefault,
         tabBarStyle: {
           position: "absolute",
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: 60 + insets.bottom,
+          backgroundColor: colors.white,
+          paddingBottom: insets.bottom,
+          paddingTop: 8,
+          elevation: 0,
+          shadowOpacity: 0.05,
           // bottom: Math.max(insets.bottom, tabBar.horizontalInset),
-          height: tabBar.height,
           // marginHorizontal: tabBar.horizontalInset,
           // borderRadius: tabBar.radius,
-          backgroundColor: colors.white,
-          borderTopWidth: 0,
-          elevation: 0,
+          // borderTopWidth: 1,
+          // borderTopColor: "#E5E7EB",
         },
-        tabBarItemStyle: {
-          paddingVertical: tabBar.height / 2 - tabBar.iconFrame / 1.6,
-        },
-        tabBarIconStyle: {
-          width: tabBar.iconFrame,
-          height: tabBar.iconFrame,
-          alignItems: "center",
-        },
+        // tabBarLabelStyle: {
+        //   fontSize: 11,
+        //   marginBottom: 4,
+        //   fontFamily: "medium",
+        // },
+        // tabBarItemStyle: {
+        //   paddingVertical: tabBar.height / 2 - tabBar.iconFrame / 1.6,
+        // },
+        // tabBarIconStyle: {
+        //   width: tabBar.iconFrame,
+        //   height: tabBar.iconFrame,
+        //   alignItems: "center",
+        // },
       }}
     >
       {tabs.map((tab) => (
@@ -72,6 +72,19 @@ const TabLayout = () => {
             headerTitleAlign: "center",
             tabBarIcon: ({ focused }) => (
               <TabIcon focused={focused} icon={tab.icon} />
+            ),
+            tabBarLabel: ({ focused, color }) => (
+              <Text
+                style={{
+                  fontSize: 12,
+                  fontFamily: "medium",
+                  textAlign: "center",
+                  marginBottom: 4,
+                  color: focused ? colors.accent : colors.tabIconDefault,
+                }}
+              >
+                {tab.title}
+              </Text>
             ),
           }}
         />
