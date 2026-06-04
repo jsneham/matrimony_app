@@ -1,11 +1,9 @@
 import { tabs } from "@/constants/data";
-import { colors, components } from "@/constants/theme";
+import { colors } from "@/constants/theme";
 import { TabIconProps } from "@/types/dashboard";
 import { Tabs } from "expo-router";
 import { Image, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-
-const tabBar = components.tabBar;
 
 const TabIcon = ({ focused, icon }: TabIconProps) => {
   return (
@@ -69,7 +67,11 @@ const TabLayout = () => {
           name={tab.name}
           options={{
             title: tab.title,
-            headerTitleAlign: "center",
+            headerTitleAlign: "left",
+            headerTitleStyle: {
+              fontSize: 24,
+              fontFamily: "bold",
+            },
             tabBarIcon: ({ focused }) => (
               <TabIcon focused={focused} icon={tab.icon} />
             ),
