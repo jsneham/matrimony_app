@@ -69,7 +69,11 @@ const TabLayout = () => {
           name={tab.name}
           options={{
             title: tab.title,
-            headerTitleAlign: "center",
+            headerTitleAlign: "left",
+            headerTitleStyle: {
+              fontSize: 24,
+              fontFamily: "bold",
+            },
             tabBarIcon: ({ focused }) => (
               <TabIcon focused={focused} icon={tab.icon} />
             ),
