@@ -1,8 +1,10 @@
 import "@/global.css";
 
-import { router } from "expo-router";
+import { useSession } from "@/hooks/useSession";
+import { Redirect, router } from "expo-router";
 import React from "react";
 import {
+  ActivityIndicator,
   Image,
   ImageBackground,
   StatusBar,
@@ -13,18 +15,18 @@ import {
 import images from "../constants/images";
 
 export default function App() {
-  // const { isLoggedIn, isLoading } = useSession();
-  // if (isLoading) {
-  //   return (
-  //     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-  //       <ActivityIndicator size="large" />
-  //     </View>
-  //   );
-  // }
+  const { isLoggedIn, isLoading } = useSession();
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
 
-  // if (isLoggedIn) {
-  //   return <Redirect href="/(tabs)" />;
-  // }
+  if (isLoggedIn) {
+    return <Redirect href="/(tabs)" />;
+  }
 
   return (
     <View className="flex-1">

@@ -40,6 +40,7 @@ export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider value={DefaultTheme}>
+        {/* <SafeAreaView className="flex-1 bg-white"> */}
         <Stack
           screenOptions={{
             headerShown: false,
@@ -76,6 +77,7 @@ export default function RootLayout() {
             }}
           />
         </Stack>
+        {/* </SafeAreaView> */}
       </ThemeProvider>
     </QueryClientProvider>
   );
