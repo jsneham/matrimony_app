@@ -7,6 +7,7 @@ export const matchesService = {
   getMyMatches: async (data: MatchesRequest): Promise<GetMatchesResponse> => {
     const body = {
       member_id: data.memberId,
+      matri_id: data.matriId,
     };
 
     console.log("Request Body:", body);
