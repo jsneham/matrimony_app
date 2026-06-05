@@ -71,9 +71,16 @@ export default function RootLayout() {
           />
 
           <Stack.Screen
+            name="(account)"
+            options={{
+              title: "Account & More",
+              headerShown: true,
+            }}
+          />
+          <Stack.Screen
             name="(membership)"
             options={{
-              headerShown: false,
+              headerShown: true,
             }}
           />
         </Stack>
