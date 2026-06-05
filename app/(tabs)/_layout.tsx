@@ -1,3 +1,4 @@
+import { HeaderMenu } from "@/components/HeaderMenu";
 import { tabs } from "@/constants/data";
 import { colors, components } from "@/constants/theme";
 import { TabIconProps } from "@/types/dashboard";
@@ -29,6 +30,7 @@ const TabLayout = () => {
     <Tabs
       screenOptions={{
         headerShown: true,
+        headerRight: () => <HeaderMenu />,
         tabBarActiveTintColor: colors.accent,
         tabBarInactiveTintColor: colors.tabIconDefault,
         tabBarStyle: {
@@ -74,6 +76,7 @@ const TabLayout = () => {
               fontSize: 24,
               fontFamily: "bold",
             },
+
             tabBarIcon: ({ focused }) => (
               <TabIcon focused={focused} icon={tab.icon} />
             ),
