@@ -5,15 +5,12 @@ export default function MembershipLayout() {
   return (
     <Stack
       screenOptions={{
-        headerShown: true,
+        headerShown: false,
         animation: "slide_from_right",
-        contentStyle: {
-          backgroundColor: "white",
-        },
       }}
     >
       <Stack.Screen
-        name="membershipPlanList"
+        name="index"
         options={{
           title: "Membership Plans",
         }}
