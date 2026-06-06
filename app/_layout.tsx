@@ -80,6 +80,7 @@ export default function RootLayout() {
           <Stack.Screen
             name="(membership)"
             options={{
+              title: "Membership Plan",
               headerShown: true,
             }}
           />
