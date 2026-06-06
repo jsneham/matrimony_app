@@ -1,5 +1,6 @@
 import { UserProfile } from "@/types/profile";
 import { Ionicons } from "@expo/vector-icons";
+import { Href, router } from "expo-router";
 import { Text, TouchableOpacity, View } from "react-native";
 
 export const MembershipBanner = (props: {
@@ -16,6 +17,9 @@ export const MembershipBanner = (props: {
         {userData?.plan_name}
       </Text>
       <TouchableOpacity
+        onPress={() => {
+          router.push("/(membership)" as Href);
+        }}
         className="flex-row items-center px-5 py-2.5 rounded-xl"
         style={{ backgroundColor: "#b8960c" }}
       >
