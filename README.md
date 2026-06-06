@@ -51,3 +51,24 @@ Join our community of developers creating universal apps.
 - npm run android
 - npm run ios # you need to use macOS to build the iOS project - use the Expo app if you need to do iOS development without a Mac
 - npm run web
+
+# remote debugging
+
+- adb devices
+- adb logcat -s ReactNativeJS
+- adb logcat > app_logs.txt
+
+# Local Build
+
+# Prebuild and configure
+
+npx expo prebuild --clean
+
+# Build release APK
+
+cd android
+./gradlew assembleRelease
+cd ..
+
+OR AAB
+./gradlew bundleRelease
