@@ -1,20 +1,15 @@
 // screens/MembershipPlanScreen.tsx
 import { MembershipCard } from "@/components/MembershipCard";
 import { MembershipPlan, membershipTabs } from "@/types/plan";
+import { useWhatsApp } from "@/utils/whatsappUtils";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import {
-  FlatList,
-  Linking,
-  Pressable,
-  ScrollView,
-  Text,
-  View,
-} from "react-native";
+import { FlatList, Pressable, ScrollView, Text, View } from "react-native";
 
 const MembershipPlanList = () => {
+  const { openWhatsApp, loading } = useWhatsApp();
   const [activeTabId, setActiveTabId] = useState(membershipTabs[0].id);
   const router = useRouter();
 
@@ -27,13 +22,6 @@ const MembershipPlanList = () => {
     //   pathname: "/(app)/checkout",
     //   params: { planId: plan.id },
     // });
-  };
-
-  const handleWhatsApp = () => {
-    const phoneNumber = "+919076094316"; // Replace with your WhatsApp number
-    const message = "Hi, I need help with membership plans";
-    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    Linking.openURL(url);
   };
 
   console.log("MembershipPlanList called");
@@ -98,7 +86,8 @@ const MembershipPlanList = () => {
         {/* WhatsApp Support Button */}
         <View className="px-4 mb-8">
           <Pressable
-            onPress={handleWhatsApp}
+            onPress={openWhatsApp}
+            disabled={loading}
             className="flex-row items-center justify-center border-2 border-sky-500 rounded-lg py-4 px-4 active:bg-sky-50"
           >
             <MaterialCommunityIcons name="whatsapp" size={24} color="#0EA5E9" />
