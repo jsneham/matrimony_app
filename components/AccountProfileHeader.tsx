@@ -90,7 +90,7 @@ export const AccountProfileHeader = () => {
         className="mx-4 mb-4 p-4 rounded-lg flex-row items-center justify-between"
         style={{ backgroundColor: "#F5EFE0" }}
       >
-        <Text className="text-lg font-bold">{userData?.planName}</Text>
+        <Text className="text-lg font-bold">{userData?.plan_name}</Text>
 
         <Pressable
           className="rounded-full px-5 py-2"
