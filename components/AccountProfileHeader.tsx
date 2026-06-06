@@ -2,11 +2,11 @@ import { colors } from "@/constants/theme";
 import { useMyProfile } from "@/hooks/useProfile";
 import { useSession } from "@/hooks/useSession";
 import { SESSION_KEYS } from "@/types/common";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Pressable, Text, View } from "react-native";
 import { ActionCard } from "./ActionCard";
 import { NoData } from "./NoData";
 import { ProfileCompletionCard } from "./ProfileCompletionCard";
+import { ProfilePhotoWIthProgress } from "./ProfilePhotoWIthProgress";
 
 export const AccountProfileHeader = () => {
   const { data } = useSession([SESSION_KEYS.USER_ID]);
@@ -35,32 +35,21 @@ export const AccountProfileHeader = () => {
 
   const userData = profileData?.data;
 
-  console.log("profileData", userData?.matri_Id, userData?.id);
+  console.log("profileData", userData?.matri_id, userData?.id);
 
   return (
     <View className="bg-white" pointerEvents="box-none">
       {/* Profile */}
       <View className="items-center px-6 py-6">
-        <View
-          className="w-24 h-24 rounded-full items-center justify-center mb-4"
-          style={{
-            borderWidth: 4,
-            borderColor: colors.accent,
-            backgroundColor: "#E5F0F5",
-          }}
-        >
-          <MaterialCommunityIcons
-            name="account"
-            size={60}
-            color={colors.accent}
-          />
-        </View>
+        <ProfilePhotoWIthProgress
+          profileCompletion={userData?.percentage ?? 0}
+        />
 
         <Text className="text-2xl font-bold text-black">
           {userData?.firstname} {userData?.lastname}
         </Text>
 
-        <Text className="text-gray-500 mt-1">{userData?.matri_Id}</Text>
+        <Text className="text-gray-500 mt-1">{userData?.matri_id}</Text>
       </View>
 
       {/* Action Cards */}
