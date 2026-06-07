@@ -91,7 +91,9 @@ export default function MyMatchesScreen() {
             <FlatList
               data={matches}
               renderItem={({ item }) => <MatchCard profile={item} />}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item, index) =>
+                item.id?.toString() || index.toString()
+              }
               scrollEventThrottle={16}
               contentContainerStyle={{
                 paddingHorizontal: 20,
