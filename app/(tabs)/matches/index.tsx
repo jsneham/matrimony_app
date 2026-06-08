@@ -15,6 +15,7 @@ import { SkeletonCard } from "@/components/SkeletonCard";
 import { useMyMatches } from "@/hooks/useMatches";
 import { useSession } from "@/hooks/useSession";
 import { SESSION_KEYS } from "@/types/common";
+import { MatchProfile } from "@/types/matches";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function MyMatchesScreen() {
@@ -157,12 +158,12 @@ export default function MyMatchesScreen() {
           data={matches}
           renderItem={({ item }) => <MatchCard profile={item} />}
           // CRITICAL: String keyExtractor for release builds
-          keyExtractor={(item, index) => {
-            if (!item?.id) {
+          keyExtractor={(item: MatchProfile, index: number) => {
+            if (!item?.matri_id) {
               console.warn("⚠️ Item missing ID at index", index);
               return `fallback-${index}`;
             }
-            return String(item.id);
+            return String(item.matri_id);
           }}
           // FlatList optimizations for release builds
           removeClippedSubviews={false}
