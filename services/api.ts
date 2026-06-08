@@ -58,25 +58,39 @@ export const getDeviceToken = async () => {
 // Request interceptor - Add common parameters to all requests
 api.interceptors.request.use(
   async (config) => {
-    const token = await getToken();
-    const userId = await getUserId();
+    try {
+      const token = await getToken();
+      const userId = await getUserId();
 
-    // For POST requests, add common parameters
-    if (config.method === "post" && config.data) {
-      config.data = {
-        ...config.data,
-        user_agent: USER_AGENT,
-        csrf_new_matrimonial: token || "",
-        logged_in_user_id: userId || "",
-      };
+      if (config.method === "post" || config.method === "put") {
+        // Ensure config.data is an object
+        if (!config.data) {
+          config.data = {};
+        }
 
-      console.log("API Request:", config.url);
-      console.log("Parameters:", config.data);
+        // Add authentication parameters
+        config.data = {
+          ...config.data,
+          user_agent: USER_AGENT,
+          csrf_new_matrimonial: token || "",
+          logged_in_user_id: userId || "",
+        };
+
+        console.log("🔄 API Request:", {
+          url: config.url,
+          method: config.method,
+          dataKeys: Object.keys(config.data),
+        });
+      }
+
+      return config;
+    } catch (error) {
+      console.error("❌ Request interceptor error:", error);
+      return Promise.reject(error);
     }
-
-    return config;
   },
   (error) => {
+    console.error("❌ Request error:", error);
     return Promise.reject(error);
   },
 );
@@ -84,21 +98,32 @@ api.interceptors.request.use(
 // Response interceptor - Handle errors globally
 api.interceptors.response.use(
   (response) => {
-    console.log("API Response:", response.data);
+    console.log("✅ API Response received:", {
+      status: response.status,
+      dataType: typeof response.data,
+      isArray: Array.isArray(response.data),
+    });
     return response;
   },
   async (error) => {
-    console.log("API Error:", error.message);
+    console.error("❌ API Error:", {
+      message: error.message,
+      status: error.response?.status,
+      url: error.config?.url,
+      data: error.response?.data,
+    });
 
     if (error.response) {
       const statusCode = error.response.status;
-      console.log("Error Status Code:", statusCode);
 
-      // Handle specific error codes
       if (statusCode === 401) {
-        // Unauthorized - redirect to login
-        await SecureStore.deleteItemAsync("csrf_token");
-        await SecureStore.deleteItemAsync("user_id");
+        console.warn("⚠️ Unauthorized - clearing tokens");
+        try {
+          await SecureStore.deleteItemAsync("csrf_token");
+          await SecureStore.deleteItemAsync("user_id");
+        } catch (e) {
+          console.error("Error clearing tokens:", e);
+        }
       }
     }
 

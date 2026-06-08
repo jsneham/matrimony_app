@@ -1,5 +1,13 @@
-import React, { useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+// screens/MyMatchesScreen.tsx
+import React, { useCallback, useMemo, useState } from "react";
+import {
+  ActivityIndicator,
+  FlatList,
+  RefreshControl,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 import { MatchCard } from "@/components/MatchCard";
 import { NoData } from "@/components/NoData";
@@ -8,34 +16,89 @@ import { useMyMatches } from "@/hooks/useMatches";
 import { useSession } from "@/hooks/useSession";
 import { SESSION_KEYS } from "@/types/common";
 import { Ionicons } from "@expo/vector-icons";
-import { FlatList } from "react-native";
 
 export default function MyMatchesScreen() {
-  const { data, isLoading: isSessionLoading } = useSession([
+  const { data: sessionData, isLoading: isSessionLoading } = useSession([
     SESSION_KEYS.MATRI_ID,
     SESSION_KEYS.USER_ID,
   ]);
 
   const [page, setPage] = useState(1);
+  const [refreshing, setRefreshing] = useState(false);
 
-  const matriId = data?.[SESSION_KEYS.MATRI_ID] ?? "";
-  const memberId = data?.[SESSION_KEYS.USER_ID] ?? "";
+  // Extract IDs safely
+  const matriId = useMemo(
+    () => sessionData?.[SESSION_KEYS.MATRI_ID] ?? "",
+    [sessionData],
+  );
+  const memberId = useMemo(
+    () => sessionData?.[SESSION_KEYS.USER_ID] ?? "",
+    [sessionData],
+  );
 
-  // Queries - only runs when session is loaded and has values
+  // Fetch matches - only runs when IDs are available
   const {
     data: matchesData,
     isLoading: isMatchesLoading,
     isError,
+    isFetching,
+    refetch,
   } = useMyMatches({
     matriId,
     memberId,
     page,
   });
 
-  const matches = matchesData?.data || [];
+  // Extract matches array safely
+  const matches = useMemo(() => {
+    const data = matchesData?.data || [];
+    // Ensure all items have string IDs for FlatList
+    return Array.isArray(data)
+      ? data.map((item) => ({
+          ...item,
+          id: String(item.id), // Force string ID
+        }))
+      : [];
+  }, [matchesData]);
 
-  // Show skeleton while session OR matches are loading
+  const totalCount = matchesData?.total_count || 0;
+
+  // Combined loading state
   const isLoading = isSessionLoading || isMatchesLoading;
+
+  // Handle pull-to-refresh
+  const handleRefresh = useCallback(async () => {
+    setRefreshing(true);
+    setPage(1);
+    try {
+      await refetch();
+    } finally {
+      setRefreshing(false);
+    }
+  }, [refetch]);
+
+  // Handle load more
+  const handleEndReached = useCallback(() => {
+    if (!isFetching && matches.length < totalCount) {
+      setPage((prev) => prev + 1);
+    }
+  }, [matches.length, totalCount, isFetching]);
+
+  // Debug logging
+  React.useEffect(() => {
+    if (matches.length > 0) {
+      console.log("📊 MyMatchesScreen Debug:", {
+        matchesCount: matches.length,
+        totalCount: totalCount,
+        currentPage: page,
+        isLoading,
+        isError,
+        isFetching,
+        matriId: matriId ? "✅" : "",
+        memberId: memberId ? "✅" : "",
+      });
+    }
+  }, [matches.length, totalCount, page, isLoading, isError, isFetching]);
 
   return (
     <View className="flex-1 bg-white">
@@ -58,58 +121,86 @@ export default function MyMatchesScreen() {
       </View>
 
       {/* Loading State - Skeleton Cards */}
-      {isLoading && (
+      {isLoading ? (
         <FlatList
           data={[1, 2, 3]}
           renderItem={() => <SkeletonCard />}
-          keyExtractor={(item) => item.toString()}
+          keyExtractor={(item) => `skeleton-${item}`}
           scrollEnabled={false}
           showsVerticalScrollIndicator={false}
+          removeClippedSubviews={false}
         />
-      )}
+      ) : null}
 
       {/* Error State */}
-      {!isLoading && isError && (
+      {!isLoading && isError ? (
         <View className="flex-1 items-center justify-center px-6">
           <Ionicons name="alert-circle" size={48} color="#ef4444" />
           <Text className="text-red-600 font-bold mt-4 text-center">
             Failed to load matches
           </Text>
           <TouchableOpacity
-            onPress={() => setPage(1)}
+            onPress={() => {
+              setPage(1);
+              refetch();
+            }}
             className="mt-4 px-6 py-3 bg-blue-600 rounded-lg"
           >
             <Text className="text-white font-bold">Try Again</Text>
           </TouchableOpacity>
         </View>
-      )}
+      ) : null}
 
-      {/* Matches List */}
-      {!isLoading && !isError && (
-        <>
-          {matches.length > 0 ? (
-            <FlatList
-              data={matches}
-              renderItem={({ item }) => <MatchCard profile={item} />}
-              keyExtractor={(item) => item.id}
-              scrollEventThrottle={16}
-              contentContainerStyle={{
-                paddingHorizontal: 20,
-                paddingBottom: 30,
-              }}
-              showsVerticalScrollIndicator={false}
-              onEndReached={() => {
-                if (matches.length < (matchesData?.total_count || 0)) {
-                  setPage((prev) => prev + 1);
-                }
-              }}
-              onEndReachedThreshold={0.5}
+      {/* Matches List - FlatList for release build compatibility */}
+      {!isLoading && !isError ? (
+        <FlatList
+          data={matches}
+          renderItem={({ item }) => <MatchCard profile={item} />}
+          // CRITICAL: String keyExtractor for release builds
+          keyExtractor={(item, index) => {
+            if (!item?.id) {
+              console.warn("⚠️ Item missing ID at index", index);
+              return `fallback-${index}`;
+            }
+            return String(item.id);
+          }}
+          // FlatList optimizations for release builds
+          removeClippedSubviews={false}
+          initialNumToRender={10}
+          maxToRenderPerBatch={10}
+          updateCellsBatchingPeriod={50}
+          scrollEventThrottle={16}
+          // Content styling
+          contentContainerStyle={{
+            paddingHorizontal: 20,
+            paddingBottom: 30,
+          }}
+          showsVerticalScrollIndicator={false}
+          // Pagination
+          onEndReached={handleEndReached}
+          onEndReachedThreshold={0.5}
+          // Pull to refresh
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={handleRefresh}
+              colors={["#0066cc"]}
             />
-          ) : (
-            <NoData />
-          )}
-        </>
-      )}
+          }
+          // Empty state
+          ListEmptyComponent={
+            !isLoading && matches.length === 0 ? <NoData /> : null
+          }
+          // Footer loading indicator
+          ListFooterComponent={
+            isFetching && matches.length > 0 ? (
+              <View style={{ paddingVertical: 20 }}>
+                <ActivityIndicator size="small" color="#0066cc" />
+              </View>
+            ) : null
+          }
+        />
+      ) : null}
     </View>
   );
 }

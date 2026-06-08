@@ -2,21 +2,103 @@
 import { GetMatchesResponse, MatchesRequest } from "@/types/matches";
 import { api } from "./api";
 
+// Get my matches
+const validateMatchesResponse = (
+  data: GetMatchesResponse,
+): GetMatchesResponse => {
+  console.log("📊 Validating response:", {
+    hasData: !!data,
+    dataType: typeof data,
+    dataKeys: typeof data === "object" ? Object.keys(data) : "N/A",
+  });
+
+  // Handle different response formats
+  let matches = Array.isArray(data?.data) ? data.data : [];
+
+  // If response itself is array
+  if (Array.isArray(data)) {
+    matches = data;
+  }
+
+  // Ensure all matches have string IDs
+  const validatedMatches = matches.map((item: any) => ({
+    ...item,
+    id: String(item.id || Math.random()), // Fallback to random if no ID
+  }));
+
+  const totalCount =
+    typeof data?.total_count === "number" ? data.total_count : matches.length;
+
+  const response: GetMatchesResponse = {
+    data: validatedMatches,
+    total_count: totalCount,
+    errmessage: data.errmessage,
+    errormessage: data.errormessage,
+    continue_request: data.continue_request,
+    status: data.status,
+    tocken: data.tocken,
+  };
+
+  console.log("✅ Response validated:", {
+    matchCount: validatedMatches.length,
+    totalCount: response.total_count,
+    hasIds: validatedMatches.every((m) => m.id),
+  });
+
+  return response;
+};
+
 export const matchesService = {
-  // Get my matches
   getMyMatches: async (data: MatchesRequest): Promise<GetMatchesResponse> => {
-    const body = {
-      member_id: data.memberId,
-      matri_id: data.matriId,
-    };
+    try {
+      const body = {
+        member_id: data.memberId,
+        matri_id: data.matriId,
+      };
 
-    console.log("Request Body:", body);
+      console.log("🔄 Fetching matches:", {
+        endpoint: `matches/search_now/${data.page}`,
+        matriId: data.matriId ? "✅" : "",
+        memberId: data.memberId ? "✅" : "",
+        page: data.page,
+      });
 
-    const response = await api.post(`matches/search_now/${data.page}`, body);
+      const response = await api.post(`matches/search_now/${data.page}`, body);
 
-    console.log("Response:", response.data);
+      console.log("Raw API response:", {
+        status: response.status,
+        dataType: typeof response.data,
+        isArray: Array.isArray(response.data),
+        firstItem: Array.isArray(response.data)
+          ? response.data[0]
+          : response.data?.data?.[0],
+      });
 
-    return response.data;
+      //  CRITICAL: Validate response before returning
+      const validatedResponse = validateMatchesResponse(response.data);
+
+      return validatedResponse;
+    } catch (error: any) {
+      console.error(" getMyMatches error:", {
+        message: error?.message,
+        status: error?.response?.status,
+        statusText: error?.response?.statusText,
+        endpoint: error?.config?.url,
+        responseData: error?.response?.data,
+      });
+
+      // Return empty response on error instead of throwing
+      // This prevents app crash in release builds
+      return {
+        data: [],
+        total_count: 0,
+        status: "",
+        continue_request: false,
+        errmessage: "",
+        tocken: "",
+        errormessage: "",
+      };
+    }
   },
 
   getMyMatches1: async (data: MatchesRequest): Promise<GetMatchesResponse> => {

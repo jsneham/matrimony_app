@@ -55,13 +55,13 @@ export type MatchProfile = {
 };
 
 export type GetMatchesResponse = {
+  data: MatchProfile[];
+  total_count: number;
   continue_request: boolean;
   tocken: string;
   status: string;
-  total_count: number;
   errormessage: string;
   errmessage: string;
-  data: MatchProfile[];
 };
 
 export type MatchesRequest = {
