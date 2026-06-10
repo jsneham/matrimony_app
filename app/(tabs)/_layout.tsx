@@ -43,7 +43,7 @@ const TabLayout = () => {
           paddingBottom: insets.bottom,
           paddingTop: 8,
           elevation: 0,
-          shadowOpacity: 0.05,
+          shadowOpacity: 0,
           // bottom: Math.max(insets.bottom, tabBar.horizontalInset),
           // marginHorizontal: tabBar.horizontalInset,
           // borderRadius: tabBar.radius,
@@ -76,6 +76,13 @@ const TabLayout = () => {
               fontSize: 24,
               fontFamily: "bold",
             },
+            headerStyle: {
+              borderBottomWidth: 0,
+              borderBottomColor: "transparent",
+              shadowOpacity: 0,
+              elevation: 0,
+              height: 100,
+            },
 
             tabBarIcon: ({ focused }) => (
               <TabIcon focused={focused} icon={tab.icon} />
@@ -83,7 +90,7 @@ const TabLayout = () => {
             tabBarLabel: ({ focused, color }) => (
               <Text
                 style={{
-                  fontSize: 12,
+                  fontSize: 11,
                   fontFamily: "medium",
                   textAlign: "center",
                   marginBottom: 4,

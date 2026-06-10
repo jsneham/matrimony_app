@@ -4,13 +4,13 @@ import { useSession } from "@/hooks/useSession";
 import { Redirect, router } from "expo-router";
 import React from "react";
 import {
-  ActivityIndicator,
-  Image,
-  ImageBackground,
-  StatusBar,
-  Text,
-  TouchableOpacity,
-  View,
+    ActivityIndicator,
+    Image,
+    ImageBackground,
+    StatusBar,
+    Text,
+    TouchableOpacity,
+    View,
 } from "react-native";
 import images from "../constants/images";
 

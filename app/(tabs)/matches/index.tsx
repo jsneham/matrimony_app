@@ -102,9 +102,9 @@ export default function MyMatchesScreen() {
   }, [matches.length, totalCount, page, isLoading, isError, isFetching]);
 
   return (
-    <View className="flex-1 bg-white">
+    <View className="flex-1 bg-app-background">
       {/* Subtitle with Update Preferences */}
-      <View className="flex-row items-center justify-between mx-5 h-[34px] my-3">
+      <View className="flex-row items-center justify-between mx-5 h-[34px] my-3 bg-white px-3 rounded-xl">
         <Text className="text-gray font-regular text-sm">
           According to Partner Preferences.
         </Text>

@@ -1,11 +1,11 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { useRef, useState } from "react";
 import {
-    Animated,
-    Dimensions,
-    Text,
-    TouchableOpacity,
-    View,
+  Animated,
+  Dimensions,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import PagerView from "react-native-pager-view";
 
@@ -53,7 +53,7 @@ export default function MatchesLayout() {
     <View className="flex-1 bg-white">
       {/* ── Top Tab Bar ───────────────────────────────── */}
       <View className="bg-white">
-        <View className="flex-row h-11">
+        <View className="flex-row h-11 border-b border-inactive-border">
           {TABS.map((tab, index) => {
             const isActive = activeIndex === index;
             return (
@@ -61,7 +61,7 @@ export default function MatchesLayout() {
                 key={tab.key}
                 onPress={() => handleTabPress(index)}
                 style={{ width: tabWidth }}
-                className="flex-1 items-center justify-center"
+                className="flex-1 items-center justify-center "
                 activeOpacity={0.7}
               >
                 <View className="flex-row items-center">
@@ -77,7 +77,7 @@ export default function MatchesLayout() {
                     />
                   )}
                   <Text
-                    className={`text-sm ${
+                    className={`text-[16px] ${
                       isActive
                         ? "font-bold text-tab-text-active"
                         : "font-bold text-tab-text-inactive"
