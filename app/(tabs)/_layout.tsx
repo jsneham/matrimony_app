@@ -48,7 +48,7 @@ const TabLayout = () => {
           // marginHorizontal: tabBar.horizontalInset,
           // borderRadius: tabBar.radius,
           // borderTopWidth: 1,
-          // borderTopColor: "#E5E7EB",
+          borderTopColor: "#F9F9F9",
         },
         // tabBarLabelStyle: {
         //   fontSize: 11,
