@@ -85,7 +85,7 @@ export default function BottomModal({ visible, onConfirm, onCancel }) {
             onPress={onCancel}
             className="bg-orange-500 rounded-xl py-4 active:bg-orange-600"
           >
-            <Text className="text-white text-center text-lg font-semibold">
+            <Text className="text-white text-center text-lg font-medium">
               No
             </Text>
           </Pressable>
@@ -95,7 +95,7 @@ export default function BottomModal({ visible, onConfirm, onCancel }) {
             onPress={onConfirm}
             className="border-2 border-orange-500 rounded-xl py-4 active:bg-orange-50"
           >
-            <Text className="text-orange-500 text-center text-lg font-semibold">
+            <Text className="text-orange-500 text-center text-lg font-medium">
               Yes
             </Text>
           </Pressable>

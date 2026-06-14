@@ -84,6 +84,19 @@ export default function RootLayout() {
               headerShown: true,
             }}
           />
+          <Stack.Screen
+            name="(profile)"
+            options={{
+              title: "Profile",
+              headerShown: true,
+              headerTitleAlign: "left",
+              headerTitleStyle: {
+                fontSize: 24,
+                fontFamily: "bold",
+              },
+              headerShadowVisible: false,
+            }}
+          />
         </Stack>
         {/* </SafeAreaView> */}
       </ThemeProvider>

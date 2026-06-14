@@ -126,7 +126,7 @@ export const MatchCard: React.FC<MatchCardProps> = ({ profile }) => {
                 {displayName}
               </Text>
               {displayAge && (
-                <Text className="ml-2 text-xl font-semibold text-white">
+                <Text className="ml-2 text-xl font-medium text-white">
                   {displayAge}
                 </Text>
               )}
@@ -158,12 +158,12 @@ export const MatchCard: React.FC<MatchCardProps> = ({ profile }) => {
         <View className="flex-row gap-3 px-4 py-4">
           <TouchableOpacity className="flex-1 flex-row items-center justify-center rounded-lg border border-red-500 py-3">
             <Ionicons name="close" size={20} color="#ef4444" />
-            <Text className="ml-2 font-semibold text-red-500">Pass</Text>
+            <Text className="ml-2 font-medium text-red-500">Pass</Text>
           </TouchableOpacity>
 
           <TouchableOpacity className="flex-1 flex-row items-center justify-center rounded-lg bg-blue-600 py-3">
             <Ionicons name="heart" size={20} color="white" />
-            <Text className="ml-2 font-semibold text-white">Like</Text>
+            <Text className="ml-2 font-medium text-white">Like</Text>
           </TouchableOpacity>
         </View>
       </TouchableOpacity>

@@ -17,12 +17,14 @@ import home from "@/assets/icons/home.png";
 // import spotify from "@/assets/icons/spotify.png";
 // import wallet from "@/assets/icons/wallet.png";
 import DiamondIcon from "@/assets/icons/DiamondIcon";
+import DummyIcon from "@/assets/icons/DummyIcon";
 import HomeIcon from "@/assets/icons/HomeIcon";
 
 export const icons = {
   home,
   DiamondIcon,
   HomeIcon,
+  DummyIcon,
   //   wallet,
   //   setting,
   //   activity,
@@ -43,3 +45,5 @@ export const icons = {
 } as const;
 
 export type IconKey = keyof typeof icons;
+export { DummyIcon };
+
