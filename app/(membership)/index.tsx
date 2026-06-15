@@ -45,7 +45,7 @@ const MembershipPlanList = () => {
                   className="mr-6"
                 >
                   <Text
-                    className={`text-center text-base font-semibold ${
+                    className={`text-center text-base font-medium ${
                       isActive ? "text-sky-500" : "text-gray-600"
                     }`}
                   >
@@ -91,7 +91,7 @@ const MembershipPlanList = () => {
             className="flex-row items-center justify-center border-2 border-sky-500 rounded-lg py-4 px-4 active:bg-sky-50"
           >
             <MaterialCommunityIcons name="whatsapp" size={24} color="#0EA5E9" />
-            <Text className="text-sky-500 font-semibold text-base ml-2">
+            <Text className="text-sky-500 font-medium text-base ml-2">
               Need help? WhatsApp Now
             </Text>
           </Pressable>

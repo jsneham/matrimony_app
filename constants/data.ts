@@ -1,4 +1,5 @@
 import { AppTab } from "@/types/dashboard";
+import { FormSection, TabConfig } from "@/types/profile";
 import { icons } from "./icons";
 
 export const tabs: AppTab[] = [
@@ -128,4 +129,177 @@ export const APP_SETTINGS_MENU = [
     subtitle: "Set a new password for your account",
     route: "/change-password",
   },
+];
+
+export const PROFILE_TABS = [
+  { key: "index", label: "Edit Profile", icon: null },
+  { key: "partner-preference", label: "Edit Preference", icon: null },
+];
+
+export const PROFILE_SECTIONS_DATA: FormSection[] = [
+  {
+    sectionId: "basics_main",
+    title: "Basics",
+    tabId: "basics",
+    fields: [
+      {
+        id: "maritalStatus",
+        label: "Marital Status",
+        value: "Never Married",
+        subtext: "Never Married",
+      },
+      {
+        id: "height",
+        label: "Height",
+        value: "5'7'' (170 cm)",
+        subtext: "5'7'' (170 cm)",
+      },
+      {
+        id: "age",
+        label: "Age",
+        value: "38 years",
+        subtext: "38 years (01/01/1985)",
+      },
+      {
+        id: "motherTongue",
+        label: "Mother Tongue",
+        value: "Marathi",
+        subtext: "Marathi",
+      },
+      {
+        id: "heightPreference",
+        label: "Height Preference",
+        value: "5'7'' (170 cm)",
+        subtext: "Can't Edit",
+        isEditable: false,
+      },
+    ],
+  },
+  {
+    sectionId: "location",
+    title: "Location",
+    tabId: "basics",
+    fields: [
+      {
+        id: "country",
+        label: "Country",
+        value: "India",
+        subtext: "India",
+      },
+      {
+        id: "state",
+        label: "State",
+        value: "Maharashtra",
+        subtext: "Maharashtra",
+      },
+      {
+        id: "city",
+        label: "City",
+        value: "",
+        subtext: "Select City",
+        actionLabel: "Select City",
+      },
+      {
+        id: "ancestralOrigin",
+        label: "Ancestral Origin (Native Place)",
+        value: "",
+        subtext: "Select Ancestral Origin",
+        actionLabel: "Select Ancestral Origin",
+      },
+    ],
+  },
+  {
+    sectionId: "religion",
+    title: "Religion & Caste",
+    tabId: "faith",
+    fields: [
+      {
+        id: "religion",
+        label: "Religion",
+        value: "Hindu",
+        subtext: "Hindu",
+      },
+      {
+        id: "caste",
+        label: "Caste",
+        value: "Brahmin",
+        subtext: "Brahmin",
+      },
+      {
+        id: "manglik",
+        label: "Manglik",
+        value: "No",
+        subtext: "No",
+      },
+      {
+        id: "gotra",
+        label: "Gotra",
+        value: "Vasishtha",
+        subtext: "Vasishtha",
+      },
+    ],
+  },
+  {
+    sectionId: "education",
+    title: "Education & Career",
+    tabId: "career",
+    fields: [
+      {
+        id: "education",
+        label: "Education",
+        value: "Bachelors",
+        subtext: "Bachelors Degree",
+      },
+      {
+        id: "occupation",
+        label: "Occupation",
+        value: "Software Engineer",
+        subtext: "Software Engineer",
+      },
+      {
+        id: "income",
+        label: "Annual Income",
+        value: "50-1 Cr",
+        subtext: "₹50 Lakh - ₹1 Crore",
+      },
+    ],
+  },
+  {
+    sectionId: "lifestyle",
+    title: "Lifestyle",
+    tabId: "lifestyle",
+    fields: [
+      {
+        id: "diet",
+        label: "Diet",
+        value: "Vegetarian",
+        subtext: "Vegetarian",
+      },
+      {
+        id: "smoking",
+        label: "Smoking",
+        value: "No",
+        subtext: "No",
+      },
+      {
+        id: "drinking",
+        label: "Drinking",
+        value: "Occasionally",
+        subtext: "Occasionally",
+      },
+      {
+        id: "exercise",
+        label: "Exercise",
+        value: "Regularly",
+        subtext: "Regularly",
+      },
+    ],
+  },
+];
+
+export const PROFILE_TABS_CONFIG: TabConfig[] = [
+  { id: "basics", label: "Basics" },
+  { id: "faith", label: "Faith & Astro" },
+  { id: "career", label: "Career" },
+  { id: "lifestyle", label: "Lifestyle" },
 ];

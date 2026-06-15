@@ -611,3 +611,28 @@ export type ApiResponse<UserProfile> = {
 };
 
 export type UserProfileResponse = ApiResponse<UserProfile>;
+
+export type TabConfig = {
+  id: string;
+  label: string;
+};
+
+export type FormField = {
+  id: string;
+  label: string;
+  value: string;
+  subtext?: string;
+  isEditable?: boolean;
+  actionLabel?: string;
+};
+
+export type FormSection = {
+  sectionId: string;
+  title: string;
+  tabId: string;
+  fields: FormField[];
+};
+
+export type SectionRef = {
+  [key: string]: { y: number; height: number };
+};

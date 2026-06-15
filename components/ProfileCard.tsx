@@ -1,4 +1,5 @@
 import { UserProfile } from "@/types/profile";
+import { Href, router } from "expo-router";
 import { Text, TouchableOpacity, View } from "react-native";
 import { ProfilePhotoWIthProgress } from "./ProfilePhotoWIthProgress";
 
@@ -25,7 +26,11 @@ export const ProfileCard = (props: { userData: UserProfile | undefined }) => {
             <Text className="text-sky-500 text-sm font-bold">
               {userData?.percentage ?? 0}% COMPLETED
             </Text>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                router.push("/(profile)" as Href);
+              }}
+            >
               <Text className="text-orange-500 text-sm font-bold">
                 UPDATE PROFILE
               </Text>
