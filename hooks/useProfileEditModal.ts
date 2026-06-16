@@ -49,6 +49,7 @@ export const useProfileEditModal = () => {
   // Map the selected item to an API payload and save
   const handleSelect = (field: string, item: { id: string; val: string }) => {
     const payload: Record<string, string> = {};
+    console.log("field", field);
 
     switch (field) {
       case "maritalStatus":
