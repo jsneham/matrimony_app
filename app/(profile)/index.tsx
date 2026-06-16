@@ -1,147 +1,193 @@
-import { SectionComponent } from "@/components/SectionComponent";
-import { PROFILE_SECTIONS_DATA, PROFILE_TABS_CONFIG } from "@/constants/data";
-import { SectionRef } from "@/types/profile";
-import { Ionicons } from "@expo/vector-icons";
-import React, { useCallback, useMemo, useRef, useState } from "react";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import React, { useEffect } from "react";
+import { ActivityIndicator, ScrollView, Text, View } from "react-native";
+
+// Hooks
+import {
+  useCastes,
+  useCities,
+  useCountries,
+  useEducations,
+  useGotras,
+  useLanguages,
+  useMangliks,
+  useMaritalStatuses,
+  useOccupations,
+  useReligions,
+  useStates,
+} from "@/hooks/useMetadata";
+import { useMetadataStore } from "@/hooks/useMetadataStore";
+import { useMyProfile } from "@/hooks/useProfile";
+import { useProfileEditModal } from "@/hooks/useProfileEditModal";
+import { useScrollTabs } from "@/hooks/useScrollTabs";
+import { useSession } from "@/hooks/useSession";
+
+// Components
+import {
+  LoadingOverlay,
+  ProfileProgressBanner,
+} from "@/components/profile/ProfileEditComponents";
+import { ProfileTabBar } from "@/components/profile/ProfileTabBar";
+import { BasicsSection } from "@/components/profile/sections/BasicSection";
+import { EducationSection } from "@/components/profile/sections/EducationSection";
+import { LocationSection } from "@/components/profile/sections/LocationSection";
+import { ReligionSection } from "@/components/profile/sections/ReligionSection";
+import { SearchableSelectorModal } from "@/components/ui/SearchableSelectorModal";
+
+// Constants & Types
+import { PROFILE_TABS_CONFIG } from "@/constants/data";
+import { SESSION_KEYS } from "@/types/common";
+
+// Section → tab mapping (drives scroll tracking)
+const SECTION_TAB_MAP = [
+  { sectionId: "basics_main", tabId: "basics" },
+  { sectionId: "location", tabId: "basics" },
+  { sectionId: "religion", tabId: "faith" },
+  { sectionId: "education", tabId: "career" },
+];
 
 export const EditProfileScreen: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<string>("basics");
-  const scrollViewRef = useRef<ScrollView>(null);
-  const sectionRefs = useRef<SectionRef>({});
-  const isScrollingRef = useRef(false);
+  // ── Session & profile data ──────────────────────────────────────────────────
+  const { data: sessionData, isLoading: isLoadingSession } = useSession([
+    SESSION_KEYS.USER_ID,
+  ]);
+  const memberId = sessionData?.[SESSION_KEYS.USER_ID] || "";
 
-  // Get unique tabs from sections
-  const uniqueTabs = useMemo(() => {
-    const tabIds = new Set(PROFILE_SECTIONS_DATA.map((s) => s.tabId));
-    return PROFILE_TABS_CONFIG.filter((t) => tabIds.has(t.id));
-  }, []);
+  const { data: profileResponse, isLoading: isLoadingProfile } = useMyProfile({
+    memberId,
+  });
+  const profile = profileResponse?.data;
 
-  /**
-   * Handle scroll event and update active tab based on visible section
-   */
-  const handleScroll = useCallback(
-    (event: any) => {
-      if (isScrollingRef.current) return;
+  // ── Global selection store ──────────────────────────────────────────────────
+  const {
+    selectedCountryId,
+    selectedStateId,
+    selectedReligionId,
+    setInitialValues,
+  } = useMetadataStore();
 
-      const scrollY = event.nativeEvent.contentOffset.y;
-      let newActiveTab = activeTab;
+  // ── Master data lists (fetched once, cached forever) ────────────────────────
+  const { data: countries } = useCountries();
+  const { data: states } = useStates(selectedCountryId);
+  const { data: cities } = useCities(selectedStateId);
+  const { data: religions } = useReligions();
+  const { data: castes } = useCastes(selectedReligionId);
+  const { data: educations } = useEducations();
+  const { data: occupations } = useOccupations();
+  const { data: languages } = useLanguages();
+  const { data: gotras } = useGotras();
+  const { data: mangliks } = useMangliks();
+  const { data: maritalStatuses } = useMaritalStatuses();
 
-      // Find the topmost visible section
-      for (const section of PROFILE_SECTIONS_DATA) {
-        const sectionData = sectionRefs.current[section.sectionId];
-        if (!sectionData) continue;
+  // ── Seed Zustand with profile's current IDs on first load ───────────────────
+  useEffect(() => {
+    if (!profile) return;
+    const religionId =
+      religions.find((r) => r.val === profile.religionName)?.id || "";
+    setInitialValues(
+      profile.countryId || "",
+      profile.stateId || "",
+      religionId,
+    );
+  }, [profile, religions, setInitialValues]);
 
-        const { y, height } = sectionData;
-        const sectionMiddle = y + height / 2;
+  // ── Modal logic (open / close / save) ──────────────────────────────────────
+  const { modalConfig, openModal, closeModal, handleSelect, isSaving } =
+    useProfileEditModal();
 
-        // Check if this section is near the middle of the screen
-        if (scrollY < sectionMiddle - 50) {
-          newActiveTab = section.tabId;
-          break;
-        }
+  // ── Scroll ↔ Tab sync ───────────────────────────────────────────────────────
+  const {
+    activeTab,
+    scrollViewRef,
+    handleScroll,
+    handleTabPress,
+    registerSection,
+  } = useScrollTabs(SECTION_TAB_MAP);
 
-        if (scrollY >= y - 100) {
-          newActiveTab = section.tabId;
-        }
-      }
+  // ── Loading state ───────────────────────────────────────────────────────────
+  if (isLoadingSession || isLoadingProfile) {
+    return (
+      <View className="flex-1 items-center justify-center bg-app-background">
+        <ActivityIndicator size="large" color="#db2777" />
+        <Text className="mt-3 text-gray-500 font-medium">
+          Loading profile...
+        </Text>
+      </View>
+    );
+  }
 
-      if (newActiveTab !== activeTab) {
-        setActiveTab(newActiveTab);
-      }
-    },
-    [activeTab],
-  );
-
-  /**
-   * Handle tab press and scroll to that tab's first section
-   */
-  const handleTabPress = useCallback((tabId: string) => {
-    setActiveTab(tabId);
-
-    // Find first section of this tab
-    const targetSection = PROFILE_SECTIONS_DATA.find((s) => s.tabId === tabId);
-    if (!targetSection) return;
-
-    const sectionData = sectionRefs.current[targetSection.sectionId];
-    if (!sectionData) return;
-
-    isScrollingRef.current = true;
-
-    scrollViewRef.current?.scrollTo({
-      y: Math.max(0, sectionData.y - 60),
-      animated: true,
-    });
-
-    // Reset flag after animation
-    setTimeout(() => {
-      isScrollingRef.current = false;
-    }, 300);
-  }, []);
-
+  // ── Render ──────────────────────────────────────────────────────────────────
   return (
     <View className="flex-1 bg-app-background">
-      {/* Subtitle with Update Preferences */}
-      <View className="flex-row items-center justify-between mx-5 h-[34px] my-3 bg-white px-3 rounded-xl">
-        <Text className="text-gray font-regular text-sm">
-          Profile is 100% updated.
-        </Text>
-        <TouchableOpacity className="flex-row items-center">
-          <Text className="text-black text-sm font-bold">Verify Profile</Text>
-          <Ionicons
-            name="pencil"
-            size={14}
-            color="black"
-            style={{ marginLeft: 6 }}
-          />
-        </TouchableOpacity>
-      </View>
+      <LoadingOverlay visible={isSaving} label="Saving changes..." />
 
-      <View className="flex-row gap-2 mx-5">
-        {uniqueTabs.map((tab) => {
-          const isActive = activeTab === tab.id;
-          return (
-            <TouchableOpacity
-              key={tab.id}
-              onPress={() => handleTabPress(tab.id)}
-              className={`flex-1 px-3 py-2.5 rounded-lg border ${
-                isActive
-                  ? "bg-gray-900 border-gray-900"
-                  : "bg-white border-gray-300"
-              }`}
-            >
-              <Text
-                className={`text-sm font-medium text-center ${
-                  isActive ? "text-white" : "text-gray-700"
-                }`}
-              >
-                {tab.label}
-              </Text>
-            </TouchableOpacity>
-          );
-        })}
-      </View>
+      <ProfileProgressBanner percentage={profile?.percentage || 0} />
+
+      <ProfileTabBar
+        tabs={PROFILE_TABS_CONFIG}
+        activeTab={activeTab}
+        onTabPress={handleTabPress}
+      />
 
       <ScrollView
         ref={scrollViewRef}
         onScroll={handleScroll}
-        scrollEventThrottle={8}
+        scrollEventThrottle={16}
         showsVerticalScrollIndicator={false}
         className="flex-1"
       >
-        <View className="px-3 py-4">
-          {PROFILE_SECTIONS_DATA.map((section) => (
-            <SectionComponent
-              key={section.sectionId}
-              section={section}
-              sectionRefs={sectionRefs}
-            />
-          ))}
+        <BasicsSection
+          sectionId="basics_main"
+          profile={profile}
+          maritalStatuses={maritalStatuses}
+          languages={languages}
+          onLayout={registerSection}
+          openModal={openModal}
+        />
 
-          {/* Bottom spacing */}
-          <View className="h-8" />
-        </View>
+        <LocationSection
+          sectionId="location"
+          profile={profile}
+          countries={countries}
+          states={states}
+          cities={cities}
+          selectedCountryId={selectedCountryId}
+          selectedStateId={selectedStateId}
+          onLayout={registerSection}
+          openModal={openModal}
+        />
+
+        <ReligionSection
+          sectionId="religion"
+          profile={profile}
+          religions={religions}
+          castes={castes}
+          gotras={gotras}
+          mangliks={mangliks}
+          selectedReligionId={selectedReligionId}
+          onLayout={registerSection}
+          openModal={openModal}
+        />
+
+        <EducationSection
+          sectionId="education"
+          profile={profile}
+          educations={educations}
+          occupations={occupations}
+          onLayout={registerSection}
+          openModal={openModal}
+        />
+
+        <View className="h-12" />
       </ScrollView>
+
+      <SearchableSelectorModal
+        visible={modalConfig.visible}
+        title={modalConfig.title}
+        options={modalConfig.options}
+        selectedValue={modalConfig.selectedValue}
+        onClose={closeModal}
+        onSelect={(item) => handleSelect(modalConfig.field, item)}
+      />
     </View>
   );
 };
