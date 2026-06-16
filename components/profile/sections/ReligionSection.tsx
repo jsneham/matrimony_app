@@ -1,9 +1,12 @@
 // components/profile/sections/ReligionSection.tsx
-import React from "react";
-import { View, Alert } from "react-native";
+import {
+  EditRow,
+  EditSectionHeader,
+} from "@/components/profile/ProfileEditComponents";
 import { LookupItem } from "@/types/metadata";
 import { UserProfile } from "@/types/profile";
-import { EditRow, EditSectionHeader } from "@/components/profile/ProfileEditComponents";
+import React from "react";
+import { Alert, View } from "react-native";
 
 interface ReligionSectionProps {
   sectionId: string;
@@ -18,7 +21,7 @@ interface ReligionSectionProps {
     title: string,
     field: string,
     options: LookupItem[],
-    currentValue?: string
+    currentValue?: string,
   ) => void;
 }
 
@@ -35,13 +38,13 @@ export const ReligionSection: React.FC<ReligionSectionProps> = ({
 }) => (
   <View
     onLayout={(e) => onLayout(sectionId, e)}
-    className="bg-white mb-4"
+    className="bg-white mb-4  mx-5"
   >
-    <EditSectionHeader title="Religion & Caste" />
+    <EditSectionHeader title="Faith & Astro" />
 
     <EditRow
       label="Religion"
-      value={profile?.religionName}
+      value={profile?.religion_name}
       onPress={() =>
         openModal("Religion", "religion", religions, selectedReligionId)
       }
@@ -49,7 +52,7 @@ export const ReligionSection: React.FC<ReligionSectionProps> = ({
 
     <EditRow
       label="Caste"
-      value={profile?.casteName}
+      value={profile?.caste_name}
       onPress={() => {
         if (!selectedReligionId) {
           Alert.alert("Select Religion", "Please select a Religion first.");
@@ -68,7 +71,9 @@ export const ReligionSection: React.FC<ReligionSectionProps> = ({
     <EditRow
       label="Manglik"
       value={profile?.manglik}
-      onPress={() => openModal("Manglik", "manglik", mangliks, profile?.manglik)}
+      onPress={() =>
+        openModal("Manglik", "manglik", mangliks, profile?.manglik)
+      }
     />
   </View>
 );

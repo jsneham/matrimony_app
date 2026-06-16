@@ -1,14 +1,22 @@
-import React from "react";
-import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
+import { DummyIcon } from "@/constants/icons";
+import { colors } from "@/constants/theme";
 import { Ionicons } from "@expo/vector-icons";
+import React from "react";
+import {
+  ActivityIndicator,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 // 1. Clickable row that opens selection sheets
-interface EditRowProps {
+type EditRowProps = {
   label: string;
   value?: string;
   onPress: () => void;
   placeholder?: string;
-}
+};
 
 export const EditRow: React.FC<EditRowProps> = ({
   label,
@@ -21,11 +29,13 @@ export const EditRow: React.FC<EditRowProps> = ({
     activeOpacity={0.7}
     className="px-5 py-4 border-b border-gray-100 flex-row justify-between items-center bg-white"
   >
+    <DummyIcon />
+
     <View className="flex-1">
-      <Text className="text-xs font-semibold text-gray-400 mb-1">{label}</Text>
+      <Text className="text-base font-bold text-black mb-1">{label}</Text>
       <Text
         className={`text-base ${
-          value ? "text-gray-900 font-medium" : "text-gray-300 font-normal"
+          value ? "text-gray font-regular" : "text-placeholder font-regular"
         }`}
       >
         {value || placeholder || `Select ${label}`}
@@ -43,9 +53,9 @@ export const EditSectionHeader: React.FC<{ title: string }> = ({ title }) => (
 );
 
 // 3. Top Banner displaying completion level and verification link
-interface ProfileProgressBannerProps {
+type ProfileProgressBannerProps = {
   percentage: number;
-}
+};
 
 export const ProfileProgressBanner: React.FC<ProfileProgressBannerProps> = ({
   percentage,
@@ -67,10 +77,10 @@ export const ProfileProgressBanner: React.FC<ProfileProgressBannerProps> = ({
 );
 
 // 4. Foreground blocker with loading spinners during updates
-interface LoadingOverlayProps {
+type LoadingOverlayProps = {
   visible: boolean;
   label: string;
-}
+};
 
 export const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
   visible,
@@ -81,6 +91,40 @@ export const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
     <View className="absolute inset-0 bg-white/60 z-50 items-center justify-center">
       <ActivityIndicator size="large" color="#db2777" />
       <Text className="mt-2 text-pink-600 font-bold text-sm">{label}</Text>
+    </View>
+  );
+};
+
+type EditableTextProps = {
+  label: string;
+  value: string;
+  onChangeText: (text: string) => void;
+  placeholder?: string;
+};
+
+export const EditableText: React.FC<EditableTextProps> = ({
+  label,
+  value,
+  onChangeText,
+  placeholder,
+}) => {
+  return (
+    <View className="px-5 py-4 border-b border-gray-100 flex-row items-center bg-white">
+      <DummyIcon />
+
+      <View className="flex-1">
+        <Text className="text-base font-bold text-black mb-1">{label}</Text>
+
+        <TextInput
+          value={value}
+          onChangeText={onChangeText}
+          placeholder={placeholder || `Enter ${label}`}
+          className={`text-base ${
+            value ? "text-gray font-regular" : "text-placeholder font-regular"
+          }`}
+          placeholderTextColor={colors.placeholder}
+        />
+      </View>
     </View>
   );
 };

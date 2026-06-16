@@ -1,9 +1,13 @@
 // components/profile/sections/LocationSection.tsx
-import React from "react";
-import { View, Alert } from "react-native";
+import {
+  EditableText,
+  EditRow,
+  EditSectionHeader,
+} from "@/components/profile/ProfileEditComponents";
 import { LookupItem } from "@/types/metadata";
 import { UserProfile } from "@/types/profile";
-import { EditRow, EditSectionHeader } from "@/components/profile/ProfileEditComponents";
+import React, { useState } from "react";
+import { Alert, View } from "react-native";
 
 interface LocationSectionProps {
   sectionId: string;
@@ -18,7 +22,7 @@ interface LocationSectionProps {
     title: string,
     field: string,
     options: LookupItem[],
-    currentValue?: string
+    currentValue?: string,
   ) => void;
 }
 
@@ -32,43 +36,54 @@ export const LocationSection: React.FC<LocationSectionProps> = ({
   selectedStateId,
   onLayout,
   openModal,
-}) => (
-  <View
-    onLayout={(e) => onLayout(sectionId, e)}
-    className="bg-white mb-4"
-  >
-    <EditSectionHeader title="Location" />
+}) => {
+  const [address, setAddress] = useState(profile?.address ?? "");
 
-    <EditRow
-      label="Country"
-      value={profile?.countryName}
-      onPress={() =>
-        openModal("Country", "country", countries, profile?.countryId)
-      }
-    />
+  return (
+    <View
+      onLayout={(e) => onLayout(sectionId, e)}
+      className="bg-white mb-4  mx-5"
+    >
+      <EditSectionHeader title="Location" />
 
-    <EditRow
-      label="State"
-      value={profile?.stateName}
-      onPress={() => {
-        if (!selectedCountryId) {
-          Alert.alert("Select Country", "Please select a Country first.");
-          return;
+      <EditRow
+        label="Country"
+        value={profile?.country_name}
+        onPress={() =>
+          openModal("Country", "country", countries, profile?.country_name)
         }
-        openModal("State", "state", states, profile?.stateId);
-      }}
-    />
+      />
 
-    <EditRow
-      label="City"
-      value={profile?.cityName}
-      onPress={() => {
-        if (!selectedStateId) {
-          Alert.alert("Select State", "Please select a State first.");
-          return;
-        }
-        openModal("City", "city", cities, profile?.cityId);
-      }}
-    />
-  </View>
-);
+      <EditRow
+        label="State"
+        value={profile?.state_name}
+        onPress={() => {
+          if (!selectedCountryId) {
+            Alert.alert("Select Country", "Please select a Country first.");
+            return;
+          }
+          openModal("State", "state", states, profile?.state_name);
+        }}
+      />
+
+      <EditRow
+        label="City"
+        value={profile?.city_name}
+        onPress={() => {
+          if (!selectedStateId) {
+            Alert.alert("Select State", "Please select a State first.");
+            return;
+          }
+          openModal("City", "city", cities, profile?.city_name);
+        }}
+      />
+
+      <EditableText
+        label="Ancestral Origin (Native Place)"
+        value={address}
+        onChangeText={setAddress}
+        placeholder="Select Ancestral Origin"
+      />
+    </View>
+  );
+};

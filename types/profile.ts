@@ -373,7 +373,7 @@ export type UserProfile = {
   gender: Gender;
   birthdate: string; // YYYY-MM-DD
   age: string;
-  maritalStatus: MaritalStatus;
+  marital_status: MaritalStatus;
   profileText: string;
   description: string;
   keyword: string;
@@ -384,12 +384,12 @@ export type UserProfile = {
   address: string;
   latitude: string;
   longitude: string;
-  countryId: string;
-  countryName: string;
-  stateId: string;
-  stateName: string;
-  cityId: string;
-  cityName: string;
+  country_id: string;
+  country_name: string;
+  state_id: string;
+  state_name: string;
+  city: string;
+  city_name: string;
   contactViewSecurity: ViewStatus;
   photoViewStatus: ViewStatus;
 
@@ -398,7 +398,7 @@ export type UserProfile = {
   complexion: ComplexionType;
   bodytype: BodyType;
   height: string;
-  heightStr: string;
+  height_str: string;
   weight: string;
   weightStr: string;
   diet: DietType;
@@ -409,13 +409,13 @@ export type UserProfile = {
   languagesKnownStr: string;
 
   // Religion & Culture
-  religion: Religion;
-  religionName: string;
+  religion: string;
+  religion_name: string;
   caste: string;
-  casteName: string;
+  caste_name: string;
   subcaste: string;
-  motherTongue: string;
-  mtongeName: string;
+  mother_tongue: string;
+  mtongue_name: string;
   gothra: string;
   horoscope: string | "Yes" | "No";
   horoscopePhoto: string;
@@ -430,11 +430,11 @@ export type UserProfile = {
   birthplace: string;
 
   // Education & Profession
-  educationDetail: string;
+  education_detail: string;
   educationDetailStr: string;
-  educationName: string;
+  education_name: string;
   occupation: string;
-  occupationName: string;
+  occupation_name: string;
   designation: string;
   designationName: string;
   employeeIn: EmploymentType;

@@ -20,8 +20,9 @@
   --color-tab-text-inactive: #8b8b8b;
   --color-gray: "#8B8B8B";
   --color-black: #000000;
-  --color-inactive-border: #F9F9F9;
-  --color-app-background: #F9F9F9;
+  --color-inactive-border: #f9f9f9;
+  --color-app-background: #f9f9f9;
+  --color-placeholder: #fc1572;
 
   --spacing-0: 0px;
   --spacing-1: 4px;

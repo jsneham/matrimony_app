@@ -3,11 +3,14 @@ import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 
 // Hooks
 import {
+  useAge,
   useCastes,
   useCities,
   useCountries,
   useEducations,
   useGotras,
+  useHeight,
+  useIncome,
   useLanguages,
   useMangliks,
   useMaritalStatuses,
@@ -56,6 +59,7 @@ export const EditProfileScreen: React.FC = () => {
     memberId,
   });
   const profile = profileResponse?.data;
+  console.log("profile response", profile);
 
   // ── Global selection store ──────────────────────────────────────────────────
   const {
@@ -77,15 +81,18 @@ export const EditProfileScreen: React.FC = () => {
   const { data: gotras } = useGotras();
   const { data: mangliks } = useMangliks();
   const { data: maritalStatuses } = useMaritalStatuses();
+  const { data: income } = useIncome();
+  const { data: height } = useHeight();
+  const { data: age } = useAge();
 
   // ── Seed Zustand with profile's current IDs on first load ───────────────────
   useEffect(() => {
     if (!profile) return;
     const religionId =
-      religions.find((r) => r.val === profile.religionName)?.id || "";
+      religions.find((r) => r.val === profile.religion_name)?.id || "";
     setInitialValues(
-      profile.countryId || "",
-      profile.stateId || "",
+      profile.country_id || "",
+      profile.state_id || "",
       religionId,
     );
   }, [profile, religions, setInitialValues]);
@@ -140,6 +147,8 @@ export const EditProfileScreen: React.FC = () => {
           profile={profile}
           maritalStatuses={maritalStatuses}
           languages={languages}
+          height={height}
+          age={age}
           onLayout={registerSection}
           openModal={openModal}
         />
@@ -173,6 +182,7 @@ export const EditProfileScreen: React.FC = () => {
           profile={profile}
           educations={educations}
           occupations={occupations}
+          income={income}
           onLayout={registerSection}
           openModal={openModal}
         />

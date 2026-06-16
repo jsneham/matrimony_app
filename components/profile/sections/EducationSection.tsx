@@ -1,29 +1,25 @@
 // components/profile/sections/EducationSection.tsx
-import React, { useMemo } from "react";
-import { View } from "react-native";
+import {
+  EditRow,
+  EditSectionHeader,
+} from "@/components/profile/ProfileEditComponents";
 import { LookupItem } from "@/types/metadata";
 import { UserProfile } from "@/types/profile";
-import { EditRow, EditSectionHeader } from "@/components/profile/ProfileEditComponents";
-
-const INCOME_OPTIONS: LookupItem[] = [
-  { id: "< 25 Lakh",  name: "< 25 Lakh"  },
-  { id: "25-50 Lakh", name: "25-50 Lakh" },
-  { id: "50-1 Cr",    name: "50-1 Cr"    },
-  { id: "1-5 Cr",     name: "1-5 Cr"     },
-  { id: "5+ Cr",      name: "5+ Cr"      },
-];
+import React from "react";
+import { View } from "react-native";
 
 interface EducationSectionProps {
   sectionId: string;
   profile?: UserProfile;
   educations: LookupItem[];
   occupations: LookupItem[];
+  income: LookupItem[];
   onLayout: (sectionId: string, event: any) => void;
   openModal: (
     title: string,
     field: string,
     options: LookupItem[],
-    currentValue?: string
+    currentValue?: string,
   ) => void;
 }
 
@@ -32,26 +28,32 @@ export const EducationSection: React.FC<EducationSectionProps> = ({
   profile,
   educations,
   occupations,
+  income,
   onLayout,
   openModal,
 }) => (
   <View
     onLayout={(e) => onLayout(sectionId, e)}
-    className="bg-white mb-4"
+    className="bg-white mb-4  mx-5"
   >
     <EditSectionHeader title="Education & Career" />
 
     <EditRow
       label="Education"
-      value={profile?.educationName}
+      value={profile?.education_name}
       onPress={() =>
-        openModal("Education", "education", educations, profile?.educationDetail)
+        openModal(
+          "Education",
+          "education",
+          educations,
+          profile?.education_detail,
+        )
       }
     />
 
     <EditRow
       label="Occupation"
-      value={profile?.occupationName}
+      value={profile?.occupation_name}
       onPress={() =>
         openModal("Occupation", "occupation", occupations, profile?.occupation)
       }
@@ -61,7 +63,7 @@ export const EducationSection: React.FC<EducationSectionProps> = ({
       label="Annual Income"
       value={profile?.income}
       onPress={() =>
-        openModal("Annual Income", "income", INCOME_OPTIONS, profile?.income)
+        openModal("Annual Income", "income", income, profile?.income)
       }
     />
   </View>
