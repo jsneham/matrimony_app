@@ -20,6 +20,7 @@ export const colors = {
   white: "#fff",
   black: "#000",
   gray100: "#f7fafc",
+  placeholder: "#fc1572",
 };
 // export const colors = {
 //   light: {

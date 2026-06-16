@@ -1,0 +1,130 @@
+import { DummyIcon } from "@/constants/icons";
+import { colors } from "@/constants/theme";
+import { Ionicons } from "@expo/vector-icons";
+import React from "react";
+import {
+  ActivityIndicator,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+
+// 1. Clickable row that opens selection sheets
+type EditRowProps = {
+  label: string;
+  value?: string;
+  onPress: () => void;
+  placeholder?: string;
+};
+
+export const EditRow: React.FC<EditRowProps> = ({
+  label,
+  value,
+  onPress,
+  placeholder,
+}) => (
+  <TouchableOpacity
+    onPress={onPress}
+    activeOpacity={0.7}
+    className="px-5 py-4 border-b border-gray-100 flex-row justify-between items-center bg-white"
+  >
+    <DummyIcon />
+
+    <View className="flex-1">
+      <Text className="text-base font-bold text-black mb-1">{label}</Text>
+      <Text
+        className={`text-base ${
+          value ? "text-gray font-regular" : "text-placeholder font-regular"
+        }`}
+      >
+        {value || placeholder || `Select ${label}`}
+      </Text>
+    </View>
+    <Ionicons name="chevron-forward" size={16} color="#9ca3af" />
+  </TouchableOpacity>
+);
+
+// 2. Section divider headers
+export const EditSectionHeader: React.FC<{ title: string }> = ({ title }) => (
+  <View className="px-5 py-3 bg-gray-50 border-b border-gray-100">
+    <Text className="text-black font-bold text-sm">{title}</Text>
+  </View>
+);
+
+// 3. Top Banner displaying completion level and verification link
+type ProfileProgressBannerProps = {
+  percentage: number;
+};
+
+export const ProfileProgressBanner: React.FC<ProfileProgressBannerProps> = ({
+  percentage,
+}) => (
+  <View className="flex-row items-center justify-between mx-5 h-[34px] my-3 bg-white px-3 rounded-xl">
+    <Text className="text-gray font-regular text-sm">
+      Profile is {percentage}% updated.
+    </Text>
+    <TouchableOpacity className="flex-row items-center">
+      <Text className="text-black text-sm font-bold">Verify Profile</Text>
+      <Ionicons
+        name="pencil"
+        size={14}
+        color="black"
+        style={{ marginLeft: 6 }}
+      />
+    </TouchableOpacity>
+  </View>
+);
+
+// 4. Foreground blocker with loading spinners during updates
+type LoadingOverlayProps = {
+  visible: boolean;
+  label: string;
+};
+
+export const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
+  visible,
+  label,
+}) => {
+  if (!visible) return null;
+  return (
+    <View className="absolute inset-0 bg-white/60 z-50 items-center justify-center">
+      <ActivityIndicator size="large" color="#db2777" />
+      <Text className="mt-2 text-pink-600 font-bold text-sm">{label}</Text>
+    </View>
+  );
+};
+
+type EditableTextProps = {
+  label: string;
+  value: string;
+  onChangeText: (text: string) => void;
+  placeholder?: string;
+};
+
+export const EditableText: React.FC<EditableTextProps> = ({
+  label,
+  value,
+  onChangeText,
+  placeholder,
+}) => {
+  return (
+    <View className="px-5 py-4 border-b border-gray-100 flex-row items-center bg-white">
+      <DummyIcon />
+
+      <View className="flex-1">
+        <Text className="text-base font-bold text-black mb-1">{label}</Text>
+
+        <TextInput
+          value={value}
+          onChangeText={onChangeText}
+          placeholder={placeholder || `Enter ${label}`}
+          className={`text-base ${
+            value ? "text-gray font-regular" : "text-placeholder font-regular"
+          }`}
+          placeholderTextColor={colors.placeholder}
+        />
+      </View>
+    </View>
+  );
+};
