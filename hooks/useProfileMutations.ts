@@ -8,16 +8,17 @@ export const useUpdateProfile = () => {
 
   return useMutation({
     mutationFn: async (updatedData: Partial<UserProfile>) => {
-      const response = await api.post("register/save_register", updatedData);
+      const response = await api.post("my-profile/save-profile", updatedData);
       return response.data;
     },
     onSuccess: (data, variables) => {
       console.log("✅ Profile updated successfully. Invalidating caches...");
+      console.log("Profile updated successfully", data, variables);
 
       // Invalidate active profile query key to trigger background refetch
       // this updates all screens displaying profile data (e.g., Edit Profile screen, Account screen, etc.)
       queryClient.invalidateQueries({
-        queryKey: ["profiles", "my-profile"],
+        queryKey: ["profiles", "my-profile", variables.id],
       });
     },
   });

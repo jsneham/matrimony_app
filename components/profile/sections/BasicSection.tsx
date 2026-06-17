@@ -21,6 +21,7 @@ interface BasicsSectionProps {
     field: string,
     options: LookupItem[],
     currentValue?: string,
+    isMultiSelect?: boolean,
   ) => void;
 }
 
