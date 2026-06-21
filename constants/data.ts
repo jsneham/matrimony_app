@@ -302,4 +302,5 @@ export const PROFILE_TABS_CONFIG: TabConfig[] = [
   { id: "faith", label: "Faith & Astro" },
   { id: "career", label: "Career" },
   { id: "lifestyle", label: "Lifestyle" },
+  { id: "family", label: "Family" },
 ];
