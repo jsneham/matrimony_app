@@ -21,6 +21,7 @@ interface BasicsSectionProps {
     field: string,
     options: LookupItem[],
     currentValue?: string,
+    isMultiSelect?: boolean,
   ) => void;
 }
 
@@ -41,6 +42,7 @@ export const BasicsSection: React.FC<BasicsSectionProps> = ({
     <EditSectionHeader title="Basics" />
 
     <EditRow
+      editable={false}
       label="Marital Status"
       value={profile?.marital_status}
       onPress={() =>
@@ -54,12 +56,14 @@ export const BasicsSection: React.FC<BasicsSectionProps> = ({
     />
 
     <EditRow
+      editable={false}
       label="Height"
       value={profile?.height_str}
       onPress={() => openModal("Height", "height", height, profile?.height_str)}
     />
 
     <EditRow
+      editable={false}
       label="Age"
       value={profile?.age}
       onPress={() => openModal("Age", "age", age, profile?.age)}

@@ -42,12 +42,7 @@ export const EducationSection: React.FC<EducationSectionProps> = ({
       label="Education"
       value={profile?.education_name}
       onPress={() =>
-        openModal(
-          "Education",
-          "education",
-          educations,
-          profile?.education_detail,
-        )
+        openModal("Education", "education", educations, profile?.education_name)
       }
     />
 
@@ -55,7 +50,12 @@ export const EducationSection: React.FC<EducationSectionProps> = ({
       label="Occupation"
       value={profile?.occupation_name}
       onPress={() =>
-        openModal("Occupation", "occupation", occupations, profile?.occupation)
+        openModal(
+          "Occupation",
+          "occupation",
+          occupations,
+          profile?.occupation_name,
+        )
       }
     />
 

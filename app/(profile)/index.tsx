@@ -58,6 +58,9 @@ export const EditProfileScreen: React.FC = () => {
   const { data: profileResponse, isLoading: isLoadingProfile } = useMyProfile({
     memberId,
   });
+
+  console.log("🔑 useMyProfile called with memberId:", memberId);
+
   const profile = profileResponse?.data;
   console.log("profile response", profile);
 
@@ -99,7 +102,7 @@ export const EditProfileScreen: React.FC = () => {
 
   // ── Modal logic (open / close / save) ──────────────────────────────────────
   const { modalConfig, openModal, closeModal, handleSelect, isSaving } =
-    useProfileEditModal();
+    useProfileEditModal({ memberId });
 
   // ── Scroll ↔ Tab sync ───────────────────────────────────────────────────────
   const {
@@ -196,7 +199,15 @@ export const EditProfileScreen: React.FC = () => {
         options={modalConfig.options}
         selectedValue={modalConfig.selectedValue}
         onClose={closeModal}
-        onSelect={(item) => handleSelect(modalConfig.field, item)}
+        onSelect={(item) => {
+          if (Array.isArray(item)) {
+            // Handle multi-select
+            handleSelect(modalConfig.field, item[0]);
+          } else {
+            // Handle single-select
+            handleSelect(modalConfig.field, item);
+          }
+        }}
       />
     </View>
   );
