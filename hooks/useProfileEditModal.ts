@@ -9,8 +9,8 @@ export interface ModalConfig {
   title: string;
   field: string;
   options: { id: string; val: string }[];
-  selectedValue?: string;
-  isMultiSelect?: boolean;
+  selectedValue?: string | string[]; // Support single or multi-select
+  isMultiSelect?: boolean; // Toggle between single and multi-select
 }
 
 const EMPTY_MODAL: ModalConfig = {
@@ -32,8 +32,8 @@ export const useProfileEditModal = ({ memberId }: { memberId: string }) => {
     title: string,
     field: string,
     options: { id: string; val: string }[],
-    currentValue?: string,
-    isMultiSelect?: boolean,
+    currentValue?: string | string[],
+    isMultiSelect: boolean = false, // Default to single-select
   ) => {
     setModalConfig({
       visible: true,
@@ -41,7 +41,7 @@ export const useProfileEditModal = ({ memberId }: { memberId: string }) => {
       field,
       options,
       selectedValue: currentValue,
-      isMultiSelect: isMultiSelect || false,
+      isMultiSelect,
     });
   };
 
@@ -55,6 +55,7 @@ export const useProfileEditModal = ({ memberId }: { memberId: string }) => {
     saveProfile(field, item);
   };
 
+  // Handle multiple option selection (for multi-select modals)
   const handleMultiSelect = (
     field: string,
     items: { id: string; val: string }[],
@@ -91,13 +92,13 @@ export const useProfileEditModal = ({ memberId }: { memberId: string }) => {
         payload.height_str = itemData.val;
         break;
 
-      case "age":
-        payload.age = itemData.id;
-        break;
+      // case "age":
+      //   payload.age = itemData.id;
+      //   break;
 
       case "motherTongue":
-        payload.motherTongue = itemData.id;
-        payload.mtongeName = itemData.val;
+        payload.mother_tongue = itemData.id;
+        // payload.mtongeName = itemData.val;
         break;
 
       case "country":
@@ -165,92 +166,21 @@ export const useProfileEditModal = ({ memberId }: { memberId: string }) => {
 
     console.log("Saving payload:", payload);
 
+    console.log("📤 Sending mutation with payload:", payload);
+
     updateProfileMutation.mutate(payload, {
-      onSuccess: () => {
-        console.log("✅ Profile updated successfully");
+      onSuccess: (response) => {
+        console.log("✅ Profile saved successfully, response:", response);
         closeModal();
+        Alert.alert("Success", "Profile updated successfully!");
       },
-      onError: (err) => {
-        Alert.alert("Update Failed", "Something went wrong while saving.");
-        console.error("Error updating profile:", err);
-      },
-    });
-  };
-
-  // Map the selected item to an API payload and save
-  const handleSelect1 = (field: string, item: { id: string; val: string }) => {
-    const payload: Record<string, string> = {};
-    console.log("🎯 handleSelect called for field:", field);
-    console.log("🎯 Item:", item);
-    console.log("🎯 MemberId:", memberId);
-    payload.member_id = memberId;
-    switch (field) {
-      case "maritalStatus":
-        payload.marital_status = item.id;
-        break;
-      case "height":
-        payload.height = item.id;
-        break;
-      case "motherTongue":
-        payload.mother_tongue = item.id;
-        break;
-      case "country":
-        setCountryId(item.id); // cascades: resets state + city in Zustand
-        payload.countryId = item.id;
-        payload.countryName = item.val;
-        payload.stateId = "";
-        payload.stateName = "";
-        payload.cityId = "";
-        payload.cityName = "";
-        break;
-      case "state":
-        setStateId(item.id); // cascades: resets city in Zustand
-        payload.stateId = item.id;
-        payload.stateName = item.val;
-        payload.cityId = "";
-        payload.cityName = "";
-        break;
-      case "city":
-        payload.cityId = item.id;
-        payload.cityName = item.val;
-        break;
-      case "religion":
-        setReligionId(item.id); // cascades: resets caste in Zustand
-        payload.religion = item.val;
-        payload.religionName = item.val;
-        payload.caste = "";
-        payload.casteName = "";
-        break;
-      case "caste":
-        payload.caste = item.id;
-        payload.casteName = item.val;
-        break;
-      case "education":
-        payload.educationDetail = item.id;
-        payload.educationName = item.val;
-        break;
-      case "occupation":
-        payload.occupation = item.id;
-        payload.occupationName = item.val;
-        break;
-      case "gotra":
-        payload.gothra = item.val;
-        break;
-      case "manglik":
-        payload.manglik = item.val;
-        break;
-      case "income":
-        payload.income = item.val;
-        break;
-      default:
-        return;
-    }
-
-    updateProfileMutation.mutate(payload, {
-      onError: (err) => {
-        Alert.alert("Update Failed", "Something went wrong while saving.");
-        console.error(err);
-        console.log("err", err);
+      onError: (err: any) => {
+        console.error("❌ Error updating profile:", err);
+        const errorMessage =
+          err?.response?.data?.message ||
+          err?.message ||
+          "Something went wrong while saving.";
+        Alert.alert("Update Failed", errorMessage);
       },
     });
   };

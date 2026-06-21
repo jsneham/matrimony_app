@@ -16,6 +16,7 @@ type EditRowProps = {
   value?: string;
   onPress: () => void;
   placeholder?: string;
+  editable?: boolean;
 };
 
 export const EditRow: React.FC<EditRowProps> = ({
@@ -23,9 +24,11 @@ export const EditRow: React.FC<EditRowProps> = ({
   value,
   onPress,
   placeholder,
+  editable = true,
 }) => (
   <TouchableOpacity
     onPress={onPress}
+    disabled={!editable}
     activeOpacity={0.7}
     className="px-5 py-4 border-b border-gray-100 flex-row justify-between items-center bg-white"
   >
@@ -41,7 +44,7 @@ export const EditRow: React.FC<EditRowProps> = ({
         {value || placeholder || `Select ${label}`}
       </Text>
     </View>
-    <Ionicons name="chevron-forward" size={16} color="#9ca3af" />
+    {editable && <Ionicons name="chevron-forward" size={16} color="#9ca3af" />}
   </TouchableOpacity>
 );
 

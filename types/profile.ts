@@ -362,6 +362,7 @@ export type FranchiseInfo = {
 
 export type UserProfile = {
   // Basic Information
+  member_id: string;
   id: string;
   matri_id: string;
   firstname: string;
