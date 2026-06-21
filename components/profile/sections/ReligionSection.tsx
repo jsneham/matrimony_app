@@ -38,7 +38,8 @@ export const ReligionSection: React.FC<ReligionSectionProps> = ({
 }) => (
   <View
     onLayout={(e) => onLayout(sectionId, e)}
-    className="bg-white mb-4  mx-5"
+    className="mb-12 mx-5"
+    style={{ backgroundColor: '#f9fafb', borderTopLeftRadius: 16, borderTopRightRadius: 16, borderBottomLeftRadius: 16, borderBottomRightRadius: 16 }}
   >
     <EditSectionHeader title="Faith & Astro" />
 
@@ -69,6 +70,7 @@ export const ReligionSection: React.FC<ReligionSectionProps> = ({
     />
 
     <EditRow
+      isLast
       label="Manglik"
       value={profile?.manglik}
       onPress={() =>
