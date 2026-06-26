@@ -103,33 +103,33 @@ export const useProfileEditModal = ({ memberId }: { memberId: string }) => {
 
       case "country":
         setCountryId(itemData.id); // cascades: resets state + city in Zustand
-        payload.countryId = itemData.id;
-        payload.countryName = itemData.val;
-        payload.stateId = "";
-        payload.stateName = "";
-        payload.cityId = "";
-        payload.cityName = "";
+        payload.country_id = itemData.id;
+        // payload.countryName = itemData.val;
+        // payload.stateId = "";
+        // payload.stateName = "";
+        // payload.cityId = "";
+        // payload.cityName = "";
         break;
 
       case "state":
         setStateId(itemData.id); // cascades: resets city in Zustand
-        payload.stateId = itemData.id;
-        payload.stateName = itemData.val;
-        payload.cityId = "";
-        payload.cityName = "";
+        payload.state_id = itemData.id;
+        // payload.stateName = itemData.val;
+        // payload.cityId = "";
+        // payload.cityName = "";
         break;
 
       case "city":
-        payload.cityId = itemData.id;
-        payload.cityName = itemData.val;
+        payload.city = itemData.id;
+        // payload.cityName = itemData.val;
         break;
 
       case "religion":
         setReligionId(itemData.id); // cascades: resets caste in Zustand
-        payload.religion = itemData.val;
-        payload.religionName = itemData.val;
-        payload.caste = "";
-        payload.casteName = "";
+        payload.religion = itemData.id;
+        // payload.religionName = itemData.val;
+        // payload.caste = "";
+        // payload.casteName = "";
         break;
 
       case "caste":
@@ -138,25 +138,25 @@ export const useProfileEditModal = ({ memberId }: { memberId: string }) => {
         break;
 
       case "education":
-        payload.educationDetail = itemData.id;
-        payload.educationName = itemData.val;
+        payload.education_detail = itemData.id;
+        // payload.educationName = itemData.val;
         break;
 
       case "occupation":
         payload.occupation = itemData.id;
-        payload.occupationName = itemData.val;
+        // payload.occupationName = itemData.val;
         break;
 
       case "gotra":
-        payload.gothra = itemData.val;
+        payload.gothra = itemData.id;
         break;
 
       case "manglik":
-        payload.manglik = itemData.val;
+        payload.manglik = itemData.id;
         break;
 
       case "income":
-        payload.income = itemData.val;
+        payload.income = itemData.id;
         break;
 
       default:
