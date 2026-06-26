@@ -34,7 +34,8 @@ export const EducationSection: React.FC<EducationSectionProps> = ({
 }) => (
   <View
     onLayout={(e) => onLayout(sectionId, e)}
-    className="bg-white mb-4  mx-5"
+    className="mb-12 mx-5"
+    style={{ backgroundColor: '#f9fafb', borderTopLeftRadius: 16, borderTopRightRadius: 16, borderBottomLeftRadius: 16, borderBottomRightRadius: 16 }}
   >
     <EditSectionHeader title="Education & Career" />
 
@@ -60,6 +61,7 @@ export const EducationSection: React.FC<EducationSectionProps> = ({
     />
 
     <EditRow
+      isLast
       label="Annual Income"
       value={profile?.income}
       onPress={() =>

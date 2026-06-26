@@ -17,6 +17,7 @@ type EditRowProps = {
   onPress: () => void;
   placeholder?: string;
   editable?: boolean;
+  isLast?: boolean;
 };
 
 export const EditRow: React.FC<EditRowProps> = ({
@@ -25,12 +26,14 @@ export const EditRow: React.FC<EditRowProps> = ({
   onPress,
   placeholder,
   editable = true,
+  isLast = false,
 }) => (
   <TouchableOpacity
     onPress={onPress}
     disabled={!editable}
     activeOpacity={0.7}
-    className="px-5 py-4 border-b border-gray-100 flex-row justify-between items-center bg-white"
+    className={`px-5 py-4 flex-row justify-between items-center bg-white ${isLast ? "" : "border-b border-gray-100"}`}
+    style={isLast ? { borderBottomLeftRadius: 16, borderBottomRightRadius: 16 } : undefined}
   >
     <DummyIcon />
 
@@ -50,7 +53,7 @@ export const EditRow: React.FC<EditRowProps> = ({
 
 // 2. Section divider headers
 export const EditSectionHeader: React.FC<{ title: string }> = ({ title }) => (
-  <View className="px-5 py-3 bg-gray-50 border-b border-gray-100">
+  <View style={{ paddingTop: 12, paddingBottom: 12, paddingRight: 20, paddingLeft: 0 }}>
     <Text className="text-black font-bold text-sm">{title}</Text>
   </View>
 );
@@ -103,6 +106,7 @@ type EditableTextProps = {
   value: string;
   onChangeText: (text: string) => void;
   placeholder?: string;
+  isLast?: boolean;
 };
 
 export const EditableText: React.FC<EditableTextProps> = ({
@@ -110,9 +114,13 @@ export const EditableText: React.FC<EditableTextProps> = ({
   value,
   onChangeText,
   placeholder,
+  isLast = false,
 }) => {
   return (
-    <View className="px-5 py-4 border-b border-gray-100 flex-row items-center bg-white">
+    <View
+      className={`px-5 py-4 flex-row items-center bg-white ${isLast ? "" : "border-b border-gray-100"}`}
+      style={isLast ? { borderBottomLeftRadius: 16, borderBottomRightRadius: 16 } : undefined}
+    >
       <DummyIcon />
 
       <View className="flex-1">

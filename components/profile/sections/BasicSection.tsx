@@ -37,7 +37,8 @@ export const BasicsSection: React.FC<BasicsSectionProps> = ({
 }) => (
   <View
     onLayout={(e) => onLayout(sectionId, e)}
-    className="bg-white mb-4  mx-5"
+    className="mt-12 mb-12 mx-5"
+    style={{ backgroundColor: '#f9fafb', borderTopLeftRadius: 16, borderTopRightRadius: 16, borderBottomLeftRadius: 16, borderBottomRightRadius: 16 }}
   >
     <EditSectionHeader title="Basics" />
 
@@ -70,6 +71,7 @@ export const BasicsSection: React.FC<BasicsSectionProps> = ({
     />
 
     <EditRow
+      isLast
       label="Mother Tongue"
       value={profile?.mtongue_name}
       onPress={() =>

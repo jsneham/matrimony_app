@@ -32,6 +32,8 @@ import {
 import { ProfileTabBar } from "@/components/profile/ProfileTabBar";
 import { BasicsSection } from "@/components/profile/sections/BasicSection";
 import { EducationSection } from "@/components/profile/sections/EducationSection";
+import { FamilySection } from "@/components/profile/sections/FamilySection";
+import { LifestyleSection } from "@/components/profile/sections/LifestyleSection";
 import { LocationSection } from "@/components/profile/sections/LocationSection";
 import { ReligionSection } from "@/components/profile/sections/ReligionSection";
 import { SearchableSelectorModal } from "@/components/ui/SearchableSelectorModal";
@@ -46,6 +48,8 @@ const SECTION_TAB_MAP = [
   { sectionId: "location", tabId: "basics" },
   { sectionId: "religion", tabId: "faith" },
   { sectionId: "education", tabId: "career" },
+  { sectionId: "lifestyle", tabId: "lifestyle" },
+  { sectionId: "family", tabId: "family" },
 ];
 
 export const EditProfileScreen: React.FC = () => {
@@ -188,6 +192,16 @@ export const EditProfileScreen: React.FC = () => {
           income={income}
           onLayout={registerSection}
           openModal={openModal}
+        />
+
+        <LifestyleSection
+          sectionId="lifestyle"
+          onLayout={registerSection}
+        />
+
+        <FamilySection
+          sectionId="family"
+          onLayout={registerSection}
         />
 
         <View className="h-12" />
