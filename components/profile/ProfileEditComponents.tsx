@@ -1,5 +1,6 @@
 import { DummyIcon } from "@/constants/icons";
 import { colors } from "@/constants/theme";
+import { EditableTextProps, EditRowProps } from "@/types/profile";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import {
@@ -9,16 +10,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-
-// 1. Clickable row that opens selection sheets
-type EditRowProps = {
-  label: string;
-  value?: string;
-  onPress: () => void;
-  placeholder?: string;
-  editable?: boolean;
-  isLast?: boolean;
-};
 
 export const EditRow: React.FC<EditRowProps> = ({
   label,
@@ -33,7 +24,11 @@ export const EditRow: React.FC<EditRowProps> = ({
     disabled={!editable}
     activeOpacity={0.7}
     className={`px-5 py-4 flex-row justify-between items-center bg-white ${isLast ? "" : "border-b border-gray-100"}`}
-    style={isLast ? { borderBottomLeftRadius: 16, borderBottomRightRadius: 16 } : undefined}
+    style={
+      isLast
+        ? { borderBottomLeftRadius: 16, borderBottomRightRadius: 16 }
+        : undefined
+    }
   >
     <DummyIcon />
 
@@ -47,13 +42,24 @@ export const EditRow: React.FC<EditRowProps> = ({
         {value || placeholder || `Select ${label}`}
       </Text>
     </View>
-    {editable && <Ionicons name="chevron-forward" size={16} color="#9ca3af" />}
+    {editable ? (
+      <Ionicons name="chevron-forward" size={16} color="#9ca3af" />
+    ) : (
+      <Ionicons name="information-circle-outline" size={16} color="#9ca3af" />
+    )}
   </TouchableOpacity>
 );
 
 // 2. Section divider headers
 export const EditSectionHeader: React.FC<{ title: string }> = ({ title }) => (
-  <View style={{ paddingTop: 12, paddingBottom: 12, paddingRight: 20, paddingLeft: 0 }}>
+  <View
+    style={{
+      paddingTop: 12,
+      paddingBottom: 12,
+      paddingRight: 20,
+      paddingLeft: 0,
+    }}
+  >
     <Text className="text-black font-bold text-sm">{title}</Text>
   </View>
 );
@@ -101,14 +107,6 @@ export const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
   );
 };
 
-type EditableTextProps = {
-  label: string;
-  value: string;
-  onChangeText: (text: string) => void;
-  placeholder?: string;
-  isLast?: boolean;
-};
-
 export const EditableText: React.FC<EditableTextProps> = ({
   label,
   value,
@@ -119,7 +117,11 @@ export const EditableText: React.FC<EditableTextProps> = ({
   return (
     <View
       className={`px-5 py-4 flex-row items-center bg-white ${isLast ? "" : "border-b border-gray-100"}`}
-      style={isLast ? { borderBottomLeftRadius: 16, borderBottomRightRadius: 16 } : undefined}
+      style={
+        isLast
+          ? { borderBottomLeftRadius: 16, borderBottomRightRadius: 16 }
+          : undefined
+      }
     >
       <DummyIcon />
 

@@ -8,9 +8,16 @@ export interface ModalConfig {
   visible: boolean;
   title: string;
   field: string;
-  options: { id: string; val: string }[];
+  options?: { id: string; val: string }[];
   selectedValue?: string | string[]; // Support single or multi-select
   isMultiSelect?: boolean; // Toggle between single and multi-select
+  editableTextFields?: React.ReactNode[];
+  editableFieldsData?: Array<{
+    key: string;
+    label: string;
+    value: string;
+    placeholder: string;
+  }>;
 }
 
 const EMPTY_MODAL: ModalConfig = {
@@ -20,20 +27,26 @@ const EMPTY_MODAL: ModalConfig = {
   options: [],
   selectedValue: "",
   isMultiSelect: false,
+  editableTextFields: [],
+  editableFieldsData: [],
 };
 
 export const useProfileEditModal = ({ memberId }: { memberId: string }) => {
   const [modalConfig, setModalConfig] = useState<ModalConfig>(EMPTY_MODAL);
   const updateProfileMutation = useUpdateProfile();
   const { setCountryId, setStateId, setReligionId } = useMetadataStore();
+  const [editableFieldsData, setEditableFieldsData] = useState<
+    Record<string, string>
+  >({});
 
   // Open a searchable selector modal
   const openModal = (
     title: string,
     field: string,
-    options: { id: string; val: string }[],
+    options?: { id: string; val: string }[],
     currentValue?: string | string[],
     isMultiSelect: boolean = false, // Default to single-select
+    editableTextFields?: React.ReactNode[],
   ) => {
     setModalConfig({
       visible: true,
@@ -42,12 +55,14 @@ export const useProfileEditModal = ({ memberId }: { memberId: string }) => {
       options,
       selectedValue: currentValue,
       isMultiSelect,
+      editableTextFields,
     });
   };
 
   // Close without selection
   const closeModal = () => {
     setModalConfig((prev) => ({ ...prev, visible: false }));
+    setEditableFieldsData({});
   };
 
   // Handle single option selection (for single-select modals)
@@ -172,10 +187,49 @@ export const useProfileEditModal = ({ memberId }: { memberId: string }) => {
       onSuccess: (response) => {
         console.log("✅ Profile saved successfully, response:", response);
         closeModal();
-        Alert.alert("Success", "Profile updated successfully!");
+        // Alert.alert("Success", "Profile updated successfully!");
       },
       onError: (err: any) => {
         console.error("❌ Error updating profile:", err);
+        const errorMessage =
+          err?.response?.data?.message ||
+          err?.message ||
+          "Something went wrong while saving.";
+        Alert.alert("Update Failed", errorMessage);
+      },
+    });
+  };
+
+  const handleEditTextSave = () => {
+    console.log("handleEditTextSave");
+    if (!modalConfig.field) return;
+
+    const payload: Record<string, string> = {};
+    payload.member_id = memberId;
+
+    switch (modalConfig.field) {
+      case "fullName":
+        payload.firstname = editableFieldsData.firstname || "";
+        payload.lastname = editableFieldsData.lastname || "";
+        break;
+
+      case "address":
+        payload.address = editableFieldsData.address || "";
+        break;
+
+      // Add more cases as needed
+      default:
+        console.warn(`Unknown field: ${modalConfig.field}`);
+        return;
+    }
+
+    updateProfileMutation.mutate(payload, {
+      onSuccess: (response) => {
+        console.log("✅ Editable fields saved successfully:", response);
+        closeModal();
+      },
+      onError: (err: any) => {
+        console.error("❌ Error saving editable fields:", err);
         const errorMessage =
           err?.response?.data?.message ||
           err?.message ||
@@ -192,5 +246,7 @@ export const useProfileEditModal = ({ memberId }: { memberId: string }) => {
     handleSelect,
     handleMultiSelect,
     isSaving: updateProfileMutation.isPending,
+    handleEditTextSave,
+    setEditableFieldsData,
   };
 };

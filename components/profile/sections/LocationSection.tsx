@@ -8,6 +8,7 @@ import { LookupItem } from "@/types/metadata";
 import { UserProfile } from "@/types/profile";
 import React, { useState } from "react";
 import { Alert, View } from "react-native";
+import { NonEditableText } from "./NonEditableText";
 
 interface LocationSectionProps {
   sectionId: string;
@@ -23,6 +24,8 @@ interface LocationSectionProps {
     field: string,
     options: LookupItem[],
     currentValue?: string,
+    isMultiSelect?: boolean,
+    editableTextFields?: React.ReactNode[],
   ) => void;
 }
 
@@ -43,7 +46,13 @@ export const LocationSection: React.FC<LocationSectionProps> = ({
     <View
       onLayout={(e) => onLayout(sectionId, e)}
       className="mb-12 mx-5"
-      style={{ backgroundColor: '#f9fafb', borderTopLeftRadius: 16, borderTopRightRadius: 16, borderBottomLeftRadius: 16, borderBottomRightRadius: 16 }}
+      style={{
+        backgroundColor: "#f9fafb",
+        borderTopLeftRadius: 16,
+        borderTopRightRadius: 16,
+        borderBottomLeftRadius: 16,
+        borderBottomRightRadius: 16,
+      }}
     >
       <EditSectionHeader title="Location" />
 
@@ -79,12 +88,29 @@ export const LocationSection: React.FC<LocationSectionProps> = ({
         }}
       />
 
-      <EditableText
+      <NonEditableText
         isLast
         label="Ancestral Origin (Native Place)"
-        value={address}
-        onChangeText={setAddress}
-        placeholder="Select Ancestral Origin"
+        value={profile?.address}
+        onPress={() =>
+          openModal(
+            "Ancestral Origin (Native Place)",
+            "address",
+            [],
+            profile?.address, // currentValue (4th param)
+            false,
+            [
+              <EditableText
+                key="address"
+                isLast={true}
+                label="Ancestral Origin (Native Place)"
+                value={address}
+                onChangeText={setAddress}
+                placeholder="Select Ancestral Origin"
+              />,
+            ],
+          )
+        }
       />
     </View>
   );

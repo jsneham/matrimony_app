@@ -15,6 +15,8 @@ import {
   useMangliks,
   useMaritalStatuses,
   useOccupations,
+  useProfileBy,
+  useReferences,
   useReligions,
   useStates,
 } from "@/hooks/useMetadata";
@@ -36,7 +38,7 @@ import { FamilySection } from "@/components/profile/sections/FamilySection";
 import { LifestyleSection } from "@/components/profile/sections/LifestyleSection";
 import { LocationSection } from "@/components/profile/sections/LocationSection";
 import { ReligionSection } from "@/components/profile/sections/ReligionSection";
-import { SearchableSelectorModal } from "@/components/ui/SearchableSelectorModal";
+import { SearchableSelectorModal } from "@/components/SearchableSelectorModal";
 
 // Constants & Types
 import { PROFILE_TABS_CONFIG } from "@/constants/data";
@@ -91,6 +93,8 @@ export const EditProfileScreen: React.FC = () => {
   const { data: income } = useIncome();
   const { data: height } = useHeight();
   const { data: age } = useAge();
+  const { data: profileby } = useProfileBy();
+  const { data: reference } = useReferences();
 
   // ── Seed Zustand with profile's current IDs on first load ───────────────────
   useEffect(() => {
@@ -105,8 +109,20 @@ export const EditProfileScreen: React.FC = () => {
   }, [profile, religions, setInitialValues]);
 
   // ── Modal logic (open / close / save) ──────────────────────────────────────
-  const { modalConfig, openModal, closeModal, handleSelect, isSaving } =
-    useProfileEditModal({ memberId });
+  const {
+    modalConfig,
+    openModal,
+    closeModal,
+    handleSelect,
+    isSaving,
+    handleEditTextSave,
+    setEditableFieldsData,
+  } = useProfileEditModal({ memberId });
+
+  const handleEditTextSaveWrapper = (data: Record<string, string>) => {
+    setEditableFieldsData(data);
+    handleEditTextSave();
+  };
 
   // ── Scroll ↔ Tab sync ───────────────────────────────────────────────────────
   const {
@@ -156,6 +172,8 @@ export const EditProfileScreen: React.FC = () => {
           languages={languages}
           height={height}
           age={age}
+          profileby={profileby}
+          reference={reference}
           onLayout={registerSection}
           openModal={openModal}
         />
@@ -194,15 +212,9 @@ export const EditProfileScreen: React.FC = () => {
           openModal={openModal}
         />
 
-        <LifestyleSection
-          sectionId="lifestyle"
-          onLayout={registerSection}
-        />
+        <LifestyleSection sectionId="lifestyle" onLayout={registerSection} />
 
-        <FamilySection
-          sectionId="family"
-          onLayout={registerSection}
-        />
+        <FamilySection sectionId="family" onLayout={registerSection} />
 
         <View className="h-12" />
       </ScrollView>
@@ -210,7 +222,7 @@ export const EditProfileScreen: React.FC = () => {
       <SearchableSelectorModal
         visible={modalConfig.visible}
         title={modalConfig.title}
-        options={modalConfig.options}
+        options={modalConfig?.options ?? []}
         selectedValue={modalConfig.selectedValue}
         onClose={closeModal}
         onSelect={(item) => {
@@ -221,6 +233,16 @@ export const EditProfileScreen: React.FC = () => {
             // Handle single-select
             handleSelect(modalConfig.field, item);
           }
+        }}
+        editableTextFields={modalConfig.editableTextFields}
+        handleEditTextSave={() => {
+          // Get firstName and lastName from the EditableText components
+          // This assumes the EditableText components update their parent state
+          const data = {
+            firstname: profile?.firstname || "",
+            lastname: profile?.lastname || "",
+          };
+          handleEditTextSaveWrapper(data);
         }}
       />
     </View>

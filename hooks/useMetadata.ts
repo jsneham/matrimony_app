@@ -191,3 +191,19 @@ export const useHeight = () => {
     data: query.data?.heights || [],
   };
 };
+
+export const useProfileBy = () => {
+  const query = useMetadata();
+  return {
+    ...query,
+    data: query.data?.profileBy || [],
+  };
+};
+
+export const useReferences = () => {
+  const query = useMetadata();
+  return {
+    ...query,
+    data: query.data?.reference || [],
+  };
+};

@@ -637,3 +637,21 @@ export type FormSection = {
 export type SectionRef = {
   [key: string]: { y: number; height: number };
 };
+
+// 1. Clickable row that opens selection sheets
+export type EditRowProps = {
+  label: string;
+  value?: string;
+  onPress: () => void;
+  placeholder?: string;
+  editable?: boolean;
+  isLast?: boolean;
+};
+
+export type EditableTextProps = {
+  label: string;
+  value: string;
+  onChangeText: (text: string) => void;
+  placeholder?: string;
+  isLast?: boolean;
+};
