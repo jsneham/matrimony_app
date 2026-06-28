@@ -207,3 +207,80 @@ export const useReferences = () => {
     data: query.data?.reference || [],
   };
 };
+export const useBodyType = () => {
+  const query = useMetadata();
+  return {
+    ...query,
+    data: query.data?.bodyType || [],
+  };
+};
+
+export const useEating = () => {
+  const query = useMetadata();
+  return {
+    ...query,
+    data: query.data?.diet || [],
+  };
+};
+
+export const useSmoking = () => {
+  const query = useMetadata();
+  return {
+    ...query,
+    data: query.data?.smoke || [],
+  };
+};
+
+export const useDrinking = () => {
+  const query = useMetadata();
+  return {
+    ...query,
+    data: query.data?.drink || [],
+  };
+};
+
+export const useSkinTone = () => {
+  const query = useMetadata();
+  return {
+    ...query,
+    data: query.data?.complexion || [],
+  };
+};
+
+export const useBloodGroup = () => {
+  const query = useMetadata();
+  return {
+    ...query,
+    data: query.data?.bloodGroup || [],
+  };
+};
+
+export const useHealth = () => {
+  const query = useMetadata();
+  return {
+    ...query,
+    data: query.data?.physicalInfo || [],
+  };
+};
+export const useWeight = () => {
+  const query = useMetadata();
+  return {
+    ...query,
+    data: query.data?.weight || [],
+  };
+};
+export const useHoroscope = () => {
+  const query = useMetadata();
+  return {
+    ...query,
+    data: query.data?.horoscope || [],
+  };
+};
+
+export const useMoonSign = () => {
+  const query = useMetadata();
+  return {
+    ...query,
+    data: query.data?.moonsign || [],
+  };
+};

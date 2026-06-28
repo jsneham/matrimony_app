@@ -4,21 +4,31 @@ import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 // Hooks
 import {
   useAge,
+  useBloodGroup,
+  useBodyType,
   useCastes,
   useCities,
   useCountries,
+  useDrinking,
+  useEating,
   useEducations,
   useGotras,
+  useHealth,
   useHeight,
+  useHoroscope,
   useIncome,
   useLanguages,
   useMangliks,
   useMaritalStatuses,
+  useMoonSign,
   useOccupations,
   useProfileBy,
   useReferences,
   useReligions,
+  useSkinTone,
+  useSmoking,
   useStates,
+  useWeight,
 } from "@/hooks/useMetadata";
 import { useMetadataStore } from "@/hooks/useMetadataStore";
 import { useMyProfile } from "@/hooks/useProfile";
@@ -95,6 +105,16 @@ export const EditProfileScreen: React.FC = () => {
   const { data: age } = useAge();
   const { data: profileby } = useProfileBy();
   const { data: reference } = useReferences();
+  const { data: weight } = useWeight();
+  const { data: bodyType } = useBodyType();
+  const { data: eating } = useEating();
+  const { data: drinking } = useDrinking();
+  const { data: smoking } = useSmoking();
+  const { data: skinTone } = useSkinTone();
+  const { data: bloodGroup } = useBloodGroup();
+  const { data: health } = useHealth();
+  const { data: horoscope } = useHoroscope();
+  const { data: moonsign } = useMoonSign();
 
   // ── Seed Zustand with profile's current IDs on first load ───────────────────
   useEffect(() => {
@@ -197,6 +217,8 @@ export const EditProfileScreen: React.FC = () => {
           castes={castes}
           gotras={gotras}
           mangliks={mangliks}
+          horoscope={horoscope}
+          moonsign={moonsign}
           selectedReligionId={selectedReligionId}
           onLayout={registerSection}
           openModal={openModal}
@@ -212,7 +234,21 @@ export const EditProfileScreen: React.FC = () => {
           openModal={openModal}
         />
 
-        <LifestyleSection sectionId="lifestyle" onLayout={registerSection} />
+        <LifestyleSection
+          sectionId="lifestyle"
+          profile={profile}
+          languages={languages}
+          weight={weight}
+          bodyType={bodyType}
+          eating={eating}
+          drinking={drinking}
+          smoking={smoking}
+          skinTone={skinTone}
+          bloodGroup={bloodGroup}
+          health={health}
+          onLayout={registerSection}
+          openModal={openModal}
+        />
 
         <FamilySection sectionId="family" onLayout={registerSection} />
 
@@ -241,6 +277,9 @@ export const EditProfileScreen: React.FC = () => {
           const data = {
             firstname: profile?.firstname || "",
             lastname: profile?.lastname || "",
+            subcaste: profile?.subcaste || "",
+            birthtime: profile?.birthtime || "",
+            birthplace: profile?.birthplace || "",
           };
           handleEditTextSaveWrapper(data);
         }}

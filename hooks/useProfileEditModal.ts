@@ -174,6 +174,46 @@ export const useProfileEditModal = ({ memberId }: { memberId: string }) => {
         payload.income = itemData.id;
         break;
 
+      case "health":
+        payload.physical_info = itemData.id;
+        break;
+
+      case "bloodGroup":
+        payload.blood_group = itemData.id;
+        break;
+
+      case "skinTone":
+        payload.complexion = itemData.id;
+        break;
+
+      case "drinking":
+        payload.drink = itemData.id;
+        break;
+
+      case "smoking":
+        payload.smoke = itemData.id;
+        break;
+
+      case "eating":
+        payload.diet = itemData.id;
+        break;
+
+      case "body_type":
+        payload.bodytype = itemData.id;
+        break;
+
+      case "weight":
+        payload.weight = itemData.id;
+        break;
+
+      case "horoscope":
+        payload.horoscope = itemData.id;
+        break;
+
+      case "moonsign":
+        payload.moonsign = itemData.id;
+        break;
+
       default:
         console.warn(`Unknown field: ${field}`);
         return;
@@ -215,6 +255,18 @@ export const useProfileEditModal = ({ memberId }: { memberId: string }) => {
 
       case "address":
         payload.address = editableFieldsData.address || "";
+        break;
+
+      case "subcaste":
+        payload.subcaste = editableFieldsData.subcaste || "";
+        break;
+
+      case "birthtime":
+        payload.birthtime = editableFieldsData.birthtime || "";
+        break;
+
+      case "birthplace":
+        payload.birthplace = editableFieldsData.birthplace || "";
         break;
 
       // Add more cases as needed

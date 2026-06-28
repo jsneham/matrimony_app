@@ -127,7 +127,6 @@ export const BasicsSection: React.FC<BasicsSectionProps> = ({
       />
 
       <EditRow
-        isLast
         label="Mother Tongue"
         value={profile?.mtongue_name}
         onPress={() =>
@@ -141,7 +140,6 @@ export const BasicsSection: React.FC<BasicsSectionProps> = ({
       />
 
       <EditRow
-        isLast
         label="Profile created by"
         value={profile?.profileby}
         onPress={() =>

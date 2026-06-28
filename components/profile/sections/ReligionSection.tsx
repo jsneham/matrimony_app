@@ -18,6 +18,8 @@ interface ReligionSectionProps {
   castes: LookupItem[];
   gotras: LookupItem[];
   mangliks: LookupItem[];
+  horoscope: LookupItem[];
+  moonsign: LookupItem[];
   selectedReligionId: string;
   onLayout: (sectionId: string, event: any) => void;
   openModal: (
@@ -37,11 +39,16 @@ export const ReligionSection: React.FC<ReligionSectionProps> = ({
   castes,
   gotras,
   mangliks,
+  horoscope,
+  moonsign,
   selectedReligionId,
   onLayout,
   openModal,
 }) => {
   const [gotra, setGotra] = useState(profile?.gothra ?? "");
+  const [subcaste, setSubCaste] = useState(profile?.subcaste ?? "");
+  const [birthtime, setBirthTime] = useState(profile?.birthtime ?? "");
+  const [birthplace, setBirthPlace] = useState(profile?.birthplace ?? "");
 
   return (
     <View
@@ -78,6 +85,31 @@ export const ReligionSection: React.FC<ReligionSectionProps> = ({
         }}
       />
 
+      <NonEditableText
+        isLast={false}
+        label="Sub Caste"
+        value={profile?.subcaste}
+        onPress={() =>
+          openModal(
+            "Sub Caste",
+            "subcaste",
+            [],
+            profile?.subcaste, // currentValue (4th param)
+            false,
+            [
+              <EditableText
+                key="subcaste"
+                isLast={true}
+                label="Sub Caste"
+                value={subcaste}
+                onChangeText={setSubCaste}
+                placeholder="Sub Caste"
+              />,
+            ],
+          )
+        }
+      />
+
       {/* <EditRow
         label="Gotra"
         value={profile?.gothra}
@@ -110,11 +142,81 @@ export const ReligionSection: React.FC<ReligionSectionProps> = ({
       />
 
       <EditRow
-        isLast
         label="Manglik"
         value={profile?.manglik}
         onPress={() =>
           openModal("Manglik", "manglik", mangliks, profile?.manglik)
+        }
+      />
+
+      <EditRow
+        label="Horoscope Belief"
+        value={profile?.horoscope}
+        onPress={() =>
+          openModal(
+            "Horoscope Belief",
+            "horoscope",
+            horoscope,
+            profile?.horoscope,
+          )
+        }
+      />
+
+      <EditRow
+        label="Moonsign"
+        value={profile?.moonsign_str}
+        onPress={() =>
+          openModal("Moonsign", "moonsign", moonsign, profile?.moonsign_str)
+        }
+      />
+
+      <NonEditableText
+        isLast={false}
+        label="Birth Time"
+        value={profile?.birthtime}
+        onPress={() =>
+          openModal(
+            "Birth Time",
+            "birthtime",
+            [],
+            profile?.birthtime, // currentValue (4th param)
+            false,
+            [
+              <EditableText
+                key="birthtime"
+                isLast={true}
+                label="Birth Time"
+                value={birthtime}
+                onChangeText={setBirthTime}
+                placeholder="Birth Time"
+              />,
+            ],
+          )
+        }
+      />
+
+      <NonEditableText
+        isLast={false}
+        label="Birth Place"
+        value={profile?.birthplace}
+        onPress={() =>
+          openModal(
+            "Birth Place",
+            "birthplace",
+            [],
+            profile?.birthplace, // currentValue (4th param)
+            false,
+            [
+              <EditableText
+                key="birthplace"
+                isLast={true}
+                label="Birth Place"
+                value={birthplace}
+                onChangeText={setBirthTime}
+                placeholder="Birth Place"
+              />,
+            ],
+          )
         }
       />
     </View>
