@@ -185,7 +185,7 @@ export type PhysicalInfo = {
   weightStr: string; // e.g., "45 kg"
   bodytype: BodyType;
   complexion: ComplexionType;
-  bloodGroup: BloodGroup;
+  blood_group: string;
 };
 
 export type EducationInfo = {
@@ -396,18 +396,20 @@ export type UserProfile = {
 
   // Personal Information
   physicalInfo: PhysicalInfo;
+  blood_group: string;
+  physical_info: string;
   complexion: ComplexionType;
   bodytype: BodyType;
   height: string;
   height_str: string;
   weight: string;
-  weightStr: string;
+  weight_str: string;
   diet: DietType;
   drink: DrinkingHabit;
   smoke: SmokingHabit;
   hobby: string;
-  languagesKnown: string; // comma-separated IDs
-  languagesKnownStr: string;
+  languages_known: string; // comma-separated IDs
+  languages_known_str: string;
 
   // Religion & Culture
   religion: string;
@@ -426,7 +428,7 @@ export type UserProfile = {
   star: string;
   starStr: string;
   moonsign: string;
-  moonsignStr: string;
+  moonsign_str: string;
   birthtime: string;
   birthplace: string;
 
@@ -636,4 +638,22 @@ export type FormSection = {
 
 export type SectionRef = {
   [key: string]: { y: number; height: number };
+};
+
+// 1. Clickable row that opens selection sheets
+export type EditRowProps = {
+  label: string;
+  value?: string;
+  onPress: () => void;
+  placeholder?: string;
+  editable?: boolean;
+  isLast?: boolean;
+};
+
+export type EditableTextProps = {
+  label: string;
+  value: string;
+  onChangeText: (text: string) => void;
+  placeholder?: string;
+  isLast?: boolean;
 };

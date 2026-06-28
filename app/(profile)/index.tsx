@@ -4,19 +4,31 @@ import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 // Hooks
 import {
   useAge,
+  useBloodGroup,
+  useBodyType,
   useCastes,
   useCities,
   useCountries,
+  useDrinking,
+  useEating,
   useEducations,
   useGotras,
+  useHealth,
   useHeight,
+  useHoroscope,
   useIncome,
   useLanguages,
   useMangliks,
   useMaritalStatuses,
+  useMoonSign,
   useOccupations,
+  useProfileBy,
+  useReferences,
   useReligions,
+  useSkinTone,
+  useSmoking,
   useStates,
+  useWeight,
 } from "@/hooks/useMetadata";
 import { useMetadataStore } from "@/hooks/useMetadataStore";
 import { useMyProfile } from "@/hooks/useProfile";
@@ -32,9 +44,11 @@ import {
 import { ProfileTabBar } from "@/components/profile/ProfileTabBar";
 import { BasicsSection } from "@/components/profile/sections/BasicSection";
 import { EducationSection } from "@/components/profile/sections/EducationSection";
+import { FamilySection } from "@/components/profile/sections/FamilySection";
+import { LifestyleSection } from "@/components/profile/sections/LifestyleSection";
 import { LocationSection } from "@/components/profile/sections/LocationSection";
 import { ReligionSection } from "@/components/profile/sections/ReligionSection";
-import { SearchableSelectorModal } from "@/components/ui/SearchableSelectorModal";
+import { SearchableSelectorModal } from "@/components/SearchableSelectorModal";
 
 // Constants & Types
 import { PROFILE_TABS_CONFIG } from "@/constants/data";
@@ -46,6 +60,8 @@ const SECTION_TAB_MAP = [
   { sectionId: "location", tabId: "basics" },
   { sectionId: "religion", tabId: "faith" },
   { sectionId: "education", tabId: "career" },
+  { sectionId: "lifestyle", tabId: "lifestyle" },
+  { sectionId: "family", tabId: "family" },
 ];
 
 export const EditProfileScreen: React.FC = () => {
@@ -87,6 +103,18 @@ export const EditProfileScreen: React.FC = () => {
   const { data: income } = useIncome();
   const { data: height } = useHeight();
   const { data: age } = useAge();
+  const { data: profileby } = useProfileBy();
+  const { data: reference } = useReferences();
+  const { data: weight } = useWeight();
+  const { data: bodyType } = useBodyType();
+  const { data: eating } = useEating();
+  const { data: drinking } = useDrinking();
+  const { data: smoking } = useSmoking();
+  const { data: skinTone } = useSkinTone();
+  const { data: bloodGroup } = useBloodGroup();
+  const { data: health } = useHealth();
+  const { data: horoscope } = useHoroscope();
+  const { data: moonsign } = useMoonSign();
 
   // ── Seed Zustand with profile's current IDs on first load ───────────────────
   useEffect(() => {
@@ -101,8 +129,20 @@ export const EditProfileScreen: React.FC = () => {
   }, [profile, religions, setInitialValues]);
 
   // ── Modal logic (open / close / save) ──────────────────────────────────────
-  const { modalConfig, openModal, closeModal, handleSelect, isSaving } =
-    useProfileEditModal({ memberId });
+  const {
+    modalConfig,
+    openModal,
+    closeModal,
+    handleSelect,
+    isSaving,
+    handleEditTextSave,
+    setEditableFieldsData,
+  } = useProfileEditModal({ memberId });
+
+  const handleEditTextSaveWrapper = (data: Record<string, string>) => {
+    setEditableFieldsData(data);
+    handleEditTextSave();
+  };
 
   // ── Scroll ↔ Tab sync ───────────────────────────────────────────────────────
   const {
@@ -152,6 +192,8 @@ export const EditProfileScreen: React.FC = () => {
           languages={languages}
           height={height}
           age={age}
+          profileby={profileby}
+          reference={reference}
           onLayout={registerSection}
           openModal={openModal}
         />
@@ -175,6 +217,8 @@ export const EditProfileScreen: React.FC = () => {
           castes={castes}
           gotras={gotras}
           mangliks={mangliks}
+          horoscope={horoscope}
+          moonsign={moonsign}
           selectedReligionId={selectedReligionId}
           onLayout={registerSection}
           openModal={openModal}
@@ -190,13 +234,31 @@ export const EditProfileScreen: React.FC = () => {
           openModal={openModal}
         />
 
+        <LifestyleSection
+          sectionId="lifestyle"
+          profile={profile}
+          languages={languages}
+          weight={weight}
+          bodyType={bodyType}
+          eating={eating}
+          drinking={drinking}
+          smoking={smoking}
+          skinTone={skinTone}
+          bloodGroup={bloodGroup}
+          health={health}
+          onLayout={registerSection}
+          openModal={openModal}
+        />
+
+        <FamilySection sectionId="family" onLayout={registerSection} />
+
         <View className="h-12" />
       </ScrollView>
 
       <SearchableSelectorModal
         visible={modalConfig.visible}
         title={modalConfig.title}
-        options={modalConfig.options}
+        options={modalConfig?.options ?? []}
         selectedValue={modalConfig.selectedValue}
         onClose={closeModal}
         onSelect={(item) => {
@@ -207,6 +269,19 @@ export const EditProfileScreen: React.FC = () => {
             // Handle single-select
             handleSelect(modalConfig.field, item);
           }
+        }}
+        editableTextFields={modalConfig.editableTextFields}
+        handleEditTextSave={() => {
+          // Get firstName and lastName from the EditableText components
+          // This assumes the EditableText components update their parent state
+          const data = {
+            firstname: profile?.firstname || "",
+            lastname: profile?.lastname || "",
+            subcaste: profile?.subcaste || "",
+            birthtime: profile?.birthtime || "",
+            birthplace: profile?.birthplace || "",
+          };
+          handleEditTextSaveWrapper(data);
         }}
       />
     </View>

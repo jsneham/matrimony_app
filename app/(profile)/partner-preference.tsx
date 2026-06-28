@@ -1,32 +1,38 @@
-import React, { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import { SearchableSelectorModal } from "@/components/SearchableSelectorModal";
+import { PROFILE_TABS_CONFIG } from "@/constants/data";
 import {
-  ScrollView,
-  Text,
-  View,
-  TouchableOpacity,
-  ActivityIndicator,
-  Alert,
-} from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { useSession } from "@/hooks/useSession";
+    useCastes,
+    useCities,
+    useCountries,
+    useEducations,
+    useLanguages,
+    useMangliks,
+    useMaritalStatuses,
+    useOccupations,
+    useReligions,
+    useStates,
+} from "@/hooks/useMetadata";
 import { useMyProfile } from "@/hooks/useProfile";
 import { useUpdatePartnerPreference } from "@/hooks/useProfileMutations";
+import { useSession } from "@/hooks/useSession";
 import { SESSION_KEYS } from "@/types/common";
-import {
-  useCountries,
-  useStates,
-  useCities,
-  useReligions,
-  useCastes,
-  useEducations,
-  useOccupations,
-  useLanguages,
-  useMaritalStatuses,
-  useMangliks,
-} from "@/hooks/useMetadata";
-import { SearchableSelectorModal } from "@/components/ui/SearchableSelectorModal";
-import { PROFILE_TABS_CONFIG } from "@/constants/data";
 import { SectionRef } from "@/types/profile";
+import { Ionicons } from "@expo/vector-icons";
+import React, {
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+} from "react";
+import {
+    ActivityIndicator,
+    Alert,
+    ScrollView,
+    Text,
+    TouchableOpacity,
+    View,
+} from "react-native";
 
 interface ModalConfig {
   visible: boolean;
@@ -75,13 +81,16 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
   const { data: mangliks } = useMangliks();
 
   // Static income options mapping
-  const incomeOptions = useMemo(() => [
-    { id: "< 25 Lakh", name: "< 25 Lakh" },
-    { id: "25-50 Lakh", name: "25-50 Lakh" },
-    { id: "50-1 Cr", name: "50-1 Cr" },
-    { id: "1-5 Cr", name: "1-5 Cr" },
-    { id: "5+ Cr", name: "5+ Cr" }
-  ], []);
+  const incomeOptions = useMemo(
+    () => [
+      { id: "< 25 Lakh", name: "< 25 Lakh" },
+      { id: "25-50 Lakh", name: "25-50 Lakh" },
+      { id: "50-1 Cr", name: "50-1 Cr" },
+      { id: "1-5 Cr", name: "1-5 Cr" },
+      { id: "5+ Cr", name: "5+ Cr" },
+    ],
+    [],
+  );
 
   // 6. Selection Modal state config
   const [modalConfig, setModalConfig] = useState<ModalConfig>({
@@ -98,7 +107,10 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
       setPrefCountryId(profile.partCountryLiving || "");
       setPrefStateId(profile.partState || "");
       if (profile.partReligion) {
-        const match = religions.find(r => r.name === profile.partReligion || r.id === profile.partReligion);
+        const match = religions.find(
+          (r) =>
+            r.name === profile.partReligion || r.id === profile.partReligion,
+        );
         if (match) setPrefReligionId(match.id);
       }
     }
@@ -108,7 +120,7 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
     title: string,
     field: string,
     options: { id: string; name: string }[],
-    currentValue?: string
+    currentValue?: string,
   ) => {
     setModalConfig({
       visible: true,
@@ -180,9 +192,12 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
 
     updatePreferenceMutation.mutate(payload, {
       onError: (err) => {
-        Alert.alert("Update Failed", "Something went wrong while saving your preference.");
+        Alert.alert(
+          "Update Failed",
+          "Something went wrong while saving your preference.",
+        );
         console.error(err);
-      }
+      },
     });
   };
 
@@ -221,7 +236,7 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
         setActiveTab(newActiveTab);
       }
     },
-    [activeTab]
+    [activeTab],
   );
 
   const handleTabPress = useCallback((tabId: string) => {
@@ -255,7 +270,9 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
     return (
       <View className="flex-1 items-center justify-center bg-app-background">
         <ActivityIndicator size="large" color="#db2777" />
-        <Text className="mt-3 text-gray-500 font-medium">Loading preferences...</Text>
+        <Text className="mt-3 text-gray-500 font-medium">
+          Loading preferences...
+        </Text>
       </View>
     );
   }
@@ -278,7 +295,9 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
       className="px-5 py-4 border-b border-gray-100 flex-row justify-between items-center bg-white"
     >
       <View className="flex-1">
-        <Text className="text-xs font-semibold text-gray-400 mb-1">{label}</Text>
+        <Text className="text-xs font-semibold text-gray-400 mb-1">
+          {label}
+        </Text>
         <Text
           className={`text-base ${
             value ? "text-gray-900 font-medium" : "text-gray-300 font-normal"
@@ -303,7 +322,9 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
       {updatePreferenceMutation.isPending && (
         <View className="absolute inset-0 bg-white/60 z-50 items-center justify-center">
           <ActivityIndicator size="large" color="#db2777" />
-          <Text className="mt-2 text-pink-600 font-bold text-sm">Saving preferences...</Text>
+          <Text className="mt-2 text-pink-600 font-bold text-sm">
+            Saving preferences...
+          </Text>
         </View>
       )}
 
@@ -371,7 +392,7 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
                 "Preferred Mother Tongue",
                 "partMotherTongue",
                 languages,
-                profile?.partMotherTongue
+                profile?.partMotherTongue,
               )
             }
           />
@@ -392,7 +413,7 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
                 "Preferred Country",
                 "partCountryLiving",
                 countries,
-                profile?.partCountryLiving
+                profile?.partCountryLiving,
               )
             }
           />
@@ -401,10 +422,18 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
             value={profile?.partStateStr}
             onPress={() => {
               if (!prefCountryId) {
-                Alert.alert("Select Country", "Please select a preferred Country first.");
+                Alert.alert(
+                  "Select Country",
+                  "Please select a preferred Country first.",
+                );
                 return;
               }
-              openSelectionModal("Preferred State", "partState", states, profile?.partState);
+              openSelectionModal(
+                "Preferred State",
+                "partState",
+                states,
+                profile?.partState,
+              );
             }}
           />
           <EditRow
@@ -412,10 +441,18 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
             value={profile?.partCityStr}
             onPress={() => {
               if (!prefStateId) {
-                Alert.alert("Select State", "Please select a preferred State first.");
+                Alert.alert(
+                  "Select State",
+                  "Please select a preferred State first.",
+                );
                 return;
               }
-              openSelectionModal("Preferred City", "partCity", cities, profile?.partCity);
+              openSelectionModal(
+                "Preferred City",
+                "partCity",
+                cities,
+                profile?.partCity,
+              );
             }}
           />
         </View>
@@ -431,7 +468,12 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
             label="Religion"
             value={profile?.partReligion}
             onPress={() =>
-              openSelectionModal("Preferred Religion", "partReligion", religions, prefReligionId)
+              openSelectionModal(
+                "Preferred Religion",
+                "partReligion",
+                religions,
+                prefReligionId,
+              )
             }
           />
           <EditRow
@@ -439,10 +481,18 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
             value={profile?.partCasteStr}
             onPress={() => {
               if (!prefReligionId) {
-                Alert.alert("Select Religion", "Please select a preferred Religion first.");
+                Alert.alert(
+                  "Select Religion",
+                  "Please select a preferred Religion first.",
+                );
                 return;
               }
-              openSelectionModal("Preferred Caste", "partCaste", castes, profile?.partCaste);
+              openSelectionModal(
+                "Preferred Caste",
+                "partCaste",
+                castes,
+                profile?.partCaste,
+              );
             }}
           />
           <EditRow
@@ -453,7 +503,7 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
                 "Preferred Manglik",
                 "partManglik",
                 mangliks,
-                profile?.partManglik
+                profile?.partManglik,
               )
             }
           />
@@ -474,7 +524,7 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
                 "Preferred Education",
                 "partEducation",
                 educations,
-                profile?.partEducation
+                profile?.partEducation,
               )
             }
           />
@@ -486,7 +536,7 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
                 "Preferred Occupation",
                 "partOccupation",
                 occupations,
-                profile?.partOccupation
+                profile?.partOccupation,
               )
             }
           />
@@ -498,7 +548,7 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
                 "Preferred Annual Income",
                 "partIncome",
                 incomeOptions,
-                profile?.partIncome
+                profile?.partIncome,
               )
             }
           />

@@ -1,12 +1,17 @@
 // components/profile/sections/BasicSection.tsx
 import {
+  EditableText,
   EditRow,
   EditSectionHeader,
 } from "@/components/profile/ProfileEditComponents";
 import { LookupItem } from "@/types/metadata";
 import { UserProfile } from "@/types/profile";
+import { checkValue } from "@/utils/checkValue";
+import { getHeightInCm } from "@/utils/convertHeight";
+import { format } from "date-fns";
 import React from "react";
 import { View } from "react-native";
+import { NonEditableText } from "./NonEditableText";
 
 interface BasicsSectionProps {
   sectionId: string;
@@ -15,6 +20,8 @@ interface BasicsSectionProps {
   languages: LookupItem[];
   height: LookupItem[];
   age: LookupItem[];
+  profileby: LookupItem[];
+  reference: LookupItem[];
   onLayout: (sectionId: string, event: any) => void;
   openModal: (
     title: string,
@@ -22,6 +29,7 @@ interface BasicsSectionProps {
     options: LookupItem[],
     currentValue?: string,
     isMultiSelect?: boolean,
+    editableTextFields?: React.ReactNode[],
   ) => void;
 }
 
@@ -32,57 +40,128 @@ export const BasicsSection: React.FC<BasicsSectionProps> = ({
   languages,
   height,
   age,
+  profileby,
+  reference,
   onLayout,
   openModal,
-}) => (
-  <View
-    onLayout={(e) => onLayout(sectionId, e)}
-    className="bg-white mb-4  mx-5"
-  >
-    <EditSectionHeader title="Basics" />
+}) => {
+  const [firstName, setFirstName] = React.useState(profile?.firstname || "");
+  const [lastName, setLastName] = React.useState(profile?.lastname || "");
 
-    <EditRow
-      editable={false}
-      label="Marital Status"
-      value={profile?.marital_status}
-      onPress={() =>
-        openModal(
-          "Marital Status",
-          "maritalStatus",
-          maritalStatuses,
-          profile?.marital_status,
-        )
-      }
-    />
+  return (
+    <View
+      onLayout={(e) => onLayout(sectionId, e)}
+      className="mt-12 mb-12 mx-5"
+      style={{
+        backgroundColor: "#f9fafb",
+        borderTopLeftRadius: 16,
+        borderTopRightRadius: 16,
+        borderBottomLeftRadius: 16,
+        borderBottomRightRadius: 16,
+      }}
+    >
+      <EditSectionHeader title="Basics" />
 
-    <EditRow
-      editable={false}
-      label="Height"
-      value={profile?.height_str}
-      onPress={() => openModal("Height", "height", height, profile?.height_str)}
-    />
+      <NonEditableText
+        editable={checkValue(`${profile?.firstname} ${profile?.lastname}`)}
+        label="Full Name"
+        value={`${profile?.firstname} ${profile?.lastname}`}
+        onPress={() =>
+          openModal(
+            "Full Name",
+            "fullName",
+            [],
+            `${profile?.firstname} ${profile?.lastname}`, // currentValue (4th param)
+            false, // isMultiSelect (5th param)
+            [
+              // editableTextFields (6th param)
+              <EditableText
+                key="origin-1"
+                isLast={false}
+                label="First Name"
+                value={firstName}
+                onChangeText={setFirstName}
+                placeholder="First Name"
+              />,
+              <EditableText
+                key="origin-2"
+                isLast={true}
+                label="Last Name"
+                value={lastName}
+                onChangeText={setLastName}
+                placeholder="Last Name"
+              />,
+            ],
+          )
+        }
+      />
 
-    <EditRow
-      editable={false}
-      label="Age"
-      value={profile?.age}
-      onPress={() => openModal("Age", "age", age, profile?.age)}
-    />
+      <EditRow
+        editable={checkValue(profile?.marital_status ?? "")}
+        label="Marital Status"
+        value={profile?.marital_status}
+        onPress={() =>
+          openModal(
+            "Marital Status",
+            "maritalStatus",
+            maritalStatuses,
+            profile?.marital_status,
+          )
+        }
+      />
 
-    <EditRow
-      label="Mother Tongue"
-      value={profile?.mtongue_name}
-      onPress={() =>
-        openModal(
-          "Mother Tongue",
-          "motherTongue",
-          languages,
-          profile?.mtongue_name,
-        )
-      }
-    />
+      <EditRow
+        editable={checkValue(profile?.height_str ?? "")}
+        label="Height"
+        value={`${profile?.height_str} (${getHeightInCm(profile?.height_str ?? "0")} cm)`}
+        onPress={() =>
+          openModal("Height", "height", height, profile?.height_str)
+        }
+      />
 
-    {/* <EditRow
+      <EditRow
+        editable={checkValue(profile?.age ?? "")}
+        label="Age"
+        value={`${profile?.age} (${format(profile?.birthdate ?? new Date(), "dd/MM/yyyy")})`}
+        onPress={() => openModal("Age", "age", age, profile?.age)}
+      />
+
+      <EditRow
+        label="Mother Tongue"
+        value={profile?.mtongue_name}
+        onPress={() =>
+          openModal(
+            "Mother Tongue",
+            "motherTongue",
+            languages,
+            profile?.mtongue_name,
+          )
+        }
+      />
+
+      <EditRow
+        label="Profile created by"
+        value={profile?.profileby}
+        onPress={() =>
+          openModal(
+            "Profile created by",
+            "profileby",
+            profileby,
+            profile?.profileby,
+          )
+        }
+      />
+
+      <EditRow
+        isLast
+        label="Referred by"
+        value={profile?.reference}
+        onPress={() =>
+          openModal("Referred by", "reference", reference, profile?.reference)
+        }
+      />
+
+      {/* <EditRow
       label="Height Preference"
       value={profile?.mtongue_name}
       onPress={() =>
@@ -94,5 +173,6 @@ export const BasicsSection: React.FC<BasicsSectionProps> = ({
         )
       }
     /> */}
-  </View>
-);
+    </View>
+  );
+};
