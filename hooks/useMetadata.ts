@@ -284,3 +284,69 @@ export const useMoonSign = () => {
     data: query.data?.moonsign || [],
   };
 };
+
+export const useWorkSector = () => {
+  const query = useMetadata();
+  return {
+    ...query,
+    data: query.data?.employeeIn || [],
+  };
+};
+
+export const useDesignation = () => {
+  const query = useMetadata();
+  return {
+    ...query,
+    data: query.data?.designations || [],
+  };
+};
+
+export const useFamilyType = () => {
+  const query = useMetadata();
+  console.log("query===", query.data?.familyType);
+
+  return {
+    ...query,
+    data: query.data?.familyType || [],
+  };
+};
+
+export const useFamilyStatus = () => {
+  const query = useMetadata();
+  return {
+    ...query,
+    data: query.data?.familyStatus || [],
+  };
+};
+
+export const useNoOfBrothers = () => {
+  const query = useMetadata();
+  return {
+    ...query,
+    data: query.data?.noOfBrothers || [],
+  };
+};
+
+export const useNoOfMarriedBrothers = () => {
+  const query = useMetadata();
+  return {
+    ...query,
+    data: query.data?.noMarriBrother || [],
+  };
+};
+
+export const useNoOfSisters = () => {
+  const query = useMetadata();
+  return {
+    ...query,
+    data: query.data?.noOfSisters || [],
+  };
+};
+
+export const useNoOfMarriedSisters = () => {
+  const query = useMetadata();
+  return {
+    ...query,
+    data: query.data?.noMarriSister || [],
+  };
+};

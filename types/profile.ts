@@ -434,29 +434,29 @@ export type UserProfile = {
 
   // Education & Profession
   education_detail: string;
-  educationDetailStr: string;
+  education_detail_str: string;
   education_name: string;
   occupation: string;
   occupation_name: string;
   designation: string;
-  designationName: string;
-  employeeIn: EmploymentType;
-  professionalAdditionalInfo: string;
+  designation_name: string;
+  employee_in: EmploymentType;
+  professional_additional_info: string;
   income: string;
 
   // Family Information
-  familyDetails: string;
-  familyStatus: FamilyStatus;
-  familyType: FamilyType;
-  noOfBrothers: string;
-  noOfMarriedBrother: string;
-  noOfSisters: string;
-  noOfMarriedSister: string;
-  fatherName: string;
-  fatherOccupation: string;
+  family_details: string;
+  family_status: string;
+  family_type: string;
+  no_of_brothers: string;
+  no_of_married_brothers: string;
+  no_of_sisters: string;
+  no_of_married_sisters: string;
+  father_name: string;
+  father_occupation: string;
   fatherLivingStatus: string;
-  motherName: string;
-  motherOccupation: string;
+  mother_name: string;
+  mother_occupation: string;
   motherLivingStatus: string;
   totalChildren: string;
   statusChildren: string;
@@ -656,4 +656,10 @@ export type EditableTextProps = {
   onChangeText: (text: string) => void;
   placeholder?: string;
   isLast?: boolean;
+};
+
+export type EditableFieldDescriptor = {
+  field: string;
+  label: string;
+  placeholder?: string;
 };

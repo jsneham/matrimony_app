@@ -1,3 +1,6 @@
+import { DummyIcon } from "@/constants/icons";
+import { colors } from "@/constants/theme";
+import { EditableFieldDescriptor } from "@/types/profile";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import React, { useMemo, useState } from "react";
 import {
@@ -22,8 +25,6 @@ type Option = {
   val: string;
 };
 
-type EditableTextFields = React.ReactNode[];
-
 type SearchableSelectorModalProps = {
   visible: boolean;
   title: string;
@@ -32,7 +33,9 @@ type SearchableSelectorModalProps = {
   onSelect: (option: Option | Option[]) => void;
   onClose: () => void;
   isMultiSelect?: boolean;
-  editableTextFields?: EditableTextFields;
+  editableTextFields?: EditableFieldDescriptor[];
+  editableFieldsData: Record<string, string>;
+  onEditableFieldChange: (key: string, text: string) => void;
   handleEditTextSave: () => void;
 };
 
@@ -47,6 +50,8 @@ export const SearchableSelectorModal: React.FC<
   onClose,
   isMultiSelect = false,
   editableTextFields,
+  editableFieldsData,
+  onEditableFieldChange,
   handleEditTextSave,
 }) => {
   const insets = useSafeAreaInsets();
@@ -139,6 +144,7 @@ export const SearchableSelectorModal: React.FC<
   };
 
   const isSelected = (optionId: string) => localSelected.includes(optionId);
+  const hasEditableFields = !!editableTextFields?.length;
 
   return (
     <Modal
@@ -180,11 +186,48 @@ export const SearchableSelectorModal: React.FC<
             </Pressable>
           </View>
 
-          {editableTextFields ? (
+          {hasEditableFields ? (
             <View className="bg-white border-t border-gray-200 px-5 py-4 gap-3 pb-6">
-              {editableTextFields.map((component, index) => (
-                <View key={index}>{component}</View>
-              ))}
+              {editableTextFields?.map(
+                ({ field: key, label, placeholder }, index) => (
+                  <View
+                    key={key}
+                    className={`px-5 py-4 flex-row items-center bg-white ${
+                      index === editableTextFields!.length - 1
+                        ? ""
+                        : "border-b border-gray-100"
+                    }`}
+                    style={
+                      index === editableTextFields!.length - 1
+                        ? {
+                            borderBottomLeftRadius: 16,
+                            borderBottomRightRadius: 16,
+                          }
+                        : undefined
+                    }
+                  >
+                    <DummyIcon />
+                    <View className="flex-1">
+                      <Text className="text-base font-bold text-black mb-1">
+                        {label}
+                      </Text>
+                      <TextInput
+                        value={editableFieldsData[key] ?? ""}
+                        onChangeText={(text) =>
+                          onEditableFieldChange(key, text)
+                        }
+                        placeholder={placeholder || `Enter ${label}`}
+                        className={`text-base ${
+                          editableFieldsData[key]
+                            ? "text-gray font-regular"
+                            : "text-placeholder font-regular"
+                        }`}
+                        placeholderTextColor={colors.placeholder}
+                      />
+                    </View>
+                  </View>
+                ),
+              )}
               <Pressable
                 onPress={handleEditTextSave}
                 className="py-3 bg-gray-100 rounded-full items-center active:bg-gray-200"
@@ -195,7 +238,7 @@ export const SearchableSelectorModal: React.FC<
               </Pressable>
             </View>
           ) : (
-            <View>
+            <View className="flex-1">
               {/* Search Box */}
               <View className="bg-white px-5 py-2 border-b border-gray-100">
                 <View className="flex-row items-center bg-white py-1.5">

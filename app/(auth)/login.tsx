@@ -4,16 +4,16 @@ import { useLogin } from "@/hooks/useAuth";
 import { Href, router } from "expo-router";
 import React, { useState } from "react";
 import {
-    ActivityIndicator,
-    Alert,
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
-    StatusBar,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StatusBar,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 export default function LoginScreen() {
@@ -32,7 +32,6 @@ export default function LoginScreen() {
       { username: username.trim(), password: password.trim() },
       {
         onSuccess: () => {
-          console.log("Login successful, navigating to dashboard...");
           router.navigate("/(tabs)" as Href);
         },
         onError: (error: any) => {

@@ -18,8 +18,6 @@ const saveUserSession = async (userData: any, token: string) => {
       userData.plan_status,
     );
     await SecureStore.setItemAsync(SESSION_KEYS.LOGIN_WITH, "local");
-
-    console.log("User session saved successfully");
   } catch (error) {
     console.error("Error saving session:", error);
   }
@@ -36,8 +34,6 @@ export const clearUserSession = async () => {
     await SecureStore.deleteItemAsync(SESSION_KEYS.MATRI_ID);
     await SecureStore.deleteItemAsync(SESSION_KEYS.PLAN_STATUS);
     await SecureStore.deleteItemAsync(SESSION_KEYS.LOGIN_WITH);
-
-    console.log("User session cleared");
   } catch (error) {
     console.error("Error clearing session:", error);
   }
@@ -80,7 +76,6 @@ export const getMultipleSessionData = async (
       }),
     );
 
-    console.log("Session data retrieved:", Object.keys(result).join(", "));
     return result;
   } catch (error) {
     console.error("Error getting multiple session data:", error);
@@ -102,8 +97,6 @@ export const useLogin = () => {
     mutationFn: (data: LoginRequest) => authService.login(data),
 
     onSuccess: async (response) => {
-      console.log("Login response:", response);
-
       if (response.status === "success") {
         queryClient.invalidateQueries({ queryKey: ["login"] });
         // Save token

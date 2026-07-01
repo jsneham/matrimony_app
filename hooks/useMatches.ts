@@ -40,7 +40,6 @@ export const useMyMatches = (data: MatchesRequest): UseMyMatchesResponse => {
         };
       }
 
-      console.log("Starting matches query");
       try {
         const result = await matchesService.getMyMatches(data);
         console.log("✅ Query successful:", {

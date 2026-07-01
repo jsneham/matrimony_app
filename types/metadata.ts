@@ -42,6 +42,7 @@ export type AppMetadata = {
   profileBy: LookupItem[];
   physicalInfo: LookupItem[];
   noOfBrothers: LookupItem[];
+  noOfSisters: LookupItem[];
   noMarriSister: LookupItem[];
   noMarriBrother: LookupItem[];
   mothertongue: LookupItem[];

@@ -33,7 +33,6 @@ export default function membership() {
           style={{ backgroundColor: "#0f7c8a" }}
           activeOpacity={0.85}
           onPress={() => {
-            console.log("Button Pressed");
             router.push("/(membership)" as Href);
           }}
         >

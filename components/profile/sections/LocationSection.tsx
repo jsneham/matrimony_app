@@ -1,11 +1,10 @@
 // components/profile/sections/LocationSection.tsx
 import {
-  EditableText,
   EditRow,
-  EditSectionHeader,
+  EditSectionHeader
 } from "@/components/profile/ProfileEditComponents";
 import { LookupItem } from "@/types/metadata";
-import { UserProfile } from "@/types/profile";
+import { EditableFieldDescriptor, UserProfile } from "@/types/profile";
 import React, { useState } from "react";
 import { Alert, View } from "react-native";
 import { NonEditableText } from "./NonEditableText";
@@ -25,7 +24,7 @@ interface LocationSectionProps {
     options: LookupItem[],
     currentValue?: string,
     isMultiSelect?: boolean,
-    editableTextFields?: React.ReactNode[],
+    editableTextFields?: EditableFieldDescriptor[],
   ) => void;
 }
 
@@ -100,14 +99,11 @@ export const LocationSection: React.FC<LocationSectionProps> = ({
             profile?.address, // currentValue (4th param)
             false,
             [
-              <EditableText
-                key="address"
-                isLast={true}
-                label="Ancestral Origin (Native Place)"
-                value={address}
-                onChangeText={setAddress}
-                placeholder="Select Ancestral Origin"
-              />,
+              {
+                field: "address",
+                label: "Ancestral Origin (Native Place)",
+                placeholder: "Select Ancestral Origin",
+              },
             ],
           )
         }

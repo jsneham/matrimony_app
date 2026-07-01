@@ -1,11 +1,10 @@
 // components/profile/sections/BasicSection.tsx
 import {
-  EditableText,
   EditRow,
-  EditSectionHeader,
+  EditSectionHeader
 } from "@/components/profile/ProfileEditComponents";
 import { LookupItem } from "@/types/metadata";
-import { UserProfile } from "@/types/profile";
+import { EditableFieldDescriptor, UserProfile } from "@/types/profile";
 import { checkValue } from "@/utils/checkValue";
 import { getHeightInCm } from "@/utils/convertHeight";
 import { format } from "date-fns";
@@ -29,7 +28,7 @@ interface BasicsSectionProps {
     options: LookupItem[],
     currentValue?: string,
     isMultiSelect?: boolean,
-    editableTextFields?: React.ReactNode[],
+    editableTextFields?: EditableFieldDescriptor[],
   ) => void;
 }
 
@@ -75,22 +74,17 @@ export const BasicsSection: React.FC<BasicsSectionProps> = ({
             false, // isMultiSelect (5th param)
             [
               // editableTextFields (6th param)
-              <EditableText
-                key="origin-1"
-                isLast={false}
-                label="First Name"
-                value={firstName}
-                onChangeText={setFirstName}
-                placeholder="First Name"
-              />,
-              <EditableText
-                key="origin-2"
-                isLast={true}
-                label="Last Name"
-                value={lastName}
-                onChangeText={setLastName}
-                placeholder="Last Name"
-              />,
+              {
+                field: "origin-1",
+                label: "First Name",
+
+                placeholder: "First Name",
+              },
+              {
+                field: "origin-2",
+                label: "Last Name",
+                placeholder: "Last Name",
+              },
             ],
           )
         }

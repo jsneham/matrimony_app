@@ -35,8 +35,6 @@ export const AccountProfileHeader = () => {
 
   const userData = profileData?.data;
 
-  console.log("profileData", userData?.matri_id, userData?.id);
-
   return (
     <View className="bg-white" pointerEvents="box-none">
       {/* Profile */}
