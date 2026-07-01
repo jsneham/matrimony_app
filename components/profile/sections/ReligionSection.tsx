@@ -1,11 +1,10 @@
 // components/profile/sections/ReligionSection.tsx
 import {
-  EditableText,
   EditRow,
   EditSectionHeader,
 } from "@/components/profile/ProfileEditComponents";
 import { LookupItem } from "@/types/metadata";
-import { UserProfile } from "@/types/profile";
+import { EditableFieldDescriptor, UserProfile } from "@/types/profile";
 import { checkValue } from "@/utils/checkValue";
 import React, { useState } from "react";
 import { Alert, View } from "react-native";
@@ -28,7 +27,7 @@ interface ReligionSectionProps {
     options: LookupItem[],
     currentValue?: string,
     isMultiSelect?: boolean,
-    editableTextFields?: React.ReactNode[],
+    editableTextFields?: EditableFieldDescriptor[],
   ) => void;
 }
 
@@ -97,14 +96,11 @@ export const ReligionSection: React.FC<ReligionSectionProps> = ({
             profile?.subcaste, // currentValue (4th param)
             false,
             [
-              <EditableText
-                key="subcaste"
-                isLast={true}
-                label="Sub Caste"
-                value={subcaste}
-                onChangeText={setSubCaste}
-                placeholder="Sub Caste"
-              />,
+              {
+                field: "subcaste",
+                label: "Sub Caste",
+                placeholder: "Sub Caste",
+              },
             ],
           )
         }
@@ -128,14 +124,11 @@ export const ReligionSection: React.FC<ReligionSectionProps> = ({
             profile?.gothra, // currentValue (4th param)
             false,
             [
-              <EditableText
-                key="gotra"
-                isLast={true}
-                label="Gotra"
-                value={gotra}
-                onChangeText={setGotra}
-                placeholder="Gotra"
-              />,
+              {
+                field: "gotra",
+                label: "Gotra",
+                placeholder: "Gotra",
+              },
             ],
           )
         }
@@ -182,14 +175,11 @@ export const ReligionSection: React.FC<ReligionSectionProps> = ({
             profile?.birthtime, // currentValue (4th param)
             false,
             [
-              <EditableText
-                key="birthtime"
-                isLast={true}
-                label="Birth Time"
-                value={birthtime}
-                onChangeText={setBirthTime}
-                placeholder="Birth Time"
-              />,
+              {
+                field: "birthtime",
+                label: "Birth Time",
+                placeholder: "Birth Time",
+              },
             ],
           )
         }
@@ -207,14 +197,11 @@ export const ReligionSection: React.FC<ReligionSectionProps> = ({
             profile?.birthplace, // currentValue (4th param)
             false,
             [
-              <EditableText
-                key="birthplace"
-                isLast={true}
-                label="Birth Place"
-                value={birthplace}
-                onChangeText={setBirthTime}
-                placeholder="Birth Place"
-              />,
+              {
+                field: "birthplace",
+                label: "Birth Place",
+                placeholder: "Birth Place",
+              },
             ],
           )
         }

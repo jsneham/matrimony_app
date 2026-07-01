@@ -24,8 +24,6 @@ const MembershipPlanList = () => {
     // });
   };
 
-  console.log("MembershipPlanList called");
-
   return (
     <View className="flex-1 bg-white">
       <ScrollView showsVerticalScrollIndicator={false}>

@@ -2,12 +2,12 @@ import { MatchCardProps } from "@/types/matches";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useRef } from "react";
 import {
-    ActivityIndicator,
-    Animated,
-    Image,
-    Text,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  Animated,
+  Image,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 export const MatchCard: React.FC<MatchCardProps> = ({ profile }) => {
@@ -26,7 +26,6 @@ export const MatchCard: React.FC<MatchCardProps> = ({ profile }) => {
     }
 
     const url = `${profile.photoUrl}${profile.photo1}`;
-    console.log("📸 Loading image:", url);
     return url;
   };
 

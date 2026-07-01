@@ -9,9 +9,12 @@ import {
   useCastes,
   useCities,
   useCountries,
+  useDesignation,
   useDrinking,
   useEating,
   useEducations,
+  useFamilyStatus,
+  useFamilyType,
   useGotras,
   useHealth,
   useHeight,
@@ -21,6 +24,10 @@ import {
   useMangliks,
   useMaritalStatuses,
   useMoonSign,
+  useNoOfBrothers,
+  useNoOfMarriedBrothers,
+  useNoOfMarriedSisters,
+  useNoOfSisters,
   useOccupations,
   useProfileBy,
   useReferences,
@@ -29,6 +36,7 @@ import {
   useSmoking,
   useStates,
   useWeight,
+  useWorkSector,
 } from "@/hooks/useMetadata";
 import { useMetadataStore } from "@/hooks/useMetadataStore";
 import { useMyProfile } from "@/hooks/useProfile";
@@ -75,10 +83,7 @@ export const EditProfileScreen: React.FC = () => {
     memberId,
   });
 
-  console.log("🔑 useMyProfile called with memberId:", memberId);
-
   const profile = profileResponse?.data;
-  console.log("profile response", profile);
 
   // ── Global selection store ──────────────────────────────────────────────────
   const {
@@ -115,6 +120,14 @@ export const EditProfileScreen: React.FC = () => {
   const { data: health } = useHealth();
   const { data: horoscope } = useHoroscope();
   const { data: moonsign } = useMoonSign();
+  const { data: workSector } = useWorkSector();
+  const { data: designation } = useDesignation();
+  const { data: familyType } = useFamilyType();
+  const { data: familyStatus } = useFamilyStatus();
+  const { data: noOfBrothers } = useNoOfBrothers();
+  const { data: noOfMarriedBrothers } = useNoOfMarriedBrothers();
+  const { data: noOfSisters } = useNoOfSisters();
+  const { data: noOfMarriedSisters } = useNoOfMarriedSisters();
 
   // ── Seed Zustand with profile's current IDs on first load ───────────────────
   useEffect(() => {
@@ -136,11 +149,12 @@ export const EditProfileScreen: React.FC = () => {
     handleSelect,
     isSaving,
     handleEditTextSave,
-    setEditableFieldsData,
+    editableFieldsData,
+    onEditableFieldChange,
   } = useProfileEditModal({ memberId });
 
   const handleEditTextSaveWrapper = (data: Record<string, string>) => {
-    setEditableFieldsData(data);
+    // setEditableFieldsData(data);
     handleEditTextSave();
   };
 
@@ -228,8 +242,10 @@ export const EditProfileScreen: React.FC = () => {
           sectionId="education"
           profile={profile}
           educations={educations}
-          occupations={occupations}
+          workSector={workSector}
           income={income}
+          occupations={occupations}
+          designation={designation}
           onLayout={registerSection}
           openModal={openModal}
         />
@@ -250,7 +266,18 @@ export const EditProfileScreen: React.FC = () => {
           openModal={openModal}
         />
 
-        <FamilySection sectionId="family" onLayout={registerSection} />
+        <FamilySection
+          sectionId="family"
+          profile={profile}
+          familyType={familyType}
+          familyStatus={familyStatus}
+          noOfBrothers={noOfBrothers}
+          noOfMarriedBrothers={noOfMarriedBrothers}
+          noOfSisters={noOfSisters}
+          noOfMarriedSisters={noOfMarriedSisters}
+          onLayout={registerSection}
+          openModal={openModal}
+        />
 
         <View className="h-12" />
       </ScrollView>
@@ -271,18 +298,10 @@ export const EditProfileScreen: React.FC = () => {
           }
         }}
         editableTextFields={modalConfig.editableTextFields}
-        handleEditTextSave={() => {
-          // Get firstName and lastName from the EditableText components
-          // This assumes the EditableText components update their parent state
-          const data = {
-            firstname: profile?.firstname || "",
-            lastname: profile?.lastname || "",
-            subcaste: profile?.subcaste || "",
-            birthtime: profile?.birthtime || "",
-            birthplace: profile?.birthplace || "",
-          };
-          handleEditTextSaveWrapper(data);
-        }}
+        isMultiSelect={modalConfig.isMultiSelect}
+        editableFieldsData={editableFieldsData}
+        onEditableFieldChange={onEditableFieldChange}
+        handleEditTextSave={handleEditTextSave}
       />
     </View>
   );

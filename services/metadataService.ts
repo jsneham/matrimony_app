@@ -1,10 +1,10 @@
 // services/metadataService.ts
 import {
-    AppMetadata,
-    CasteItem,
-    CityItem,
-    LookupItem,
-    StateItem,
+  AppMetadata,
+  CasteItem,
+  CityItem,
+  LookupItem,
+  StateItem,
 } from "@/types/metadata";
 import { api } from "./api";
 
@@ -138,6 +138,9 @@ export const metadataService = {
         noOfBrothers: Array.isArray(src.no_of_brothers)
           ? src.no_of_brothers.map(mapRawItem)
           : [],
+        noOfSisters: Array.isArray(src.no_of_sisters)
+          ? src.no_of_sisters.map(mapRawItem)
+          : [],
         noMarriSister: Array.isArray(src.no_marri_sister)
           ? src.no_marri_sister.map(mapRawItem)
           : [],
@@ -226,6 +229,7 @@ export const metadataService = {
         bodyType: [],
         bloodGroup: [],
         ageRang: [],
+        noOfSisters: [],
       };
     }
   },

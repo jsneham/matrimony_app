@@ -1,6 +1,7 @@
 // hooks/useProfileEditModal.ts
 import { useMetadataStore } from "@/hooks/useMetadataStore";
 import { useUpdateProfile } from "@/hooks/useProfileMutations";
+import { EditableFieldDescriptor } from "@/types/profile";
 import { useState } from "react";
 import { Alert } from "react-native";
 
@@ -11,7 +12,7 @@ export interface ModalConfig {
   options?: { id: string; val: string }[];
   selectedValue?: string | string[]; // Support single or multi-select
   isMultiSelect?: boolean; // Toggle between single and multi-select
-  editableTextFields?: React.ReactNode[];
+  editableTextFields?: EditableFieldDescriptor[];
   editableFieldsData?: Array<{
     key: string;
     label: string;
@@ -46,7 +47,7 @@ export const useProfileEditModal = ({ memberId }: { memberId: string }) => {
     options?: { id: string; val: string }[],
     currentValue?: string | string[],
     isMultiSelect: boolean = false, // Default to single-select
-    editableTextFields?: React.ReactNode[],
+    editableTextFields?: EditableFieldDescriptor[],
   ) => {
     setModalConfig({
       visible: true,
@@ -57,12 +58,30 @@ export const useProfileEditModal = ({ memberId }: { memberId: string }) => {
       isMultiSelect,
       editableTextFields,
     });
+
+    if (editableTextFields?.length) {
+      setEditableFieldsData((prev) => {
+        const next = { ...prev };
+        editableTextFields.forEach(({ field: key }) => {
+          if (next[key] === undefined) {
+            next[key] = Array.isArray(currentValue)
+              ? ""
+              : (currentValue as string) || "";
+          }
+        });
+        return next;
+      });
+    }
   };
 
   // Close without selection
   const closeModal = () => {
     setModalConfig((prev) => ({ ...prev, visible: false }));
     setEditableFieldsData({});
+  };
+
+  const onEditableFieldChange = (key: string, text: string) => {
+    setEditableFieldsData((prev) => ({ ...prev, [key]: text }));
   };
 
   // Handle single option selection (for single-select modals)
@@ -94,7 +113,6 @@ export const useProfileEditModal = ({ memberId }: { memberId: string }) => {
     const itemData = Array.isArray(item) ? item[0] : item;
 
     const payload: Record<string, string> = {};
-    console.log("field", field);
     payload.member_id = memberId;
 
     switch (field) {
@@ -214,18 +232,50 @@ export const useProfileEditModal = ({ memberId }: { memberId: string }) => {
         payload.moonsign = itemData.id;
         break;
 
+      case "education":
+        payload.education_detail = itemData.id;
+        break;
+
+      case "workSector":
+        payload.employee_in = itemData.id;
+        break;
+
+      case "income":
+        payload.income = itemData.id;
+        break;
+      case "occupation":
+        payload.occupation = itemData.id;
+        break;
+      case "designation":
+        payload.designation = itemData.id;
+        break;
+
+      case "familyType":
+        payload.family_type = itemData.id;
+        break;
+      case "familyStatus":
+        payload.family_status = itemData.id;
+        break;
+      case "noOfBrothers":
+        payload.no_of_brothers = itemData.id;
+        break;
+      case "noOfMarriedBrothers":
+        payload.no_of_married_brothers = itemData.id;
+        break;
+      case "noOfSisters":
+        payload.no_of_sisters = itemData.id;
+        break;
+      case "noOfMarriedSisters":
+        payload.no_of_married_sisters = itemData.id;
+        break;
+
       default:
         console.warn(`Unknown field: ${field}`);
         return;
     }
 
-    console.log("Saving payload:", payload);
-
-    console.log("📤 Sending mutation with payload:", payload);
-
     updateProfileMutation.mutate(payload, {
       onSuccess: (response) => {
-        console.log("✅ Profile saved successfully, response:", response);
         closeModal();
         // Alert.alert("Success", "Profile updated successfully!");
       },
@@ -269,6 +319,33 @@ export const useProfileEditModal = ({ memberId }: { memberId: string }) => {
         payload.birthplace = editableFieldsData.birthplace || "";
         break;
 
+      case "profession":
+        payload.professional_additional_info =
+          editableFieldsData.professional_additional_info || "";
+        break;
+
+      case "organisationName":
+        payload.organisationName = editableFieldsData.organisationName || "";
+        break;
+
+      case "fatherName":
+        payload.father_name = editableFieldsData.father_name || "";
+        break;
+
+      case "fatherOccupation":
+        payload.father_occupation = editableFieldsData.father_occupation || "";
+        break;
+
+      case "motherName":
+        payload.mother_name = editableFieldsData.mother_name || "";
+        break;
+      case "motherOccupation":
+        payload.mother_occupation = editableFieldsData.mother_occupation || "";
+        break;
+      case "familyDetails":
+        payload.family_details = editableFieldsData.family_details || "";
+        break;
+
       // Add more cases as needed
       default:
         console.warn(`Unknown field: ${modalConfig.field}`);
@@ -299,6 +376,7 @@ export const useProfileEditModal = ({ memberId }: { memberId: string }) => {
     handleMultiSelect,
     isSaving: updateProfileMutation.isPending,
     handleEditTextSave,
-    setEditableFieldsData,
+    editableFieldsData,
+    onEditableFieldChange,
   };
 };
