@@ -1,7 +1,7 @@
 // components/profile/sections/BasicSection.tsx
 import {
   EditRow,
-  EditSectionHeader
+  EditSectionHeader,
 } from "@/components/profile/ProfileEditComponents";
 import { LookupItem } from "@/types/metadata";
 import { EditableFieldDescriptor, UserProfile } from "@/types/profile";
@@ -21,6 +21,8 @@ interface BasicsSectionProps {
   age: LookupItem[];
   profileby: LookupItem[];
   reference: LookupItem[];
+  totalChildren: LookupItem[];
+  statusChildren: LookupItem[];
   onLayout: (sectionId: string, event: any) => void;
   openModal: (
     title: string,
@@ -41,12 +43,11 @@ export const BasicsSection: React.FC<BasicsSectionProps> = ({
   age,
   profileby,
   reference,
+  totalChildren,
+  statusChildren,
   onLayout,
   openModal,
 }) => {
-  const [firstName, setFirstName] = React.useState(profile?.firstname || "");
-  const [lastName, setLastName] = React.useState(profile?.lastname || "");
-
   return (
     <View
       onLayout={(e) => onLayout(sectionId, e)}
@@ -132,6 +133,36 @@ export const BasicsSection: React.FC<BasicsSectionProps> = ({
           )
         }
       />
+
+      {profile?.marital_status !== "Never Married" && (
+        <>
+          <EditRow
+            label="No. of Children"
+            value={profile?.total_children}
+            onPress={() =>
+              openModal(
+                "No. of Children",
+                "totalChildren",
+                totalChildren,
+                profile?.total_children,
+              )
+            }
+          />
+
+          <EditRow
+            label="Children Living with"
+            value={profile?.status_children}
+            onPress={() =>
+              openModal(
+                "Children Living with",
+                "statusChildren",
+                statusChildren,
+                profile?.status_children,
+              )
+            }
+          />
+        </>
+      )}
 
       <EditRow
         label="Profile created by"

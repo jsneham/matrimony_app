@@ -1,11 +1,11 @@
 // components/profile/sections/LocationSection.tsx
 import {
   EditRow,
-  EditSectionHeader
+  EditSectionHeader,
 } from "@/components/profile/ProfileEditComponents";
 import { LookupItem } from "@/types/metadata";
 import { EditableFieldDescriptor, UserProfile } from "@/types/profile";
-import React, { useState } from "react";
+import React from "react";
 import { Alert, View } from "react-native";
 import { NonEditableText } from "./NonEditableText";
 
@@ -39,8 +39,6 @@ export const LocationSection: React.FC<LocationSectionProps> = ({
   onLayout,
   openModal,
 }) => {
-  const [address, setAddress] = useState(profile?.address ?? "");
-
   return (
     <View
       onLayout={(e) => onLayout(sectionId, e)}

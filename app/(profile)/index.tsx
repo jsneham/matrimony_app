@@ -35,6 +35,8 @@ import {
   useSkinTone,
   useSmoking,
   useStates,
+  useStatusChildren,
+  useTotalChildren,
   useWeight,
   useWorkSector,
 } from "@/hooks/useMetadata";
@@ -128,6 +130,8 @@ export const EditProfileScreen: React.FC = () => {
   const { data: noOfMarriedBrothers } = useNoOfMarriedBrothers();
   const { data: noOfSisters } = useNoOfSisters();
   const { data: noOfMarriedSisters } = useNoOfMarriedSisters();
+  const { data: totalChildren } = useTotalChildren();
+  const { data: statusChildren } = useStatusChildren();
 
   // ── Seed Zustand with profile's current IDs on first load ───────────────────
   useEffect(() => {
@@ -208,6 +212,8 @@ export const EditProfileScreen: React.FC = () => {
           age={age}
           profileby={profileby}
           reference={reference}
+          totalChildren={totalChildren}
+          statusChildren={statusChildren}
           onLayout={registerSection}
           openModal={openModal}
         />

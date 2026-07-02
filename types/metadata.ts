@@ -116,3 +116,11 @@ export interface RawCommonListDdrResponse {
   bloodGroup?: RawLookupItem[];
   ageRang?: RawLookupItem[];
 }
+
+export type DependentListResponse = {
+  status: string;
+  tocken: string;
+  data: { id: string; val: string }[];
+};
+
+export type DependentListTag = "caste_list" | "state_list" | "city_list";
