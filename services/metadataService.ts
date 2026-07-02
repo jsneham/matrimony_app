@@ -3,6 +3,8 @@ import {
   AppMetadata,
   CasteItem,
   CityItem,
+  DependentListResponse,
+  DependentListTag,
   LookupItem,
   StateItem,
 } from "@/types/metadata";
@@ -232,5 +234,18 @@ export const metadataService = {
         noOfSisters: [],
       };
     }
+  },
+
+  getDependentList: async (
+    tag: DependentListTag,
+    currentVal: string,
+  ): Promise<DependentListResponse> => {
+    const response = await api.post("common_request/get_list_json", {
+      get_list: tag,
+      currnet_val: currentVal,
+      multivar: "",
+      retun_for: "",
+    });
+    return response.data;
   },
 };

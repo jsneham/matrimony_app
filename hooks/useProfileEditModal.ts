@@ -260,19 +260,33 @@ export const useProfileEditModal = ({ memberId }: { memberId: string }) => {
         payload.no_of_brothers = itemData.id;
         break;
       case "noOfMarriedBrothers":
-        payload.no_of_married_brothers = itemData.id;
+        payload.no_of_married_brother = itemData.id;
         break;
       case "noOfSisters":
         payload.no_of_sisters = itemData.id;
         break;
       case "noOfMarriedSisters":
-        payload.no_of_married_sisters = itemData.id;
+        payload.no_of_married_sister = itemData.id;
+        break;
+      case "totalChildren":
+        payload.total_children = itemData.id;
+        break;
+      case "statusChildren":
+        payload.status_children = itemData.id;
+        break;
+      case "profileby":
+        payload.profileby = itemData.id;
+        break;
+      case "reference":
+        payload.reference = itemData.id;
         break;
 
       default:
         console.warn(`Unknown field: ${field}`);
         return;
     }
+
+    console.log("saveProfile===", field, item, payload);
 
     updateProfileMutation.mutate(payload, {
       onSuccess: (response) => {
@@ -291,7 +305,7 @@ export const useProfileEditModal = ({ memberId }: { memberId: string }) => {
   };
 
   const handleEditTextSave = () => {
-    console.log("handleEditTextSave");
+    console.log("handleEditTextSave===", editableFieldsData);
     if (!modalConfig.field) return;
 
     const payload: Record<string, string> = {};
@@ -329,21 +343,21 @@ export const useProfileEditModal = ({ memberId }: { memberId: string }) => {
         break;
 
       case "fatherName":
-        payload.father_name = editableFieldsData.father_name || "";
+        payload.father_name = editableFieldsData.fatherName || "";
         break;
 
       case "fatherOccupation":
-        payload.father_occupation = editableFieldsData.father_occupation || "";
+        payload.father_occupation = editableFieldsData.fatherOccupation || "";
         break;
 
       case "motherName":
-        payload.mother_name = editableFieldsData.mother_name || "";
+        payload.mother_name = editableFieldsData.motherName || "";
         break;
       case "motherOccupation":
-        payload.mother_occupation = editableFieldsData.mother_occupation || "";
+        payload.mother_occupation = editableFieldsData.motherOccupation || "";
         break;
       case "familyDetails":
-        payload.family_details = editableFieldsData.family_details || "";
+        payload.family_details = editableFieldsData.familyDetails || "";
         break;
 
       // Add more cases as needed
@@ -351,6 +365,8 @@ export const useProfileEditModal = ({ memberId }: { memberId: string }) => {
         console.warn(`Unknown field: ${modalConfig.field}`);
         return;
     }
+
+    console.log("payload", payload);
 
     updateProfileMutation.mutate(payload, {
       onSuccess: (response) => {

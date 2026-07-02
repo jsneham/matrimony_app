@@ -449,17 +449,17 @@ export type UserProfile = {
   family_status: string;
   family_type: string;
   no_of_brothers: string;
-  no_of_married_brothers: string;
+  no_of_married_brother: string;
   no_of_sisters: string;
-  no_of_married_sisters: string;
+  no_of_married_sister: string;
   father_name: string;
   father_occupation: string;
   fatherLivingStatus: string;
   mother_name: string;
   mother_occupation: string;
   motherLivingStatus: string;
-  totalChildren: string;
-  statusChildren: string;
+  total_children: string;
+  status_children: string;
 
   // Photos & Media
   photo1: string;

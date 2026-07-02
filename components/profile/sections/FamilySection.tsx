@@ -5,7 +5,7 @@ import {
 } from "@/components/profile/ProfileEditComponents";
 import { LookupItem } from "@/types/metadata";
 import { EditableFieldDescriptor, UserProfile } from "@/types/profile";
-import React, { useState } from "react";
+import React from "react";
 import { View } from "react-native";
 import { NonEditableText } from "./NonEditableText";
 
@@ -41,17 +41,7 @@ export const FamilySection: React.FC<FamilySectionProps> = ({
   onLayout,
   openModal,
 }) => {
-  const [fatherName, setFatherName] = useState(profile?.father_name ?? "");
-  const [motherName, setMotherName] = useState(profile?.mother_name ?? "");
-  const [fatherOccupation, setFatherOccupation] = useState(
-    profile?.father_occupation ?? "",
-  );
-  const [motherOccupation, setMotherOccupation] = useState(
-    profile?.mother_occupation ?? "",
-  );
-  const [familyDetails, setFamilyDetails] = useState(
-    profile?.family_details ?? "",
-  );
+  console.log("noOfSisters", noOfSisters);
 
   return (
     <View
@@ -106,7 +96,7 @@ export const FamilySection: React.FC<FamilySectionProps> = ({
             false,
             [
               {
-                field: "subcaste",
+                field: "fatherName",
                 label: "Father's Name",
                 placeholder: "Father's Name",
               },
@@ -199,13 +189,13 @@ export const FamilySection: React.FC<FamilySectionProps> = ({
       <EditRow
         isLast
         label="Married Brother(s)"
-        value={profile?.no_of_married_brothers}
+        value={profile?.no_of_married_brother}
         onPress={() =>
           openModal(
             "Married Brother(s)",
             "noOfMarriedBrothers",
             noOfMarriedBrothers,
-            profile?.no_of_married_brothers,
+            profile?.no_of_married_brother,
           )
         }
       />
@@ -226,13 +216,13 @@ export const FamilySection: React.FC<FamilySectionProps> = ({
       <EditRow
         isLast
         label="Married Sister(s)"
-        value={profile?.no_of_married_sisters}
+        value={profile?.no_of_married_sister}
         onPress={() =>
           openModal(
             "Married Sister(s)",
             "noOfMarriedSisters",
             noOfMarriedSisters,
-            profile?.no_of_married_sisters,
+            profile?.no_of_married_sister,
           )
         }
       />

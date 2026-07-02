@@ -67,6 +67,7 @@ export const LifestyleSection: React.FC<LifestyleSectionProps> = ({
           "spokenLanguages",
           languages,
           profile?.languages_known_str,
+          true,
         )
       }
     />

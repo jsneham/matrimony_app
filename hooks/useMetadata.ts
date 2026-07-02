@@ -1,6 +1,6 @@
 // hooks/useMetadata.ts
 import { metadataService } from "@/services/metadataService";
-import { AppMetadata } from "@/types/metadata";
+import { AppMetadata, DependentListTag } from "@/types/metadata";
 import { useQuery } from "@tanstack/react-query";
 
 export const METADATA_QUERY_KEY = ["app-metadata"];
@@ -32,23 +32,6 @@ export const useReligions = () => {
 };
 
 /**
- * Hook to retrieve the list of castes, optionally filtered by a parent religionId.
- */
-export const useCastes = (religionId?: string) => {
-  const query = useMetadata();
-  const castes = query.data?.castes || [];
-
-  const filteredCastes = religionId
-    ? castes.filter((caste) => caste.religionId === religionId)
-    : castes;
-
-  return {
-    ...query,
-    data: filteredCastes,
-  };
-};
-
-/**
  * Hook to retrieve the list of countries.
  */
 export const useCountries = () => {
@@ -56,40 +39,6 @@ export const useCountries = () => {
   return {
     ...query,
     data: query.data?.countries || [],
-  };
-};
-
-/**
- * Hook to retrieve the list of states, optionally filtered by a parent countryId.
- */
-export const useStates = (countryId?: string) => {
-  const query = useMetadata();
-  const states = query.data?.states || [];
-
-  const filteredStates = countryId
-    ? states.filter((state) => state.countryId === countryId)
-    : states;
-
-  return {
-    ...query,
-    data: filteredStates,
-  };
-};
-
-/**
- * Hook to retrieve the list of cities, optionally filtered by a parent stateId.
- */
-export const useCities = (stateId?: string) => {
-  const query = useMetadata();
-  const cities = query.data?.cities || [];
-
-  const filteredCities = stateId
-    ? cities.filter((city) => city.stateId === stateId)
-    : cities;
-
-  return {
-    ...query,
-    data: filteredCities,
   };
 };
 
@@ -303,7 +252,6 @@ export const useDesignation = () => {
 
 export const useFamilyType = () => {
   const query = useMetadata();
-  console.log("query===", query.data?.familyType);
 
   return {
     ...query,
@@ -337,6 +285,8 @@ export const useNoOfMarriedBrothers = () => {
 
 export const useNoOfSisters = () => {
   const query = useMetadata();
+  console.log("query===", query.data);
+
   return {
     ...query,
     data: query.data?.noOfSisters || [],
@@ -349,4 +299,45 @@ export const useNoOfMarriedSisters = () => {
     ...query,
     data: query.data?.noMarriSister || [],
   };
+};
+
+export const useTotalChildren = () => {
+  const query = useMetadata();
+  return {
+    ...query,
+    data: query.data?.totalChildren || [],
+  };
+};
+
+export const useStatusChildren = () => {
+  const query = useMetadata();
+  return {
+    ...query,
+    data: query.data?.statusChildren || [],
+  };
+};
+
+const useDependentList = (tag: DependentListTag, currentVal?: string) => {
+  return useQuery({
+    queryKey: ["metadata", tag, currentVal],
+    queryFn: () => metadataService.getDependentList(tag, currentVal!),
+    enabled: !!currentVal,
+    select: (response) => response.data, // just the array, like your other useX hooks
+    staleTime: 5 * 60 * 1000, // dependent lists rarely change; tune as you like
+  });
+};
+
+export const useCastes = (religionId?: string) => {
+  const { data, ...rest } = useDependentList("caste_list", religionId);
+  return { data: data ?? [], ...rest };
+};
+
+export const useStates = (countryId?: string) => {
+  const { data, ...rest } = useDependentList("state_list", countryId);
+  return { data: data ?? [], ...rest };
+};
+
+export const useCities = (stateId?: string) => {
+  const { data, ...rest } = useDependentList("city_list", stateId);
+  return { data: data ?? [], ...rest };
 };
