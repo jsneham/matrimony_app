@@ -273,6 +273,10 @@ export const useProfileEditModal = ({ memberId }: { memberId: string }) => {
         payload.reference = itemData.id;
         break;
 
+      case "looking_for":
+        payload.looking_for = itemData.id;
+        break;
+
       default:
         console.warn(`Unknown field: ${field}`);
         return;

@@ -276,8 +276,8 @@ export type PartnerPreferences = {
   partReligionStr: string;
   partCaste: string;
   partCasteStr: string;
-  partMotherTongue: string;
-  partMotherTongueStr: string;
+  part_mother_tongue: string;
+  part_mother_tongue_str: string;
   partCountryLiving: string;
   partCountryLivingStr: string;
   partState: string;
@@ -504,25 +504,25 @@ export type UserProfile = {
   partReligion: string;
   partCaste: string;
   partCasteStr: string;
-  partMotherTongue: string;
-  partMotherTongueStr: string;
+  part_mother_tongue: string;
+  part_mother_tongue_str: string;
   partCountryLiving: string;
   partCountryLivingStr: string;
   partState: string;
   partStateStr: string;
   partCity: string;
   partCityStr: string;
-  partFrmAge: string;
+  part_frm_age: string;
   partToAge: string;
-  partHeight: string;
+  part_height: string;
   partHeightStr: string;
   partHeightTo: string;
   partHeightToStr: string;
   partBodytype: string;
   partComplexion: string;
-  partDiet: string;
-  partDrink: string;
-  partSmoke: string;
+  part_diet: string;
+  part_drink: string;
+  part_smoke: string;
   partEducation: string;
   partEducationStr: string;
   partEmployeeIn: string;
@@ -536,7 +536,7 @@ export type UserProfile = {
   partStarStr: string;
   partResiStatus: string;
   partExpect: string;
-  lookingFor: string;
+  looking_for: string;
   partnersField: ProfileField[];
 
   // Plan & Membership

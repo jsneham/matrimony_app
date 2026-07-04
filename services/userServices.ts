@@ -15,7 +15,7 @@ export const userServices = {
 
     const response = await api.post("my-profile/get_my_profile", body);
 
-    console.log("Response:", response.data);
+    console.log("Response:", JSON.stringify(response.data));
 
     return response.data;
   },
