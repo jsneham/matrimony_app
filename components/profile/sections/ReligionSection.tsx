@@ -6,7 +6,7 @@ import {
 import { LookupItem } from "@/types/metadata";
 import { EditableFieldDescriptor, UserProfile } from "@/types/profile";
 import { checkValue } from "@/utils/checkValue";
-import React, { useState } from "react";
+import React from "react";
 import { Alert, View } from "react-native";
 import { NonEditableText } from "./NonEditableText";
 
@@ -44,11 +44,6 @@ export const ReligionSection: React.FC<ReligionSectionProps> = ({
   onLayout,
   openModal,
 }) => {
-  const [gotra, setGotra] = useState(profile?.gothra ?? "");
-  const [subcaste, setSubCaste] = useState(profile?.subcaste ?? "");
-  const [birthtime, setBirthTime] = useState(profile?.birthtime ?? "");
-  const [birthplace, setBirthPlace] = useState(profile?.birthplace ?? "");
-
   return (
     <View
       onLayout={(e) => onLayout(sectionId, e)}
@@ -68,7 +63,7 @@ export const ReligionSection: React.FC<ReligionSectionProps> = ({
         label="Religion"
         value={profile?.religion_name}
         onPress={() =>
-          openModal("Religion", "religion", religions, selectedReligionId)
+          openModal("Religion", "religion", religions, profile?.religion)
         }
       />
 
@@ -159,7 +154,7 @@ export const ReligionSection: React.FC<ReligionSectionProps> = ({
         label="Moonsign"
         value={profile?.moonsign_str}
         onPress={() =>
-          openModal("Moonsign", "moonsign", moonsign, profile?.moonsign_str)
+          openModal("Moonsign", "moonsign", moonsign, profile?.moonsign)
         }
       />
 
@@ -179,6 +174,7 @@ export const ReligionSection: React.FC<ReligionSectionProps> = ({
                 field: "birthtime",
                 label: "Birth Time",
                 placeholder: "Birth Time",
+                type: "time",
               },
             ],
           )

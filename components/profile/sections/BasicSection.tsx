@@ -76,13 +76,13 @@ export const BasicsSection: React.FC<BasicsSectionProps> = ({
             [
               // editableTextFields (6th param)
               {
-                field: "origin-1",
+                field: "firstname",
                 label: "First Name",
 
                 placeholder: "First Name",
               },
               {
-                field: "origin-2",
+                field: "lastname",
                 label: "Last Name",
                 placeholder: "Last Name",
               },
@@ -129,7 +129,7 @@ export const BasicsSection: React.FC<BasicsSectionProps> = ({
             "Mother Tongue",
             "motherTongue",
             languages,
-            profile?.mtongue_name,
+            profile?.mother_tongue,
           )
         }
       />

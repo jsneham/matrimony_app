@@ -66,7 +66,7 @@ export const LifestyleSection: React.FC<LifestyleSectionProps> = ({
           "Spoken Languages",
           "spokenLanguages",
           languages,
-          profile?.languages_known_str,
+          profile?.languages_known,
           true,
         )
       }
@@ -75,7 +75,7 @@ export const LifestyleSection: React.FC<LifestyleSectionProps> = ({
     <EditRow
       label="Weight"
       value={profile?.weight_str}
-      onPress={() => openModal("Weight", "weight", weight, profile?.weight_str)}
+      onPress={() => openModal("Weight", "weight", weight, profile?.weight)}
     />
     <EditRow
       label="Body Type (Physique)"

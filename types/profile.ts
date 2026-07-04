@@ -662,4 +662,5 @@ export type EditableFieldDescriptor = {
   field: string;
   label: string;
   placeholder?: string;
+  type?: "text" | "time" | "date";
 };
