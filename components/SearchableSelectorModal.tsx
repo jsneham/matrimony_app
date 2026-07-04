@@ -1,5 +1,3 @@
-import { DummyIcon } from "@/constants/icons";
-import { colors } from "@/constants/theme";
 import { EditableFieldDescriptor } from "@/types/profile";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import React, { useMemo, useState } from "react";
@@ -19,6 +17,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { EditableFieldRow } from "./EditableFieldRow";
 
 type Option = {
   id: string;
@@ -188,46 +187,17 @@ export const SearchableSelectorModal: React.FC<
 
           {hasEditableFields ? (
             <View className="bg-white border-t border-gray-200 px-5 py-4 gap-3 pb-6">
-              {editableTextFields?.map(
-                ({ field: key, label, placeholder }, index) => (
-                  <View
-                    key={key}
-                    className={`px-5 py-4 flex-row items-center bg-white ${
-                      index === editableTextFields!.length - 1
-                        ? ""
-                        : "border-b border-gray-100"
-                    }`}
-                    style={
-                      index === editableTextFields!.length - 1
-                        ? {
-                            borderBottomLeftRadius: 16,
-                            borderBottomRightRadius: 16,
-                          }
-                        : undefined
-                    }
-                  >
-                    <DummyIcon />
-                    <View className="flex-1">
-                      <Text className="text-base font-bold text-black mb-1">
-                        {label}
-                      </Text>
-                      <TextInput
-                        value={editableFieldsData[key] ?? ""}
-                        onChangeText={(text) =>
-                          onEditableFieldChange(key, text)
-                        }
-                        placeholder={placeholder || `Enter ${label}`}
-                        className={`text-base ${
-                          editableFieldsData[key]
-                            ? "text-gray font-regular"
-                            : "text-placeholder font-regular"
-                        }`}
-                        placeholderTextColor={colors.placeholder}
-                      />
-                    </View>
-                  </View>
-                ),
-              )}
+              {editableTextFields!.map((descriptor, index) => (
+                <EditableFieldRow
+                  key={descriptor.field}
+                  descriptor={descriptor}
+                  value={editableFieldsData[descriptor.field] ?? ""}
+                  onChange={(text) =>
+                    onEditableFieldChange(descriptor.field, text)
+                  }
+                  isLast={index === editableTextFields!.length - 1}
+                />
+              ))}
               <Pressable
                 onPress={handleEditTextSave}
                 className="py-3 bg-gray-100 rounded-full items-center active:bg-gray-200"

@@ -246,6 +246,13 @@ export const metadataService = {
       multivar: "",
       retun_for: "",
     });
-    return response.data;
+
+    const payload = response.data || {};
+    const rawList = Array.isArray(payload.data) ? payload.data : [];
+
+    return {
+      ...payload,
+      data: rawList.map(mapRawItem),
+    };
   },
 };

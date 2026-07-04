@@ -136,14 +136,14 @@ export const EditProfileScreen: React.FC = () => {
   // ── Seed Zustand with profile's current IDs on first load ───────────────────
   useEffect(() => {
     if (!profile) return;
-    const religionId =
-      religions.find((r) => r.val === profile.religion_name)?.id || "";
+    // const religionId =
+    //   religions.find((r) => r.val === profile.religion_name)?.id || "";
     setInitialValues(
       profile.country_id || "",
       profile.state_id || "",
-      religionId,
+      profile.religion || "",
     );
-  }, [profile, religions, setInitialValues]);
+  }, [profile, setInitialValues]);
 
   // ── Modal logic (open / close / save) ──────────────────────────────────────
   const {
@@ -156,11 +156,6 @@ export const EditProfileScreen: React.FC = () => {
     editableFieldsData,
     onEditableFieldChange,
   } = useProfileEditModal({ memberId });
-
-  const handleEditTextSaveWrapper = (data: Record<string, string>) => {
-    // setEditableFieldsData(data);
-    handleEditTextSave();
-  };
 
   // ── Scroll ↔ Tab sync ───────────────────────────────────────────────────────
   const {
@@ -279,7 +274,7 @@ export const EditProfileScreen: React.FC = () => {
           familyStatus={familyStatus}
           noOfBrothers={noOfBrothers}
           noOfMarriedBrothers={noOfMarriedBrothers}
-          noOfSisters={noOfSisters}
+          noOfSisters={noOfBrothers}
           noOfMarriedSisters={noOfMarriedSisters}
           onLayout={registerSection}
           openModal={openModal}

@@ -147,14 +147,10 @@ export const useProfileEditModal = ({ memberId }: { memberId: string }) => {
       case "state":
         setStateId(itemData.id); // cascades: resets city in Zustand
         payload.state_id = itemData.id;
-        // payload.stateName = itemData.val;
-        // payload.cityId = "";
-        // payload.cityName = "";
         break;
 
       case "city":
         payload.city = itemData.id;
-        // payload.cityName = itemData.val;
         break;
 
       case "religion":
@@ -178,10 +174,6 @@ export const useProfileEditModal = ({ memberId }: { memberId: string }) => {
       case "occupation":
         payload.occupation = itemData.id;
         // payload.occupationName = itemData.val;
-        break;
-
-      case "gotra":
-        payload.gothra = itemData.id;
         break;
 
       case "manglik":
@@ -358,6 +350,9 @@ export const useProfileEditModal = ({ memberId }: { memberId: string }) => {
         break;
       case "familyDetails":
         payload.family_details = editableFieldsData.familyDetails || "";
+        break;
+      case "gotra":
+        payload.gothra = editableFieldsData.gotra || "";
         break;
 
       // Add more cases as needed

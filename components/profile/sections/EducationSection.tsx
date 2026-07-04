@@ -1,11 +1,11 @@
 // components/profile/sections/EducationSection.tsx
 import {
   EditRow,
-  EditSectionHeader
+  EditSectionHeader,
 } from "@/components/profile/ProfileEditComponents";
 import { LookupItem } from "@/types/metadata";
 import { EditableFieldDescriptor, UserProfile } from "@/types/profile";
-import React, { useState } from "react";
+import React from "react";
 import { View } from "react-native";
 import { NonEditableText } from "./NonEditableText";
 
@@ -39,11 +39,6 @@ export const EducationSection: React.FC<EducationSectionProps> = ({
   onLayout,
   openModal,
 }) => {
-  const [profession, setProfession] = useState(
-    profile?.education_detail_str ?? "",
-  );
-  const [organisationName, setOrganisationName] = useState("");
-
   return (
     <View
       onLayout={(e) => onLayout(sectionId, e)}
@@ -66,7 +61,7 @@ export const EducationSection: React.FC<EducationSectionProps> = ({
             "Education",
             "education",
             educations,
-            profile?.education_name,
+            profile?.education_detail,
           )
         }
       />
@@ -101,7 +96,7 @@ export const EducationSection: React.FC<EducationSectionProps> = ({
             "Occupation",
             "occupation",
             occupations,
-            profile?.occupation_name,
+            profile?.occupation,
           )
         }
       />
@@ -114,7 +109,7 @@ export const EducationSection: React.FC<EducationSectionProps> = ({
             "Designation At Work",
             "designation",
             designation,
-            profile?.designation_name,
+            profile?.designation,
           )
         }
       />

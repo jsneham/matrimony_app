@@ -2,7 +2,7 @@ import { DummyIcon } from "@/constants/icons";
 import { colors } from "@/constants/theme";
 import { EditableTextProps, EditRowProps } from "@/types/profile";
 import { Ionicons } from "@expo/vector-icons";
-import React from "react";
+import React, { useState } from "react";
 import {
   ActivityIndicator,
   Text,
@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import NonEditableFieldModal from "../NonEditableFieldModal";
 
 export const EditRow: React.FC<EditRowProps> = ({
   label,
@@ -18,37 +19,59 @@ export const EditRow: React.FC<EditRowProps> = ({
   placeholder,
   editable = true,
   isLast = false,
-}) => (
-  <TouchableOpacity
-    onPress={onPress}
-    disabled={!editable}
-    activeOpacity={0.7}
-    className={`px-5 py-4 flex-row justify-between items-center bg-white ${isLast ? "" : "border-b border-gray-100"}`}
-    style={
-      isLast
-        ? { borderBottomLeftRadius: 16, borderBottomRightRadius: 16 }
-        : undefined
-    }
-  >
-    <DummyIcon />
+}) => {
+  const [showInfo, setShowInfo] = useState(false);
 
-    <View className="flex-1">
-      <Text className="text-base font-bold text-black mb-1">{label}</Text>
-      <Text
-        className={`text-base ${
-          value ? "text-gray font-regular" : "text-placeholder font-regular"
-        }`}
+  const handlePress = () => {
+    if (editable) {
+      onPress?.();
+    } else {
+      setShowInfo(true);
+    }
+  };
+
+  return (
+    <>
+      <TouchableOpacity
+        onPress={handlePress}
+        activeOpacity={editable ? 0.7 : 1}
+        className={`px-5 py-4 flex-row justify-between items-center bg-white ${isLast ? "" : "border-b border-gray-100"}`}
+        style={
+          isLast
+            ? { borderBottomLeftRadius: 16, borderBottomRightRadius: 16 }
+            : undefined
+        }
       >
-        {value || placeholder || `Select ${label}`}
-      </Text>
-    </View>
-    {editable ? (
-      <Ionicons name="chevron-forward" size={16} color="#9ca3af" />
-    ) : (
-      <Ionicons name="information-circle-outline" size={16} color="#9ca3af" />
-    )}
-  </TouchableOpacity>
-);
+        <DummyIcon />
+
+        <View className="flex-1">
+          <Text className="text-base font-bold text-black mb-1">{label}</Text>
+          <Text
+            className={`text-base ${
+              value ? "text-gray font-regular" : "text-placeholder font-regular"
+            }`}
+          >
+            {value || placeholder || `Select ${label}`}
+          </Text>
+        </View>
+        {editable ? (
+          <Ionicons name="chevron-forward" size={16} color="#9ca3af" />
+        ) : (
+          <Ionicons
+            name="information-circle-outline"
+            size={16}
+            color="#9ca3af"
+          />
+        )}
+      </TouchableOpacity>
+
+      <NonEditableFieldModal
+        visible={showInfo}
+        onClose={() => setShowInfo(false)}
+      />
+    </>
+  );
+};
 
 // 2. Section divider headers
 export const EditSectionHeader: React.FC<{ title: string }> = ({ title }) => (

@@ -57,7 +57,7 @@ export const LocationSection: React.FC<LocationSectionProps> = ({
         label="Country"
         value={profile?.country_name}
         onPress={() =>
-          openModal("Country", "country", countries, profile?.country_name)
+          openModal("Country", "country", countries, profile?.country_id)
         }
       />
 
@@ -69,7 +69,7 @@ export const LocationSection: React.FC<LocationSectionProps> = ({
             Alert.alert("Select Country", "Please select a Country first.");
             return;
           }
-          openModal("State", "state", states, profile?.state_name);
+          openModal("State", "state", states, profile?.state_id);
         }}
       />
 
@@ -81,7 +81,7 @@ export const LocationSection: React.FC<LocationSectionProps> = ({
             Alert.alert("Select State", "Please select a State first.");
             return;
           }
-          openModal("City", "city", cities, profile?.city_name);
+          openModal("City", "city", cities, profile?.city);
         }}
       />
 
