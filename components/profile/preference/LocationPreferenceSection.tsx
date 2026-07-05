@@ -54,33 +54,38 @@ export const LocationPreferenceSection: React.FC<LocationSectionProps> = ({
 
       <EditRow
         label="Country"
-        value={profile?.country_name}
+        value={profile?.part_country_living_str}
         onPress={() =>
-          openModal("Country", "country", countries, profile?.country_id)
+          openModal(
+            "Country",
+            "part_country_living",
+            countries,
+            profile?.part_country_living,
+          )
         }
       />
 
       <EditRow
         label="State"
-        value={profile?.state_name}
+        value={profile?.part_state_str}
         onPress={() => {
           if (!selectedCountryId) {
             Alert.alert("Select Country", "Please select a Country first.");
             return;
           }
-          openModal("State", "state", states, profile?.state_id);
+          openModal("State", "part_state", states, profile?.part_state);
         }}
       />
 
       <EditRow
         label="City"
-        value={profile?.city_name}
+        value={profile?.part_city_str}
         onPress={() => {
           if (!selectedStateId) {
             Alert.alert("Select State", "Please select a State first.");
             return;
           }
-          openModal("City", "city", cities, profile?.city);
+          openModal("City", "part_city", cities, profile?.part_city);
         }}
       />
     </View>

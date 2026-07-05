@@ -40,9 +40,8 @@ import {
   useWeight,
   useWorkSector,
 } from "@/hooks/useMetadata";
-import { useMetadataStore } from "@/hooks/useMetadataStore";
+import { useProfileMetadataStore } from "@/hooks/useMetadataStore";
 import { useMyProfile } from "@/hooks/useProfile";
-import { useProfileEditModal } from "@/hooks/useProfileEditModal";
 import { useScrollTabs } from "@/hooks/useScrollTabs";
 import { useSession } from "@/hooks/useSession";
 
@@ -62,6 +61,7 @@ import { SearchableSelectorModal } from "@/components/SearchableSelectorModal";
 
 // Constants & Types
 import { PROFILE_TABS_CONFIG } from "@/constants/data";
+import { useProfileEditModal } from "@/hooks/useProfileEditModal";
 import { SESSION_KEYS } from "@/types/common";
 
 // Section → tab mapping (drives scroll tracking)
@@ -93,7 +93,10 @@ export const EditProfileScreen: React.FC = () => {
     selectedStateId,
     selectedReligionId,
     setInitialValues,
-  } = useMetadataStore();
+    setCountryId,
+    setStateId,
+    setReligionId,
+  } = useProfileMetadataStore();
 
   // ── Master data lists (fetched once, cached forever) ────────────────────────
   const { data: countries } = useCountries();
@@ -151,11 +154,17 @@ export const EditProfileScreen: React.FC = () => {
     openModal,
     closeModal,
     handleSelect,
+    handleMultiSelect,
     isSaving,
     handleEditTextSave,
     editableFieldsData,
     onEditableFieldChange,
-  } = useProfileEditModal({ memberId });
+  } = useProfileEditModal({
+    memberId,
+    setCountryId,
+    setStateId,
+    setReligionId,
+  });
 
   // ── Scroll ↔ Tab sync ───────────────────────────────────────────────────────
   const {
@@ -292,7 +301,7 @@ export const EditProfileScreen: React.FC = () => {
         onSelect={(item) => {
           if (Array.isArray(item)) {
             // Handle multi-select
-            handleSelect(modalConfig.field, item[0]);
+            handleMultiSelect(modalConfig.field, item);
           } else {
             // Handle single-select
             handleSelect(modalConfig.field, item);

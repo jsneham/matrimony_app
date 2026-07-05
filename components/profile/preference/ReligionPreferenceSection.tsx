@@ -5,7 +5,6 @@ import {
 } from "@/components/profile/ProfileEditComponents";
 import { LookupItem } from "@/types/metadata";
 import { EditableFieldDescriptor, UserProfile } from "@/types/profile";
-import { checkValue } from "@/utils/checkValue";
 import React from "react";
 import { Alert, View } from "react-native";
 
@@ -58,31 +57,35 @@ export const ReligionPreferenceSection: React.FC<ReligionSectionProps> = ({
       <EditSectionHeader title="Faith & Astro" />
 
       <EditRow
-        editable={checkValue(profile?.religion_name ?? "")}
         label="Religion"
-        value={profile?.religion_name}
+        value={profile?.part_religion_str}
         onPress={() =>
-          openModal("Religion", "religion", religions, profile?.religion)
+          openModal(
+            "Religion",
+            "part_religion",
+            religions,
+            profile?.part_religion,
+          )
         }
       />
 
       <EditRow
         label="Caste"
-        value={profile?.caste_name}
+        value={profile?.part_caste_str}
         onPress={() => {
           if (!selectedReligionId) {
             Alert.alert("Select Religion", "Please select a Religion first.");
             return;
           }
-          openModal("Caste", "caste", castes, profile?.caste);
+          openModal("Caste", "part_caste", castes, profile?.part_caste);
         }}
       />
 
       <EditRow
         label="Manglik"
-        value={profile?.manglik}
+        value={profile?.part_manglik}
         onPress={() =>
-          openModal("Manglik", "manglik", mangliks, profile?.manglik)
+          openModal("Manglik", "part_manglik", mangliks, profile?.part_manglik)
         }
       />
     </View>

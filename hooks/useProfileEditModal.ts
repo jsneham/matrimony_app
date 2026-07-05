@@ -1,5 +1,4 @@
 // hooks/useProfileEditModal.ts
-import { useMetadataStore } from "@/hooks/useMetadataStore";
 import { useUpdateProfile } from "@/hooks/useProfileMutations";
 import { EditableFieldDescriptor } from "@/types/profile";
 import { useState } from "react";
@@ -32,10 +31,19 @@ const EMPTY_MODAL: ModalConfig = {
   editableFieldsData: [],
 };
 
-export const useProfileEditModal = ({ memberId }: { memberId: string }) => {
+export const useProfileEditModal = ({
+  memberId,
+  setCountryId,
+  setStateId,
+  setReligionId,
+}: {
+  memberId: string;
+  setCountryId?: (id: string) => void;
+  setStateId?: (id: string) => void;
+  setReligionId?: (id: string) => void;
+}) => {
   const [modalConfig, setModalConfig] = useState<ModalConfig>(EMPTY_MODAL);
   const updateProfileMutation = useUpdateProfile();
-  const { setCountryId, setStateId, setReligionId } = useMetadataStore();
   const [editableFieldsData, setEditableFieldsData] = useState<
     Record<string, string>
   >({});
@@ -101,7 +109,7 @@ export const useProfileEditModal = ({ memberId }: { memberId: string }) => {
       return;
     }
 
-    saveProfile(field, items[0]); // Or handle differently based on field
+    saveProfile(field, items); // Or handle differently based on field
   };
 
   // Main save logic
@@ -110,8 +118,8 @@ export const useProfileEditModal = ({ memberId }: { memberId: string }) => {
     item: { id: string; val: string } | { id: string; val: string }[],
   ) => {
     // Handle array or single item
-    const itemData = Array.isArray(item) ? item[0] : item;
-
+    const items = Array.isArray(item) ? item : [item];
+    const itemData = items[0];
     const payload: Record<string, string> = {};
     payload.member_id = memberId;
 
@@ -135,7 +143,7 @@ export const useProfileEditModal = ({ memberId }: { memberId: string }) => {
         break;
 
       case "country":
-        setCountryId(itemData.id); // cascades: resets state + city in Zustand
+        setCountryId?.(itemData.id); // cascades: resets state + city in Zustand
         payload.country_id = itemData.id;
         // payload.countryName = itemData.val;
         // payload.stateId = "";
@@ -145,7 +153,7 @@ export const useProfileEditModal = ({ memberId }: { memberId: string }) => {
         break;
 
       case "state":
-        setStateId(itemData.id); // cascades: resets city in Zustand
+        setStateId?.(itemData.id); // cascades: resets city in Zustand
         payload.state_id = itemData.id;
         break;
 
@@ -154,7 +162,7 @@ export const useProfileEditModal = ({ memberId }: { memberId: string }) => {
         break;
 
       case "religion":
-        setReligionId(itemData.id); // cascades: resets caste in Zustand
+        setReligionId?.(itemData.id); // cascades: resets caste in Zustand
         payload.religion = itemData.id;
         // payload.religionName = itemData.val;
         // payload.caste = "";
@@ -273,8 +281,84 @@ export const useProfileEditModal = ({ memberId }: { memberId: string }) => {
         payload.reference = itemData.id;
         break;
 
+      case "spokenLanguages":
+        payload.languages_known = items.map((i) => i.id).join(",");
+        break;
+
       case "looking_for":
-        payload.looking_for = itemData.id;
+        payload.looking_for = items.map((i) => i.id).join(",");
+        break;
+
+      case "part_frm_age":
+        payload.part_frm_age = itemData.id;
+        break;
+
+      case "part_to_age":
+        payload.part_to_age = itemData.id;
+        break;
+
+      case "part_height":
+        payload.part_height = itemData.id;
+        break;
+
+      case "part_height_to":
+        payload.part_height_to = itemData.id;
+        break;
+
+      case "part_diet":
+        payload.part_diet = items.map((i) => i.id).join(",");
+        break;
+
+      case "part_smoke":
+        payload.part_smoke = items.map((i) => i.id).join(",");
+        break;
+
+      case "part_drink":
+        payload.part_drink = items.map((i) => i.id).join(",");
+        break;
+
+      case "part_mother_tongue":
+        payload.part_mother_tongue = items.map((i) => i.id).join(",");
+        break;
+
+      case "part_country_living":
+        payload.part_country_living = items.map((i) => i.id).join(",");
+        break;
+
+      case "part_state":
+        payload.part_state = items.map((i) => i.id).join(",");
+        break;
+
+      case "part_city":
+        payload.part_city = items.map((i) => i.id).join(",");
+        break;
+
+      case "part_religion":
+        payload.part_religion = items.map((i) => i.id).join(",");
+        break;
+
+      case "part_caste":
+        payload.part_caste = items.map((i) => i.id).join(",");
+        break;
+
+      case "part_manglik":
+        payload.part_manglik = itemData.id;
+        break;
+
+      case "part_income":
+        payload.part_income = itemData.id;
+        break;
+
+      case "part_occupation":
+        payload.part_occupation = items.map((i) => i.id).join(",");
+        break;
+
+      case "part_employee_in":
+        payload.part_employee_in = items.map((i) => i.id).join(",");
+        break;
+
+      case "part_education":
+        payload.part_education = items.map((i) => i.id).join(",");
         break;
 
       default:
