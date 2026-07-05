@@ -54,38 +54,39 @@ export const EducationPreferenceSection: React.FC<EducationSectionProps> = ({
 
       <EditRow
         label="Education"
-        value={profile?.education_name}
+        value={profile?.part_education_str}
         onPress={() =>
           openModal(
             "Education",
-            "education",
+            "part_education",
             educations,
-            profile?.education_detail,
+            profile?.part_education,
+            true,
           )
         }
       />
 
       <EditRow
         label="Work Sector"
-        value={profile?.employee_in}
+        value={profile?.part_employee_in}
         onPress={() =>
           openModal(
             "Work Sector",
-            "workSector",
+            "part_employee_in",
             workSector,
-            profile?.employee_in,
+            profile?.part_employee_in,
           )
         }
       />
       <EditRow
         label="Occupation"
-        value={profile?.occupation_name}
+        value={profile?.part_occupation_str}
         onPress={() =>
           openModal(
             "Occupation",
-            "occupation",
+            "part_occupation",
             occupations,
-            profile?.occupation,
+            profile?.part_occupation,
           )
         }
       />
@@ -93,9 +94,14 @@ export const EducationPreferenceSection: React.FC<EducationSectionProps> = ({
       <EditRow
         isLast
         label="Annual Income"
-        value={profile?.income}
+        value={profile?.part_income}
         onPress={() =>
-          openModal("Annual Income", "income", income, profile?.income)
+          openModal(
+            "Annual Income",
+            "part_income",
+            income,
+            profile?.part_income,
+          )
         }
       />
     </View>

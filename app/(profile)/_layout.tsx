@@ -115,7 +115,7 @@ export default function MatchesLayout() {
 
         {/* Page 1 - My Matches */}
         <View key="index" className=" flex-1">
-          <EditPartnerPreferenceScreen />
+          {activeIndex === 1 ? <EditPartnerPreferenceScreen /> : null}
         </View>
       </PagerView>
     </View>

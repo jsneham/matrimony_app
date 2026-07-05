@@ -1,92 +1,103 @@
-import { create } from "zustand";
+// hooks/useMetadataStore.ts
+import { create, StoreApi, UseBoundStore } from "zustand";
 
 interface MetadataStoreState {
-  // Selected IDs
   selectedCountryId: string;
   selectedStateId: string;
   selectedCityId: string;
   selectedReligionId: string;
   selectedCasteId: string;
 
-  // Actions
   setCountryId: (id: string) => void;
   setStateId: (id: string) => void;
   setCityId: (id: string) => void;
   setReligionId: (id: string) => void;
   setCasteId: (id: string) => void;
-  setInitialValues: (countryId: string, stateId: string, religionId: string) => void;
+  setInitialValues: (
+    countryId: string,
+    stateId: string,
+    religionId: string,
+  ) => void;
 
-  // Reset helpers
   resetLocation: () => void;
   resetFaith: () => void;
   resetAll: () => void;
 }
 
-export const useMetadataStore = create<MetadataStoreState>((set) => ({
-  // Initial states
-  selectedCountryId: "",
-  selectedStateId: "",
-  selectedCityId: "",
-  selectedReligionId: "",
-  selectedCasteId: "",
+export type MetadataStoreHook = UseBoundStore<StoreApi<MetadataStoreState>>;
 
-  // Actions with automatic cascading resets
-  setCountryId: (id: string) =>
-    set({
-      selectedCountryId: id,
-      selectedStateId: "", // Cascading reset: changing Country clears selected State
-      selectedCityId: "",  // Cascading reset: changing Country clears selected City
-    }),
+// Factory — each call produces a fully independent store instance
+const createMetadataStore = (): MetadataStoreHook =>
+  create<MetadataStoreState>((set) => ({
+    selectedCountryId: "",
+    selectedStateId: "",
+    selectedCityId: "",
+    selectedReligionId: "",
+    selectedCasteId: "",
 
-  setStateId: (id: string) =>
-    set({
-      selectedStateId: id,
-      selectedCityId: "",  // Cascading reset: changing State clears selected City
-    }),
+    setCountryId: (id: string) =>
+      set({
+        selectedCountryId: id,
+        selectedStateId: "",
+        selectedCityId: "",
+      }),
 
-  setCityId: (id: string) =>
-    set({
-      selectedCityId: id,
-    }),
+    setStateId: (id: string) =>
+      set({
+        selectedStateId: id,
+        selectedCityId: "",
+      }),
 
-  setReligionId: (id: string) =>
-    set({
-      selectedReligionId: id,
-      selectedCasteId: "", // Cascading reset: changing Religion clears selected Caste
-    }),
+    setCityId: (id: string) =>
+      set({
+        selectedCityId: id,
+      }),
 
-  setCasteId: (id: string) =>
-    set({
-      selectedCasteId: id,
-    }),
+    setReligionId: (id: string) =>
+      set({
+        selectedReligionId: id,
+        selectedCasteId: "",
+      }),
 
-  // Set values on load without clearing dependent items
-  setInitialValues: (countryId: string, stateId: string, religionId: string) =>
-    set({
-      selectedCountryId: countryId,
-      selectedStateId: stateId,
-      selectedReligionId: religionId,
-    }),
+    setCasteId: (id: string) =>
+      set({
+        selectedCasteId: id,
+      }),
 
-  resetLocation: () =>
-    set({
-      selectedCountryId: "",
-      selectedStateId: "",
-      selectedCityId: "",
-    }),
+    setInitialValues: (
+      countryId: string,
+      stateId: string,
+      religionId: string,
+    ) =>
+      set({
+        selectedCountryId: countryId,
+        selectedStateId: stateId,
+        selectedReligionId: religionId,
+      }),
 
-  resetFaith: () =>
-    set({
-      selectedReligionId: "",
-      selectedCasteId: "",
-    }),
+    resetLocation: () =>
+      set({
+        selectedCountryId: "",
+        selectedStateId: "",
+        selectedCityId: "",
+      }),
 
-  resetAll: () =>
-    set({
-      selectedCountryId: "",
-      selectedStateId: "",
-      selectedCityId: "",
-      selectedReligionId: "",
-      selectedCasteId: "",
-    }),
-}));
+    resetFaith: () =>
+      set({
+        selectedReligionId: "",
+        selectedCasteId: "",
+      }),
+
+    resetAll: () =>
+      set({
+        selectedCountryId: "",
+        selectedStateId: "",
+        selectedCityId: "",
+        selectedReligionId: "",
+        selectedCasteId: "",
+      }),
+  }));
+
+// Two fully independent stores — one per screen's own selection state
+export const useProfileMetadataStore = createMetadataStore();
+export const usePreferenceMetadataStore = createMetadataStore();

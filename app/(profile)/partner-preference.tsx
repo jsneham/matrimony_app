@@ -25,7 +25,6 @@ import {
   useStates,
   useWorkSector,
 } from "@/hooks/useMetadata";
-import { useMetadataStore } from "@/hooks/useMetadataStore";
 import { useMyProfile } from "@/hooks/useProfile";
 import { useProfileEditModal } from "@/hooks/useProfileEditModal";
 import { useScrollTabs } from "@/hooks/useScrollTabs";
@@ -45,6 +44,7 @@ import { EducationPreferenceSection } from "@/components/profile/preference/Educ
 import { LocationPreferenceSection } from "@/components/profile/preference/LocationPreferenceSection";
 import { ReligionPreferenceSection } from "@/components/profile/preference/ReligionPreferenceSection";
 import { PROFILE_TABS_CONFIG } from "@/constants/data";
+import { usePreferenceMetadataStore } from "@/hooks/useMetadataStore";
 import { SESSION_KEYS } from "@/types/common";
 
 // Section → tab mapping (drives scroll tracking)
@@ -53,8 +53,8 @@ const SECTION_TAB_MAP = [
   { sectionId: "location", tabId: "basics" },
   { sectionId: "religion", tabId: "faith" },
   { sectionId: "education", tabId: "career" },
-  { sectionId: "lifestyle", tabId: "lifestyle" },
-  { sectionId: "family", tabId: "family" },
+  // { sectionId: "lifestyle", tabId: "lifestyle" },
+  // { sectionId: "family", tabId: "family" },
 ];
 
 export const EditPartnerPreferenceScreen: React.FC = () => {
@@ -76,7 +76,10 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
     selectedStateId,
     selectedReligionId,
     setInitialValues,
-  } = useMetadataStore();
+    setCountryId,
+    setStateId,
+    setReligionId,
+  } = usePreferenceMetadataStore();
 
   // ── Master data lists (fetched once, cached forever) ────────────────────────
   const { data: countries } = useCountries();
@@ -118,11 +121,17 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
     openModal,
     closeModal,
     handleSelect,
+    handleMultiSelect,
     isSaving,
     handleEditTextSave,
     editableFieldsData,
     onEditableFieldChange,
-  } = useProfileEditModal({ memberId });
+  } = useProfileEditModal({
+    memberId,
+    setCountryId,
+    setStateId,
+    setReligionId,
+  });
 
   // ── Scroll ↔ Tab sync ───────────────────────────────────────────────────────
   const {
@@ -229,7 +238,7 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
         onSelect={(item) => {
           if (Array.isArray(item)) {
             // Handle multi-select
-            handleSelect(modalConfig.field, item[0]);
+            handleMultiSelect(modalConfig.field, item);
           } else {
             // Handle single-select
             handleSelect(modalConfig.field, item);
