@@ -168,25 +168,31 @@ export const SearchableSelectorModal: React.FC<
         >
           {/* Header */}
           <View
-            className="bg-white px-5 py-5 flex-row items-center border-b border-gray-200"
+            className="bg-white px-5 py-5 flex-row items-center border-b border-light-divider-color"
             style={{ borderTopLeftRadius: 20, borderTopRightRadius: 20 }}
           >
-            <Pressable onPress={handleReset} className="p-1 -ml-1">
-              <Text className="text-gray-500 text-base font-bold">Clear</Text>
-            </Pressable>
+            <View style={{ width: 50, alignItems: "flex-start" }}>
+              <Pressable onPress={handleReset} className="p-1 -ml-1">
+                <Text className="text-gray-500 text-base font-bold">
+                  Clear
+                </Text>
+              </Pressable>
+            </View>
             <Text className="flex-1 text-lg font-bold text-black text-center">
               {title}
             </Text>
-            <Pressable
-              onPress={animateClose}
-              style={{ width: 24, alignItems: "center" }}
-            >
-              <Ionicons name="close" size={24} color="black" />
-            </Pressable>
+            <View style={{ width: 50, alignItems: "flex-end" }}>
+              <Pressable
+                onPress={animateClose}
+                style={{ width: 24, alignItems: "center" }}
+              >
+                <Ionicons name="close" size={24} color="black" />
+              </Pressable>
+            </View>
           </View>
 
           {hasEditableFields ? (
-            <View className="bg-white border-t border-gray-200 px-5 py-4 gap-3 pb-6">
+            <View className="bg-white px-5 py-4 gap-3 pb-6">
               {editableTextFields!.map((descriptor, index) => (
                 <EditableFieldRow
                   key={descriptor.field}
@@ -202,13 +208,13 @@ export const SearchableSelectorModal: React.FC<
                 onPress={handleEditTextSave}
                 className="py-3 bg-pink-600 rounded-full items-center active:bg-pink-700"
               >
-                <Text className="text-white font-semibold text-base">Save</Text>
+                <Text className="text-white font-bold text-base">Save</Text>
               </Pressable>
             </View>
           ) : (
             <View className="flex-1">
               {/* Search Box */}
-              <View className="bg-white px-5 py-6 border-b border-gray-100">
+              <View className="bg-white px-5 py-6">
                 <View className="flex-row items-center bg-white">
                   <View
                     style={{
@@ -246,6 +252,7 @@ export const SearchableSelectorModal: React.FC<
                   )}
                 </View>
               </View>
+              <View className="mx-5 border-b border-[#EEEEEE]" />
 
               {/* Options List */}
               <FlatList
@@ -254,13 +261,14 @@ export const SearchableSelectorModal: React.FC<
                 showsVerticalScrollIndicator={false}
                 keyboardShouldPersistTaps="handled"
                 className="flex-1 bg-white"
+                contentContainerStyle={{ paddingTop: 24, paddingBottom: 24 }}
                 initialNumToRender={12}
                 maxToRenderPerBatch={12}
                 windowSize={5}
                 renderItem={({ item }) => (
                   <Pressable
                     onPress={() => handleSelectOption(item)}
-                    className="flex-row items-center px-5 py-6 border-b border-gray-100 bg-white active:bg-gray-50"
+                    className="flex-row items-center px-5 py-6 bg-white active:bg-gray-50"
                   >
                     <View
                       style={{
@@ -272,10 +280,10 @@ export const SearchableSelectorModal: React.FC<
                     >
                       {isMultiSelect ? (
                         <View
-                          className={`w-5 h-5 rounded border-2 items-center justify-center ${
+                          className={`w-5 h-5 rounded border items-center justify-center ${
                             isSelected(item.id)
                               ? "bg-pink-600 border-pink-600"
-                              : "border-gray bg-white"
+                              : "border-black bg-white"
                           }`}
                         >
                           {isSelected(item.id) && (
@@ -294,7 +302,7 @@ export const SearchableSelectorModal: React.FC<
                                   width: 20,
                                   height: 20,
                                   borderRadius: 10,
-                                  borderWidth: 2,
+                                  borderWidth: 1,
                                   borderColor: "#db2777",
                                   alignItems: "center",
                                   justifyContent: "center",
@@ -338,12 +346,12 @@ export const SearchableSelectorModal: React.FC<
               />
 
               {isMultiSelect && (
-                <View className="bg-white border-t border-gray-200 px-5 py-4 gap-3 pb-6">
+                <View className="bg-white px-5 py-4 gap-3 pb-6">
                   <Pressable
                     onPress={handleSave}
                     className="py-3 bg-pink-600 rounded-full items-center active:bg-pink-700"
                   >
-                    <Text className="text-white font-semibold text-base">
+                    <Text className="text-white font-bold text-base">
                       Save
                     </Text>
                   </Pressable>
