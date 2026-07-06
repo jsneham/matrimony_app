@@ -14,6 +14,7 @@ const TAB_TO_SECTION_MAP: Record<string, string> = {
   faith: "religion",
   career: "education",
   lifestyle: "lifestyle",
+  family: "family",
 };
 
 export const useScrollTabs = (sectionTabMap: SectionTabMap[]) => {

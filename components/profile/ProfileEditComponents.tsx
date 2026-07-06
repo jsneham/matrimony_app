@@ -1,7 +1,7 @@
 import { DummyIcon } from "@/constants/icons";
 import { colors } from "@/constants/theme";
 import { EditableTextProps, EditRowProps } from "@/types/profile";
-import { Ionicons } from "@expo/vector-icons";
+import { Feather, Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
   ActivityIndicator,
@@ -57,11 +57,7 @@ export const EditRow: React.FC<EditRowProps> = ({
         {editable ? (
           <Ionicons name="chevron-forward" size={16} color="#9ca3af" />
         ) : (
-          <Ionicons
-            name="information-circle-outline"
-            size={16}
-            color="#9ca3af"
-          />
+          <Feather name="info" size={16} color="#9ca3af" />
         )}
       </TouchableOpacity>
 
@@ -90,24 +86,38 @@ export const EditSectionHeader: React.FC<{ title: string }> = ({ title }) => (
 // 3. Top Banner displaying completion level and verification link
 type ProfileProgressBannerProps = {
   percentage: number;
+  message?: string;
+  showVerify?: boolean;
 };
 
 export const ProfileProgressBanner: React.FC<ProfileProgressBannerProps> = ({
   percentage,
+  message,
+  showVerify = true,
 }) => (
   <View className="flex-row items-center justify-between mx-5 h-[34px] my-3 bg-white px-3 rounded-xl">
-    <Text className="text-gray font-regular text-sm">
-      Profile is {percentage}% updated.
-    </Text>
-    <TouchableOpacity className="flex-row items-center">
-      <Text className="text-black text-sm font-bold">Verify Profile</Text>
-      <Ionicons
-        name="pencil"
-        size={14}
-        color="black"
-        style={{ marginLeft: 6 }}
+    <View className="flex-row items-center flex-1">
+      <Feather
+        name="info"
+        size={12}
+        color="#8B8B8B"
+        style={{ marginRight: 6, marginTop: -2 }}
       />
-    </TouchableOpacity>
+      <Text className="text-gray font-regular text-sm">
+        {message ?? `Profile is ${percentage}% updated.`}
+      </Text>
+    </View>
+    {showVerify && (
+      <TouchableOpacity className="flex-row items-center">
+        <Text className="text-black text-sm font-bold">Verify Profile</Text>
+        <Ionicons
+          name="pencil"
+          size={14}
+          color="black"
+          style={{ marginLeft: 6 }}
+        />
+      </TouchableOpacity>
+    )}
   </View>
 );
 

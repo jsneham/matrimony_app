@@ -159,10 +159,14 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
     <View className="flex-1 bg-app-background">
       <LoadingOverlay visible={isSaving} label="Saving changes..." />
 
-      <ProfileProgressBanner percentage={profile?.percentage || 0} />
+      <ProfileProgressBanner
+        percentage={profile?.percentage || 0}
+        message="You will see matches according to set preferences."
+        showVerify={false}
+      />
 
       <ProfileTabBar
-        tabs={PROFILE_TABS_CONFIG}
+        tabs={PROFILE_TABS_CONFIG.filter((tab) => tab.id !== "family")}
         activeTab={activeTab}
         onTabPress={handleTabPress}
       />

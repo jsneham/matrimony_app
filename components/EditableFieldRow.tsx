@@ -62,20 +62,21 @@ export const EditableFieldRow: React.FC<{
 
   // default: plain text field (unchanged behavior)
   return (
-    <View className={rowClass} style={rowStyle}>
+    <View
+      className={`py-4 bg-white ${isLast ? "" : "border-b border-gray-100"}`}
+      style={rowStyle}
+    >
       <DummyIcon />
-      <View className="flex-1">
-        <Text className="text-base font-bold text-black mb-1">{label}</Text>
-        <TextInput
-          value={value}
-          onChangeText={onChange}
-          placeholder={placeholder || `Enter ${label}`}
-          className={`text-base border border-gray-300 rounded-md py-2 px-3 ${
-            value ? "text-gray font-regular" : "text-placeholder font-regular"
-          }`}
-          placeholderTextColor={colors.placeholder}
-        />
-      </View>
+      <TextInput
+        value={value}
+        onChangeText={onChange}
+        placeholder={placeholder || `Enter ${label}`}
+        className={`text-base border border-gray-300 rounded-md py-2 px-3 w-full mt-2 ${
+          value ? "text-gray font-regular" : "text-placeholder font-regular"
+        }`}
+        style={{ textAlignVertical: "center", includeFontPadding: false }}
+        placeholderTextColor={colors.placeholder}
+      />
     </View>
   );
 };
