@@ -66,7 +66,9 @@ export const EditableFieldRow: React.FC<{
       className={`py-4 bg-white ${isLast ? "" : "border-b border-gray-100"}`}
       style={rowStyle}
     >
-      <DummyIcon />
+      <View style={{ marginTop: 48, marginBottom: 48 }}>
+        <DummyIcon size={36} />
+      </View>
       <TextInput
         value={value}
         onChangeText={onChange}
