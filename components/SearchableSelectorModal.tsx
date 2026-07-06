@@ -171,17 +171,17 @@ export const SearchableSelectorModal: React.FC<
             className="bg-white px-5 py-5 flex-row items-center border-b border-gray-200"
             style={{ borderTopLeftRadius: 20, borderTopRightRadius: 20 }}
           >
+            <Pressable onPress={handleReset} className="p-1 -ml-1">
+              <Text className="text-gray-500 text-base font-bold">Clear</Text>
+            </Pressable>
+            <Text className="flex-1 text-lg font-bold text-black text-center">
+              {title}
+            </Text>
             <Pressable
               onPress={animateClose}
               style={{ width: 24, alignItems: "center" }}
             >
               <Ionicons name="close" size={24} color="black" />
-            </Pressable>
-            <Text className="flex-1 text-lg font-bold text-black text-center">
-              {title}
-            </Text>
-            <Pressable onPress={handleReset} className="p-1 -mr-1">
-              <Text className="text-gray-500 text-sm font-medium">Clear</Text>
             </Pressable>
           </View>
 
@@ -208,10 +208,16 @@ export const SearchableSelectorModal: React.FC<
           ) : (
             <View className="flex-1">
               {/* Search Box */}
-              <View className="bg-white px-5 py-2 border-b border-gray-100">
-                <View className="flex-row items-center bg-white py-1.5">
+              <View className="bg-white px-5 py-6 border-b border-gray-100">
+                <View className="flex-row items-center bg-white">
                   <View
-                    style={{ width: 24, alignItems: "center", marginRight: 8 }}
+                    style={{
+                      width: 24,
+                      height: 24,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      marginRight: 12,
+                    }}
                   >
                     <Feather name="search" size={18} color="#8B8B8B" />
                   </View>
@@ -220,14 +226,20 @@ export const SearchableSelectorModal: React.FC<
                     onChangeText={setSearchQuery}
                     placeholder={`Search ${title}...`}
                     placeholderTextColor="#8B8B8B"
-                    className="flex-1 text-gray text-base py-0 font-regular"
+                    className="flex-1 text-gray text-base font-regular"
+                    style={{ padding: 0, margin: 0 }}
                     autoCapitalize="none"
                     autoCorrect={false}
                   />
                   {searchQuery.length > 0 && (
                     <Pressable
                       onPress={() => setSearchQuery("")}
-                      className="p-1"
+                      style={{
+                        width: 24,
+                        height: 24,
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
                     >
                       <Ionicons name="close-circle" size={18} color="#9ca3af" />
                     </Pressable>
@@ -248,7 +260,7 @@ export const SearchableSelectorModal: React.FC<
                 renderItem={({ item }) => (
                   <Pressable
                     onPress={() => handleSelectOption(item)}
-                    className="flex-row items-center px-5 py-5 border-b border-gray-100 bg-white active:bg-gray-50"
+                    className="flex-row items-center px-5 py-6 border-b border-gray-100 bg-white active:bg-gray-50"
                   >
                     <View
                       style={{
@@ -260,7 +272,7 @@ export const SearchableSelectorModal: React.FC<
                     >
                       {isMultiSelect ? (
                         <View
-                          className={`w-6 h-6 rounded border-2 items-center justify-center ${
+                          className={`w-5 h-5 rounded border-2 items-center justify-center ${
                             isSelected(item.id)
                               ? "bg-pink-600 border-pink-600"
                               : "border-gray bg-white"
@@ -269,7 +281,7 @@ export const SearchableSelectorModal: React.FC<
                           {isSelected(item.id) && (
                             <Ionicons
                               name="checkmark"
-                              size={16}
+                              size={14}
                               color="white"
                             />
                           )}
@@ -327,14 +339,6 @@ export const SearchableSelectorModal: React.FC<
 
               {isMultiSelect && (
                 <View className="bg-white border-t border-gray-200 px-5 py-4 gap-3 pb-6">
-                  <Pressable
-                    onPress={handleReset}
-                    className="py-3 bg-gray-100 rounded-full items-center active:bg-gray-200"
-                  >
-                    <Text className="text-gray-800 font-semibold text-base">
-                      Reset
-                    </Text>
-                  </Pressable>
                   <Pressable
                     onPress={handleSave}
                     className="py-3 bg-pink-600 rounded-full items-center active:bg-pink-700"
