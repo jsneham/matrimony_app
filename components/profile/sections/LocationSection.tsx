@@ -22,7 +22,7 @@ interface LocationSectionProps {
     title: string,
     field: string,
     options: LookupItem[],
-    currentValue?: string,
+    currentValue?: string | string[],
     isMultiSelect?: boolean,
     editableTextFields?: EditableFieldDescriptor[],
   ) => void;

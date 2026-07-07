@@ -145,16 +145,17 @@ export const useProfileEditModal = ({
       case "country":
         setCountryId?.(itemData.id); // cascades: resets state + city in Zustand
         payload.country_id = itemData.id;
-        // payload.countryName = itemData.val;
-        // payload.stateId = "";
-        // payload.stateName = "";
-        // payload.cityId = "";
-        // payload.cityName = "";
+        payload.state_id = "";
+        payload.state_name = "";
+        payload.city = "";
+        payload.city_name = "";
         break;
 
       case "state":
         setStateId?.(itemData.id); // cascades: resets city in Zustand
         payload.state_id = itemData.id;
+        payload.city = "";
+        payload.city_name = "";
         break;
 
       case "city":
@@ -162,16 +163,14 @@ export const useProfileEditModal = ({
         break;
 
       case "religion":
-        setReligionId?.(itemData.id); // cascades: resets caste in Zustand
+        setReligionId?.(itemData.id);
         payload.religion = itemData.id;
-        // payload.religionName = itemData.val;
-        // payload.caste = "";
-        // payload.casteName = "";
+        payload.caste = "";
+        payload.caste_name = "";
         break;
 
       case "caste":
         payload.caste = itemData.id;
-        payload.casteName = itemData.val;
         break;
 
       case "education":

@@ -13,17 +13,14 @@ interface ReligionSectionProps {
   profile?: UserProfile;
   religions: LookupItem[];
   castes: LookupItem[];
-  gotras: LookupItem[];
   mangliks: LookupItem[];
-  horoscope: LookupItem[];
-  moonsign: LookupItem[];
   selectedReligionId: string;
   onLayout: (sectionId: string, event: any) => void;
   openModal: (
     title: string,
     field: string,
     options: LookupItem[],
-    currentValue?: string,
+    currentValue?: string | string[],
     isMultiSelect?: boolean,
     editableTextFields?: EditableFieldDescriptor[],
   ) => void;
@@ -34,10 +31,7 @@ export const ReligionPreferenceSection: React.FC<ReligionSectionProps> = ({
   profile,
   religions,
   castes,
-  gotras,
   mangliks,
-  horoscope,
-  moonsign,
   selectedReligionId,
   onLayout,
   openModal,
@@ -64,7 +58,8 @@ export const ReligionPreferenceSection: React.FC<ReligionSectionProps> = ({
             "Religion",
             "part_religion",
             religions,
-            profile?.part_religion,
+            profile?.part_religion?.split(",").filter(Boolean) ?? [],
+            true,
           )
         }
       />
@@ -77,7 +72,13 @@ export const ReligionPreferenceSection: React.FC<ReligionSectionProps> = ({
             Alert.alert("Select Religion", "Please select a Religion first.");
             return;
           }
-          openModal("Caste", "part_caste", castes, profile?.part_caste);
+          openModal(
+            "Caste",
+            "part_caste",
+            castes,
+            profile?.part_caste?.split(",").filter(Boolean) ?? [],
+            true,
+          );
         }}
       />
 

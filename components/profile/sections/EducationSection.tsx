@@ -22,7 +22,7 @@ interface EducationSectionProps {
     title: string,
     field: string,
     options: LookupItem[],
-    currentValue?: string,
+    currentValue?: string | string[],
     isMultiSelect?: boolean,
     editableTextFields?: EditableFieldDescriptor[],
   ) => void;
@@ -136,7 +136,7 @@ export const EducationSection: React.FC<EducationSectionProps> = ({
         }
       />
 
-      <NonEditableText
+      {/* <NonEditableText
         isLast={false}
         label="Organisation Name"
         value={""}
@@ -156,7 +156,7 @@ export const EducationSection: React.FC<EducationSectionProps> = ({
             ],
           )
         }
-      />
+      /> */}
     </View>
   );
 };

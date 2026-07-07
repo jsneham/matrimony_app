@@ -25,7 +25,7 @@ interface LifestyleSectionProps {
     title: string,
     field: string,
     options: LookupItem[],
-    currentValue?: string,
+    currentValue?: string | string[],
     isMultiSelect?: boolean,
   ) => void;
 }
@@ -66,7 +66,7 @@ export const LifestyleSection: React.FC<LifestyleSectionProps> = ({
           "Spoken Languages",
           "spokenLanguages",
           languages,
-          profile?.languages_known,
+          profile?.languages_known?.split(",").filter(Boolean) ?? [],
           true,
         )
       }

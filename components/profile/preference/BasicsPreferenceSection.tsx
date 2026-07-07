@@ -15,15 +15,13 @@ interface BasicsSectionProps {
   languages: LookupItem[];
   height: LookupItem[];
   age: LookupItem[];
-  eating: LookupItem[];
-  drinking: LookupItem[];
-  smoking: LookupItem[];
+
   onLayout: (sectionId: string, event: any) => void;
   openModal: (
     title: string,
     field: string,
     options: LookupItem[],
-    currentValue?: string,
+    currentValue?: string | string[],
     isMultiSelect?: boolean,
     editableTextFields?: EditableFieldDescriptor[],
   ) => void;
@@ -36,9 +34,6 @@ export const BasicsPreferenceSection: React.FC<BasicsSectionProps> = ({
   languages,
   height,
   age,
-  eating,
-  drinking,
-  smoking,
   onLayout,
   openModal,
 }) => {
@@ -64,7 +59,7 @@ export const BasicsPreferenceSection: React.FC<BasicsSectionProps> = ({
             "Marital Status",
             "looking_for",
             maritalStatuses,
-            profile?.looking_for,
+            profile?.looking_for?.split(",").filter(Boolean) ?? [],
             true,
           )
         }
@@ -118,40 +113,6 @@ export const BasicsPreferenceSection: React.FC<BasicsSectionProps> = ({
       />
 
       <EditRow
-        label="Eating habit"
-        value={profile?.part_diet}
-        onPress={() =>
-          openModal(
-            "Eating habit",
-            "part_diet",
-            eating,
-            profile?.part_diet,
-            true,
-          )
-        }
-      />
-      <EditRow
-        label="Smoking"
-        value={profile?.part_smoke}
-        onPress={() =>
-          openModal("Smoking", "part_smoke", smoking, profile?.part_smoke, true)
-        }
-      />
-      <EditRow
-        label="Drinking"
-        value={profile?.part_drink}
-        onPress={() =>
-          openModal(
-            "Drinking",
-            "part_drink",
-            drinking,
-            profile?.part_drink,
-            true,
-          )
-        }
-      />
-
-      <EditRow
         label="Mother Tongue"
         value={profile?.part_mother_tongue_str}
         onPress={() =>
@@ -159,7 +120,7 @@ export const BasicsPreferenceSection: React.FC<BasicsSectionProps> = ({
             "Mother Tongue",
             "part_mother_tongue",
             languages,
-            profile?.part_mother_tongue,
+            profile?.part_mother_tongue?.split(",").filter(Boolean) ?? [],
             true,
           )
         }

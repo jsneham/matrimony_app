@@ -1,7 +1,8 @@
 import { DummyIcon } from "@/constants/icons";
 import { colors } from "@/constants/theme";
 import { EditableTextProps, EditRowProps } from "@/types/profile";
-import { Ionicons } from "@expo/vector-icons";
+import { Feather, Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import React, { useState } from "react";
 import {
   ActivityIndicator,
@@ -21,6 +22,8 @@ export const EditRow: React.FC<EditRowProps> = ({
   isLast = false,
 }) => {
   const [showInfo, setShowInfo] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const [isTruncated, setIsTruncated] = useState(false);
 
   const handlePress = () => {
     if (editable) {
@@ -29,6 +32,9 @@ export const EditRow: React.FC<EditRowProps> = ({
       setShowInfo(true);
     }
   };
+
+  const displayText = value || placeholder || `Select ${label}`;
+  const showViewMore = isTruncated && !expanded;
 
   return (
     <>
@@ -46,22 +52,82 @@ export const EditRow: React.FC<EditRowProps> = ({
 
         <View className="flex-1">
           <Text className="text-base font-bold text-black mb-1">{label}</Text>
-          <Text
-            className={`text-base ${
-              value ? "text-gray font-regular" : "text-placeholder font-regular"
-            }`}
-          >
-            {value || placeholder || `Select ${label}`}
-          </Text>
+
+          <View>
+            {/* Hidden measurement pass — detects if full text exceeds 3 lines */}
+            <Text
+              className="text-base absolute opacity-0"
+              style={{ zIndex: -1 }}
+              onTextLayout={(e) => {
+                if (e.nativeEvent.lines.length > 3 && !isTruncated) {
+                  setIsTruncated(true);
+                }
+              }}
+            >
+              {displayText}
+            </Text>
+
+            <Text
+              numberOfLines={expanded ? undefined : 3}
+              className={`text-base ${
+                value
+                  ? "text-gray font-regular"
+                  : "text-placeholder font-regular"
+              }`}
+              style={showViewMore ? { lineHeight: 20 } : undefined}
+            >
+              {displayText}
+            </Text>
+
+            {showViewMore && (
+              <TouchableOpacity
+                onPress={(e) => {
+                  e.stopPropagation();
+                  setExpanded(true);
+                }}
+                hitSlop={{ top: 4, bottom: 4, left: 4, right: 4 }}
+                style={{
+                  position: "absolute",
+                  right: 0,
+                  bottom: 0,
+                  flexDirection: "row",
+                  alignItems: "flex-end",
+                }}
+              >
+                <LinearGradient
+                  colors={["transparent", "#ffffff", "#ffffff"]}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                  style={{ paddingLeft: 24 }}
+                >
+                  <Text className="text-pink-600 text-base font-semibold">
+                    View more
+                  </Text>
+                </LinearGradient>
+              </TouchableOpacity>
+            )}
+          </View>
+
+          {expanded && (
+            <TouchableOpacity
+              onPress={(e) => {
+                e.stopPropagation();
+                setExpanded(false);
+              }}
+              hitSlop={{ top: 4, bottom: 4, left: 4, right: 4 }}
+              className="mt-1 self-start"
+            >
+              <Text className="text-pink-600 text-sm font-semibold">
+                View less
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
+
         {editable ? (
           <Ionicons name="chevron-forward" size={16} color="#9ca3af" />
         ) : (
-          <Ionicons
-            name="information-circle-outline"
-            size={16}
-            color="#9ca3af"
-          />
+          <Feather name="info" size={16} color="#9ca3af" />
         )}
       </TouchableOpacity>
 
@@ -90,24 +156,38 @@ export const EditSectionHeader: React.FC<{ title: string }> = ({ title }) => (
 // 3. Top Banner displaying completion level and verification link
 type ProfileProgressBannerProps = {
   percentage: number;
+  message?: string;
+  showVerify?: boolean;
 };
 
 export const ProfileProgressBanner: React.FC<ProfileProgressBannerProps> = ({
   percentage,
+  message,
+  showVerify = true,
 }) => (
   <View className="flex-row items-center justify-between mx-5 h-[34px] my-3 bg-white px-3 rounded-xl">
-    <Text className="text-gray font-regular text-sm">
-      Profile is {percentage}% updated.
-    </Text>
-    <TouchableOpacity className="flex-row items-center">
-      <Text className="text-black text-sm font-bold">Verify Profile</Text>
-      <Ionicons
-        name="pencil"
-        size={14}
-        color="black"
-        style={{ marginLeft: 6 }}
+    <View className="flex-row items-center flex-1">
+      <Feather
+        name="info"
+        size={12}
+        color="#8B8B8B"
+        style={{ marginRight: 6, marginTop: -2 }}
       />
-    </TouchableOpacity>
+      <Text className="text-gray font-regular text-sm">
+        {message ?? `Profile is ${percentage}% updated.`}
+      </Text>
+    </View>
+    {showVerify && (
+      <TouchableOpacity className="flex-row items-center">
+        <Text className="text-black text-sm font-bold">Verify Profile</Text>
+        <Ionicons
+          name="pencil"
+          size={14}
+          color="black"
+          style={{ marginLeft: 6 }}
+        />
+      </TouchableOpacity>
+    )}
   </View>
 );
 

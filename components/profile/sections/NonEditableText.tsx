@@ -1,7 +1,7 @@
 import NonEditableFieldModal from "@/components/NonEditableFieldModal";
 import { DummyIcon } from "@/constants/icons";
 import { EditRowProps } from "@/types/profile";
-import { Ionicons } from "@expo/vector-icons";
+import { Feather, Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
@@ -51,11 +51,7 @@ export const NonEditableText: React.FC<EditRowProps> = ({
         {editable ? (
           <Ionicons name="chevron-forward" size={16} color="#9ca3af" />
         ) : (
-          <Ionicons
-            name="information-circle-outline"
-            size={16}
-            color="#9ca3af"
-          />
+          <Feather name="info" size={16} color="#9ca3af" />
         )}
       </TouchableOpacity>
 

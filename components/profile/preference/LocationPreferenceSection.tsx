@@ -21,7 +21,7 @@ interface LocationSectionProps {
     title: string,
     field: string,
     options: LookupItem[],
-    currentValue?: string,
+    currentValue?: string | string[],
     isMultiSelect?: boolean,
     editableTextFields?: EditableFieldDescriptor[],
   ) => void;
@@ -60,7 +60,8 @@ export const LocationPreferenceSection: React.FC<LocationSectionProps> = ({
             "Country",
             "part_country_living",
             countries,
-            profile?.part_country_living,
+            profile?.part_country_living?.split(",").filter(Boolean) ?? [],
+            true,
           )
         }
       />
@@ -73,7 +74,13 @@ export const LocationPreferenceSection: React.FC<LocationSectionProps> = ({
             Alert.alert("Select Country", "Please select a Country first.");
             return;
           }
-          openModal("State", "part_state", states, profile?.part_state);
+          openModal(
+            "State",
+            "part_state",
+            states,
+            profile?.part_state?.split(",").filter(Boolean) ?? [],
+            true,
+          );
         }}
       />
 
@@ -85,7 +92,13 @@ export const LocationPreferenceSection: React.FC<LocationSectionProps> = ({
             Alert.alert("Select State", "Please select a State first.");
             return;
           }
-          openModal("City", "part_city", cities, profile?.part_city);
+          openModal(
+            "City",
+            "part_city",
+            cities,
+            profile?.part_city?.split(",").filter(Boolean) ?? [],
+            true,
+          );
         }}
       />
     </View>
