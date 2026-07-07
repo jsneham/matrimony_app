@@ -75,6 +75,7 @@ export const EducationPreferenceSection: React.FC<EducationSectionProps> = ({
             "part_employee_in",
             workSector,
             profile?.part_employee_in,
+            true,
           )
         }
       />
@@ -87,6 +88,7 @@ export const EducationPreferenceSection: React.FC<EducationSectionProps> = ({
             "part_occupation",
             occupations,
             profile?.part_occupation,
+            true,
           )
         }
       />

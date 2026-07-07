@@ -65,6 +65,7 @@ export const ReligionPreferenceSection: React.FC<ReligionSectionProps> = ({
             "part_religion",
             religions,
             profile?.part_religion,
+            true,
           )
         }
       />
@@ -77,7 +78,7 @@ export const ReligionPreferenceSection: React.FC<ReligionSectionProps> = ({
             Alert.alert("Select Religion", "Please select a Religion first.");
             return;
           }
-          openModal("Caste", "part_caste", castes, profile?.part_caste);
+          openModal("Caste", "part_caste", castes, profile?.part_caste, true);
         }}
       />
 

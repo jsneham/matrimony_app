@@ -327,14 +327,14 @@ export const SearchableSelectorModal: React.FC<
 
               {isMultiSelect && (
                 <View className="bg-white border-t border-gray-200 px-5 py-4 gap-3 pb-6">
-                  <Pressable
+                  {/* <Pressable
                     onPress={handleReset}
                     className="py-3 bg-gray-100 rounded-full items-center active:bg-gray-200"
                   >
                     <Text className="text-gray-800 font-semibold text-base">
                       Reset
                     </Text>
-                  </Pressable>
+                  </Pressable> */}
                   <Pressable
                     onPress={handleSave}
                     className="py-3 bg-pink-600 rounded-full items-center active:bg-pink-700"

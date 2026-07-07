@@ -33,7 +33,7 @@ import { useSession } from "@/hooks/useSession";
 // Components
 import {
   LoadingOverlay,
-  ProfileProgressBanner,
+  PreferenceProgressBanner,
 } from "@/components/profile/ProfileEditComponents";
 import { ProfileTabBar } from "@/components/profile/ProfileTabBar";
 import { SearchableSelectorModal } from "@/components/SearchableSelectorModal";
@@ -41,6 +41,7 @@ import { SearchableSelectorModal } from "@/components/SearchableSelectorModal";
 // Constants & Types
 import { BasicsPreferenceSection } from "@/components/profile/preference/BasicsPreferenceSection";
 import { EducationPreferenceSection } from "@/components/profile/preference/EducationPreferenceSection";
+import { LifestylePreferenceSection } from "@/components/profile/preference/LifestylePreferenceSection";
 import { LocationPreferenceSection } from "@/components/profile/preference/LocationPreferenceSection";
 import { ReligionPreferenceSection } from "@/components/profile/preference/ReligionPreferenceSection";
 import { PROFILE_TABS_CONFIG } from "@/constants/data";
@@ -53,7 +54,7 @@ const SECTION_TAB_MAP = [
   { sectionId: "location", tabId: "basics" },
   { sectionId: "religion", tabId: "faith" },
   { sectionId: "education", tabId: "career" },
-  // { sectionId: "lifestyle", tabId: "lifestyle" },
+  { sectionId: "lifestyle", tabId: "lifestyle" },
   // { sectionId: "family", tabId: "family" },
 ];
 
@@ -159,7 +160,7 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
     <View className="flex-1 bg-app-background">
       <LoadingOverlay visible={isSaving} label="Saving changes..." />
 
-      <ProfileProgressBanner percentage={profile?.percentage || 0} />
+      <PreferenceProgressBanner percentage={profile?.percentage || 0} />
 
       <ProfileTabBar
         tabs={PROFILE_TABS_CONFIG}
@@ -222,6 +223,16 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
           income={income}
           occupations={occupations}
           designation={designation}
+          onLayout={registerSection}
+          openModal={openModal}
+        />
+
+        <LifestylePreferenceSection
+          sectionId="lifestyle"
+          profile={profile}
+          eating={eating}
+          drinking={drinking}
+          smoking={smoking}
           onLayout={registerSection}
           openModal={openModal}
         />

@@ -118,40 +118,6 @@ export const BasicsPreferenceSection: React.FC<BasicsSectionProps> = ({
       />
 
       <EditRow
-        label="Eating habit"
-        value={profile?.part_diet}
-        onPress={() =>
-          openModal(
-            "Eating habit",
-            "part_diet",
-            eating,
-            profile?.part_diet,
-            true,
-          )
-        }
-      />
-      <EditRow
-        label="Smoking"
-        value={profile?.part_smoke}
-        onPress={() =>
-          openModal("Smoking", "part_smoke", smoking, profile?.part_smoke, true)
-        }
-      />
-      <EditRow
-        label="Drinking"
-        value={profile?.part_drink}
-        onPress={() =>
-          openModal(
-            "Drinking",
-            "part_drink",
-            drinking,
-            profile?.part_drink,
-            true,
-          )
-        }
-      />
-
-      <EditRow
         label="Mother Tongue"
         value={profile?.part_mother_tongue_str}
         onPress={() =>
