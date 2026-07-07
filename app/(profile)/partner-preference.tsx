@@ -186,9 +186,6 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
           languages={languages}
           height={height}
           age={age}
-          eating={eating}
-          drinking={drinking}
-          smoking={smoking}
           onLayout={registerSection}
           openModal={openModal}
         />
@@ -210,10 +207,7 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
           profile={profile}
           religions={religions}
           castes={castes}
-          gotras={gotras}
           mangliks={mangliks}
-          horoscope={horoscope}
-          moonsign={moonsign}
           selectedReligionId={selectedReligionId}
           onLayout={registerSection}
           openModal={openModal}

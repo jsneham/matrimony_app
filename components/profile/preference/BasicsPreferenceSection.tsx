@@ -15,15 +15,13 @@ interface BasicsSectionProps {
   languages: LookupItem[];
   height: LookupItem[];
   age: LookupItem[];
-  eating: LookupItem[];
-  drinking: LookupItem[];
-  smoking: LookupItem[];
+
   onLayout: (sectionId: string, event: any) => void;
   openModal: (
     title: string,
     field: string,
     options: LookupItem[],
-    currentValue?: string,
+    currentValue?: string | string[],
     isMultiSelect?: boolean,
     editableTextFields?: EditableFieldDescriptor[],
   ) => void;
@@ -36,9 +34,6 @@ export const BasicsPreferenceSection: React.FC<BasicsSectionProps> = ({
   languages,
   height,
   age,
-  eating,
-  drinking,
-  smoking,
   onLayout,
   openModal,
 }) => {
@@ -64,7 +59,7 @@ export const BasicsPreferenceSection: React.FC<BasicsSectionProps> = ({
             "Marital Status",
             "looking_for",
             maritalStatuses,
-            profile?.looking_for,
+            profile?.looking_for?.split(",").filter(Boolean) ?? [],
             true,
           )
         }
@@ -125,7 +120,7 @@ export const BasicsPreferenceSection: React.FC<BasicsSectionProps> = ({
             "Mother Tongue",
             "part_mother_tongue",
             languages,
-            profile?.part_mother_tongue,
+            profile?.part_mother_tongue?.split(",").filter(Boolean) ?? [],
             true,
           )
         }

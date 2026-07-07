@@ -21,7 +21,7 @@ interface EducationSectionProps {
     title: string,
     field: string,
     options: LookupItem[],
-    currentValue?: string,
+    currentValue?: string | string[],
     isMultiSelect?: boolean,
     editableTextFields?: EditableFieldDescriptor[],
   ) => void;
@@ -60,7 +60,7 @@ export const EducationPreferenceSection: React.FC<EducationSectionProps> = ({
             "Education",
             "part_education",
             educations,
-            profile?.part_education,
+            profile?.part_education?.split(",").filter(Boolean) ?? [],
             true,
           )
         }
@@ -74,7 +74,7 @@ export const EducationPreferenceSection: React.FC<EducationSectionProps> = ({
             "Work Sector",
             "part_employee_in",
             workSector,
-            profile?.part_employee_in,
+            profile?.part_employee_in?.split(",").filter(Boolean) ?? [],
             true,
           )
         }
@@ -87,7 +87,7 @@ export const EducationPreferenceSection: React.FC<EducationSectionProps> = ({
             "Occupation",
             "part_occupation",
             occupations,
-            profile?.part_occupation,
+            profile?.part_occupation?.split(",").filter(Boolean) ?? [],
             true,
           )
         }
@@ -102,7 +102,7 @@ export const EducationPreferenceSection: React.FC<EducationSectionProps> = ({
             "Annual Income",
             "part_income",
             income,
-            profile?.part_income,
+            profile?.part_income?.split(",").filter(Boolean) ?? [],
           )
         }
       />
