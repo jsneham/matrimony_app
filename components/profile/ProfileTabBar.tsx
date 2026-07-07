@@ -17,7 +17,7 @@ export const ProfileTabBar: React.FC<ProfileTabBarProps> = ({
   const [textWidths, setTextWidths] = useState<Record<string, number>>({});
 
   return (
-    <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', borderBottomWidth: 1, borderBottomColor: '#e5e7eb', marginBottom: 8 }}>
+    <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 12, borderBottomWidth: 1, borderBottomColor: '#e5e7eb', marginBottom: 8 }}>
       {tabs.map((tab) => {
         const isActive = activeTab === tab.id;
         return (
