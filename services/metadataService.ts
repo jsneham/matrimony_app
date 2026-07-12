@@ -109,9 +109,7 @@ export const metadataService = {
         gotras: Array.isArray(src.gotra_list)
           ? src.gotra_list.map(mapRawItem)
           : [],
-        mangliks: Array.isArray(src.manglik_list)
-          ? src.manglik_list.map(mapRawItem)
-          : [],
+        mangliks: Array.isArray(src.manglik) ? src.manglik.map(mapRawItem) : [],
         weight: Array.isArray(src.weight_list)
           ? src.weight_list.map(mapRawItem)
           : [],
@@ -249,6 +247,11 @@ export const metadataService = {
 
     const payload = response.data || {};
     const rawList = Array.isArray(payload.data) ? payload.data : [];
+
+    console.log(
+      `🔄 Fetched dependent list for tag "${tag}" with current value "${currentVal}":`,
+      rawList,
+    );
 
     return {
       ...payload,

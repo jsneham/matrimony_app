@@ -100,7 +100,7 @@ export const LocationSection: React.FC<LocationSectionProps> = ({
               {
                 field: "address",
                 label: "Ancestral Origin (Native Place)",
-                placeholder: "Select Ancestral Origin",
+                placeholder: "Enter Ancestral Origin",
               },
             ],
           )

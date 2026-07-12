@@ -7,6 +7,7 @@ import { useColorScheme } from "@/hooks/use-color-scheme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 // Create a client
 const queryClient = new QueryClient({
@@ -40,65 +41,67 @@ export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider value={DefaultTheme}>
-        {/* <SafeAreaView className="flex-1 bg-white"> */}
-        <Stack
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          {/* Welcome/Landing Screen */}
-          <Stack.Screen
-            name="index"
-            options={{
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          {/* <SafeAreaView className="flex-1 bg-white"> */}
+          <Stack
+            screenOptions={{
               headerShown: false,
             }}
-          />
+          >
+            {/* Welcome/Landing Screen */}
+            <Stack.Screen
+              name="index"
+              options={{
+                headerShown: false,
+              }}
+            />
 
-          {/* Auth Group - login, signup, etc */}
-          <Stack.Screen
-            name="(auth)"
-            options={{
-              headerShown: false,
-            }}
-          />
+            {/* Auth Group - login, signup, etc */}
+            <Stack.Screen
+              name="(auth)"
+              options={{
+                headerShown: false,
+              }}
+            />
 
-          {/* Main App Tabs - after login */}
-          <Stack.Screen
-            name="(tabs)"
-            options={{
-              headerShown: false,
-            }}
-          />
+            {/* Main App Tabs - after login */}
+            <Stack.Screen
+              name="(tabs)"
+              options={{
+                headerShown: false,
+              }}
+            />
 
-          <Stack.Screen
-            name="(account)"
-            options={{
-              title: "Account & More",
-              headerShown: true,
-            }}
-          />
-          <Stack.Screen
-            name="(membership)"
-            options={{
-              title: "Membership Plan",
-              headerShown: true,
-            }}
-          />
-          <Stack.Screen
-            name="(profile)"
-            options={{
-              title: "Profile",
-              headerShown: true,
-              headerTitleAlign: "left",
-              headerTitleStyle: {
-                fontSize: 24,
-                fontFamily: "bold",
-              },
-              headerShadowVisible: false,
-            }}
-          />
-        </Stack>
-        {/* </SafeAreaView> */}
+            <Stack.Screen
+              name="(account)"
+              options={{
+                title: "Account & More",
+                headerShown: true,
+              }}
+            />
+            <Stack.Screen
+              name="(membership)"
+              options={{
+                title: "Membership Plan",
+                headerShown: true,
+              }}
+            />
+            <Stack.Screen
+              name="(profile)"
+              options={{
+                title: "Profile",
+                headerShown: true,
+                headerTitleAlign: "left",
+                headerTitleStyle: {
+                  fontSize: 24,
+                  fontFamily: "bold",
+                },
+                headerShadowVisible: false,
+              }}
+            />
+          </Stack>
+          {/* </SafeAreaView> */}
+        </GestureHandlerRootView>
       </ThemeProvider>
     </QueryClientProvider>
   );

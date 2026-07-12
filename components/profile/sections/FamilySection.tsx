@@ -201,7 +201,7 @@ export const FamilySection: React.FC<FamilySectionProps> = ({
       />
       <EditRow
         isLast
-        label=" No. Of Sister(s)"
+        label="No. Of Sister(s)"
         value={profile?.no_of_sisters}
         onPress={() =>
           openModal(

@@ -57,7 +57,7 @@ export const EditRow: React.FC<EditRowProps> = ({
             {/* Hidden measurement pass — detects if full text exceeds 3 lines */}
             <Text
               className="text-base absolute opacity-0"
-              style={{ zIndex: -1 }}
+              style={{ zIndex: -1, lineHeight: 20 }}
               onTextLayout={(e) => {
                 if (e.nativeEvent.lines.length > 3 && !isTruncated) {
                   setIsTruncated(true);
@@ -74,37 +74,53 @@ export const EditRow: React.FC<EditRowProps> = ({
                   ? "text-gray font-regular"
                   : "text-placeholder font-regular"
               }`}
-              style={showViewMore ? { lineHeight: 20 } : undefined}
+              style={{ lineHeight: 20 }}
             >
               {displayText}
             </Text>
 
             {showViewMore && (
-              <TouchableOpacity
-                onPress={(e) => {
-                  e.stopPropagation();
-                  setExpanded(true);
-                }}
-                hitSlop={{ top: 4, bottom: 4, left: 4, right: 4 }}
+              <View
+                pointerEvents="box-none"
                 style={{
                   position: "absolute",
                   right: 0,
                   bottom: 0,
+                  height: 20, // matches lineHeight — covers exactly the 3rd line
                   flexDirection: "row",
-                  alignItems: "flex-end",
+                  alignItems: "center",
                 }}
               >
                 <LinearGradient
                   colors={["transparent", "#ffffff", "#ffffff"]}
+                  locations={[0, 0.35, 1]}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 0 }}
-                  style={{ paddingLeft: 24 }}
+                  style={{ width: 90, height: 20 }}
+                />
+                <TouchableOpacity
+                  onPress={(e) => {
+                    e.stopPropagation();
+                    setExpanded(true);
+                  }}
+                  hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                  style={{
+                    backgroundColor: "#ffffff",
+                    height: 20,
+                    justifyContent: "center",
+                    paddingLeft: 2,
+                    flexShrink: 0,
+                  }}
                 >
-                  <Text className="text-pink-600 text-base font-semibold">
+                  <Text
+                    className="text-pink-600 text-base font-semibold"
+                    numberOfLines={1}
+                    style={{ lineHeight: 20 }}
+                  >
                     View more
                   </Text>
-                </LinearGradient>
-              </TouchableOpacity>
+                </TouchableOpacity>
+              </View>
             )}
           </View>
 

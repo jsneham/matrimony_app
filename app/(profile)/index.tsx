@@ -40,7 +40,6 @@ import {
   useWeight,
   useWorkSector,
 } from "@/hooks/useMetadata";
-import { useProfileMetadataStore } from "@/hooks/useMetadataStore";
 import { useMyProfile } from "@/hooks/useProfile";
 import { useScrollTabs } from "@/hooks/useScrollTabs";
 import { useSession } from "@/hooks/useSession";
@@ -61,6 +60,7 @@ import { SearchableSelectorModal } from "@/components/SearchableSelectorModal";
 
 // Constants & Types
 import { PROFILE_TABS_CONFIG } from "@/constants/data";
+import { useProfileMetadataStore } from "@/hooks/useMetadataStore";
 import { useProfileEditModal } from "@/hooks/useProfileEditModal";
 import { SESSION_KEYS } from "@/types/common";
 
@@ -89,21 +89,29 @@ export const EditProfileScreen: React.FC = () => {
 
   // ── Global selection store ──────────────────────────────────────────────────
   const {
-    selectedCountryId,
-    selectedStateId,
-    selectedReligionId,
+    selectedCountryIds,
+    selectedStateIds,
+    selectedReligionIds,
     setInitialValues,
     setCountryId,
     setStateId,
     setReligionId,
   } = useProfileMetadataStore();
 
+  const primaryCountryId = selectedCountryIds[0] ?? "";
+  const primaryStateId = selectedStateIds[0] ?? "";
+  const primaryReligionId = selectedReligionIds[0] ?? "";
+
+  const { data: states } = useStates(primaryCountryId);
+  const { data: cities } = useCities(primaryStateId);
+  const { data: castes } = useCastes(primaryReligionId);
+
   // ── Master data lists (fetched once, cached forever) ────────────────────────
   const { data: countries } = useCountries();
-  const { data: states } = useStates(selectedCountryId);
-  const { data: cities } = useCities(selectedStateId);
+  // const { data: states } = useStates(selectedCountryId);
+  // const { data: cities } = useCities(selectedStateId);
   const { data: religions } = useReligions();
-  const { data: castes } = useCastes(selectedReligionId);
+  // const { data: castes } = useCastes(selectedReligionId);
   const { data: educations } = useEducations();
   const { data: occupations } = useOccupations();
   const { data: languages } = useLanguages();
@@ -158,7 +166,7 @@ export const EditProfileScreen: React.FC = () => {
     isSaving,
     handleEditTextSave,
     editableFieldsData,
-    onEditableFieldChange,
+    // onEditableFieldChange,
   } = useProfileEditModal({
     memberId,
     setCountryId,
@@ -228,8 +236,8 @@ export const EditProfileScreen: React.FC = () => {
           countries={countries}
           states={states}
           cities={cities}
-          selectedCountryId={selectedCountryId}
-          selectedStateId={selectedStateId}
+          selectedCountryId={primaryCountryId}
+          selectedStateId={primaryStateId}
           onLayout={registerSection}
           openModal={openModal}
         />
@@ -243,7 +251,7 @@ export const EditProfileScreen: React.FC = () => {
           mangliks={mangliks}
           horoscope={horoscope}
           moonsign={moonsign}
-          selectedReligionId={selectedReligionId}
+          selectedReligionId={primaryReligionId}
           onLayout={registerSection}
           openModal={openModal}
         />
@@ -283,7 +291,7 @@ export const EditProfileScreen: React.FC = () => {
           familyStatus={familyStatus}
           noOfBrothers={noOfBrothers}
           noOfMarriedBrothers={noOfMarriedBrothers}
-          noOfSisters={noOfBrothers}
+          noOfSisters={noOfSisters}
           noOfMarriedSisters={noOfMarriedSisters}
           onLayout={registerSection}
           openModal={openModal}
@@ -310,7 +318,7 @@ export const EditProfileScreen: React.FC = () => {
         editableTextFields={modalConfig.editableTextFields}
         isMultiSelect={modalConfig.isMultiSelect}
         editableFieldsData={editableFieldsData}
-        onEditableFieldChange={onEditableFieldChange}
+        // onEditableFieldChange={onEditableFieldChange}
         handleEditTextSave={handleEditTextSave}
       />
     </View>

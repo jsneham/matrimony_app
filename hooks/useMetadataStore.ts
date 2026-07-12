@@ -2,21 +2,23 @@
 import { create, StoreApi, UseBoundStore } from "zustand";
 
 interface MetadataStoreState {
-  selectedCountryId: string;
-  selectedStateId: string;
-  selectedCityId: string;
-  selectedReligionId: string;
-  selectedCasteId: string;
+  selectedCountryIds: string[];
+  selectedStateIds: string[];
+  selectedCityIds: string[];
+  selectedReligionIds: string[];
+  selectedCasteIds: string[];
 
-  setCountryId: (id: string) => void;
-  setStateId: (id: string) => void;
-  setCityId: (id: string) => void;
-  setReligionId: (id: string) => void;
-  setCasteId: (id: string) => void;
+  // Setters accept either a single id (single-select screens) or an array (multi-select screens)
+  setCountryId: (id: string | string[]) => void;
+  setStateId: (id: string | string[]) => void;
+  setCityId: (id: string | string[]) => void;
+  setReligionId: (id: string | string[]) => void;
+  setCasteId: (id: string | string[]) => void;
+
   setInitialValues: (
-    countryId: string,
-    stateId: string,
-    religionId: string,
+    countryId: string | string[],
+    stateId: string | string[],
+    religionId: string | string[],
   ) => void;
 
   resetLocation: () => void;
@@ -26,75 +28,75 @@ interface MetadataStoreState {
 
 export type MetadataStoreHook = UseBoundStore<StoreApi<MetadataStoreState>>;
 
+const toArray = (val: string | string[]): string[] =>
+  Array.isArray(val) ? val.filter(Boolean) : val ? [val] : [];
+
 // Factory — each call produces a fully independent store instance
 const createMetadataStore = (): MetadataStoreHook =>
   create<MetadataStoreState>((set) => ({
-    selectedCountryId: "",
-    selectedStateId: "",
-    selectedCityId: "",
-    selectedReligionId: "",
-    selectedCasteId: "",
+    selectedCountryIds: [],
+    selectedStateIds: [],
+    selectedCityIds: [],
+    selectedReligionIds: [],
+    selectedCasteIds: [],
 
-    setCountryId: (id: string) =>
+    setCountryId: (id) =>
       set({
-        selectedCountryId: id,
-        selectedStateId: "",
-        selectedCityId: "",
+        selectedCountryIds: toArray(id),
+        selectedStateIds: [], // cascading reset: changing Country clears State
+        selectedCityIds: [], // cascading reset: changing Country clears City
       }),
 
-    setStateId: (id: string) =>
+    setStateId: (id) =>
       set({
-        selectedStateId: id,
-        selectedCityId: "",
+        selectedStateIds: toArray(id),
+        selectedCityIds: [], // cascading reset: changing State clears City
       }),
 
-    setCityId: (id: string) =>
+    setCityId: (id) =>
       set({
-        selectedCityId: id,
+        selectedCityIds: toArray(id),
       }),
 
-    setReligionId: (id: string) =>
+    setReligionId: (id) =>
       set({
-        selectedReligionId: id,
-        selectedCasteId: "",
+        selectedReligionIds: toArray(id),
+        selectedCasteIds: [], // cascading reset: changing Religion clears Caste
       }),
 
-    setCasteId: (id: string) =>
+    setCasteId: (id) =>
       set({
-        selectedCasteId: id,
+        selectedCasteIds: toArray(id),
       }),
 
-    setInitialValues: (
-      countryId: string,
-      stateId: string,
-      religionId: string,
-    ) =>
+    // Set values on load without clearing dependent items
+    setInitialValues: (countryId, stateId, religionId) =>
       set({
-        selectedCountryId: countryId,
-        selectedStateId: stateId,
-        selectedReligionId: religionId,
+        selectedCountryIds: toArray(countryId),
+        selectedStateIds: toArray(stateId),
+        selectedReligionIds: toArray(religionId),
       }),
 
     resetLocation: () =>
       set({
-        selectedCountryId: "",
-        selectedStateId: "",
-        selectedCityId: "",
+        selectedCountryIds: [],
+        selectedStateIds: [],
+        selectedCityIds: [],
       }),
 
     resetFaith: () =>
       set({
-        selectedReligionId: "",
-        selectedCasteId: "",
+        selectedReligionIds: [],
+        selectedCasteIds: [],
       }),
 
     resetAll: () =>
       set({
-        selectedCountryId: "",
-        selectedStateId: "",
-        selectedCityId: "",
-        selectedReligionId: "",
-        selectedCasteId: "",
+        selectedCountryIds: [],
+        selectedStateIds: [],
+        selectedCityIds: [],
+        selectedReligionIds: [],
+        selectedCasteIds: [],
       }),
   }));
 

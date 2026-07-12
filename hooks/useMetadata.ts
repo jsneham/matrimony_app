@@ -1,7 +1,13 @@
 // hooks/useMetadata.ts
 import { metadataService } from "@/services/metadataService";
-import { AppMetadata, DependentListTag } from "@/types/metadata";
-import { useQuery } from "@tanstack/react-query";
+import {
+  AppMetadata,
+  DependentListResponse,
+  DependentListTag,
+  LookupItem,
+} from "@/types/metadata";
+import { useQueries, useQuery } from "@tanstack/react-query";
+import { useMemo } from "react";
 
 export const METADATA_QUERY_KEY = ["app-metadata"];
 
@@ -341,3 +347,49 @@ export const useCities = (stateId?: string) => {
   const { data, ...rest } = useDependentList("city_list", stateId);
   return { data: data ?? [], ...rest };
 };
+
+// Add this alongside your existing useDependentList
+const useDependentListMulti = (tag: DependentListTag, parentIds: string[]) => {
+  const queries = useQueries({
+    queries: parentIds.map((id) => ({
+      queryKey: ["metadata", tag, id],
+      queryFn: () => metadataService.getDependentList(tag, id),
+      enabled: !!id,
+      select: (response: DependentListResponse) => response.data,
+      staleTime: 5 * 60 * 1000,
+    })),
+  });
+
+  const isLoading = queries.some((q) => q.isLoading);
+  const isError = queries.some((q) => q.isError);
+
+  const merged = useMemo(() => {
+    const seen = new Map<string, LookupItem>();
+    queries.forEach((q) => {
+      (q.data ?? []).forEach((item: LookupItem) => {
+        if (!seen.has(item.id)) seen.set(item.id, item);
+      });
+    });
+    return Array.from(seen.values());
+  }, [queries.map((q) => q.data)]);
+
+  console.log(
+    "MULTI QUERY — parentIds:",
+    parentIds,
+    "→ merged length:",
+    merged.length,
+    merged,
+  );
+
+  return { data: merged, isLoading, isError };
+};
+
+// New multi-parent versions — for the preference screen
+export const useMultiStates = (countryIds: string[] = []) =>
+  useDependentListMulti("state_list", countryIds);
+
+export const useMultiCities = (stateIds: string[] = []) =>
+  useDependentListMulti("city_list", stateIds);
+
+export const useMultiCastes = (religionIds: string[] = []) =>
+  useDependentListMulti("caste_list", religionIds);

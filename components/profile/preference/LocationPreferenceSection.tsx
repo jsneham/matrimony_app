@@ -14,8 +14,8 @@ interface LocationSectionProps {
   countries: LookupItem[];
   states: LookupItem[];
   cities: LookupItem[];
-  selectedCountryId: string;
-  selectedStateId: string;
+  selectedCountryId: string[];
+  selectedStateId: string[];
   onLayout: (sectionId: string, event: any) => void;
   openModal: (
     title: string,
@@ -70,7 +70,7 @@ export const LocationPreferenceSection: React.FC<LocationSectionProps> = ({
         label="State"
         value={profile?.part_state_str}
         onPress={() => {
-          if (!selectedCountryId) {
+          if (!selectedStateId?.length) {
             Alert.alert("Select Country", "Please select a Country first.");
             return;
           }

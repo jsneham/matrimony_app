@@ -9,15 +9,9 @@ export interface ModalConfig {
   title: string;
   field: string;
   options?: { id: string; val: string }[];
-  selectedValue?: string | string[]; // Support single or multi-select
-  isMultiSelect?: boolean; // Toggle between single and multi-select
+  selectedValue?: string | string[];
+  isMultiSelect?: boolean;
   editableTextFields?: EditableFieldDescriptor[];
-  editableFieldsData?: Array<{
-    key: string;
-    label: string;
-    value: string;
-    placeholder: string;
-  }>;
 }
 
 const EMPTY_MODAL: ModalConfig = {
@@ -28,7 +22,6 @@ const EMPTY_MODAL: ModalConfig = {
   selectedValue: "",
   isMultiSelect: false,
   editableTextFields: [],
-  editableFieldsData: [],
 };
 
 export const useProfileEditModal = ({
@@ -38,9 +31,9 @@ export const useProfileEditModal = ({
   setReligionId,
 }: {
   memberId: string;
-  setCountryId?: (id: string) => void;
-  setStateId?: (id: string) => void;
-  setReligionId?: (id: string) => void;
+  setCountryId?: (id: string | string[]) => void;
+  setStateId?: (id: string | string[]) => void;
+  setReligionId?: (id: string | string[]) => void;
 }) => {
   const [modalConfig, setModalConfig] = useState<ModalConfig>(EMPTY_MODAL);
   const updateProfileMutation = useUpdateProfile();
@@ -54,7 +47,7 @@ export const useProfileEditModal = ({
     field: string,
     options?: { id: string; val: string }[],
     currentValue?: string | string[],
-    isMultiSelect: boolean = false, // Default to single-select
+    isMultiSelect: boolean = false,
     editableTextFields?: EditableFieldDescriptor[],
   ) => {
     setModalConfig({
@@ -70,11 +63,28 @@ export const useProfileEditModal = ({
     if (editableTextFields?.length) {
       setEditableFieldsData((prev) => {
         const next = { ...prev };
-        editableTextFields.forEach(({ field: key }) => {
-          if (next[key] === undefined) {
-            next[key] = Array.isArray(currentValue)
-              ? ""
-              : (currentValue as string) || "";
+        editableTextFields.forEach((descriptor) => {
+          if (
+            descriptor.type === "range" &&
+            descriptor.fromField &&
+            descriptor.toField
+          ) {
+            const [fromVal, toVal] = Array.isArray(currentValue)
+              ? currentValue
+              : ["", ""];
+            if (next[descriptor.fromField] === undefined) {
+              next[descriptor.fromField] = fromVal || "";
+            }
+            if (next[descriptor.toField] === undefined) {
+              next[descriptor.toField] = toVal || "";
+            }
+          } else {
+            const key = descriptor.field;
+            if (next[key] === undefined) {
+              next[key] = Array.isArray(currentValue)
+                ? ""
+                : (currentValue as string) || "";
+            }
           }
         });
         return next;
@@ -85,11 +95,6 @@ export const useProfileEditModal = ({
   // Close without selection
   const closeModal = () => {
     setModalConfig((prev) => ({ ...prev, visible: false }));
-    setEditableFieldsData({});
-  };
-
-  const onEditableFieldChange = (key: string, text: string) => {
-    setEditableFieldsData((prev) => ({ ...prev, [key]: text }));
   };
 
   // Handle single option selection (for single-select modals)
@@ -102,14 +107,11 @@ export const useProfileEditModal = ({
     field: string,
     items: { id: string; val: string }[],
   ) => {
-    // For multi-select, we typically save all selected items together
-    // This varies by field - customize as needed
     if (items.length === 0) {
       Alert.alert("Please select at least one option");
       return;
     }
-
-    saveProfile(field, items); // Or handle differently based on field
+    saveProfile(field, items);
   };
 
   // Main save logic
@@ -117,7 +119,6 @@ export const useProfileEditModal = ({
     field: string,
     item: { id: string; val: string } | { id: string; val: string }[],
   ) => {
-    // Handle array or single item
     const items = Array.isArray(item) ? item : [item];
     const itemData = items[0];
     const payload: Record<string, string> = {};
@@ -133,17 +134,12 @@ export const useProfileEditModal = ({
         payload.height_str = itemData.val;
         break;
 
-      // case "age":
-      //   payload.age = itemData.id;
-      //   break;
-
       case "motherTongue":
         payload.mother_tongue = itemData.id;
-        // payload.mtongeName = itemData.val;
         break;
 
       case "country":
-        setCountryId?.(itemData.id); // cascades: resets state + city in Zustand
+        setCountryId?.(itemData.id);
         payload.country_id = itemData.id;
         payload.state_id = "";
         payload.state_name = "";
@@ -152,7 +148,7 @@ export const useProfileEditModal = ({
         break;
 
       case "state":
-        setStateId?.(itemData.id); // cascades: resets city in Zustand
+        setStateId?.(itemData.id);
         payload.state_id = itemData.id;
         payload.city = "";
         payload.city_name = "";
@@ -175,12 +171,10 @@ export const useProfileEditModal = ({
 
       case "education":
         payload.education_detail = itemData.id;
-        // payload.educationName = itemData.val;
         break;
 
       case "occupation":
         payload.occupation = itemData.id;
-        // payload.occupationName = itemData.val;
         break;
 
       case "manglik":
@@ -231,20 +225,10 @@ export const useProfileEditModal = ({
         payload.moonsign = itemData.id;
         break;
 
-      case "education":
-        payload.education_detail = itemData.id;
-        break;
-
       case "workSector":
         payload.employee_in = itemData.id;
         break;
 
-      case "income":
-        payload.income = itemData.id;
-        break;
-      case "occupation":
-        payload.occupation = itemData.id;
-        break;
       case "designation":
         payload.designation = itemData.id;
         break;
@@ -288,22 +272,6 @@ export const useProfileEditModal = ({
         payload.looking_for = items.map((i) => i.id).join(",");
         break;
 
-      case "part_frm_age":
-        payload.part_frm_age = itemData.id;
-        break;
-
-      case "part_to_age":
-        payload.part_to_age = itemData.id;
-        break;
-
-      case "part_height":
-        payload.part_height = itemData.id;
-        break;
-
-      case "part_height_to":
-        payload.part_height_to = itemData.id;
-        break;
-
       case "part_diet":
         payload.part_diet = items.map((i) => i.id).join(",");
         break;
@@ -321,10 +289,12 @@ export const useProfileEditModal = ({
         break;
 
       case "part_country_living":
+        setCountryId?.(items.map((i) => i.id));
         payload.part_country_living = items.map((i) => i.id).join(",");
         break;
 
       case "part_state":
+        setStateId?.(items.map((i) => i.id));
         payload.part_state = items.map((i) => i.id).join(",");
         break;
 
@@ -333,6 +303,7 @@ export const useProfileEditModal = ({
         break;
 
       case "part_religion":
+        setReligionId?.(items.map((i) => i.id));
         payload.part_religion = items.map((i) => i.id).join(",");
         break;
 
@@ -365,12 +336,9 @@ export const useProfileEditModal = ({
         return;
     }
 
-    console.log("saveProfile===", field, item, payload);
-
     updateProfileMutation.mutate(payload, {
-      onSuccess: (response) => {
+      onSuccess: () => {
         closeModal();
-        // Alert.alert("Success", "Profile updated successfully!");
       },
       onError: (err: any) => {
         console.error("❌ Error updating profile:", err);
@@ -383,8 +351,9 @@ export const useProfileEditModal = ({
     });
   };
 
-  const handleEditTextSave = () => {
-    console.log("handleEditTextSave===", editableFieldsData);
+  // 👇 Now takes the fields data explicitly, instead of reading from hook state.
+  // This lets the modal pass its own local draft, so Cancel never touches saved data.
+  const handleEditTextSave = (fieldsData: Record<string, string>) => {
     if (!modalConfig.field) return;
 
     const payload: Record<string, string> = {};
@@ -392,67 +361,74 @@ export const useProfileEditModal = ({
 
     switch (modalConfig.field) {
       case "fullName":
-        payload.firstname = editableFieldsData.firstname || "";
-        payload.lastname = editableFieldsData.lastname || "";
+        payload.firstname = fieldsData.firstname || "";
+        payload.lastname = fieldsData.lastname || "";
         break;
 
       case "address":
-        payload.address = editableFieldsData.address || "";
+        payload.address = fieldsData.address || "";
         break;
 
       case "subcaste":
-        payload.subcaste = editableFieldsData.subcaste || "";
+        payload.subcaste = fieldsData.subcaste || "";
         break;
 
       case "birthtime":
-        payload.birthtime = editableFieldsData.birthtime || "";
+        payload.birthtime = fieldsData.birthtime || "";
         break;
 
       case "birthplace":
-        payload.birthplace = editableFieldsData.birthplace || "";
+        payload.birthplace = fieldsData.birthplace || "";
         break;
 
       case "profession":
         payload.professional_additional_info =
-          editableFieldsData.professional_additional_info || "";
+          fieldsData.professional_additional_info || "";
         break;
 
       case "organisationName":
-        payload.organisationName = editableFieldsData.organisationName || "";
+        payload.organisationName = fieldsData.organisationName || "";
         break;
 
       case "fatherName":
-        payload.father_name = editableFieldsData.fatherName || "";
+        payload.father_name = fieldsData.fatherName || "";
         break;
 
       case "fatherOccupation":
-        payload.father_occupation = editableFieldsData.fatherOccupation || "";
+        payload.father_occupation = fieldsData.fatherOccupation || "";
         break;
 
       case "motherName":
-        payload.mother_name = editableFieldsData.motherName || "";
+        payload.mother_name = fieldsData.motherName || "";
         break;
       case "motherOccupation":
-        payload.mother_occupation = editableFieldsData.motherOccupation || "";
+        payload.mother_occupation = fieldsData.motherOccupation || "";
         break;
       case "familyDetails":
-        payload.family_details = editableFieldsData.familyDetails || "";
+        payload.family_details = fieldsData.familyDetails || "";
         break;
       case "gotra":
-        payload.gothra = editableFieldsData.gotra || "";
+        payload.gothra = fieldsData.gotra || "";
         break;
 
-      // Add more cases as needed
+      case "part_age_range":
+        payload.part_frm_age = fieldsData.part_frm_age || "";
+        payload.part_to_age = fieldsData.part_to_age || "";
+        break;
+
+      case "part_height_range":
+        payload.part_height = fieldsData.part_height || "";
+        payload.part_height_to = fieldsData.part_height_to || "";
+        break;
+
       default:
         console.warn(`Unknown field: ${modalConfig.field}`);
         return;
     }
 
-    console.log("payload", payload);
-
     updateProfileMutation.mutate(payload, {
-      onSuccess: (response) => {
-        console.log("✅ Editable fields saved successfully:", response);
+      onSuccess: () => {
+        setEditableFieldsData(fieldsData); // commit locally only after a successful save
         closeModal();
       },
       onError: (err: any) => {
@@ -475,6 +451,5 @@ export const useProfileEditModal = ({
     isSaving: updateProfileMutation.isPending,
     handleEditTextSave,
     editableFieldsData,
-    onEditableFieldChange,
   };
 };
