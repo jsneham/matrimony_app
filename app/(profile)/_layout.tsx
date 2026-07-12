@@ -38,7 +38,6 @@ export default function MatchesLayout() {
           flexDirection: "row",
           justifyContent: "space-evenly",
           alignItems: "center",
-          height: 44,
         }}
       >
         {/* Extension so the first tab's line reaches the true left edge */}
@@ -89,7 +88,6 @@ export default function MatchesLayout() {
                 alignItems: "center",
                 paddingVertical: 14,
                 paddingHorizontal: 24,
-                height: 44,
                 backgroundColor: "#FFFFFF",
                 borderBottomWidth: 2,
                 borderBottomColor: isActive ? "#000000" : "#F9F9F9",
@@ -107,7 +105,6 @@ export default function MatchesLayout() {
                 className="font-bold"
                 style={{
                   fontSize: 16,
-                  lineHeight: 16,
                   color: isActive ? "#000000" : "#8B8B8B",
                 }}
               >
