@@ -5,13 +5,25 @@ import { formatTime, parseTimeToDate } from "@/utils/dateTime";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import React, { useState } from "react";
 import { Platform, Pressable, Text, TextInput, View } from "react-native";
+import RangeSliderRow from "./RangeSliderRow";
+
+const DEFAULT_MAX_LENGTH = 1000;
 
 export const EditableFieldRow: React.FC<{
   descriptor: EditableFieldDescriptor;
   value: string;
   onChange: (text: string) => void;
   isLast: boolean;
-}> = ({ descriptor, value, onChange, isLast }) => {
+  editableFieldsData: Record<string, string>;
+  onEditableFieldChange: (key: string, text: string) => void;
+}> = ({
+  descriptor,
+  value,
+  onChange,
+  isLast,
+  editableFieldsData,
+  onEditableFieldChange,
+}) => {
   const { label, placeholder, type = "text" } = descriptor;
   const [showPicker, setShowPicker] = useState(false);
 
@@ -21,6 +33,27 @@ export const EditableFieldRow: React.FC<{
   const rowClass = `px-5 py-4 flex-row items-center bg-white ${
     isLast ? "" : "border-b border-gray-100"
   }`;
+
+  if (
+    type === "range" &&
+    descriptor.options &&
+    descriptor.fromField &&
+    descriptor.toField
+  ) {
+    return (
+      <RangeSliderRow
+        label={label}
+        options={descriptor.options}
+        fromId={editableFieldsData[descriptor.fromField]}
+        toId={editableFieldsData[descriptor.toField]}
+        isLast={isLast}
+        onCommit={(fromItem, toItem) => {
+          onEditableFieldChange(descriptor.fromField!, fromItem.id);
+          onEditableFieldChange(descriptor.toField!, toItem.id);
+        }}
+      />
+    );
+  }
 
   if (type === "time") {
     return (
@@ -60,25 +93,33 @@ export const EditableFieldRow: React.FC<{
     );
   }
 
-  // default: plain text field (unchanged behavior)
+  // default: plain text field
+  const maxLength = descriptor.maxLength ?? DEFAULT_MAX_LENGTH;
+
   return (
     <View
       className={`py-4 bg-white ${isLast ? "" : "border-b border-gray-100"}`}
       style={rowStyle}
     >
-      <View style={{ marginTop: 48, marginBottom: 48 }}>
+      <View style={{ marginTop: 12, marginBottom: 12 }}>
         <DummyIcon size={36} />
       </View>
       <TextInput
         value={value}
         onChangeText={onChange}
         placeholder={placeholder || `Enter ${label}`}
+        maxLength={maxLength}
+        multiline
+        textAlignVertical="top"
         className={`text-base border border-gray-300 rounded-md py-2 px-3 w-full mt-2 ${
           value ? "text-gray font-regular" : "text-placeholder font-regular"
         }`}
-        style={{ textAlignVertical: "center", includeFontPadding: false }}
+        style={{ minHeight: 100, includeFontPadding: false }}
         placeholderTextColor={colors.placeholder}
       />
+      <Text className="text-xs text-gray-400 text-right mt-1">
+        {value.length}/{maxLength}
+      </Text>
     </View>
   );
 };

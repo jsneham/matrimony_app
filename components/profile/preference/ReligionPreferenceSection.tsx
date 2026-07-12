@@ -14,7 +14,7 @@ interface ReligionSectionProps {
   religions: LookupItem[];
   castes: LookupItem[];
   mangliks: LookupItem[];
-  selectedReligionId: string;
+  selectedReligionId: string[];
   onLayout: (sectionId: string, event: any) => void;
   openModal: (
     title: string,

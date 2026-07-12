@@ -663,5 +663,10 @@ export type EditableFieldDescriptor = {
   field: string;
   label: string;
   placeholder?: string;
-  type?: "text" | "time" | "date";
+  type?: "text" | "time" | "date" | "range";
+  maxLength?: number;
+  // range-only:
+  options?: { id: string; val: string }[];
+  fromField?: string;
+  toField?: string;
 };

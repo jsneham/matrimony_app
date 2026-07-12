@@ -98,6 +98,7 @@ export interface RawCommonListDdrResponse {
   profileBy?: RawLookupItem[];
   physicalInfo?: RawLookupItem[];
   noOfBrothers?: RawLookupItem[];
+  noOfSisters?: RawLookupItem[];
   noMarriSister?: RawLookupItem[];
   noMarriBrother?: RawLookupItem[];
   mothertongue?: RawLookupItem[];

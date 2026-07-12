@@ -44,7 +44,7 @@ export const NonEditableText: React.FC<EditRowProps> = ({
               value ? "text-gray font-regular" : "text-placeholder font-regular"
             }`}
           >
-            {value || placeholder || `Select ${label}`}
+            {value || placeholder || `Enter ${label}`}
           </Text>
         </View>
 

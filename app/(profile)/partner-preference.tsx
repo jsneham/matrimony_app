@@ -4,8 +4,6 @@ import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 // Hooks
 import {
   useAge,
-  useCastes,
-  useCities,
   useCountries,
   useDesignation,
   useDrinking,
@@ -19,10 +17,12 @@ import {
   useMangliks,
   useMaritalStatuses,
   useMoonSign,
+  useMultiCastes,
+  useMultiCities,
+  useMultiStates,
   useOccupations,
   useReligions,
   useSmoking,
-  useStates,
   useWorkSector,
 } from "@/hooks/useMetadata";
 import { useMyProfile } from "@/hooks/useProfile";
@@ -73,21 +73,26 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
 
   // ── Global selection store ──────────────────────────────────────────────────
   const {
-    selectedCountryId,
-    selectedStateId,
-    selectedReligionId,
+    selectedCountryIds,
+    selectedStateIds,
+    selectedReligionIds,
     setInitialValues,
     setCountryId,
     setStateId,
     setReligionId,
   } = usePreferenceMetadataStore();
 
+  // ── Dependent lists — driven by ALL selected parent ids, not just one ──────
+  const { data: states } = useMultiStates(selectedCountryIds);
+  const { data: cities } = useMultiCities(selectedStateIds);
+  const { data: castes } = useMultiCastes(selectedReligionIds);
+
+  console.log("STORE — selectedCountryIds:", selectedCountryIds);
+  console.log("STATES — merged result:", states);
+
   // ── Master data lists (fetched once, cached forever) ────────────────────────
   const { data: countries } = useCountries();
-  const { data: states } = useStates(selectedCountryId);
-  const { data: cities } = useCities(selectedStateId);
   const { data: religions } = useReligions();
-  const { data: castes } = useCastes(selectedReligionId);
   const { data: educations } = useEducations();
   const { data: occupations } = useOccupations();
   const { data: languages } = useLanguages();
@@ -105,14 +110,13 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
   const { data: workSector } = useWorkSector();
   const { data: designation } = useDesignation();
   // ── Seed Zustand with profile's current IDs on first load ───────────────────
+
   useEffect(() => {
     if (!profile) return;
-    // const religionId =
-    //   religions.find((r) => r.val === profile.religion_name)?.id || "";
     setInitialValues(
-      profile.country_id || "",
-      profile.state_id || "",
-      profile.religion || "",
+      profile.part_country_living?.split(",").filter(Boolean) ?? [],
+      profile.part_state?.split(",").filter(Boolean) ?? [],
+      profile.part_religion?.split(",").filter(Boolean) ?? [],
     );
   }, [profile, setInitialValues]);
 
@@ -126,7 +130,7 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
     isSaving,
     handleEditTextSave,
     editableFieldsData,
-    onEditableFieldChange,
+    // onEditableFieldChange,
   } = useProfileEditModal({
     memberId,
     setCountryId,
@@ -154,6 +158,8 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
       </View>
     );
   }
+
+  console.log("states list", states);
 
   // ── Render ──────────────────────────────────────────────────────────────────
   return (
@@ -196,8 +202,8 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
           countries={countries}
           states={states}
           cities={cities}
-          selectedCountryId={selectedCountryId}
-          selectedStateId={selectedStateId}
+          selectedCountryId={selectedCountryIds}
+          selectedStateId={selectedStateIds}
           onLayout={registerSection}
           openModal={openModal}
         />
@@ -208,7 +214,7 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
           religions={religions}
           castes={castes}
           mangliks={mangliks}
-          selectedReligionId={selectedReligionId}
+          selectedReligionId={selectedReligionIds}
           onLayout={registerSection}
           openModal={openModal}
         />
@@ -256,7 +262,7 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
         editableTextFields={modalConfig.editableTextFields}
         isMultiSelect={modalConfig.isMultiSelect}
         editableFieldsData={editableFieldsData}
-        onEditableFieldChange={onEditableFieldChange}
+        // onEditableFieldChange={onEditableFieldChange}
         handleEditTextSave={handleEditTextSave}
       />
     </View>
