@@ -6,6 +6,7 @@ import { ProfileProgressBanner } from "@/components/profile/ProfileEditComponent
 import { useMyProfile } from "@/hooks/useProfile";
 import { useSession } from "@/hooks/useSession";
 import { SESSION_KEYS } from "@/types/common";
+import { Feather } from "@expo/vector-icons";
 import React from "react";
 import {
     ActivityIndicator,
@@ -51,12 +52,12 @@ const EditPhotosMoreScreen = () => {
       />
       <ScrollView
         className="flex-1"
-        contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 40 }}
+        contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 56 }}
         showsVerticalScrollIndicator={false}
       >
         {/* Main photos section */}
-        <View className="flex-row justify-end mt-4 mb-3">
-          <GuidelinesLink />
+        <View className="mt-14 mb-4">
+          <Text className="text-2xl font-bold text-gray-900">Photos</Text>
         </View>
 
         <View className="flex-row gap-3 mb-3">
@@ -70,17 +71,32 @@ const EditPhotosMoreScreen = () => {
           />
         </View>
 
-        <View className="flex-row gap-3 mb-8">
+        <View className="flex-row gap-3">
           <AddPhotoSlot />
           <AddPhotoSlot />
         </View>
 
+        <View className="flex-row items-center justify-between mt-4">
+          <View className="flex-row items-center flex-1">
+            <Feather
+              name="info"
+              size={12}
+              color="#8B8B8B"
+              style={{ marginRight: 6, marginTop: -2 }}
+            />
+            <Text className="text-gray font-regular text-sm flex-1">
+              Minimum of 2 photos are mandatory.
+            </Text>
+          </View>
+          <GuidelinesLink />
+        </View>
+
         {/* Photo Privacy */}
-        <Text className="text-2xl font-bold text-gray-900 mb-3">
+        <Text className="text-2xl font-bold text-gray-900 mb-4 mt-14">
           Photo Privacy
         </Text>
-        <View className="border-2 border-dashed border-gray-300 rounded-2xl px-4 py-5 flex-row items-center justify-between bg-white mb-8">
-          <Text className="text-gray-900 font-semibold text-base">
+        <View className="border-2 border-dashed border-gray-300 rounded-2xl px-4 py-4 flex-row items-center justify-between bg-white">
+          <Text className="text-gray-900 font-regular text-base">
             Visible to Premium Members & I like
           </Text>
           <Pressable>
@@ -89,19 +105,25 @@ const EditPhotosMoreScreen = () => {
         </View>
 
         {/* Video intro */}
-        <View className="mb-8">
-          <UploadRow label="Introduce yourself with a video." />
-        </View>
+        <UploadRow
+          heading="Video"
+          label="Introduce yourself with a video."
+          note="30 seconds maximum, follow guidelines."
+        />
 
         {/* Voice */}
-        <View className="mb-8">
-          <UploadRow label="Express yourself through your Voice" />
-        </View>
+        <UploadRow
+          heading="Voice Note"
+          label="Express yourself through your Voice"
+          note="30 seconds maximum, follow guidelines."
+        />
 
         {/* Horoscope */}
-        <View className="mb-4">
-          <UploadRow label="You can upload your Horoscope Photo" />
-        </View>
+        <UploadRow
+          heading="Horoscope Photo"
+          label="You can upload your Horoscope Photo"
+          note="Photo of most important data in horoscope."
+        />
       </ScrollView>
     </View>
   );
