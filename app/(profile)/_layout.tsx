@@ -11,6 +11,7 @@ import PagerView from "react-native-pager-view";
 
 import { PROFILE_TABS } from "@/constants/data";
 import EditProfileScreen from ".";
+import EditPhotosMoreScreen from "./EditPhotosMoreScreen";
 import EditPartnerPreferenceScreen from "./partner-preference";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
@@ -116,6 +117,10 @@ export default function MatchesLayout() {
         {/* Page 1 - My Matches */}
         <View key="index" className=" flex-1">
           {activeIndex === 1 ? <EditPartnerPreferenceScreen /> : null}
+        </View>
+
+        <View key="photos-more" className=" flex-1">
+          <EditPhotosMoreScreen />
         </View>
       </PagerView>
     </View>
