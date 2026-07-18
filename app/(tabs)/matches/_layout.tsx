@@ -1,74 +1,104 @@
+import { Ionicons } from "@expo/vector-icons";
 import React, { useRef, useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import {
+  Animated,
+  Dimensions,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import PagerView from "react-native-pager-view";
 
-import SearchIcon from "@/assets/icons/SearchIcon";
 import { TABS } from "@/constants/data";
 import MyMatchesTab from "./index";
 import MoreMatchesTab from "./more-matches";
 import SearchTab from "./search";
 
+const { width: SCREEN_WIDTH } = Dimensions.get("window");
+
 export default function MatchesLayout() {
   const [activeIndex, setActiveIndex] = useState(1);
   const pagerRef = useRef<PagerView>(null);
+  const indicatorAnim = useRef(new Animated.Value(1)).current;
 
   const handleTabPress = (index: number) => {
     pagerRef.current?.setPage(index);
     setActiveIndex(index);
+    animateIndicator(index);
+  };
+
+  const animateIndicator = (index: number) => {
+    Animated.spring(indicatorAnim, {
+      toValue: index,
+      useNativeDriver: true,
+      tension: 60,
+      friction: 10,
+    }).start();
   };
 
   const onPageSelected = (e: any) => {
-    setActiveIndex(e.nativeEvent.position);
+    const index = e.nativeEvent.position;
+    setActiveIndex(index);
+    animateIndicator(index);
   };
+
+  const tabWidth = SCREEN_WIDTH / TABS.length;
+
+  const indicatorTranslateX = indicatorAnim.interpolate({
+    inputRange: [0, 1, 2],
+    outputRange: [0, tabWidth, tabWidth * 2],
+  });
 
   return (
     <View className="flex-1 bg-white">
       {/* ── Top Tab Bar ───────────────────────────────── */}
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-evenly",
-          alignItems: "center",
-        }}
-      >
-        {TABS.map((tab, index) => {
-          const isActive = activeIndex === index;
-          return (
-            <TouchableOpacity
-              key={tab.key}
-              onPress={() => handleTabPress(index)}
-              activeOpacity={0.7}
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "flex-start",
-                paddingVertical: 14,
-                paddingHorizontal: 20,
-                backgroundColor: "#FFFFFF",
-                borderBottomWidth: 2,
-                borderBottomColor: isActive ? "#000000" : "#F9F9F9",
-              }}
-            >
-              {tab.icon && (
-                <View style={{ marginRight: 8 }}>
-                  <SearchIcon
-                    size={14}
-                    color={isActive ? "#000000" : "#8B8B8B"}
-                  />
-                </View>
-              )}
-              <Text
-                className="font-bold"
-                style={{
-                  fontSize: 16,
-                  color: isActive ? "#000000" : "#8B8B8B",
-                }}
+      <View className="bg-white">
+        <View className="flex-row h-11 border-b border-inactive-border">
+          {TABS.map((tab, index) => {
+            const isActive = activeIndex === index;
+            return (
+              <TouchableOpacity
+                key={tab.key}
+                onPress={() => handleTabPress(index)}
+                style={{ width: tabWidth }}
+                className="flex-1 items-center justify-center "
+                activeOpacity={0.7}
               >
-                {tab.label}
-              </Text>
-            </TouchableOpacity>
-          );
-        })}
+                <View className="flex-row items-center">
+                  {tab.icon && (
+                    <Ionicons
+                      name={tab.icon}
+                      size={14}
+                      color={
+                        isActive
+                          ? "text-tab-text-active"
+                          : "text-tab-text-inactive"
+                      }
+                    />
+                  )}
+                  <Text
+                    className={`text-[16px] ${
+                      isActive
+                        ? "font-bold text-tab-text-active"
+                        : "font-bold text-tab-text-inactive"
+                    }`}
+                  >
+                    {tab.label}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+
+        {/* Animated Indicator */}
+        <Animated.View
+          style={{
+            width: tabWidth,
+            transform: [{ translateX: indicatorTranslateX }],
+          }}
+          className="absolute bottom-0 h-[2px] w-24 bg-black rounded-full"
+        />
       </View>
 
       {/* ── Pager View (swipeable) ─────────────────────── */}

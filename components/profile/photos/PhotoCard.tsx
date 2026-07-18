@@ -7,11 +7,13 @@ export const PhotoCard = ({
   mainLabel,
   pendingLabel,
   size = "large",
+  onPressMenu,
 }: {
   source: any;
   mainLabel?: string;
   pendingLabel?: boolean;
   size?: "large" | "small";
+  onPressMenu?: () => void;
 }) => {
   const height = size === "large" ? "h-64" : "h-32";
   return (
@@ -44,7 +46,10 @@ export const PhotoCard = ({
         </View>
       )}
 
-      <Pressable className="absolute bottom-3 right-3 w-7 h-7 rounded-full bg-black items-center justify-center">
+      <Pressable
+        onPress={onPressMenu}
+        className="absolute bottom-3 right-3 w-7 h-7 rounded-full bg-black items-center justify-center"
+      >
         <MoreHorizontal size={16} color="#fff" />
       </Pressable>
     </View>

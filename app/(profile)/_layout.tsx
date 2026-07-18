@@ -1,6 +1,12 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { useRef, useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import {
+  Animated,
+  Dimensions,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import PagerView from "react-native-pager-view";
 
 import { PROFILE_TABS } from "@/constants/data";
@@ -8,111 +14,91 @@ import EditProfileScreen from ".";
 import EditPhotosMoreScreen from "./EditPhotosMoreScreen";
 import EditPartnerPreferenceScreen from "./partner-preference";
 
-type TabLayout = { x: number; width: number };
+const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 export default function MatchesLayout() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [containerWidth, setContainerWidth] = useState(0);
-  const [tabLayouts, setTabLayouts] = useState<Record<number, TabLayout>>({});
   const pagerRef = useRef<PagerView>(null);
+  const indicatorAnim = useRef(new Animated.Value(0)).current;
 
   const handleTabPress = (index: number) => {
     pagerRef.current?.setPage(index);
     setActiveIndex(index);
+    animateIndicator(index);
+  };
+
+  const animateIndicator = (index: number) => {
+    Animated.spring(indicatorAnim, {
+      toValue: index,
+      useNativeDriver: true,
+      tension: 60,
+      friction: 10,
+    }).start();
   };
 
   const onPageSelected = (e: any) => {
-    setActiveIndex(e.nativeEvent.position);
+    const index = e.nativeEvent.position;
+    setActiveIndex(index);
+    animateIndicator(index);
   };
 
-  const lastIndex = PROFILE_TABS.length - 1;
-  const firstTab = tabLayouts[0];
-  const lastTab = tabLayouts[lastIndex];
+  const tabWidth = SCREEN_WIDTH / PROFILE_TABS.length;
+
+  const indicatorTranslateX = indicatorAnim.interpolate({
+    inputRange: [0, 1, 2],
+    outputRange: [0, tabWidth, tabWidth * 2],
+  });
 
   return (
     <View className="flex-1 bg-white">
       {/* ── Top Tab Bar ───────────────────────────────── */}
-      <View
-        onLayout={(e) => setContainerWidth(e.nativeEvent.layout.width)}
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-evenly",
-          alignItems: "center",
-        }}
-      >
-        {/* Extension so the first tab's line reaches the true left edge */}
-        {firstTab && (
-          <View
-            style={{
-              position: "absolute",
-              left: 0,
-              bottom: 0,
-              width: firstTab.x,
-              height: 2,
-              backgroundColor: activeIndex === 0 ? "#000000" : "#F9F9F9",
-            }}
-          />
-        )}
-        {/* Extension so the last tab's line reaches the true right edge */}
-        {lastTab && containerWidth > 0 && (
-          <View
-            style={{
-              position: "absolute",
-              right: 0,
-              bottom: 0,
-              width: containerWidth - (lastTab.x + lastTab.width),
-              height: 2,
-              backgroundColor:
-                activeIndex === lastIndex ? "#000000" : "#F9F9F9",
-            }}
-          />
-        )}
-
-        {PROFILE_TABS.map((tab, index) => {
-          const isActive = activeIndex === index;
-          return (
-            <TouchableOpacity
-              key={tab.key}
-              onPress={() => handleTabPress(index)}
-              onLayout={(e) => {
-                const { x, width } = e.nativeEvent.layout;
-                setTabLayouts((prev) => ({
-                  ...prev,
-                  [index]: { x, width },
-                }));
-              }}
-              activeOpacity={0.7}
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-                paddingVertical: 14,
-                paddingHorizontal: 24,
-                backgroundColor: "#FFFFFF",
-                borderBottomWidth: 2,
-                borderBottomColor: isActive ? "#000000" : "#F9F9F9",
-              }}
-            >
-              {tab.icon && (
-                <Ionicons
-                  name={tab.icon}
-                  size={14}
-                  color={isActive ? "#000000" : "#8B8B8B"}
-                  style={{ marginRight: 8 }}
-                />
-              )}
-              <Text
-                className="font-bold"
-                style={{
-                  fontSize: 16,
-                  color: isActive ? "#000000" : "#8B8B8B",
-                }}
+      <View className="bg-white">
+        <View className="flex-row h-11 border-b border-inactive-border">
+          {PROFILE_TABS.map((tab, index) => {
+            const isActive = activeIndex === index;
+            return (
+              <TouchableOpacity
+                key={tab.key}
+                onPress={() => handleTabPress(index)}
+                style={{ width: tabWidth }}
+                className="flex-1 items-center justify-center "
+                activeOpacity={0.7}
               >
-                {tab.label}
-              </Text>
-            </TouchableOpacity>
-          );
-        })}
+                <View className="flex-row items-center">
+                  {tab.icon && (
+                    <Ionicons
+                      name={tab.icon}
+                      size={14}
+                      color={
+                        isActive
+                          ? "text-tab-text-active"
+                          : "text-tab-text-inactive"
+                      }
+                    />
+                  )}
+                  <Text
+                    className={`text-[16px] ${
+                      isActive
+                        ? "font-bold text-tab-text-active"
+                        : "font-bold text-tab-text-inactive"
+                    }`}
+                  >
+                    {tab.label}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+
+        {/* Animated Indicator */}
+        <Animated.View
+          style={{
+            width: tabWidth,
+            transform: [{ translateX: indicatorTranslateX }],
+          }}
+          className="absolute bottom-0 h-[2px] w-24 bg-black rounded-full"
+        />
       </View>
 
       {/* ── Pager View (swipeable) ─────────────────────── */}
@@ -127,12 +113,10 @@ export default function MatchesLayout() {
         <View key="search" className=" flex-1">
           <EditProfileScreen />
         </View>
-
         {/* Page 1 - My Matches */}
         <View key="index" className=" flex-1">
           {activeIndex === 1 ? <EditPartnerPreferenceScreen /> : null}
         </View>
-
         <View key="photos-more" className=" flex-1">
           <EditPhotosMoreScreen />
         </View>

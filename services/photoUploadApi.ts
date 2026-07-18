@@ -1,0 +1,239 @@
+// TODO: replace with your real API base URL / config
+const API_BASE_URL = "https://www.milann.in/";
+
+type UploadProgressCallback = (percent: number) => void;
+
+type SessionInfo = {
+  memberId: string;
+  token: string;
+};
+
+/**
+ * Mirrors the Android `uploadFileToServer()` flow for image_id 1-4:
+ * uploads both the cropped file (profile_photoX_crop) and the
+ * original file (profile_photoX_org) in a single multipart request.
+ */
+export async function uploadProfilePhotoWithCrop({
+  slotIndex, // 1-4, matches Android's image_id
+  originalUri,
+  cropUri,
+  session,
+  onProgress,
+}: {
+  slotIndex: number;
+  originalUri: string;
+  cropUri: string;
+  session: SessionInfo;
+  onProgress?: UploadProgressCallback;
+}): Promise<{ status: string; errmessage: string }> {
+  const orgParam = `profile_photo${slotIndex}_org`;
+  const cropParam = `profile_photo${slotIndex}_crop`;
+
+  const formData = new FormData();
+
+  formData.append("member_id", session.memberId);
+  formData.append("user_agent", "NI-AAPP");
+  formData.append("csrf_new_matrimonial", session.token);
+
+  formData.append(cropParam, {
+    uri: cropUri,
+    name: sanitizeFileName(cropUri),
+    type: guessMimeType(cropUri),
+  } as any);
+
+  formData.append(orgParam, {
+    uri: originalUri,
+    name: sanitizeFileName(originalUri),
+    type: guessMimeType(originalUri),
+  } as any);
+
+  const url = `${API_BASE_URL}/modify_photo/upload_photo_new`;
+
+  console.log("[uploadProfilePhotoWithCrop] Request →", {
+    url,
+    slotIndex,
+    orgParam,
+    cropParam,
+    member_id: session.memberId,
+    user_agent: "NI-AAPP",
+    csrf_new_matrimonial: session.token,
+    originalUri,
+    cropUri,
+  });
+
+  try {
+    const response = await uploadWithProgress(url, formData, onProgress);
+    console.log("[uploadProfilePhotoWithCrop] Response ←", response);
+    return response;
+  } catch (err) {
+    console.log("[uploadProfilePhotoWithCrop] Error ←", err);
+    throw err;
+  }
+}
+
+/**
+ * Mirrors the Android flow for image_id 0 (cover_photo, no crop) and
+ * similar single-file endpoints (id_proof, horoscope_photo).
+ */
+export async function uploadSinglePhoto({
+  fieldName, // "cover_photo" | "id_proof" | "horoscope_photo"
+  fileUri,
+  session,
+  onProgress,
+  endpointPath,
+}: {
+  fieldName: string;
+  fileUri: string;
+  session: SessionInfo;
+  onProgress?: UploadProgressCallback;
+  endpointPath: string;
+}): Promise<{ status: string; errmessage: string }> {
+  const formData = new FormData();
+
+  formData.append("member_id", session.memberId);
+  formData.append("user_agent", "NI-AAPP");
+  formData.append("csrf_new_matrimonial", session.token);
+
+  formData.append(fieldName, {
+    uri: fileUri,
+    name: sanitizeFileName(fileUri),
+    type: guessMimeType(fileUri),
+  } as any);
+
+  const url = `${API_BASE_URL}${endpointPath}`;
+
+  console.log("[uploadSinglePhoto] Request →", {
+    url,
+    fieldName,
+    member_id: session.memberId,
+    user_agent: "NI-AAPP",
+    csrf_new_matrimonial: session.token,
+    fileUri,
+  });
+
+  try {
+    const response = await uploadWithProgress(url, formData, onProgress);
+    console.log("[uploadSinglePhoto] Response ←", response);
+    return response;
+  } catch (err) {
+    console.log("[uploadSinglePhoto] Error ←", err);
+    throw err;
+  }
+}
+
+// ── Helpers ─────────────────────────────────────────────────────────────────
+
+function sanitizeFileName(uri: string): string {
+  const raw = uri.split("/").pop() ?? `file_${Date.now()}.jpg`;
+  return raw.replace(/[^a-zA-Z0-9.]/g, "");
+}
+
+function guessMimeType(uri: string): string {
+  const ext = uri.split(".").pop()?.toLowerCase();
+  switch (ext) {
+    case "png":
+      return "image/png";
+    case "heic":
+      return "image/heic";
+    case "jpg":
+    case "jpeg":
+    default:
+      return "image/jpeg";
+  }
+}
+
+/**
+ * XMLHttpRequest is used instead of fetch because fetch doesn't expose
+ * upload progress events (mirrors ProgressRequestBody's callback behavior).
+ */
+function uploadWithProgress(
+  url: string,
+  formData: FormData,
+  onProgress?: UploadProgressCallback,
+): Promise<{ status: string; errmessage: string }> {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", url);
+
+    xhr.upload.onprogress = (event) => {
+      if (event.lengthComputable && onProgress) {
+        const percent = Math.round((event.loaded / event.total) * 100);
+        onProgress(percent);
+        console.log(
+          `[uploadWithProgress] Progress: ${percent}% (${event.loaded}/${event.total} bytes)`,
+        );
+      }
+    };
+
+    xhr.onload = () => {
+      console.log("[uploadWithProgress] Raw response ←", {
+        status: xhr.status,
+        statusText: xhr.statusText,
+        responseText: xhr.responseText,
+      });
+
+      try {
+        const data = JSON.parse(xhr.responseText);
+        resolve(data);
+      } catch (parseErr) {
+        console.log("[uploadWithProgress] JSON parse error ←", parseErr);
+        reject(new Error("Invalid server response"));
+      }
+    };
+
+    xhr.onerror = () => {
+      console.log("[uploadWithProgress] Network error ←", {
+        status: xhr.status,
+        statusText: xhr.statusText,
+      });
+      reject(new Error("Network request failed"));
+    };
+
+    console.log("[uploadWithProgress] Sending request to:", url);
+    xhr.send(formData);
+  });
+}
+
+/**
+ * Mirrors the Android `setProfilePhotoApi()` flow: sets an already-uploaded
+ * photo slot as the main/profile photo. Simple form POST, no file upload.
+ */
+export async function setMainProfilePhoto({
+  memberId,
+  photoNumber,
+  session,
+  onProgress,
+}: {
+  memberId: string;
+  photoNumber: number;
+  session: SessionInfo;
+  onProgress?: UploadProgressCallback;
+}): Promise<{ status: string; errmessage: string }> {
+  const formData = new FormData();
+
+  formData.append("member_id", memberId);
+  formData.append("photo_number", String(photoNumber));
+  formData.append("set_profile", "set_profile");
+  formData.append("user_agent", "NI-AAPP");
+  formData.append("csrf_new_matrimonial", session.token);
+
+  const url = `${API_BASE_URL}modify_photo/set_profile_pic`;
+
+  console.log("[setMainProfilePhoto] Request →", {
+    url,
+    member_id: memberId,
+    photo_number: photoNumber,
+    set_profile: "set_profile",
+    user_agent: "NI-AAPP",
+    csrf_new_matrimonial: session.token,
+  });
+
+  try {
+    const response = await uploadWithProgress(url, formData, onProgress);
+    console.log("[setMainProfilePhoto] Response ←", response);
+    return response;
+  } catch (err) {
+    console.log("[setMainProfilePhoto] Error ←", err);
+    throw err;
+  }
+}

@@ -421,7 +421,7 @@ export type UserProfile = {
   mtongue_name: string;
   gothra: string;
   horoscope: string | "Yes" | "No";
-  horoscopePhoto: string;
+  horoscope_photo: string;
   horoscopePhotoApprove: ApprovalStatus;
   horoscopePhotoUploadedOn: string;
   manglik: ManglikStatus;
