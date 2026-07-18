@@ -132,8 +132,8 @@ export const APP_SETTINGS_MENU = [
 ];
 
 export const PROFILE_TABS = [
-  { key: "index", label: "Edit Profile", icon: null },
-  { key: "partner-preference", label: "Edit Preference", icon: null },
+  { key: "index", label: "Profile", icon: null },
+  { key: "partner-preference", label: "Preferences", icon: null },
   { key: "photos-more", label: "Photos & More", icon: null },
 ];
 
