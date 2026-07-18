@@ -8,11 +8,11 @@ import { useSession } from "@/hooks/useSession";
 import { SESSION_KEYS } from "@/types/common";
 import React from "react";
 import {
-    ActivityIndicator,
-    Pressable,
-    ScrollView,
-    Text,
-    View,
+  ActivityIndicator,
+  Pressable,
+  ScrollView,
+  Text,
+  View,
 } from "react-native";
 
 const EditPhotosMoreScreen = () => {
