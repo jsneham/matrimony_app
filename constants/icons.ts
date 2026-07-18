@@ -16,6 +16,7 @@ import home from "@/assets/icons/home.png";
 // import setting from "@/assets/icons/setting.png";
 // import spotify from "@/assets/icons/spotify.png";
 // import wallet from "@/assets/icons/wallet.png";
+import CameraAddIcon from "@/assets/icons/CameraAddIcon";
 import DiamondIcon from "@/assets/icons/DiamondIcon";
 import DummyIcon from "@/assets/icons/DummyIcon";
 import HomeIcon from "@/assets/icons/HomeIcon";
@@ -24,6 +25,7 @@ export const icons = {
   home,
   DiamondIcon,
   HomeIcon,
+  CameraAddIcon,
   DummyIcon,
   //   wallet,
   //   setting,

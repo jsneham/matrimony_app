@@ -113,12 +113,10 @@ export default function MatchesLayout() {
         <View key="search" className=" flex-1">
           <EditProfileScreen />
         </View>
-
         {/* Page 1 - My Matches */}
         <View key="index" className=" flex-1">
           {activeIndex === 1 ? <EditPartnerPreferenceScreen /> : null}
         </View>
-
         <View key="photos-more" className=" flex-1">
           <EditPhotosMoreScreen />
         </View>
