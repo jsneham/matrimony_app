@@ -1,5 +1,13 @@
 import AddVideoIcon from "@/assets/icons/AddVideoIcon";
 import AddVoiceNoteIcon from "@/assets/icons/AddVoiceNoteIcon";
+import CameraCaptureIcon from "@/assets/icons/CameraCaptureIcon";
+import GalleryUploadIcon from "@/assets/icons/GalleryUploadIcon";
+import RecordVideoIcon from "@/assets/icons/RecordVideoIcon";
+import RecordVoiceIcon from "@/assets/icons/RecordVoiceIcon";
+import SetMainPhotoIcon from "@/assets/icons/SetMainPhotoIcon";
+import VisibilityEveryoneIcon from "@/assets/icons/VisibilityEveryoneIcon";
+import VisibilityPremiumIcon from "@/assets/icons/VisibilityPremiumIcon";
+import VisibilityPremiumLikedIcon from "@/assets/icons/VisibilityPremiumLikedIcon";
 import {
   ActionOptionsSheet,
   ActionSheetOption,
@@ -45,9 +53,21 @@ type SheetKind =
   | null;
 
 const PRIVACY_OPTIONS = [
-  { id: "everyone", label: "Visible to Everyone" },
-  { id: "premium", label: "Visible to Premium Members" },
-  { id: "premium-liked", label: "Visible to Premium Members & I like" },
+  {
+    id: "everyone",
+    label: "Visible to Everyone",
+    icon: VisibilityEveryoneIcon,
+  },
+  {
+    id: "premium",
+    label: "Visible to Premium Members",
+    icon: VisibilityPremiumIcon,
+  },
+  {
+    id: "premium-liked",
+    label: "Visible to Premium Members & I like",
+    icon: VisibilityPremiumLikedIcon,
+  },
 ];
 
 const EditPhotosMoreScreen = () => {
@@ -264,6 +284,7 @@ const EditPhotosMoreScreen = () => {
             {
               id: "gallery",
               label: "Upload from gallery",
+              icon: GalleryUploadIcon,
               onPress: () =>
                 pickImageWithCrop("gallery", (original, crop) =>
                   uploadPhotoToSlot(activeSheet.slotIndex, original, crop),
@@ -272,6 +293,7 @@ const EditPhotosMoreScreen = () => {
             {
               id: "camera",
               label: "From camera",
+              icon: CameraCaptureIcon,
               onPress: () =>
                 pickImageWithCrop("camera", (original, crop) =>
                   uploadPhotoToSlot(activeSheet.slotIndex, original, crop),
@@ -289,6 +311,7 @@ const EditPhotosMoreScreen = () => {
                   {
                     id: "set-main",
                     label: "Set as Main Photo",
+                    icon: SetMainPhotoIcon,
                     onPress: () => setAsMainPhoto(activeSheet.slotIndex),
                   } as ActionSheetOption,
                 ]
@@ -296,6 +319,7 @@ const EditPhotosMoreScreen = () => {
             {
               id: "replace-gallery",
               label: "Replace Photo - from gallery",
+              icon: GalleryUploadIcon,
               onPress: () =>
                 pickImageWithCrop("gallery", (original, crop) =>
                   uploadPhotoToSlot(activeSheet.slotIndex, original, crop),
@@ -304,6 +328,7 @@ const EditPhotosMoreScreen = () => {
             {
               id: "replace-camera",
               label: "Replace Photo - from camera",
+              icon: CameraCaptureIcon,
               onPress: () =>
                 pickImageWithCrop("camera", (original, crop) =>
                   uploadPhotoToSlot(activeSheet.slotIndex, original, crop),
@@ -319,9 +344,15 @@ const EditPhotosMoreScreen = () => {
             {
               id: "gallery",
               label: "Upload the video from gallery",
+              icon: GalleryUploadIcon,
               onPress: uploadVideo,
             },
-            { id: "record", label: "Record a video", onPress: uploadVideo },
+            {
+              id: "record",
+              label: "Record a video",
+              icon: RecordVideoIcon,
+              onPress: uploadVideo,
+            },
           ],
         };
 
@@ -332,9 +363,15 @@ const EditPhotosMoreScreen = () => {
             {
               id: "upload",
               label: "Upload the audio file from gallery",
+              icon: GalleryUploadIcon,
               onPress: uploadVoiceNote,
             },
-            { id: "record", label: "Record now", onPress: uploadVoiceNote },
+            {
+              id: "record",
+              label: "Record now",
+              icon: RecordVoiceIcon,
+              onPress: uploadVoiceNote,
+            },
           ],
         };
 
@@ -345,6 +382,7 @@ const EditPhotosMoreScreen = () => {
             {
               id: "gallery",
               label: "Upload from gallery",
+              icon: GalleryUploadIcon,
               onPress: () =>
                 pickImageForHoroscope("gallery", (uri) =>
                   uploadHoroscopePhoto(uri),
@@ -353,6 +391,7 @@ const EditPhotosMoreScreen = () => {
             {
               id: "camera",
               label: "Take a photo",
+              icon: CameraCaptureIcon,
               onPress: () =>
                 pickImageForHoroscope("camera", (uri) =>
                   uploadHoroscopePhoto(uri),
@@ -367,6 +406,7 @@ const EditPhotosMoreScreen = () => {
           options: PRIVACY_OPTIONS.map((opt) => ({
             id: opt.id,
             label: opt.label,
+            icon: opt.icon,
             onPress: () => savePrivacy(opt.id),
           })),
         };

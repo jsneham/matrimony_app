@@ -15,6 +15,7 @@ export type ActionSheetOption = {
   label: string;
   onPress: () => void;
   destructive?: boolean;
+  icon?: React.ComponentType<{ size?: number; color?: string }>;
 };
 
 type ActionOptionsSheetProps = {
@@ -105,22 +106,33 @@ export const ActionOptionsSheet: React.FC<ActionOptionsSheetProps> = ({
               },
             ]}
           >
-            {options.map((option) => (
-              <Pressable
-                key={option.id}
-                onPress={() => handleOptionPress(option)}
-                className="flex-row items-center py-4 active:opacity-60"
-              >
-                <View className="w-[18px] h-[18px] rounded-full bg-gray-200 mr-4" />
-                <Text
-                  className={`text-base font-bold ${
-                    option.destructive ? "text-red-500" : "text-black"
-                  }`}
+            {options.map((option) => {
+              const Icon = option.icon;
+              const iconColor = option.destructive ? "#EF4444" : "#374151";
+              return (
+                <Pressable
+                  key={option.id}
+                  onPress={() => handleOptionPress(option)}
+                  className="flex-row items-center py-4 active:opacity-60"
                 >
-                  {option.label}
-                </Text>
-              </Pressable>
-            ))}
+                  <View className="w-[18px] h-[18px] mr-4 items-center justify-center">
+                    {Icon ? (
+                      <Icon size={18} color={iconColor} />
+                    ) : (
+                      <View className="w-[18px] h-[18px] rounded-full bg-gray-200" />
+                    )}
+                  </View>
+                  <Text
+                    className={`text-base font-bold ${
+                      option.destructive ? "text-red-500" : "text-black"
+                    }`}
+                    style={{ includeFontPadding: false, textAlignVertical: "center" }}
+                  >
+                    {option.label}
+                  </Text>
+                </Pressable>
+              );
+            })}
 
             <Pressable
               onPress={animateClose}
