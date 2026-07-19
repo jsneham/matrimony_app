@@ -85,8 +85,10 @@ export const NonEditableFieldModal: React.FC<NonEditableFieldModalProps> = ({
             },
           ]}
         >
-          <View className="items-center pt-3 pb-1">
-            <View className="w-10 h-1.5 rounded-full bg-gray-200" />
+          <View className="items-center px-5 py-5 border-b border-light-divider-color">
+            <Text className="text-lg font-bold text-black text-center">
+              Info Message
+            </Text>
           </View>
 
           <View className="px-6 pt-6 items-center">
@@ -109,6 +111,15 @@ export const NonEditableFieldModal: React.FC<NonEditableFieldModalProps> = ({
             >
               <Text className="text-white font-bold text-base">
                 Go to Help &amp; Support Section
+              </Text>
+            </Pressable>
+
+            <Pressable
+              onPress={animateClose}
+              className="w-full mt-2 items-center justify-center rounded-full py-4 active:opacity-60"
+            >
+              <Text className="text-base font-bold text-[#8b8b8b]">
+                Close
               </Text>
             </Pressable>
           </View>

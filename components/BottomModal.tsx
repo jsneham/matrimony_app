@@ -1,109 +1,133 @@
 // LogoutModal.js
-import React, { useEffect } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import React from "react";
+import { Modal, Platform, Pressable, Text, View } from "react-native";
 import Animated, {
-    useAnimatedStyle,
-    useSharedValue,
-    withSpring,
+  Easing,
+  runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+type BottomModalProps = {
+  visible: boolean;
+  onConfirm: () => void;
+  onCancel: () => void;
+};
 
-export default function BottomModal({ visible, onConfirm, onCancel }) {
-  const translateY = useSharedValue(600);
-  const opacity = useSharedValue(0);
+export default function BottomModal({
+  visible,
+  onConfirm,
+  onCancel,
+}: BottomModalProps) {
   const insets = useSafeAreaInsets();
+  const translateY = useSharedValue(900);
 
-  useEffect(() => {
-    if (visible) {
-      translateY.value = withSpring(0, {
-        damping: 12,
-        mass: 1,
-        stiffness: 100,
-      });
-      opacity.value = withSpring(1, {
-        damping: 12,
-        mass: 1,
-        stiffness: 100,
-      });
-    } else {
-      translateY.value = withSpring(600, {
-        damping: 12,
-        mass: 1,
-        stiffness: 100,
-      });
-      opacity.value = withSpring(0, {
-        damping: 12,
-        mass: 1,
-        stiffness: 100,
-      });
-    }
-  }, [visible]);
-
-  const animatedModalStyle = useAnimatedStyle(() => ({
+  const panelStyle = useAnimatedStyle(() => ({
     transform: [{ translateY: translateY.value }],
   }));
 
-  const animatedOverlayStyle = useAnimatedStyle(() => ({
-    opacity: opacity.value,
-  }));
+  React.useEffect(() => {
+    if (visible) {
+      translateY.value = 900;
+      const timer = setTimeout(() => {
+        translateY.value = withTiming(0, {
+          duration: 300,
+          easing: Easing.bezier(0, 0, 0.58, 1),
+        });
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [visible]);
 
-  if (!visible) return null;
+  const animateClose = (after: () => void) => {
+    translateY.value = withTiming(
+      900,
+      {
+        duration: 250,
+        easing: Easing.bezier(0.42, 0, 1, 1),
+      },
+      () => {
+        runOnJS(after)();
+      },
+    );
+  };
+
+  const handleCancel = () => animateClose(onCancel);
+  const handleConfirm = () => animateClose(onConfirm);
 
   return (
-    <View className="absolute inset-0 justify-end">
-      {/* Animated Overlay */}
-      <Animated.View
-        style={animatedOverlayStyle}
-        className="absolute inset-0 bg-black/50"
-        pointerEvents={visible ? "auto" : "none"}
-      >
-        <Pressable className="flex-1" onPress={onCancel} />
-      </Animated.View>
+    <Modal
+      visible={visible}
+      animationType="none"
+      transparent
+      statusBarTranslucent
+    >
+      <View style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.5)" }}>
+        <Pressable style={{ flex: 1 }} onPress={handleCancel} />
 
-      {/* Animated Modal Content */}
-      <Animated.View
-        style={[animatedModalStyle, { paddingBottom: insets.bottom }]}
-        className="bg-white rounded-t-3xl px-6 py-8"
-      >
-        {/* Handle Bar */}
-        <View className="w-12 h-1 bg-gray-300 rounded-full self-center mb-6" />
-
-        {/* Title */}
-        <Text className="text-2xl font-bold text-black mb-4">Logout</Text>
-
-        {/* Message */}
-        <Text className="text-base text-gray-500 mb-8">
-          Are you sure want to logout from the app?
-        </Text>
-
-        {/* Buttons Container */}
-        <View className="gap-3">
-          {/* No Button (Filled Orange) */}
-          <Pressable
-            onPress={onCancel}
-            className="bg-orange-500 rounded-xl py-4 active:bg-orange-600"
-          >
-            <Text className="text-white text-center text-lg font-medium">
-              No
+        <Animated.View
+          style={[
+            panelStyle,
+            {
+              backgroundColor: "white",
+              borderTopLeftRadius: 24,
+              borderTopRightRadius: 24,
+              paddingBottom: 16 + (Platform.OS === "ios" ? insets.bottom : 0),
+            },
+          ]}
+        >
+          <View className="items-center px-5 py-5 border-b border-light-divider-color">
+            <Text className="text-lg font-bold text-black text-center">
+              Logout
             </Text>
-          </Pressable>
+          </View>
 
-          {/* Yes Button (Outlined Orange) */}
-          <Pressable
-            onPress={onConfirm}
-            className="border-2 border-orange-500 rounded-xl py-4 active:bg-orange-50"
-          >
-            <Text className="text-orange-500 text-center text-lg font-medium">
-              Yes
+          <View className="px-6 pt-6 items-center">
+            <View className="w-24 h-24 rounded-full bg-gray-200 items-center justify-center mb-6">
+              <Ionicons name="log-out-outline" size={40} color="#d1d5db" />
+            </View>
+
+            <Text className="text-xl font-bold text-black text-center mb-4">
+              Are you sure you want to logout?
             </Text>
-          </Pressable>
-        </View>
 
-        {/* Bottom divider line */}
-        <View className="w-16 h-1 bg-gray-400 rounded-full self-center mt-6" />
-      </Animated.View>
-    </View>
+            <Text className="text-base font-regular text-gray-400 text-center mb-8 leading-6">
+              If you&apos;re facing any issues or need assistance, please visit the Help &amp;
+              Support section.
+            </Text>
+
+            <Pressable onPress={handleConfirm} className="mt-4 mb-8">
+              <Text
+                className="text-base font-regular text-gray-400 pb-[1px]"
+                style={{ borderBottomWidth: 1, borderBottomColor: "#9ca3af" }}
+              >
+                Logout
+              </Text>
+            </Pressable>
+
+            <Pressable
+              onPress={handleCancel}
+              className="w-full py-4 bg-pink-600 rounded-full items-center active:bg-pink-700"
+            >
+              <Text className="text-white font-bold text-base">
+                Go to Help &amp; Support Section
+              </Text>
+            </Pressable>
+
+            <Pressable
+              onPress={handleCancel}
+              className="w-full mt-2 items-center justify-center rounded-full py-4 active:opacity-60"
+            >
+              <Text className="text-base font-bold text-[#8b8b8b]">
+                Close
+              </Text>
+            </Pressable>
+          </View>
+        </Animated.View>
+      </View>
+    </Modal>
   );
 }

@@ -5,9 +5,6 @@ import GalleryUploadIcon from "@/assets/icons/GalleryUploadIcon";
 import RecordVideoIcon from "@/assets/icons/RecordVideoIcon";
 import RecordVoiceIcon from "@/assets/icons/RecordVoiceIcon";
 import SetMainPhotoIcon from "@/assets/icons/SetMainPhotoIcon";
-import VisibilityEveryoneIcon from "@/assets/icons/VisibilityEveryoneIcon";
-import VisibilityPremiumIcon from "@/assets/icons/VisibilityPremiumIcon";
-import VisibilityPremiumLikedIcon from "@/assets/icons/VisibilityPremiumLikedIcon";
 import {
   ActionOptionsSheet,
   ActionSheetOption,
@@ -15,6 +12,7 @@ import {
 import { AddPhotoSlot } from "@/components/profile/photos/AddPhotoSlot";
 import { GuidelinesLink } from "@/components/profile/photos/GuidelinesLink";
 import { PhotoCard } from "@/components/profile/photos/PhotoCard";
+import { PhotoPrivacySheet } from "@/components/profile/photos/PhotoPrivacySheet";
 import { UploadRow } from "@/components/profile/photos/UploadRow";
 import { ProfileProgressBanner } from "@/components/profile/ProfileEditComponents";
 import { useMyProfile } from "@/hooks/useProfile";
@@ -53,21 +51,9 @@ type SheetKind =
   | null;
 
 const PRIVACY_OPTIONS = [
-  {
-    id: "everyone",
-    label: "Visible to Everyone",
-    icon: VisibilityEveryoneIcon,
-  },
-  {
-    id: "premium",
-    label: "Visible to Premium Members",
-    icon: VisibilityPremiumIcon,
-  },
-  {
-    id: "premium-liked",
-    label: "Visible to Premium Members & I like",
-    icon: VisibilityPremiumLikedIcon,
-  },
+  { id: "everyone", label: "Visible to Everyone" },
+  { id: "premium", label: "Visible to Premium Members" },
+  { id: "premium-liked", label: "Visible to Premium Members & I like" },
 ];
 
 const EditPhotosMoreScreen = () => {
@@ -100,9 +86,7 @@ const EditPhotosMoreScreen = () => {
     profile?.horoscope_photo,
   );
 
-  // const [privacy, setPrivacy] = useState(
-  //   profile?.photoPrivacy ?? "premium-liked",
-  // );
+  const [privacy, setPrivacy] = useState("premium-liked");
 
   React.useEffect(() => {
     if (profile) {
@@ -113,7 +97,6 @@ const EditPhotosMoreScreen = () => {
         profile.photo4,
       ]);
       setHoroscopePhoto(profile.horoscope_photo);
-      // if (profile.photoPrivacy) setPrivacy(profile.photoPrivacy);
     }
   }, [profile]);
 
@@ -266,7 +249,7 @@ const EditPhotosMoreScreen = () => {
 
   const savePrivacy = (id: string) => {
     // TODO: replace with real mutation, e.g. updateProfile({ photoPrivacy: id })
-    // setPrivacy(id);
+    setPrivacy(id);
   };
 
   // ── Build dynamic options per sheet kind ─────────────────────────────────
@@ -400,17 +383,6 @@ const EditPhotosMoreScreen = () => {
           ],
         };
 
-      case "privacy":
-        return {
-          title: "Photo Privacy",
-          options: PRIVACY_OPTIONS.map((opt) => ({
-            id: opt.id,
-            label: opt.label,
-            icon: opt.icon,
-            onPress: () => savePrivacy(opt.id),
-          })),
-        };
-
       default:
         return { title: "", options: [] };
     }
@@ -456,9 +428,9 @@ const EditPhotosMoreScreen = () => {
       />
     );
 
-  const privacyLabel = "Visible to Premium Members & I like";
-  // PRIVACY_OPTIONS.find((p) => p.id === privacy)?.label ??
-  // "Visible to Premium Members & I like";
+  const privacyLabel =
+    PRIVACY_OPTIONS.find((p) => p.id === privacy)?.label ??
+    "Visible to Premium Members & I like";
 
   return (
     <View className="flex-1 bg-app-background">
@@ -545,9 +517,19 @@ const EditPhotosMoreScreen = () => {
 
       {/* Single shared sheet, content driven by activeSheet */}
       <ActionOptionsSheet
-        visible={activeSheet !== null}
+        visible={activeSheet !== null && activeSheet.type !== "privacy"}
         title={sheetTitle}
         options={sheetOptions}
+        onClose={closeSheet}
+      />
+
+      {/* Photo Privacy uses the single-select design instead */}
+      <PhotoPrivacySheet
+        visible={activeSheet?.type === "privacy"}
+        title="Photo Privacy"
+        options={PRIVACY_OPTIONS}
+        selectedId={privacy}
+        onSelect={savePrivacy}
         onClose={closeSheet}
       />
 
