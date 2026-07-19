@@ -97,7 +97,7 @@ export const ActionOptionsSheet: React.FC<ActionOptionsSheetProps> = ({
             style={[
               panelStyle,
               {
-                backgroundColor: "white",
+                backgroundColor: "#f9f9f9",
                 borderTopLeftRadius: 20,
                 borderTopRightRadius: 20,
                 paddingHorizontal: 20,
@@ -115,7 +115,7 @@ export const ActionOptionsSheet: React.FC<ActionOptionsSheetProps> = ({
             </View>
 
             {/* Grouped options card */}
-            <View className="border border-gray-200 rounded-2xl bg-white overflow-hidden">
+            <View className="rounded-2xl bg-white overflow-hidden">
               {options.map((option, index) => (
                 <View key={option.id}>
                   <Pressable
@@ -132,7 +132,7 @@ export const ActionOptionsSheet: React.FC<ActionOptionsSheetProps> = ({
                     </Text>
                   </Pressable>
                   {index < options.length - 1 && (
-                    <View className="h-px bg-gray-100 ml-4" />
+                    <View className="h-px bg-gray-100 mx-4" />
                   )}
                 </View>
               ))}

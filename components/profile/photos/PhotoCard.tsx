@@ -28,7 +28,7 @@ export const PhotoCard = ({
 
       {pendingLabel && (
         <View
-          className="absolute top-2 self-center bg-overlay-black-40 px-3 rounded-full justify-center"
+          className="absolute top-2 self-center bg-overlay-black-50 px-3 rounded-full justify-center"
           style={{ height: 28 }}
         >
           <Text className="text-white text-xs font-semibold">

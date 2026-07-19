@@ -1,5 +1,5 @@
 import { Feather } from "@expo/vector-icons";
-import { Camera } from "lucide-react-native";
+import { Camera, MoreHorizontal } from "lucide-react-native";
 import React from "react";
 import { Image, Pressable, Text, View } from "react-native";
 import { GuidelinesLink } from "./GuidelinesLink";
@@ -30,11 +30,11 @@ export const UploadRow = ({
       >
         <Image
           source={{ uri: imageUri }}
-          className="w-full h-full"
+          className="w-full h-full rounded-2xl"
           resizeMode="cover"
         />
-        <View className="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-black items-center justify-center">
-          <Camera size={16} color="#fff" />
+        <View className="absolute bottom-3 right-3 w-7 h-7 rounded-full bg-black items-center justify-center">
+          <MoreHorizontal size={16} color="#fff" />
         </View>
       </Pressable>
     ) : (

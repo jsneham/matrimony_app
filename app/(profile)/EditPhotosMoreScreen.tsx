@@ -261,7 +261,7 @@ const EditPhotosMoreScreen = () => {
           options: [
             {
               id: "gallery",
-              label: "Add from gallery",
+              label: "Upload from gallery",
               onPress: () =>
                 pickImageWithCrop("gallery", (original, crop) =>
                   uploadPhotoToSlot(activeSheet.slotIndex, original, crop),
@@ -316,7 +316,7 @@ const EditPhotosMoreScreen = () => {
           options: [
             {
               id: "gallery",
-              label: "Upload from gallery",
+              label: "Upload the video from gallery",
               onPress: uploadVideo,
             },
             { id: "record", label: "Record a video", onPress: uploadVideo },
@@ -329,7 +329,7 @@ const EditPhotosMoreScreen = () => {
           options: [
             {
               id: "upload",
-              label: "Upload an audio file",
+              label: "Upload the audio file from gallery",
               onPress: uploadVoiceNote,
             },
             { id: "record", label: "Record now", onPress: uploadVoiceNote },
@@ -422,7 +422,7 @@ const EditPhotosMoreScreen = () => {
     <View className="flex-1 bg-app-background">
       <ProfileProgressBanner
         percentage={0}
-        message="Photos will be rejected if guidelines not followed."
+        message="Photos will be rejected if guidelines are not followed."
         showVerify={false}
       />
       <ScrollView
@@ -454,7 +454,7 @@ const EditPhotosMoreScreen = () => {
               style={{ marginRight: 6, marginTop: -2 }}
             />
             <Text className="text-gray font-regular text-sm flex-1">
-              Minimum of 2 photos are mandatory.
+              Atleast 2 photos, follow guidelines.
             </Text>
           </View>
           <GuidelinesLink />
