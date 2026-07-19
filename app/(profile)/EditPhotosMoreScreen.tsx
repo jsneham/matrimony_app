@@ -1,11 +1,11 @@
+import AddVideoIcon from "@/assets/icons/AddVideoIcon";
+import AddVoiceNoteIcon from "@/assets/icons/AddVoiceNoteIcon";
 import {
   ActionOptionsSheet,
   ActionSheetOption,
 } from "@/components/profile/photos/ActionOptionsSheet";
 import { AddPhotoSlot } from "@/components/profile/photos/AddPhotoSlot";
 import { GuidelinesLink } from "@/components/profile/photos/GuidelinesLink";
-import AddVideoIcon from "@/assets/icons/AddVideoIcon";
-import AddVoiceNoteIcon from "@/assets/icons/AddVoiceNoteIcon";
 import { PhotoCard } from "@/components/profile/photos/PhotoCard";
 import { UploadRow } from "@/components/profile/photos/UploadRow";
 import { ProfileProgressBanner } from "@/components/profile/ProfileEditComponents";
@@ -271,7 +271,7 @@ const EditPhotosMoreScreen = () => {
             },
             {
               id: "camera",
-              label: "Take a photo",
+              label: "From camera",
               onPress: () =>
                 pickImageWithCrop("camera", (original, crop) =>
                   uploadPhotoToSlot(activeSheet.slotIndex, original, crop),

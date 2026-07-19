@@ -36,7 +36,7 @@ export const UploadRow = ({
           className="w-full h-full rounded-2xl"
           resizeMode="cover"
         />
-        <View className="absolute bottom-3 right-3 w-7 h-7 rounded-full bg-black items-center justify-center">
+        <View className="absolute bottom-3 right-3 w-7 h-7 rounded-[14px] bg-black items-center justify-center">
           <MoreHorizontal size={16} color="#fff" />
         </View>
       </Pressable>
