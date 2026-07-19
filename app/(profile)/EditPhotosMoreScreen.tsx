@@ -467,7 +467,7 @@ const EditPhotosMoreScreen = () => {
           Photo Privacy
         </Text>
         <View className="border border-dashed border-gray-400 rounded-2xl px-4 py-4 flex-row items-center justify-between bg-white">
-          <Text className="text-gray-900 font-regular text-base">
+          <Text className="text-gray-900 font-bold text-base">
             {privacyLabel}
           </Text>
           <Pressable onPress={() => setActiveSheet({ type: "privacy" })}>
