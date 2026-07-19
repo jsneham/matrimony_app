@@ -4,6 +4,8 @@ import {
 } from "@/components/profile/photos/ActionOptionsSheet";
 import { AddPhotoSlot } from "@/components/profile/photos/AddPhotoSlot";
 import { GuidelinesLink } from "@/components/profile/photos/GuidelinesLink";
+import AddVideoIcon from "@/assets/icons/AddVideoIcon";
+import AddVoiceNoteIcon from "@/assets/icons/AddVoiceNoteIcon";
 import { PhotoCard } from "@/components/profile/photos/PhotoCard";
 import { UploadRow } from "@/components/profile/photos/UploadRow";
 import { ProfileProgressBanner } from "@/components/profile/ProfileEditComponents";
@@ -464,7 +466,7 @@ const EditPhotosMoreScreen = () => {
         <Text className="text-2xl font-bold text-gray-900 mb-4 mt-14">
           Photo Privacy
         </Text>
-        <View className="border-2 border-dashed border-gray-300 rounded-2xl px-4 py-4 flex-row items-center justify-between bg-white">
+        <View className="border border-dashed border-gray-400 rounded-2xl px-4 py-4 flex-row items-center justify-between bg-white">
           <Text className="text-gray-900 font-regular text-base">
             {privacyLabel}
           </Text>
@@ -479,6 +481,7 @@ const EditPhotosMoreScreen = () => {
           label="Introduce yourself with a video."
           note="30 seconds maximum, follow guidelines."
           onPress={() => setActiveSheet({ type: "video" })}
+          icon={AddVideoIcon}
         />
 
         {/* Voice */}
@@ -487,6 +490,7 @@ const EditPhotosMoreScreen = () => {
           label="Express yourself through your Voice"
           note="30 seconds maximum, follow guidelines."
           onPress={() => setActiveSheet({ type: "voice" })}
+          icon={AddVoiceNoteIcon}
         />
 
         {/* Horoscope */}

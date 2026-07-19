@@ -9,7 +9,7 @@ export const SmallPhotoCard = ({
   source: any;
   mainLabel?: string;
 }) => (
-  <View className="flex-1 h-32 rounded-xl overflow-hidden border-2 border-dashed border-gray-300 relative bg-gray-100">
+  <View className="flex-1 h-32 rounded-xl overflow-hidden border border-dashed border-gray-400 relative bg-gray-100">
     <Image source={source} className="w-full h-full" resizeMode="cover" />
     {mainLabel && (
       <View className="absolute bottom-1.5 left-1.5 bg-pink-600 px-2 py-1 rounded-full">
