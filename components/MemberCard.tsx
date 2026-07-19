@@ -13,7 +13,7 @@ export const MemberCard: React.FC<MemberCardProps> = ({
   location,
   photoUri,
 }) => (
-  <View className="w-44 rounded-2xl overflow-hidden bg-white shadow mr-3 border border-gray-100">
+  <View className="w-44 rounded-2xl overflow-hidden bg-white mr-3 border border-gray-100">
     {/* Photo */}
     <View className="relative">
       {photoUri ? (

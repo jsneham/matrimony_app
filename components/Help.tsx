@@ -4,7 +4,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 
 const Help = () => {
   return (
-    <View className="mx-4 mt-6 rounded-2xl bg-white shadow-sm border border-gray-100 overflow-hidden">
+    <View className="mx-4 mt-6 rounded-2xl bg-white border border-gray-100 overflow-hidden">
       <View className="px-5 pt-4 pb-3">
         <View className="flex-row items-start">
           <View className="w-10 h-10 rounded-full bg-gray-100 items-center justify-center mr-3 mt-0.5">

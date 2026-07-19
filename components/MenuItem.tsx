@@ -1,27 +1,40 @@
 import { colors } from "@/constants/theme";
 import { MenuItemProps } from "@/types/account";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Pressable, Text, View } from "react-native";
 
 export const MenuItem: React.FC<MenuItemProps> = ({
   icon,
+  iconSet = "material",
   title,
   subtitle,
   onPress,
+  isLast = false,
 }) => (
-  <Pressable
-    onPress={onPress}
-    className="flex-row items-center py-4 px-4 border-b border-gray-100"
-  >
-    <MaterialCommunityIcons name={icon} size={28} color={colors.black} />
-    <View className="ml-4 flex-1">
-      <Text className="text-base font-bold text-black">{title}</Text>
-      <Text className="text-sm text-gray-500 mt-1">{subtitle}</Text>
-    </View>
-    {/* <MaterialCommunityIcons
-      name="chevron-right"
-      size={24}
-      color={colors.black}
-    /> */}
-  </Pressable>
+  <View className="w-full">
+    <Pressable
+      onPress={onPress}
+      className="w-full flex-row items-center py-5 px-5"
+    >
+      {iconSet === "feather" ? (
+        <View className="w-6 h-6 items-center justify-center">
+          <Feather name={icon as any} size={20} color={colors.black} />
+        </View>
+      ) : (
+        <MaterialCommunityIcons
+          name={icon as any}
+          size={24}
+          color={colors.black}
+        />
+      )}
+      <View className="ml-4 flex-1">
+        <Text className="text-base font-bold text-black">{title}</Text>
+        {subtitle ? (
+          <Text className="text-sm text-gray-500 mt-1">{subtitle}</Text>
+        ) : null}
+      </View>
+      <Ionicons name="chevron-forward" size={16} color="#9ca3af" />
+    </Pressable>
+    {!isLast && <View className="h-px bg-gray-100 mx-5" />}
+  </View>
 );

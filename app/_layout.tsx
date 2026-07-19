@@ -77,6 +77,7 @@ export default function RootLayout() {
               options={{
                 title: "Account & More",
                 headerShown: true,
+                headerShadowVisible: false,
               }}
             />
             <Stack.Screen
@@ -97,6 +98,13 @@ export default function RootLayout() {
                   fontFamily: "bold",
                 },
                 headerShadowVisible: false,
+              }}
+            />
+            <Stack.Screen
+              name="help-support"
+              options={{
+                title: "Help & Support",
+                headerShown: true,
               }}
             />
           </Stack>

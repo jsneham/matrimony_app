@@ -4,11 +4,33 @@ import { helpSupportMenu } from "@/constants/data";
 import { useSession } from "@/hooks/useSession";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import { View } from "react-native";
+import { Platform, Text, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+
+// helpSupportMenu's icon names are MaterialCommunityIcons-specific (e.g.
+// "information", "cash-refund") — mapped to Feather equivalents here only,
+// matching the list design used in the standalone Help & Support screen.
+const FEATHER_ICON_BY_TITLE: Record<string, string> = {
+  "FAQs - Frequently Asked Questions": "help-circle",
+  "About Us": "info",
+  "Terms & Conditions": "file-text",
+  "Privacy Policy": "shield",
+  "Refund Policy": "credit-card",
+  "Delete Account": "trash-2",
+  Logout: "log-out",
+};
+
+// Screen-specific extras, prepended below rather than added to the shared
+// constant, so the standalone Help & Support screen is unaffected.
+const EXTRA_HELP_MENU = [
+  { id: "extra-1", icon: "lock", title: "Change Password" },
+  { id: "extra-2", icon: "flag", title: "Report Profile or Misuse" },
+];
 
 export const HelpSupport = () => {
   const { logout } = useSession();
   const router = useRouter();
+  const insets = useSafeAreaInsets();
 
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
@@ -26,7 +48,7 @@ export const HelpSupport = () => {
     setShowLogoutModal(false);
   };
 
-  const handlePress = (item: (typeof helpSupportMenu)[0]) => {
+  const handlePress = (item: { title: string }) => {
     console.log(item.title);
     switch (item.title.toLowerCase()) {
       case "logout":
@@ -35,19 +57,33 @@ export const HelpSupport = () => {
     }
   };
 
+  const generalHelpMenu = [
+    ...EXTRA_HELP_MENU,
+    ...helpSupportMenu.filter((item) => item.title !== "Stay Safe"),
+  ];
+
   return (
-    <View className="flex-1 bg-white">
-      <View>
-        {helpSupportMenu.map((item) => (
+    <View className="flex-1 bg-app-background">
+      <Text className="px-5 pt-14 pb-5 text-sm font-bold text-black">
+        General Help &amp; Support
+      </Text>
+      <View className="bg-white">
+        {generalHelpMenu.map((item, index) => (
           <MenuItem
             key={item.id}
-            icon={item.icon}
+            icon={FEATHER_ICON_BY_TITLE[item.title] ?? item.icon}
+            iconSet="feather"
             title={item.title}
-            subtitle={item.subtitle}
             onPress={() => handlePress(item)}
+            isLast={index === generalHelpMenu.length - 1}
           />
         ))}
       </View>
+      <View
+        style={{
+          height: 56 + (Platform.OS === "ios" ? insets.bottom : 0),
+        }}
+      />
       <BottomModal
         visible={showLogoutModal}
         onConfirm={handleLogoutConfirm}

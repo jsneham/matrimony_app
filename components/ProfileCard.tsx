@@ -7,7 +7,7 @@ export const ProfileCard = (props: { userData: UserProfile | undefined }) => {
   const { userData } = props;
 
   return (
-    <View className="bg-white mx-4 mt-4 rounded-2xl px-4 py-4 shadow-sm border border-gray-100">
+    <View className="bg-white mx-5 mt-4 rounded-2xl px-4 py-4 border border-gray-100">
       <View className="flex-row items-center">
         {/* Avatar with ring */}
         <ProfilePhotoWIthProgress

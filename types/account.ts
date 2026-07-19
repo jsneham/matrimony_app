@@ -7,7 +7,9 @@ export type ActionCardProps = {
 
 export type MenuItemProps = {
   icon: string;
+  iconSet?: "material" | "feather";
   title: string;
-  subtitle: string;
+  subtitle?: string;
   onPress: () => void;
+  isLast?: boolean;
 };
