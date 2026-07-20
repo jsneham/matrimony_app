@@ -73,3 +73,50 @@ export type MatchesRequest = {
 export type MatchCardProps = {
   profile: MatchProfile;
 };
+
+export type VisitorCardProps = {
+  name: string;
+  age: string;
+  height: string;
+  photoUri?: string;
+  isPremium?: boolean;
+  isLocked?: boolean;
+};
+
+// ─── Mock Data ────────────────────────────────────────────────────────────────
+
+export const PROFILE_VISITORS: VisitorCardProps[] = [
+  {
+    name: "H Radhakrishna",
+    age: "38",
+    height: `5' 7"`,
+    photoUri:
+      "https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?w=300&h=400&fit=crop",
+    isPremium: true,
+    isLocked: true,
+  },
+  {
+    name: "Shekhar Gawade",
+    age: "28",
+    height: `5' 8"`,
+    photoUri:
+      "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&h=400&fit=crop",
+  },
+  {
+    name: "Ajay Ghanekar",
+    age: "30",
+    height: `5' 9"`,
+    photoUri:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=400&fit=crop",
+  },
+  {
+    name: "Sumit Gaikwad",
+    age: "32",
+    height: `5' 10"`,
+  },
+  {
+    name: "Male Demo login",
+    age: "26",
+    height: "Above 7'",
+  },
+];

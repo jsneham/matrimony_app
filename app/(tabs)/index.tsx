@@ -82,7 +82,7 @@ export default function home() {
 
         {/* ── Recently Logged In ──────────────────────── */}
         <View className="mt-14 mb-2">
-          <SectionHeader title="Recently Logged In" />
+          <SectionHeader title="Recently Active" />
           <Text className="px-5 text-base font-regular text-gray-500">
             View Members that were recently active.
           </Text>
