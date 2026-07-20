@@ -32,7 +32,7 @@ export const helpSupportMenu = [
   {
     id: "2",
     icon: "help-circle",
-    title: "FAQs",
+    title: "FAQs - Frequently Asked Questions",
     subtitle: "Frequently asked questions can be found here",
   },
   {
@@ -76,27 +76,38 @@ export const helpSupportMenu = [
 export const MY_ACCOUNT_MENU = [
   {
     id: "1",
-    icon: "shield-check",
-    title: "Profile Verification",
-    subtitle: "Get Profile Verified for better responses",
+    icon: "check-circle",
+    title: "Get Profile Verified",
   },
   {
     id: "2",
-    icon: "bookmark",
-    title: "Membership",
-    subtitle: "View your current plan & other premium plans",
+    icon: "edit-3",
+    title: "Preview & Update Profile",
   },
   {
     id: "3",
-    icon: "account-edit",
-    title: "Update Profile & Partner Preferences",
-    subtitle: "Preview & Update profile set partner preferences",
+    icon: "sliders",
+    title: "Update Partner Preferences",
   },
   {
     id: "4",
-    icon: "photo-filter",
+    icon: "image",
     title: "Manage Photos",
-    subtitle: "Manage your profile photos & horoscope image",
+  },
+  {
+    id: "5",
+    icon: "eye-off",
+    title: "Photo Privacy Settings",
+  },
+  {
+    id: "6",
+    icon: "shield",
+    title: "Contact Privacy Settings",
+  },
+  {
+    id: "7",
+    icon: "life-buoy",
+    title: "Help & Support Center",
   },
 ];
 

@@ -1,4 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
+import { useLocalSearchParams } from "expo-router";
 import React, { useRef, useState } from "react";
 import {
   Animated,
@@ -16,10 +17,22 @@ import EditPartnerPreferenceScreen from "./partner-preference";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
+// Maps the `tab` route param to a PROFILE_TABS index, so other screens can
+// deep-link straight into a specific tab (e.g. "Manage Photos" -> photos).
+const TAB_PARAM_TO_INDEX: Record<string, number> = {
+  profile: 0,
+  preferences: 1,
+  photos: 2,
+};
+
 export default function MatchesLayout() {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const { tab } = useLocalSearchParams<{ tab?: string }>();
+  const initialIndex =
+    tab && tab in TAB_PARAM_TO_INDEX ? TAB_PARAM_TO_INDEX[tab] : 0;
+
+  const [activeIndex, setActiveIndex] = useState(initialIndex);
   const pagerRef = useRef<PagerView>(null);
-  const indicatorAnim = useRef(new Animated.Value(0)).current;
+  const indicatorAnim = useRef(new Animated.Value(initialIndex)).current;
 
   const handleTabPress = (index: number) => {
     pagerRef.current?.setPage(index);
@@ -105,7 +118,7 @@ export default function MatchesLayout() {
       <PagerView
         ref={pagerRef}
         style={{ flex: 1 }}
-        initialPage={0}
+        initialPage={initialIndex}
         onPageSelected={onPageSelected}
         overdrag
       >

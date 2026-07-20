@@ -10,7 +10,7 @@ export const MembershipBanner = (props: {
 
   return (
     <View
-      className="mx-4 mt-4 rounded-2xl px-5 py-4 flex-row items-center justify-between"
+      className="mx-5 mt-4 rounded-2xl px-5 py-4 flex-row items-center justify-between"
       style={{ backgroundColor: "#fdf6e3" }}
     >
       <Text className="text-gray-800 text-base font-bold">

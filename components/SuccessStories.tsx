@@ -4,7 +4,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 
 const SuccessStories = () => {
   return (
-    <View className="bg-white mx-4 mt-4 rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <View className="bg-white mx-5 mt-4 rounded-2xl border border-gray-100 overflow-hidden">
       <TouchableOpacity className="flex-row items-center px-4 py-4">
         <View className="w-14 h-14 rounded-full bg-orange-50 items-center justify-center mr-4 overflow-hidden">
           <Text className="text-3xl">💑</Text>

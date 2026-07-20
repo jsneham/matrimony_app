@@ -1,3 +1,10 @@
+import AddVideoIcon from "@/assets/icons/AddVideoIcon";
+import AddVoiceNoteIcon from "@/assets/icons/AddVoiceNoteIcon";
+import CameraCaptureIcon from "@/assets/icons/CameraCaptureIcon";
+import GalleryUploadIcon from "@/assets/icons/GalleryUploadIcon";
+import RecordVideoIcon from "@/assets/icons/RecordVideoIcon";
+import RecordVoiceIcon from "@/assets/icons/RecordVoiceIcon";
+import SetMainPhotoIcon from "@/assets/icons/SetMainPhotoIcon";
 import {
   ActionOptionsSheet,
   ActionSheetOption,
@@ -5,6 +12,7 @@ import {
 import { AddPhotoSlot } from "@/components/profile/photos/AddPhotoSlot";
 import { GuidelinesLink } from "@/components/profile/photos/GuidelinesLink";
 import { PhotoCard } from "@/components/profile/photos/PhotoCard";
+import { PhotoPrivacySheet } from "@/components/profile/photos/PhotoPrivacySheet";
 import { UploadRow } from "@/components/profile/photos/UploadRow";
 import { ProfileProgressBanner } from "@/components/profile/ProfileEditComponents";
 import { useMyProfile } from "@/hooks/useProfile";
@@ -78,9 +86,7 @@ const EditPhotosMoreScreen = () => {
     profile?.horoscope_photo,
   );
 
-  // const [privacy, setPrivacy] = useState(
-  //   profile?.photoPrivacy ?? "premium-liked",
-  // );
+  const [privacy, setPrivacy] = useState("premium-liked");
 
   React.useEffect(() => {
     if (profile) {
@@ -91,7 +97,6 @@ const EditPhotosMoreScreen = () => {
         profile.photo4,
       ]);
       setHoroscopePhoto(profile.horoscope_photo);
-      // if (profile.photoPrivacy) setPrivacy(profile.photoPrivacy);
     }
   }, [profile]);
 
@@ -244,7 +249,7 @@ const EditPhotosMoreScreen = () => {
 
   const savePrivacy = (id: string) => {
     // TODO: replace with real mutation, e.g. updateProfile({ photoPrivacy: id })
-    // setPrivacy(id);
+    setPrivacy(id);
   };
 
   // ── Build dynamic options per sheet kind ─────────────────────────────────
@@ -261,7 +266,8 @@ const EditPhotosMoreScreen = () => {
           options: [
             {
               id: "gallery",
-              label: "Add from gallery",
+              label: "Upload from gallery",
+              icon: GalleryUploadIcon,
               onPress: () =>
                 pickImageWithCrop("gallery", (original, crop) =>
                   uploadPhotoToSlot(activeSheet.slotIndex, original, crop),
@@ -269,7 +275,8 @@ const EditPhotosMoreScreen = () => {
             },
             {
               id: "camera",
-              label: "Take a photo",
+              label: "From camera",
+              icon: CameraCaptureIcon,
               onPress: () =>
                 pickImageWithCrop("camera", (original, crop) =>
                   uploadPhotoToSlot(activeSheet.slotIndex, original, crop),
@@ -287,6 +294,7 @@ const EditPhotosMoreScreen = () => {
                   {
                     id: "set-main",
                     label: "Set as Main Photo",
+                    icon: SetMainPhotoIcon,
                     onPress: () => setAsMainPhoto(activeSheet.slotIndex),
                   } as ActionSheetOption,
                 ]
@@ -294,6 +302,7 @@ const EditPhotosMoreScreen = () => {
             {
               id: "replace-gallery",
               label: "Replace Photo - from gallery",
+              icon: GalleryUploadIcon,
               onPress: () =>
                 pickImageWithCrop("gallery", (original, crop) =>
                   uploadPhotoToSlot(activeSheet.slotIndex, original, crop),
@@ -302,6 +311,7 @@ const EditPhotosMoreScreen = () => {
             {
               id: "replace-camera",
               label: "Replace Photo - from camera",
+              icon: CameraCaptureIcon,
               onPress: () =>
                 pickImageWithCrop("camera", (original, crop) =>
                   uploadPhotoToSlot(activeSheet.slotIndex, original, crop),
@@ -316,10 +326,16 @@ const EditPhotosMoreScreen = () => {
           options: [
             {
               id: "gallery",
-              label: "Upload from gallery",
+              label: "Upload the video from gallery",
+              icon: GalleryUploadIcon,
               onPress: uploadVideo,
             },
-            { id: "record", label: "Record a video", onPress: uploadVideo },
+            {
+              id: "record",
+              label: "Record a video",
+              icon: RecordVideoIcon,
+              onPress: uploadVideo,
+            },
           ],
         };
 
@@ -329,10 +345,16 @@ const EditPhotosMoreScreen = () => {
           options: [
             {
               id: "upload",
-              label: "Upload an audio file",
+              label: "Upload the audio file from gallery",
+              icon: GalleryUploadIcon,
               onPress: uploadVoiceNote,
             },
-            { id: "record", label: "Record now", onPress: uploadVoiceNote },
+            {
+              id: "record",
+              label: "Record now",
+              icon: RecordVoiceIcon,
+              onPress: uploadVoiceNote,
+            },
           ],
         };
 
@@ -343,6 +365,7 @@ const EditPhotosMoreScreen = () => {
             {
               id: "gallery",
               label: "Upload from gallery",
+              icon: GalleryUploadIcon,
               onPress: () =>
                 pickImageForHoroscope("gallery", (uri) =>
                   uploadHoroscopePhoto(uri),
@@ -351,22 +374,13 @@ const EditPhotosMoreScreen = () => {
             {
               id: "camera",
               label: "Take a photo",
+              icon: CameraCaptureIcon,
               onPress: () =>
                 pickImageForHoroscope("camera", (uri) =>
                   uploadHoroscopePhoto(uri),
                 ),
             },
           ],
-        };
-
-      case "privacy":
-        return {
-          title: "Photo Privacy",
-          options: PRIVACY_OPTIONS.map((opt) => ({
-            id: opt.id,
-            label: opt.label,
-            onPress: () => savePrivacy(opt.id),
-          })),
         };
 
       default:
@@ -414,15 +428,15 @@ const EditPhotosMoreScreen = () => {
       />
     );
 
-  const privacyLabel = "Visible to Premium Members & I like";
-  // PRIVACY_OPTIONS.find((p) => p.id === privacy)?.label ??
-  // "Visible to Premium Members & I like";
+  const privacyLabel =
+    PRIVACY_OPTIONS.find((p) => p.id === privacy)?.label ??
+    "Visible to Premium Members & I like";
 
   return (
     <View className="flex-1 bg-app-background">
       <ProfileProgressBanner
         percentage={0}
-        message="Photos will be rejected if guidelines not followed."
+        message="Photos will be rejected if guidelines are not followed."
         showVerify={false}
       />
       <ScrollView
@@ -454,7 +468,7 @@ const EditPhotosMoreScreen = () => {
               style={{ marginRight: 6, marginTop: -2 }}
             />
             <Text className="text-gray font-regular text-sm flex-1">
-              Minimum of 2 photos are mandatory.
+              Atleast 2 photos, follow guidelines.
             </Text>
           </View>
           <GuidelinesLink />
@@ -464,8 +478,8 @@ const EditPhotosMoreScreen = () => {
         <Text className="text-2xl font-bold text-gray-900 mb-4 mt-14">
           Photo Privacy
         </Text>
-        <View className="border-2 border-dashed border-gray-300 rounded-2xl px-4 py-4 flex-row items-center justify-between bg-white">
-          <Text className="text-gray-900 font-regular text-base">
+        <View className="border border-dashed border-gray-400 rounded-2xl px-4 py-4 flex-row items-center justify-between bg-white">
+          <Text className="text-gray-900 font-bold text-base">
             {privacyLabel}
           </Text>
           <Pressable onPress={() => setActiveSheet({ type: "privacy" })}>
@@ -479,6 +493,7 @@ const EditPhotosMoreScreen = () => {
           label="Introduce yourself with a video."
           note="30 seconds maximum, follow guidelines."
           onPress={() => setActiveSheet({ type: "video" })}
+          icon={AddVideoIcon}
         />
 
         {/* Voice */}
@@ -487,6 +502,7 @@ const EditPhotosMoreScreen = () => {
           label="Express yourself through your Voice"
           note="30 seconds maximum, follow guidelines."
           onPress={() => setActiveSheet({ type: "voice" })}
+          icon={AddVoiceNoteIcon}
         />
 
         {/* Horoscope */}
@@ -501,9 +517,19 @@ const EditPhotosMoreScreen = () => {
 
       {/* Single shared sheet, content driven by activeSheet */}
       <ActionOptionsSheet
-        visible={activeSheet !== null}
+        visible={activeSheet !== null && activeSheet.type !== "privacy"}
         title={sheetTitle}
         options={sheetOptions}
+        onClose={closeSheet}
+      />
+
+      {/* Photo Privacy uses the single-select design instead */}
+      <PhotoPrivacySheet
+        visible={activeSheet?.type === "privacy"}
+        title="Photo Privacy"
+        options={PRIVACY_OPTIONS}
+        selectedId={privacy}
+        onSelect={savePrivacy}
         onClose={closeSheet}
       />
 

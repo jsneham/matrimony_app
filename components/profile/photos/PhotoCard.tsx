@@ -18,7 +18,7 @@ export const PhotoCard = ({
   const height = size === "large" ? "h-64" : "h-32";
   return (
     <View
-      className={`flex-1 ${height} rounded-2xl overflow-hidden border-2 border-dashed border-gray-300 relative bg-gray-100`}
+      className={`flex-1 ${height} rounded-2xl overflow-hidden border border-dashed border-gray-400 relative bg-gray-100`}
     >
       <Image
         source={source}
@@ -28,7 +28,7 @@ export const PhotoCard = ({
 
       {pendingLabel && (
         <View
-          className="absolute top-2 self-center bg-overlay-black-40 px-3 rounded-full justify-center"
+          className="absolute top-2 self-center bg-overlay-black-50 px-3 rounded-full justify-center"
           style={{ height: 28 }}
         >
           <Text className="text-white text-xs font-semibold">

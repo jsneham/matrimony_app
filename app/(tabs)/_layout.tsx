@@ -76,6 +76,9 @@ const TabLayout = () => {
               fontSize: 24,
               fontFamily: "bold",
             },
+            headerTitleContainerStyle: {
+              left: 4,
+            },
             headerStyle: {
               borderBottomWidth: 0,
               borderBottomColor: "transparent",

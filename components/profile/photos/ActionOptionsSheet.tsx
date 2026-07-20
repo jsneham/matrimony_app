@@ -1,4 +1,3 @@
-import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { Modal, Pressable, Text, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -16,6 +15,7 @@ export type ActionSheetOption = {
   label: string;
   onPress: () => void;
   destructive?: boolean;
+  icon?: React.ComponentType<{ size?: number; color?: string }>;
 };
 
 type ActionOptionsSheetProps = {
@@ -27,7 +27,6 @@ type ActionOptionsSheetProps = {
 
 export const ActionOptionsSheet: React.FC<ActionOptionsSheetProps> = ({
   visible,
-  title,
   options,
   onClose,
 }) => {
@@ -98,45 +97,51 @@ export const ActionOptionsSheet: React.FC<ActionOptionsSheetProps> = ({
               panelStyle,
               {
                 backgroundColor: "white",
-                borderTopLeftRadius: 20,
-                borderTopRightRadius: 20,
+                borderRadius: 20,
+                marginHorizontal: 20,
+                marginBottom: Math.max(insets.bottom, 20),
                 paddingHorizontal: 20,
-                paddingTop: 20,
-                paddingBottom: Math.max(insets.bottom, 20),
+                paddingTop: 32,
+                paddingBottom: 20,
               },
             ]}
           >
-            {/* Header */}
-            <View className="flex-row items-center justify-between mb-4">
-              <Text className="text-xl font-bold text-black">{title}</Text>
-              <Pressable onPress={animateClose} hitSlop={10}>
-                <Ionicons name="close" size={24} color="black" />
-              </Pressable>
-            </View>
-
-            {/* Grouped options card */}
-            <View className="border border-gray-200 rounded-2xl bg-white overflow-hidden">
-              {options.map((option, index) => (
-                <View key={option.id}>
-                  <Pressable
-                    onPress={() => handleOptionPress(option)}
-                    className="flex-row items-center px-4 py-4 active:bg-gray-50"
+            {options.map((option) => {
+              const Icon = option.icon;
+              const iconColor = option.destructive ? "#EF4444" : "#374151";
+              return (
+                <Pressable
+                  key={option.id}
+                  onPress={() => handleOptionPress(option)}
+                  className="flex-row items-center py-4 active:opacity-60"
+                >
+                  <View className="w-[18px] h-[18px] mr-4 items-center justify-center">
+                    {Icon ? (
+                      <Icon size={18} color={iconColor} />
+                    ) : (
+                      <View className="w-[18px] h-[18px] rounded-full bg-gray-200" />
+                    )}
+                  </View>
+                  <Text
+                    className={`text-base font-bold ${
+                      option.destructive ? "text-red-500" : "text-black"
+                    }`}
+                    style={{ includeFontPadding: false, textAlignVertical: "center" }}
                   >
-                    <View className="w-6 h-6 rounded-full bg-gray-200 mr-4" />
-                    <Text
-                      className={`text-base font-bold ${
-                        option.destructive ? "text-red-500" : "text-gray-900"
-                      }`}
-                    >
-                      {option.label}
-                    </Text>
-                  </Pressable>
-                  {index < options.length - 1 && (
-                    <View className="h-px bg-gray-100 ml-4" />
-                  )}
-                </View>
-              ))}
-            </View>
+                    {option.label}
+                  </Text>
+                </Pressable>
+              );
+            })}
+
+            <Pressable
+              onPress={animateClose}
+              className="mt-8 items-center justify-center rounded-full py-4 active:opacity-60"
+            >
+              <Text className="text-base font-bold text-[#8b8b8b]">
+                Cancel
+              </Text>
+            </Pressable>
           </Animated.View>
         </View>
       </GestureHandlerRootView>

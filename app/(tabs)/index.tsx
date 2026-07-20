@@ -14,7 +14,7 @@ import { SESSION_KEYS } from "@/types/common";
 import { NEWLY_JOINED, RECENTLY_LOGGED_IN } from "@/types/home";
 
 import React from "react";
-import { ScrollView, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 
 export default function home() {
   const { data } = useSession([SESSION_KEYS.USER_ID]);
@@ -63,12 +63,16 @@ export default function home() {
         <MeetMatchmakers />
 
         {/* ── Newly Joined ────────────────────────────── */}
-        <View className="mt-6 mb-2">
+        <View className="mt-14 mb-2">
           <SectionHeader title="Newly Joined" />
+          <Text className="px-5 text-base font-regular text-gray-500">
+            See members who registered recently.
+          </Text>
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingHorizontal: 16 }}
+            contentContainerStyle={{ paddingHorizontal: 20 }}
+            className="mt-5"
           >
             {NEWLY_JOINED.map((member, index) => (
               <MemberCard key={index} {...member} />
@@ -77,12 +81,16 @@ export default function home() {
         </View>
 
         {/* ── Recently Logged In ──────────────────────── */}
-        <View className="mt-6 mb-2">
+        <View className="mt-14 mb-2">
           <SectionHeader title="Recently Logged In" />
+          <Text className="px-5 text-base font-regular text-gray-500">
+            View Members that were recently active.
+          </Text>
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingHorizontal: 16 }}
+            contentContainerStyle={{ paddingHorizontal: 20 }}
+            className="mt-5"
           >
             {RECENTLY_LOGGED_IN.map((member, index) => (
               <MemberCard key={index} {...member} />
