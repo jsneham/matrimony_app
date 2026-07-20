@@ -159,6 +159,23 @@ export const RECENTLY_ACTIVE_MATCHES: VisitorCardProps[] = [
   {},
 ];
 
+export const VIEWED_YOUR_CONTACT: VisitorCardProps[] = [
+  {
+    photoUri:
+      "https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?w=300&h=400&fit=crop",
+  },
+  {
+    photoUri:
+      "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&h=400&fit=crop",
+  },
+  {
+    photoUri:
+      "https://images.unsplash.com/photo-1552058544-f2b08422138a?w=300&h=400&fit=crop",
+  },
+  {},
+  {},
+];
+
 export const MATCHMAKER_MATCHES: VisitorCardProps[] = [
   { placeholderColor: "#8b8b8b" },
   { placeholderColor: "#8b8b8b" },

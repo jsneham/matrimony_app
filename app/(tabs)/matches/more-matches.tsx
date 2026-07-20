@@ -10,6 +10,7 @@ import {
   PROFILE_VISITORS,
   RECENTLY_ACTIVE_MATCHES,
   RECENTLY_JOINED_MATCHES,
+  VIEWED_YOUR_CONTACT,
   VISITED_BY_YOU,
 } from "@/types/matches";
 import React from "react";
@@ -20,7 +21,7 @@ export default function MoreMatchesTab() {
     <ScrollView
       className="flex-1 bg-app-background"
       showsVerticalScrollIndicator={false}
-      contentContainerStyle={{ paddingBottom: 56 }}
+      contentContainerStyle={{ paddingBottom: 150 }}
     >
       {/* ── Profile Visitors ────────────────────────── */}
       <View className="mt-14 mb-2">
@@ -94,8 +95,29 @@ export default function MoreMatchesTab() {
         </ScrollView>
       </View>
 
+      {/* ── Viewed your Contact ──────────────────────── */}
+      <View className="mt-14 mb-5">
+        <Text className="px-5 text-2xl font-bold text-black">
+          Viewed your Contact
+        </Text>
+        <Text className="px-5 text-base font-regular text-gray-500 mt-3">
+          Members who viewed your contact details.
+        </Text>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{ paddingHorizontal: 20 }}
+          className="mt-5"
+        >
+          {VIEWED_YOUR_CONTACT.map((visitor, index) => (
+            <VisitorCard key={index} {...visitor} />
+          ))}
+          <ViewAllVisitorsCard />
+        </ScrollView>
+      </View>
+
       {/* ── Matches from Matchmakers ─────────────────── */}
-      <View className="mt-14 mb-2 bg-[#f3f3f3] pt-9 pb-5">
+      <View className="mb-2 bg-[#f3f3f3] pt-14 pb-5">
         <Text className="px-5 text-2xl font-bold text-black">
           Matches from Matchmakers
         </Text>
