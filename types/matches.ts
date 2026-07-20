@@ -75,12 +75,14 @@ export type MatchCardProps = {
 };
 
 export type VisitorCardProps = {
-  name: string;
-  age: string;
-  height: string;
+  name?: string;
+  age?: string;
+  height?: string;
   photoUri?: string;
   isPremium?: boolean;
   isLocked?: boolean;
+  size?: "large" | "small";
+  placeholderColor?: string;
 };
 
 // ─── Mock Data ────────────────────────────────────────────────────────────────
@@ -119,4 +121,121 @@ export const PROFILE_VISITORS: VisitorCardProps[] = [
     age: "26",
     height: "Above 7'",
   },
+];
+
+export const RECENTLY_JOINED_MATCHES: VisitorCardProps[] = [
+  {
+    photoUri:
+      "https://images.unsplash.com/photo-1552058544-f2b08422138a?w=300&h=400&fit=crop",
+    isPremium: true,
+  },
+  {
+    photoUri:
+      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=300&h=400&fit=crop",
+  },
+  {
+    photoUri:
+      "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=300&h=400&fit=crop",
+  },
+  {},
+  {},
+];
+
+export const RECENTLY_ACTIVE_MATCHES: VisitorCardProps[] = [
+  {
+    photoUri:
+      "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=300&h=400&fit=crop",
+    isPremium: true,
+  },
+  {
+    photoUri:
+      "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&h=400&fit=crop",
+  },
+  {
+    photoUri:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=400&fit=crop",
+  },
+  {},
+  {},
+];
+
+export const MATCHMAKER_MATCHES: VisitorCardProps[] = [
+  { placeholderColor: "#8b8b8b" },
+  { placeholderColor: "#8b8b8b" },
+  { placeholderColor: "#8b8b8b" },
+  {},
+  {},
+];
+
+export const ALL_MATCHES: VisitorCardProps[] = [
+  {
+    photoUri:
+      "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&h=400&fit=crop",
+  },
+  {
+    photoUri:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=400&fit=crop",
+  },
+  {
+    photoUri:
+      "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=300&h=400&fit=crop",
+  },
+  {},
+  {},
+];
+
+export const MEMBERS_LOOKING_FOR_YOU: VisitorCardProps[] = [
+  {
+    photoUri:
+      "https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?w=300&h=400&fit=crop",
+  },
+  {
+    photoUri:
+      "https://images.unsplash.com/photo-1552058544-f2b08422138a?w=300&h=400&fit=crop",
+  },
+  {
+    photoUri:
+      "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&h=400&fit=crop",
+  },
+  {},
+  {},
+];
+
+export const VISITED_BY_YOU: VisitorCardProps[] = [
+  {
+    photoUri:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=400&fit=crop",
+  },
+  {
+    photoUri:
+      "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=300&h=400&fit=crop",
+  },
+  {},
+  {},
+  {},
+];
+
+export const CONTACT_VIEWED: VisitorCardProps[] = [
+  {
+    photoUri:
+      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=300&h=400&fit=crop",
+  },
+  {
+    photoUri:
+      "https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?w=300&h=400&fit=crop",
+  },
+  {},
+  {},
+  {},
+];
+
+export const BLOCKED_MEMBERS: VisitorCardProps[] = [
+  {
+    photoUri:
+      "https://images.unsplash.com/photo-1552058544-f2b08422138a?w=300&h=400&fit=crop",
+  },
+  {},
+  {},
+  {},
+  {},
 ];

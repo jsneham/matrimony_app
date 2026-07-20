@@ -12,51 +12,68 @@ export const VisitorCard: React.FC<VisitorCardProps> = ({
   photoUri,
   isPremium,
   isLocked,
-}) => (
-  <View className="w-[150px] h-[225px] rounded-xl overflow-hidden bg-gray-200 mr-4">
-    {photoUri ? (
-      <Image
-        source={{ uri: photoUri }}
-        style={{ width: "100%", height: "100%" }}
-        resizeMode="cover"
-      />
-    ) : (
-      <View className="w-full h-full items-center justify-center bg-gray-200">
-        <Ionicons name="person" size={48} color="#9ca3af" />
-      </View>
-    )}
+  size = "large",
+  placeholderColor = "#e5e7eb",
+}) => {
+  const isSmall = size === "small";
+  const dimensionClass = isSmall ? "w-[100px] h-[150px]" : "w-[150px] h-[225px]";
 
-    <LinearGradient
-      colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.5)"]}
-      locations={[0, 0.9981]}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 0, y: 1 }}
-      style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}
-    />
+  return (
+    <View
+      className={`${dimensionClass} rounded-xl overflow-hidden mr-4`}
+      style={{ backgroundColor: placeholderColor }}
+    >
+      {photoUri ? (
+        <Image
+          source={{ uri: photoUri }}
+          style={{ width: "100%", height: "100%" }}
+          resizeMode="cover"
+        />
+      ) : (
+        <View
+          className="w-full h-full items-center justify-center"
+          style={{ backgroundColor: placeholderColor }}
+        >
+          <Ionicons name="person" size={isSmall ? 32 : 48} color="#9ca3af" />
+        </View>
+      )}
 
-    {isLocked && (
-      <View className="absolute inset-0 items-center justify-center">
-        <LockAltIcon size={40} color="#fff" />
-      </View>
-    )}
+      {name && (
+        <LinearGradient
+          colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.5)"]}
+          locations={[0, 0.9981]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 0, y: 1 }}
+          style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}
+        />
+      )}
 
-    {isPremium && (
-      <View className="absolute top-3 left-3">
-        <PremiumTag />
-      </View>
-    )}
+      {isLocked && (
+        <View className="absolute inset-0 items-center justify-center">
+          <LockAltIcon size={isSmall ? 28 : 40} color="#fff" />
+        </View>
+      )}
 
-    <View className="absolute bottom-0 left-0 right-0 px-3 pb-3">
-      <Text className="text-white text-base font-bold" numberOfLines={1}>
-        {name}
-      </Text>
-      <View className="flex-row items-center gap-[6px] mt-2">
-        <Text className="text-white text-base font-regular">{age}</Text>
-        <View className="w-1 h-1 rounded-full bg-white" />
-        <Text className="text-white text-base font-regular">{height}</Text>
-      </View>
+      {isPremium && (
+        <View className={isSmall ? "absolute top-2 left-2" : "absolute top-3 left-3"}>
+          <PremiumTag width={isSmall ? 32 : 48} height={isSmall ? 12 : 18} />
+        </View>
+      )}
+
+      {name && (
+        <View className="absolute bottom-0 left-0 right-0 px-3 pb-3">
+          <Text className="text-white text-base font-bold" numberOfLines={1}>
+            {name}
+          </Text>
+          <View className="flex-row items-center gap-[6px] mt-2">
+            <Text className="text-white text-base font-regular">{age}</Text>
+            <View className="w-1 h-1 rounded-full bg-white" />
+            <Text className="text-white text-base font-regular">{height}</Text>
+          </View>
+        </View>
+      )}
     </View>
-  </View>
-);
+  );
+};
 
 export default VisitorCard;
