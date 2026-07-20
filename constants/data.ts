@@ -5,7 +5,7 @@ import { icons } from "./icons";
 export const tabs: AppTab[] = [
   { name: "index", title: "Home", icon: icons.home },
   { name: "matches", title: "Matches", icon: icons.home },
-  { name: "explorer", title: "Explorer", icon: icons.home },
+  { name: "explore", title: "Explore", icon: icons.home },
   { name: "interest", title: "Interest", icon: icons.home },
   { name: "message", title: "Message", icon: icons.home },
   { name: "membership", title: "Membership", icon: icons.home },
