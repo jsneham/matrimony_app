@@ -41,19 +41,20 @@ export const EditRow: React.FC<EditRowProps> = ({
       <TouchableOpacity
         onPress={handlePress}
         activeOpacity={editable ? 0.7 : 1}
-        className={`px-5 py-4 flex-row justify-between items-center bg-white ${isLast ? "" : "border-b border-gray-100"}`}
+        className={`px-5 pt-5 pb-4 flex-row justify-between items-center bg-white ${isLast ? "" : "border-b border-gray-100"}`}
         style={
           isLast
             ? { borderBottomLeftRadius: 16, borderBottomRightRadius: 16 }
             : undefined
         }
       >
-        <DummyIcon />
-
         <View className="flex-1">
-          <Text className="text-base font-bold text-black mb-1">{label}</Text>
+          <View className="flex-row items-center mb-3">
+            <DummyIcon />
+            <Text className="text-base font-bold text-black">{label}</Text>
+          </View>
 
-          <View>
+          <View style={{ marginLeft: 36 }}>
             {/* Hidden measurement pass — detects if full text exceeds 3 lines */}
             <Text
               className="text-base absolute opacity-0"
@@ -132,6 +133,7 @@ export const EditRow: React.FC<EditRowProps> = ({
               }}
               hitSlop={{ top: 4, bottom: 4, left: 4, right: 4 }}
               className="mt-1 self-start"
+              style={{ marginLeft: 36 }}
             >
               <Text className="text-pink-600 text-sm font-semibold">
                 View less

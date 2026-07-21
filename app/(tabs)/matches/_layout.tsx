@@ -1,4 +1,3 @@
-import { Ionicons } from "@expo/vector-icons";
 import React, { useRef, useState } from "react";
 import {
   Animated,
@@ -9,6 +8,7 @@ import {
 } from "react-native";
 import PagerView from "react-native-pager-view";
 
+import SearchFortabIcon from "@/assets/icons/search_fortab";
 import { TABS } from "@/constants/data";
 import MyMatchesTab from "./index";
 import MoreMatchesTab from "./more-matches";
@@ -64,16 +64,11 @@ export default function MatchesLayout() {
                 className="flex-1 items-center justify-center "
                 activeOpacity={0.7}
               >
-                <View className="flex-row items-center">
-                  {tab.icon && (
-                    <Ionicons
-                      name={tab.icon}
-                      size={14}
-                      color={
-                        isActive
-                          ? "text-tab-text-active"
-                          : "text-tab-text-inactive"
-                      }
+                <View className="flex-row items-center gap-[6px]">
+                  {tab.key === "search" && (
+                    <SearchFortabIcon
+                      size={16}
+                      color={isActive ? "#000000" : "#8B8B8B"}
                     />
                   )}
                   <Text

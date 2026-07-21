@@ -28,21 +28,23 @@ export const NonEditableText: React.FC<EditRowProps> = ({
       <TouchableOpacity
         onPress={handlePress}
         activeOpacity={0.7}
-        className={`px-5 py-4 flex-row justify-between items-center bg-white ${isLast ? "" : "border-b border-gray-100"}`}
+        className={`px-5 pt-5 pb-4 flex-row justify-between items-center bg-white ${isLast ? "" : "border-b border-gray-100"}`}
         style={
           isLast
             ? { borderBottomLeftRadius: 16, borderBottomRightRadius: 16 }
             : undefined
         }
       >
-        <DummyIcon />
-
         <View className="flex-1">
-          <Text className="text-base font-bold text-black mb-1">{label}</Text>
+          <View className="flex-row items-center mb-3">
+            <DummyIcon />
+            <Text className="text-base font-bold text-black">{label}</Text>
+          </View>
           <Text
             className={`text-base ${
               value ? "text-gray font-regular" : "text-placeholder font-regular"
             }`}
+            style={{ marginLeft: 36 }}
           >
             {value || placeholder || `Enter ${label}`}
           </Text>

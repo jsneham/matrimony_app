@@ -9,6 +9,7 @@ import {
   View,
 } from "react-native";
 
+import PreferencesHintIcon from "@/assets/icons/PreferencesHintIcon";
 import { MatchCard } from "@/components/MatchCard";
 import { NoData } from "@/components/NoData";
 import { SkeletonCard } from "@/components/SkeletonCard";
@@ -106,15 +107,14 @@ export default function MyMatchesScreen() {
       {/* Subtitle with Update Preferences */}
       <View className="flex-row items-center justify-between mx-5 h-[34px] my-3 bg-white px-3 rounded-xl">
         <Text className="text-gray font-regular text-sm">
-          According to Partner Preferences.
+          As per Partner Preferences.
         </Text>
         <TouchableOpacity className="flex-row items-center">
           <Text className="text-black text-sm font-bold">
             Update Preferences
           </Text>
-          <Ionicons
-            name="pencil"
-            size={14}
+          <PreferencesHintIcon
+            size={12}
             color="black"
             style={{ marginLeft: 6 }}
           />

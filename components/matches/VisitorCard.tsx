@@ -5,6 +5,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { Image, Text, View } from "react-native";
 
+// Figma: linear-gradient(180deg, rgba(255,255,255,0) 69.00%, rgba(0,0,0,0.8) 100%)
+const FADE_START_PERCENT = 0.69;
+const FADE_END_PERCENT = 1;
+
 export const VisitorCard: React.FC<VisitorCardProps> = ({
   name,
   age,
@@ -20,7 +24,7 @@ export const VisitorCard: React.FC<VisitorCardProps> = ({
 
   return (
     <View
-      className={`${dimensionClass} rounded-xl overflow-hidden mr-4`}
+      className={`${dimensionClass} rounded-xl overflow-hidden mr-3`}
       style={{ backgroundColor: placeholderColor }}
     >
       {photoUri ? (
@@ -38,13 +42,19 @@ export const VisitorCard: React.FC<VisitorCardProps> = ({
         </View>
       )}
 
-      {name && (
+      {photoUri && (
         <LinearGradient
-          colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.5)"]}
-          locations={[0, 0.9981]}
+          colors={["rgba(255,255,255,0)", "rgba(0,0,0,0.8)"]}
+          locations={[FADE_START_PERCENT, FADE_END_PERCENT]}
           start={{ x: 0, y: 0 }}
           end={{ x: 0, y: 1 }}
-          style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+          }}
         />
       )}
 

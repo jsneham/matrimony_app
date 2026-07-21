@@ -214,7 +214,7 @@ export const PROFILE_SECTIONS_DATA: FormSection[] = [
       },
       {
         id: "ancestralOrigin",
-        label: "Ancestral Origin (Native Place)",
+        label: "Ancestral Origin (Hometown)",
         value: "",
         subtext: "Enter Ancestral Origin",
         actionLabel: "Enter Ancestral Origin",

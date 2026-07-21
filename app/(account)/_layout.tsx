@@ -6,7 +6,7 @@ import { AccountProfileHeader } from "@/components/AccountProfileHeader";
 import { AccountTabBar } from "@/components/account/AccountTabBar";
 import { MyAccount } from ".";
 import { AppSettings } from "./app-settings";
-import { HelpSupport } from "./help-support";
+import { HelpSupport } from "./_help-support-tab";
 
 const HEADER_HEIGHT = 320;
 
@@ -36,7 +36,7 @@ export default function AccountLayout() {
       </Tabs.Tab>
 
       <Tabs.Tab name="Safety Centre">
-        <Tabs.ScrollView>
+        <Tabs.ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <AppSettings />
         </Tabs.ScrollView>
       </Tabs.Tab>

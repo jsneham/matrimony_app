@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { Modal, Platform, Pressable, Text, View } from "react-native";
+import { Modal, Pressable, Text, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Animated, {
   Easing,
@@ -96,7 +96,7 @@ export const PhotoPrivacySheet: React.FC<PhotoPrivacySheetProps> = ({
             style={[
               panelStyle,
               {
-                paddingBottom: 16 + (Platform.OS === "ios" ? insets.bottom : 0),
+                paddingBottom: 16 + insets.bottom,
               },
             ]}
             className="bg-white rounded-t-[20px]"
