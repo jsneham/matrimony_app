@@ -59,6 +59,7 @@ export const ReligionSection: React.FC<ReligionSectionProps> = ({
       <EditSectionHeader title="Faith & Astro" />
 
       <EditRow
+        isFirst
         editable={checkValue(profile?.religion_name ?? "")}
         label="Religion"
         value={profile?.religion_name}
@@ -182,7 +183,7 @@ export const ReligionSection: React.FC<ReligionSectionProps> = ({
       />
 
       <NonEditableText
-        isLast={false}
+        isLast
         label="Birth Place"
         value={profile?.birthplace}
         onPress={() =>

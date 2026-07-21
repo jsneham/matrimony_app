@@ -54,6 +54,7 @@ export const LocationSection: React.FC<LocationSectionProps> = ({
       <EditSectionHeader title="Location" />
 
       <EditRow
+        isFirst
         label="Country"
         value={profile?.country_name}
         onPress={() =>

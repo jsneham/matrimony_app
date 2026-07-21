@@ -648,6 +648,7 @@ export type EditRowProps = {
   onPress: () => void;
   placeholder?: string;
   editable?: boolean;
+  isFirst?: boolean;
   isLast?: boolean;
 };
 

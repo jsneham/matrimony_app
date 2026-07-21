@@ -51,6 +51,7 @@ export const ReligionPreferenceSection: React.FC<ReligionSectionProps> = ({
       <EditSectionHeader title="Faith & Astro" />
 
       <EditRow
+        isFirst
         label="Religion"
         value={profile?.part_religion_str}
         onPress={() =>
@@ -83,6 +84,7 @@ export const ReligionPreferenceSection: React.FC<ReligionSectionProps> = ({
       />
 
       <EditRow
+        isLast
         label="Manglik"
         value={profile?.part_manglik}
         onPress={() =>

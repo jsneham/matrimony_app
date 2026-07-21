@@ -47,6 +47,7 @@ export const LifestylePreferenceSection: React.FC<LifestyleSectionProps> = ({
     <EditSectionHeader title="Lifestyle" />
 
     <EditRow
+      isFirst
       label="Eating habit"
       value={profile?.part_diet}
       onPress={() =>
@@ -61,6 +62,7 @@ export const LifestylePreferenceSection: React.FC<LifestyleSectionProps> = ({
       }
     />
     <EditRow
+      isLast
       label="Drinking"
       value={profile?.part_drink}
       onPress={() =>

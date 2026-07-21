@@ -19,6 +19,7 @@ export const EditRow: React.FC<EditRowProps> = ({
   onPress,
   placeholder,
   editable = true,
+  isFirst = false,
   isLast = false,
 }) => {
   const [showInfo, setShowInfo] = useState(false);
@@ -41,12 +42,15 @@ export const EditRow: React.FC<EditRowProps> = ({
       <TouchableOpacity
         onPress={handlePress}
         activeOpacity={editable ? 0.7 : 1}
-        className={`px-5 pt-5 pb-4 flex-row justify-between items-center bg-white ${isLast ? "" : "border-b border-gray-100"}`}
-        style={
-          isLast
+        className={`pl-5 pr-4 pt-5 pb-4 flex-row justify-between items-center bg-white ${isLast ? "" : "border-b border-gray-100"}`}
+        style={{
+          ...(isFirst
+            ? { borderTopLeftRadius: 16, borderTopRightRadius: 16 }
+            : null),
+          ...(isLast
             ? { borderBottomLeftRadius: 16, borderBottomRightRadius: 16 }
-            : undefined
-        }
+            : null),
+        }}
       >
         <View className="flex-1">
           <View className="flex-row items-center mb-3">
@@ -114,7 +118,7 @@ export const EditRow: React.FC<EditRowProps> = ({
                   }}
                 >
                   <Text
-                    className="text-pink-600 text-base font-semibold"
+                    className="text-pink-600 text-base font-regular"
                     numberOfLines={1}
                     style={{ lineHeight: 20 }}
                   >
@@ -135,7 +139,7 @@ export const EditRow: React.FC<EditRowProps> = ({
               className="mt-1 self-start"
               style={{ marginLeft: 36 }}
             >
-              <Text className="text-pink-600 text-sm font-semibold">
+              <Text className="text-pink-600 text-base font-regular">
                 View less
               </Text>
             </TouchableOpacity>

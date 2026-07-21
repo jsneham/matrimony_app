@@ -53,6 +53,7 @@ export const EducationPreferenceSection: React.FC<EducationSectionProps> = ({
       <EditSectionHeader title="Education & Career" />
 
       <EditRow
+        isFirst
         label="Education"
         value={profile?.part_education_str}
         onPress={() =>

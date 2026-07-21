@@ -54,6 +54,7 @@ export const EducationSection: React.FC<EducationSectionProps> = ({
       <EditSectionHeader title="Education & Career" />
 
       <EditRow
+        isFirst
         label="Education"
         value={profile?.education_name}
         onPress={() =>
@@ -80,7 +81,6 @@ export const EducationSection: React.FC<EducationSectionProps> = ({
       />
 
       <EditRow
-        isLast
         label="Annual Income"
         value={profile?.income}
         onPress={() =>
@@ -115,7 +115,7 @@ export const EducationSection: React.FC<EducationSectionProps> = ({
       />
 
       <NonEditableText
-        isLast={false}
+        isLast
         label="More About Profession"
         value={profile?.education_detail_str}
         onPress={() =>
