@@ -111,6 +111,15 @@ export default function RootLayout() {
                 headerShadowVisible: false,
               }}
             />
+            <Stack.Screen
+              name="search-matches"
+              options={{
+                title: "Search Matches",
+                headerShown: true,
+                headerTitleAlign: "center",
+                headerShadowVisible: false,
+              }}
+            />
           </Stack>
           {/* </SafeAreaView> */}
         </GestureHandlerRootView>

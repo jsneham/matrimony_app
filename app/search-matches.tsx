@@ -20,19 +20,25 @@ import {
 } from "@/hooks/useMetadata";
 import { LookupItem } from "@/types/metadata";
 import { Feather } from "@expo/vector-icons";
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import {
+  Animated,
+  Dimensions,
   FlatList,
   Pressable,
   ScrollView,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-const TOP_TABS = ["Filters", "ID", "Keyword", "Saved Search"] as const;
+const { width: SCREEN_WIDTH } = Dimensions.get("window");
+
+const TOP_TABS = ["Filters", "ID", "Keyword", "Saved"] as const;
 type TopTab = (typeof TOP_TABS)[number];
+const TOP_TAB_WIDTH = SCREEN_WIDTH / TOP_TABS.length;
 
 type CategoryKey =
   | "height"
@@ -77,8 +83,17 @@ const CATEGORIES: { key: CategoryKey; label: string }[] = [
 
 const NO_PREFERENCE: LookupItem = { id: "__any__", val: "No Preference (Any)" };
 
-export default function SearchTab() {
+export default function SearchMatchesScreen() {
   const insets = useSafeAreaInsets();
+  // Footer is position:absolute, so it doesn't reserve space in the row's
+  // own flex layout — this is its real rendered height (pt-4 + button + its
+  // own bottom safe-area padding), used to reserve matching space above it.
+  const footerHeight = 16 + 50 + Math.max(insets.bottom, 16);
+  const indicatorLeft = useRef(new Animated.Value(0)).current;
+  const indicatorWidth = useRef(new Animated.Value(0)).current;
+  const tabLayouts = useRef<Record<string, { x: number; width: number }>>(
+    {},
+  ).current;
 
   const [activeTopTab, setActiveTopTab] = useState<TopTab>("Filters");
   const [activeCategory, setActiveCategory] = useState<CategoryKey>("state");
@@ -86,6 +101,38 @@ export default function SearchTab() {
   const [selectedValues, setSelectedValues] = useState<
     Partial<Record<CategoryKey, string>>
   >({});
+
+  const animateIndicatorTo = (tab: TopTab) => {
+    const layout = tabLayouts[tab];
+    if (!layout) return;
+    Animated.parallel([
+      Animated.spring(indicatorLeft, {
+        toValue: layout.x,
+        useNativeDriver: false,
+        tension: 60,
+        friction: 10,
+      }),
+      Animated.spring(indicatorWidth, {
+        toValue: layout.width,
+        useNativeDriver: false,
+        tension: 60,
+        friction: 10,
+      }),
+    ]).start();
+  };
+
+  const handleTopTabLayout = (tab: TopTab, x: number, width: number) => {
+    tabLayouts[tab] = { x, width };
+    if (tab === activeTopTab) {
+      indicatorLeft.setValue(x);
+      indicatorWidth.setValue(width);
+    }
+  };
+
+  const handleTopTabPress = (tab: TopTab) => {
+    setActiveTopTab(tab);
+    animateIndicatorTo(tab);
+  };
 
   const { data: heights } = useHeight();
   const { data: ages } = useAge();
@@ -178,39 +225,46 @@ export default function SearchTab() {
   return (
     <View style={{ flex: 1 }} className="bg-app-background">
       {/* Top tabs */}
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={{ height: 58, flexGrow: 0, flexShrink: 0 }}
-        className="bg-app-background"
-        contentContainerStyle={{
-          paddingHorizontal: 20,
-          alignItems: "center",
-        }}
-      >
-        <View className="flex-row gap-[10px]">
+      <View className="bg-white">
+        <View className="flex-row h-11 border-b border-inactive-border">
           {TOP_TABS.map((tab) => {
             const isActive = tab === activeTopTab;
             return (
-              <Pressable
+              <TouchableOpacity
                 key={tab}
-                onPress={() => setActiveTopTab(tab)}
-                className={`h-[34px] px-4 items-center justify-center rounded-full ${
-                  isActive ? "bg-black" : "bg-white"
-                }`}
+                onPress={() => handleTopTabPress(tab)}
+                onLayout={(e) =>
+                  handleTopTabLayout(
+                    tab,
+                    e.nativeEvent.layout.x,
+                    e.nativeEvent.layout.width,
+                  )
+                }
+                style={{ width: TOP_TAB_WIDTH }}
+                className="flex-1 items-center justify-center"
+                activeOpacity={0.7}
               >
                 <Text
-                  className={`text-sm font-medium ${
-                    isActive ? "text-white" : "text-gray"
+                  className={`text-lg font-bold ${
+                    isActive ? "text-tab-text-active" : "text-tab-text-inactive"
                   }`}
                 >
                   {tab}
                 </Text>
-              </Pressable>
+              </TouchableOpacity>
             );
           })}
         </View>
-      </ScrollView>
+
+        {/* Animated Indicator */}
+        <Animated.View
+          style={{
+            width: indicatorWidth,
+            transform: [{ translateX: indicatorLeft }],
+          }}
+          className="absolute bottom-0 h-[2px] bg-black rounded-full"
+        />
+      </View>
 
       {activeTopTab === "Filters" ? (
         <View style={{ flex: 1, minHeight: 0, position: "relative" }}>
@@ -218,7 +272,13 @@ export default function SearchTab() {
             {/* Category sidebar */}
             <ScrollView
               className="bg-app-background"
-              style={{ flex: 1, minHeight: 0, maxWidth: 145 }}
+              style={{
+                flex: 1,
+                minHeight: 0,
+                maxWidth: 145,
+                marginTop: 20,
+                marginBottom: footerHeight + 60,
+              }}
               contentContainerStyle={{ paddingTop: 55, paddingBottom: 100 }}
               showsVerticalScrollIndicator={false}
             >
@@ -248,12 +308,19 @@ export default function SearchTab() {
 
             {/* Options panel */}
             <View
-              style={{ flex: 1, minHeight: 0, borderRadius: 12 }}
+              style={{
+                flex: 1,
+                minHeight: 0,
+                borderRadius: 12,
+                marginTop: 20,
+                marginBottom: footerHeight + 20,
+                marginRight: 20,
+              }}
               className="bg-white overflow-hidden"
             >
               <View className="flex-row items-center justify-between px-4 pt-4 pb-3">
                 <View
-                  style={{ flex: 1, flexDirection: "row" }}
+                  style={{ flex: 1, flexDirection: "row", height: 24 }}
                   className="items-center"
                 >
                   <Feather name="search" size={16} color="#8B8B8B" />
@@ -268,8 +335,12 @@ export default function SearchTab() {
                     autoCorrect={false}
                   />
                 </View>
-                <Pressable onPress={handleReset} hitSlop={8}>
-                  <Text className="text-sm font-bold text-gray underline">
+                <Pressable
+                  onPress={handleReset}
+                  hitSlop={8}
+                  style={{ height: 24, justifyContent: "center" }}
+                >
+                  <Text className="text-sm font-bold text-gray">
                     Reset
                   </Text>
                 </Pressable>
@@ -282,7 +353,7 @@ export default function SearchTab() {
                 keyExtractor={(item) => item.id}
                 showsVerticalScrollIndicator={false}
                 keyboardShouldPersistTaps="handled"
-                contentContainerStyle={{ paddingTop: 8, paddingBottom: 100 }}
+                contentContainerStyle={{ paddingTop: 8, paddingBottom: 24 }}
                 renderItem={({ item }) => {
                   const selected = isSelected(item.id);
                   return (
