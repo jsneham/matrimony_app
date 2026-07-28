@@ -237,3 +237,38 @@ export async function setMainProfilePhoto({
     throw err;
   }
 }
+
+export async function changePhotoVisibility({
+  matriId,
+  photoViewStatus, // "0" | "1" | "2" — matches PRIVACY_OPTIONS ids
+  onProgress,
+}: {
+  matriId: string;
+  photoViewStatus: string;
+  onProgress?: UploadProgressCallback;
+}): Promise<{ status: string; errmessage: string }> {
+  const formData = new FormData();
+
+  formData.append("matri_id", matriId);
+  formData.append("photo_view_status", photoViewStatus);
+  formData.append("action", "photo_view_status");
+
+  // TODO: replace with your real endpoint path (Android's AppConstants.photo_visibility_status)
+  const url = `${API_BASE_URL.replace(/\/$/, "")}/modify_photo/photo_visibility_status`;
+
+  console.log("[changePhotoVisibility] Request →", {
+    url,
+    matri_id: matriId,
+    photo_view_status: photoViewStatus,
+    action: "photo_view_status",
+  });
+
+  try {
+    const response = await uploadWithProgress(url, formData, onProgress);
+    console.log("[changePhotoVisibility] Response ←", response);
+    return response;
+  } catch (err) {
+    console.log("[changePhotoVisibility] Error ←", err);
+    throw err;
+  }
+}

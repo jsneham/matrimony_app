@@ -11,8 +11,6 @@ export const userServices = {
       member_id: data.memberId,
     };
 
-    console.log("Request Body:", body);
-
     const response = await api.post("my-profile/get_my_profile", body);
 
     console.log("Response:", JSON.stringify(response.data));

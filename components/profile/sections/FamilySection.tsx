@@ -41,8 +41,6 @@ export const FamilySection: React.FC<FamilySectionProps> = ({
   onLayout,
   openModal,
 }) => {
-  console.log("noOfSisters", noOfSisters);
-
   return (
     <View
       onLayout={(e) => onLayout(sectionId, e)}

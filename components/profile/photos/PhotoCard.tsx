@@ -8,23 +8,27 @@ export const PhotoCard = ({
   pendingLabel,
   size = "large",
   onPressMenu,
+  onPressImage,
 }: {
   source: any;
   mainLabel?: string;
   pendingLabel?: boolean;
   size?: "large" | "small";
   onPressMenu?: () => void;
+  onPressImage?: () => void;
 }) => {
   const height = size === "large" ? "h-64" : "h-32";
   return (
     <View
       className={`flex-1 ${height} rounded-2xl overflow-hidden border border-dashed border-gray-400 relative bg-gray-100`}
     >
-      <Image
-        source={source}
-        className="w-full h-full rounded-2xl"
-        resizeMode="cover"
-      />
+      <Pressable onPress={onPressImage} style={{ flex: 1 }}>
+        <Image
+          source={source}
+          className="w-full h-full rounded-2xl"
+          resizeMode="cover"
+        />
+      </Pressable>
 
       {pendingLabel && (
         <View

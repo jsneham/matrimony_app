@@ -87,9 +87,6 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
   const { data: cities } = useMultiCities(selectedStateIds);
   const { data: castes } = useMultiCastes(selectedReligionIds);
 
-  console.log("STORE — selectedCountryIds:", selectedCountryIds);
-  console.log("STATES — merged result:", states);
-
   // ── Master data lists (fetched once, cached forever) ────────────────────────
   const { data: countries } = useCountries();
   const { data: religions } = useReligions();
@@ -158,8 +155,6 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
       </View>
     );
   }
-
-  console.log("states list", states);
 
   // ── Render ──────────────────────────────────────────────────────────────────
   return (

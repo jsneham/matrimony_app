@@ -72,7 +72,6 @@ export default function HelpSupportScreen() {
   };
 
   const handlePress = (item: (typeof helpSupportMenu)[0]) => {
-    console.log(item.title);
     switch (item.title.toLowerCase()) {
       case "logout":
         setShowLogoutModal(true);

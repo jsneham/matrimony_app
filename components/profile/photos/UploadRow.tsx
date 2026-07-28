@@ -11,6 +11,7 @@ export const UploadRow = ({
   note,
   onPress,
   imageUri,
+  onPressImage,
   icon: Icon = AddPhotoIcon,
 }: {
   label: string;
@@ -18,6 +19,7 @@ export const UploadRow = ({
   note: string;
   onPress?: () => void;
   imageUri?: string;
+  onPressImage?: () => void;
   icon?: React.ComponentType<{ size?: number; color?: string }>;
 }) => (
   <View>
@@ -26,20 +28,24 @@ export const UploadRow = ({
     </View>
 
     {imageUri ? (
-      <Pressable
-        onPress={onPress}
-        className="rounded-2xl overflow-hidden border border-dashed border-gray-400 bg-gray-100"
+      <View
+        className="rounded-2xl overflow-hidden border border-dashed border-gray-400 bg-gray-100 relative"
         style={{ height: 160 }}
       >
-        <Image
-          source={{ uri: imageUri }}
-          className="w-full h-full rounded-2xl"
-          resizeMode="cover"
-        />
-        <View className="absolute bottom-3 right-3 w-7 h-7 rounded-[14px] bg-black items-center justify-center">
+        <Pressable onPress={onPressImage} style={{ flex: 1 }}>
+          <Image
+            source={{ uri: imageUri }}
+            className="w-full h-full rounded-2xl"
+            resizeMode="cover"
+          />
+        </Pressable>
+        <Pressable
+          onPress={onPress}
+          className="absolute bottom-3 right-3 w-7 h-7 rounded-[14px] bg-black items-center justify-center"
+        >
           <MoreHorizontal size={16} color="#fff" />
-        </View>
-      </Pressable>
+        </Pressable>
+      </View>
     ) : (
       <Pressable
         onPress={onPress}

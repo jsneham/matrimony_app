@@ -47,7 +47,6 @@ export const getDeviceToken = async () => {
       // Save the device ID
       await SecureStore.setItemAsync("device_token", deviceId as string);
     } catch (error) {
-      console.log("Error getting device ID:", error);
       deviceId = "unknown";
       await SecureStore.setItemAsync("device_token", deviceId);
     }
@@ -75,12 +74,6 @@ api.interceptors.request.use(
           csrf_new_matrimonial: token || "",
           logged_in_user_id: userId || "",
         };
-
-        console.log("🔄 API Request:", {
-          url: config.url,
-          method: config.method,
-          dataKeys: Object.keys(config.data),
-        });
       }
 
       return config;
@@ -98,11 +91,6 @@ api.interceptors.request.use(
 // Response interceptor - Handle errors globally
 api.interceptors.response.use(
   (response) => {
-    console.log("✅ API Response received:", {
-      status: response.status,
-      dataType: typeof response.data,
-      isArray: Array.isArray(response.data),
-    });
     return response;
   },
   async (error) => {
