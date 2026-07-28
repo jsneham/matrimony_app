@@ -63,6 +63,7 @@ export const BasicsSection: React.FC<BasicsSectionProps> = ({
       <EditSectionHeader title="Basics" />
 
       <NonEditableText
+        isFirst
         editable={checkValue(`${profile?.firstname} ${profile?.lastname}`)}
         label="Full Name"
         value={`${profile?.firstname} ${profile?.lastname}`}

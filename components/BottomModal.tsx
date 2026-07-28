@@ -1,7 +1,7 @@
 // LogoutModal.js
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { Modal, Platform, Pressable, Text, View } from "react-native";
+import { Modal, Pressable, Text, View } from "react-native";
 import Animated, {
   Easing,
   runOnJS,
@@ -75,7 +75,7 @@ export default function BottomModal({
               backgroundColor: "white",
               borderTopLeftRadius: 24,
               borderTopRightRadius: 24,
-              paddingBottom: 16 + (Platform.OS === "ios" ? insets.bottom : 0),
+              paddingBottom: 16 + insets.bottom,
             },
           ]}
         >

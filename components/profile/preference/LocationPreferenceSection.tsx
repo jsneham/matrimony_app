@@ -53,6 +53,7 @@ export const LocationPreferenceSection: React.FC<LocationSectionProps> = ({
       <EditSectionHeader title="Location" />
 
       <EditRow
+        isFirst
         label="Country"
         value={profile?.part_country_living_str}
         onPress={() =>
@@ -85,6 +86,7 @@ export const LocationPreferenceSection: React.FC<LocationSectionProps> = ({
       />
 
       <EditRow
+        isLast
         label="City"
         value={profile?.part_city_str}
         onPress={() => {

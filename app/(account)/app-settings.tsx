@@ -4,7 +4,7 @@ import { View } from "react-native";
 
 export const AppSettings = () => {
   return (
-    <View className="bg-app-background">
+    <View className="flex-1 bg-app-background">
       <SafetyCentreSection />
     </View>
   );

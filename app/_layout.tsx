@@ -77,6 +77,7 @@ export default function RootLayout() {
               options={{
                 title: "Account & More",
                 headerShown: true,
+                headerTitleAlign: "center",
                 headerShadowVisible: false,
               }}
             />
@@ -85,6 +86,7 @@ export default function RootLayout() {
               options={{
                 title: "Membership Plan",
                 headerShown: true,
+                headerTitleAlign: "center",
               }}
             />
             <Stack.Screen
@@ -105,6 +107,17 @@ export default function RootLayout() {
               options={{
                 title: "Help & Support",
                 headerShown: true,
+                headerTitleAlign: "center",
+                headerShadowVisible: false,
+              }}
+            />
+            <Stack.Screen
+              name="search-matches"
+              options={{
+                title: "Search Matches",
+                headerShown: true,
+                headerTitleAlign: "center",
+                headerShadowVisible: false,
               }}
             />
           </Stack>

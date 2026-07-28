@@ -33,27 +33,20 @@ export const useUpdatePartnerPreference = () => {
 
   return useMutation({
     mutationFn: async (updatedPreference: any) => {
-      console.log("🚀 Partner preference mutation started:", updatedPreference);
-
       const response = await api.post(
         "my-profile/update_partner_preference",
         updatedPreference,
       );
 
-      console.log("✅ Partner preference API response:", response.data);
       return response.data;
     },
     onSuccess: (data, variables) => {
-      console.log("📊 Partner preference onSuccess triggered");
-
       const memberId = variables.member_id;
 
       // Invalidate profile query to update partner preference display
       queryClient.invalidateQueries({
         queryKey: ["profiles", "my-profile", memberId],
       });
-
-      console.log("✅ Partner preference updated successfully");
     },
     onError: (error: any) => {
       console.error("❌ Partner preference update failed:", error);

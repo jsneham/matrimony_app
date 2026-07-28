@@ -12,12 +12,14 @@ import {
 import { AddPhotoSlot } from "@/components/profile/photos/AddPhotoSlot";
 import { GuidelinesLink } from "@/components/profile/photos/GuidelinesLink";
 import { PhotoCard } from "@/components/profile/photos/PhotoCard";
+import PhotoPreviewModal from "@/components/profile/photos/PhotoPreviewModal";
 import { PhotoPrivacySheet } from "@/components/profile/photos/PhotoPrivacySheet";
 import { UploadRow } from "@/components/profile/photos/UploadRow";
 import { ProfileProgressBanner } from "@/components/profile/ProfileEditComponents";
 import { useMyProfile } from "@/hooks/useProfile";
 import { useSession } from "@/hooks/useSession";
 import {
+  changePhotoVisibility,
   setMainProfilePhoto,
   uploadProfilePhotoWithCrop,
   uploadSinglePhoto,
@@ -37,8 +39,8 @@ import {
 
 // 1:1.5 ratio (width:height) used for all photo crops on this screen
 const PHOTO_ASPECT: [number, number] = [2, 3];
-const PHOTO_CROP_WIDTH = 800;
-const PHOTO_CROP_HEIGHT = 1200;
+const PHOTO_CROP_WIDTH = 1000;
+const PHOTO_CROP_HEIGHT = 1500; // 1000 : 1500 = 1 : 1.5
 
 // Which sheet is currently active — drives title + dynamic option set
 type SheetKind =
@@ -51,18 +53,20 @@ type SheetKind =
   | null;
 
 const PRIVACY_OPTIONS = [
-  { id: "everyone", label: "Visible to Everyone" },
-  { id: "premium", label: "Visible to Premium Members" },
-  { id: "premium-liked", label: "Visible to Premium Members & I like" },
+  { id: "0", label: "Visible to Everyone" },
+  { id: "1", label: "Visible to Premium Members" },
+  { id: "2", label: "Visible to Premium Members & I like" },
 ];
 
 const EditPhotosMoreScreen = () => {
   const { data: sessionData, isLoading: isLoadingSession } = useSession([
     SESSION_KEYS.USER_ID,
     SESSION_KEYS.TOKEN, // confirm this key exists in your SESSION_KEYS
+    SESSION_KEYS.MATRI_ID,
   ]);
   const memberId = sessionData?.[SESSION_KEYS.USER_ID] || "";
   const token = sessionData?.[SESSION_KEYS.TOKEN] || "";
+  const matriId = sessionData?.[SESSION_KEYS.MATRI_ID] || "";
 
   const {
     data: profileResponse,
@@ -85,8 +89,9 @@ const EditPhotosMoreScreen = () => {
   const [horoscopePhoto, setHoroscopePhoto] = useState<string | undefined>(
     profile?.horoscope_photo,
   );
+  const [previewUri, setPreviewUri] = useState<string | undefined>(undefined);
 
-  const [privacy, setPrivacy] = useState("premium-liked");
+  const [privacy, setPrivacy] = useState(profile?.photo_view_status || "2");
 
   React.useEffect(() => {
     if (profile) {
@@ -247,9 +252,32 @@ const EditPhotosMoreScreen = () => {
     Alert.alert("Coming soon", "Voice note upload isn't wired up yet.");
   };
 
-  const savePrivacy = (id: string) => {
-    // TODO: replace with real mutation, e.g. updateProfile({ photoPrivacy: id })
-    setPrivacy(id);
+  const savePrivacy = async (id: string) => {
+    if (!matriId) return;
+
+    const previousPrivacy = privacy;
+    setPrivacy(id); // optimistic update
+
+    try {
+      setUploadProgress(0);
+      const response = await changePhotoVisibility({
+        matriId,
+        photoViewStatus: id,
+        onProgress: setUploadProgress,
+      });
+
+      if (response.status === "success") {
+        refetchProfile();
+      } else {
+        setPrivacy(previousPrivacy); // revert on failure
+        Alert.alert("Failed", response.errmessage || "Please try again.");
+      }
+    } catch (err) {
+      setPrivacy(previousPrivacy); // revert on error
+      Alert.alert("Failed", "Please check your connection and try again.");
+    } finally {
+      setUploadProgress(null);
+    }
   };
 
   // ── Build dynamic options per sheet kind ─────────────────────────────────
@@ -419,6 +447,7 @@ const EditPhotosMoreScreen = () => {
         onPressMenu={() =>
           setActiveSheet({ type: "photo-edit", slotIndex: index })
         }
+        onPressImage={() => setPreviewUri(photo)}
       />
     ) : (
       <AddPhotoSlot
@@ -512,6 +541,7 @@ const EditPhotosMoreScreen = () => {
           note="Photo of most important data in horoscope."
           onPress={() => setActiveSheet({ type: "horoscope" })}
           imageUri={horoscopePhoto}
+          onPressImage={() => setPreviewUri(horoscopePhoto)}
         />
       </ScrollView>
 
@@ -555,6 +585,12 @@ const EditPhotosMoreScreen = () => {
           </View>
         </View>
       )}
+
+      <PhotoPreviewModal
+        visible={!!previewUri}
+        imageUri={previewUri}
+        onClose={() => setPreviewUri(undefined)}
+      />
     </View>
   );
 };

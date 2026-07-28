@@ -81,6 +81,7 @@ export const ActionOptionsSheet: React.FC<ActionOptionsSheetProps> = ({
       animationType="none"
       transparent
       statusBarTranslucent
+      navigationBarTranslucent
     >
       <GestureHandlerRootView style={{ flex: 1 }}>
         <View
@@ -99,7 +100,7 @@ export const ActionOptionsSheet: React.FC<ActionOptionsSheetProps> = ({
                 backgroundColor: "white",
                 borderRadius: 20,
                 marginHorizontal: 20,
-                marginBottom: Math.max(insets.bottom, 20),
+                marginBottom: insets.bottom + 20,
                 paddingHorizontal: 20,
                 paddingTop: 32,
                 paddingBottom: 20,

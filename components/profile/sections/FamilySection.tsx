@@ -41,8 +41,6 @@ export const FamilySection: React.FC<FamilySectionProps> = ({
   onLayout,
   openModal,
 }) => {
-  console.log("noOfSisters", noOfSisters);
-
   return (
     <View
       onLayout={(e) => onLayout(sectionId, e)}
@@ -58,6 +56,7 @@ export const FamilySection: React.FC<FamilySectionProps> = ({
       <EditSectionHeader title="Family" />
 
       <EditRow
+        isFirst
         label="Family Type"
         value={profile?.family_type}
         onPress={() =>
@@ -174,7 +173,6 @@ export const FamilySection: React.FC<FamilySectionProps> = ({
       />
 
       <EditRow
-        isLast
         label="No. Of Brother(s)"
         value={profile?.no_of_brothers}
         onPress={() =>
@@ -187,7 +185,6 @@ export const FamilySection: React.FC<FamilySectionProps> = ({
         }
       />
       <EditRow
-        isLast
         label="Married Brother(s)"
         value={profile?.no_of_married_brother}
         onPress={() =>
@@ -200,7 +197,6 @@ export const FamilySection: React.FC<FamilySectionProps> = ({
         }
       />
       <EditRow
-        isLast
         label="No. Of Sister(s)"
         value={profile?.no_of_sisters}
         onPress={() =>
@@ -214,7 +210,6 @@ export const FamilySection: React.FC<FamilySectionProps> = ({
       />
 
       <EditRow
-        isLast
         label="Married Sister(s)"
         value={profile?.no_of_married_sister}
         onPress={() =>
@@ -228,7 +223,7 @@ export const FamilySection: React.FC<FamilySectionProps> = ({
       />
 
       <NonEditableText
-        isLast={false}
+        isLast
         label="About Family"
         value={profile?.family_details}
         onPress={() =>

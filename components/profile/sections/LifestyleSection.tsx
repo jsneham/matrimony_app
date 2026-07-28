@@ -59,6 +59,7 @@ export const LifestyleSection: React.FC<LifestyleSectionProps> = ({
     <EditSectionHeader title="Lifestyle" />
 
     <EditRow
+      isFirst
       label="Spoken Languages"
       value={profile?.languages_known_str}
       onPress={() =>
@@ -121,6 +122,7 @@ export const LifestyleSection: React.FC<LifestyleSectionProps> = ({
       }
     />
     <EditRow
+      isLast
       label="Health/Challenged"
       value={profile?.physical_info}
       onPress={() =>

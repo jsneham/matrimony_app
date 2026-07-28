@@ -291,7 +291,6 @@ export const useNoOfMarriedBrothers = () => {
 
 export const useNoOfSisters = () => {
   const query = useMetadata();
-  console.log("query===", query.data);
 
   return {
     ...query,
@@ -372,14 +371,6 @@ const useDependentListMulti = (tag: DependentListTag, parentIds: string[]) => {
     });
     return Array.from(seen.values());
   }, [queries.map((q) => q.data)]);
-
-  console.log(
-    "MULTI QUERY — parentIds:",
-    parentIds,
-    "→ merged length:",
-    merged.length,
-    merged,
-  );
 
   return { data: merged, isLoading, isError };
 };

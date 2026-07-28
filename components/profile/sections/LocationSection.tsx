@@ -54,6 +54,7 @@ export const LocationSection: React.FC<LocationSectionProps> = ({
       <EditSectionHeader title="Location" />
 
       <EditRow
+        isFirst
         label="Country"
         value={profile?.country_name}
         onPress={() =>
@@ -87,7 +88,7 @@ export const LocationSection: React.FC<LocationSectionProps> = ({
 
       <NonEditableText
         isLast
-        label="Ancestral Origin (Native Place)"
+        label="Ancestral Origin (Hometown)"
         value={profile?.address}
         onPress={() =>
           openModal(
@@ -99,7 +100,7 @@ export const LocationSection: React.FC<LocationSectionProps> = ({
             [
               {
                 field: "address",
-                label: "Ancestral Origin (Native Place)",
+                label: "Ancestral Origin (Hometown)",
                 placeholder: "Enter Ancestral Origin",
               },
             ],

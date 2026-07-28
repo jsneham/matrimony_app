@@ -49,7 +49,6 @@ export const HelpSupport = () => {
   };
 
   const handlePress = (item: { title: string }) => {
-    console.log(item.title);
     switch (item.title.toLowerCase()) {
       case "logout":
         setShowLogoutModal(true);

@@ -72,7 +72,6 @@ export default function HelpSupportScreen() {
   };
 
   const handlePress = (item: (typeof helpSupportMenu)[0]) => {
-    console.log(item.title);
     switch (item.title.toLowerCase()) {
       case "logout":
         setShowLogoutModal(true);
@@ -100,13 +99,14 @@ export default function HelpSupportScreen() {
           General Help &amp; Support
         </Text>
         <View className="bg-white">
-          {generalHelpMenu.map((item) => (
+          {generalHelpMenu.map((item, index) => (
             <MenuItem
               key={item.id}
               icon={FEATHER_ICON_BY_TITLE[item.title] ?? item.icon}
               iconSet="feather"
               title={item.title}
               onPress={() => handlePress(item)}
+              isLast={index === generalHelpMenu.length - 1}
             />
           ))}
         </View>

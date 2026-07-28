@@ -28,7 +28,7 @@ const SafetyCard = ({ card }: { card: SafetyCard }) => (
     <View className="h-[84px] bg-[#f3f3f3] rounded-t-[10px] items-center justify-center">
       <Feather name={card.icon} size={28} color="#9ca3af" />
     </View>
-    <Text className="text-base font-bold text-black px-3 pt-3 pb-3">
+    <Text className="text-base font-bold text-black text-center px-3 pt-3 pb-3">
       {card.label}
     </Text>
   </Pressable>

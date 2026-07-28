@@ -53,6 +53,7 @@ export const BasicsPreferenceSection: React.FC<BasicsSectionProps> = ({
       <EditSectionHeader title="Basics" />
 
       <EditRow
+        isFirst
         label="Marital Status"
         value={profile?.looking_for}
         onPress={() =>
@@ -123,6 +124,7 @@ export const BasicsPreferenceSection: React.FC<BasicsSectionProps> = ({
       />
 
       <EditRow
+        isLast
         label="Mother Tongue"
         value={profile?.part_mother_tongue_str}
         onPress={() =>

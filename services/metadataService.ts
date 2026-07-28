@@ -58,10 +58,6 @@ const mapCityItem = (item: any): CityItem => ({
 export const metadataService = {
   // Fetches all common static/dropdown options in a single API call
   getAppMetadata: async (): Promise<AppMetadata> => {
-    console.log(
-      "🔄 Fetching common lookup data from API: common_request/get_common_list_ddr...",
-    );
-
     try {
       // Using POST to match current app pattern and automatically inject common interceptor parameters
       const response = await api.post("common_request/get_common_list_ddr");
@@ -69,7 +65,6 @@ export const metadataService = {
 
       // Standardize raw data source in case of nested "data" envelope
       const src = payload.data || payload;
-      console.log("src", src);
 
       // Map and return standard client-side AppMetadata structure
       return {
@@ -247,11 +242,6 @@ export const metadataService = {
 
     const payload = response.data || {};
     const rawList = Array.isArray(payload.data) ? payload.data : [];
-
-    console.log(
-      `🔄 Fetched dependent list for tag "${tag}" with current value "${currentVal}":`,
-      rawList,
-    );
 
     return {
       ...payload,

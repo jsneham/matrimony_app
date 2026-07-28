@@ -263,7 +263,7 @@ export type ProfilePhotos = {
   coverPhoto: PhotoInfo;
   photoPassword: string;
   photoProtect: string | "Yes" | "No";
-  photoViewStatus: ViewStatus;
+  photo_view_status: ViewStatus;
   idProof: PhotoInfo;
   video: string;
   videoUrl: string;
@@ -392,7 +392,7 @@ export type UserProfile = {
   city: string;
   city_name: string;
   contactViewSecurity: ViewStatus;
-  photoViewStatus: ViewStatus;
+  photo_view_status: ViewStatus;
 
   // Personal Information
   physicalInfo: PhysicalInfo;
@@ -491,7 +491,7 @@ export type UserProfile = {
   coverPhotoUploadedOn: string;
   photoPassword: string;
   photoProtect: string;
-  //   photoViewStatus: ViewStatus;
+  //   photo_view_status: ViewStatus;
   idProof: string;
   idProofApprove: ApprovalStatus;
   idProofUploadedOn: string;
@@ -648,6 +648,7 @@ export type EditRowProps = {
   onPress: () => void;
   placeholder?: string;
   editable?: boolean;
+  isFirst?: boolean;
   isLast?: boolean;
 };
 
