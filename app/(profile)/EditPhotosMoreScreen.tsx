@@ -61,7 +61,7 @@ const PRIVACY_OPTIONS = [
 const EditPhotosMoreScreen = () => {
   const { data: sessionData, isLoading: isLoadingSession } = useSession([
     SESSION_KEYS.USER_ID,
-    SESSION_KEYS.TOKEN, // confirm this key exists in your SESSION_KEYS
+    SESSION_KEYS.TOKEN,
     SESSION_KEYS.MATRI_ID,
   ]);
   const memberId = sessionData?.[SESSION_KEYS.USER_ID] || "";
@@ -77,7 +77,6 @@ const EditPhotosMoreScreen = () => {
   const profile = profileResponse?.data;
 
   // Local optimistic copy of the 4 photo slots.
-  // Adjust field names (photo3 / photo4) to match your real API shape.
   const [photos, setPhotos] = useState<(string | undefined)[]>([
     profile?.photo1,
     profile?.photo2,
@@ -85,10 +84,23 @@ const EditPhotosMoreScreen = () => {
     profile?.photo4,
   ]);
 
+  // 👇 NEW: local copy of each slot's REAL approval status, kept parallel to `photos`.
+  // This must move WITH its photo whenever slots swap — otherwise "Approval Pending"
+  // stays glued to a slot index instead of following the photo it belongs to.
+  const [photoApprovals, setPhotoApprovals] = useState<(string | undefined)[]>([
+    profile?.photo1_approve,
+    profile?.photo2_approve,
+    profile?.photo3_approve,
+    profile?.photo4_approve,
+  ]);
+
   // Local optimistic copy of the horoscope photo
   const [horoscopePhoto, setHoroscopePhoto] = useState<string | undefined>(
     profile?.horoscope_photo,
   );
+  const [horoscopeApproval, setHoroscopeApproval] = useState<
+    string | undefined
+  >(profile?.horoscope_photo_approve);
   const [previewUri, setPreviewUri] = useState<string | undefined>(undefined);
 
   const [privacy, setPrivacy] = useState(profile?.photo_view_status || "2");
@@ -101,7 +113,15 @@ const EditPhotosMoreScreen = () => {
         profile.photo3,
         profile.photo4,
       ]);
+      // 👇 NEW: reseed approvals alongside photos whenever profile refetches
+      setPhotoApprovals([
+        profile.photo1_approve,
+        profile.photo2_approve,
+        profile.photo3_approve,
+        profile.photo4_approve,
+      ]);
       setHoroscopePhoto(profile.horoscope_photo);
+      setHoroscopeApproval(profile.horoscope_photo_approve);
     }
   }, [profile]);
 
@@ -129,7 +149,7 @@ const EditPhotosMoreScreen = () => {
     source: "gallery" | "camera",
     onPicked: (uri: string) => void,
   ) => {
-    const uri = await pickImageSimple(source, { aspect: PHOTO_ASPECT });
+    const uri = await pickImageSimple(source);
     if (!uri) return;
     onPicked(uri);
   };
@@ -158,6 +178,12 @@ const EditPhotosMoreScreen = () => {
         setPhotos((prev) => {
           const next = [...prev];
           next[slotIndex] = cropUri;
+          return next;
+        });
+        // 👇 NEW: a freshly uploaded photo is always pending review
+        setPhotoApprovals((prev) => {
+          const next = [...prev];
+          next[slotIndex] = "UNAPPROVED";
           return next;
         });
         refetchProfile();
@@ -193,6 +219,7 @@ const EditPhotosMoreScreen = () => {
 
       if (response.status === "success") {
         setHoroscopePhoto(uri);
+        setHoroscopeApproval("UNAPPROVED");
         refetchProfile();
       } else {
         Alert.alert(
@@ -227,6 +254,13 @@ const EditPhotosMoreScreen = () => {
 
       if (response.status === "success") {
         setPhotos((prev) => {
+          const next = [...prev];
+          [next[0], next[index]] = [next[index], next[0]];
+          return next;
+        });
+        // 👇 NEW: swap the approval status IN LOCKSTEP with the photo swap above,
+        // so "Approval Pending" follows the actual photo, not the slot position.
+        setPhotoApprovals((prev) => {
           const next = [...prev];
           [next[0], next[index]] = [next[index], next[0]];
           return next;
@@ -442,7 +476,8 @@ const EditPhotosMoreScreen = () => {
         key={index}
         source={{ uri: photo }}
         mainLabel={index === 0 ? "Main Photo" : undefined}
-        pendingLabel={index !== 0}
+        // 👇 CHANGED: real per-photo approval status instead of a hardcoded position guess
+        pendingLabel={photoApprovals[index] === "UNAPPROVED"}
         size={size}
         onPressMenu={() =>
           setActiveSheet({ type: "photo-edit", slotIndex: index })
@@ -542,6 +577,7 @@ const EditPhotosMoreScreen = () => {
           onPress={() => setActiveSheet({ type: "horoscope" })}
           imageUri={horoscopePhoto}
           onPressImage={() => setPreviewUri(horoscopePhoto)}
+          pending={horoscopeApproval === "UNAPPROVED"}
         />
       </ScrollView>
 
