@@ -99,6 +99,11 @@ export default function SearchMatchesScreen() {
   const tabLayouts = useRef<Record<string, { x: number; width: number }>>(
     {},
   ).current;
+  const sidebarScrollRef = useRef<ScrollView>(null);
+  // Row height = paddingVertical(17*2) + text-sm line height(~14) = 48,
+  // matching the right list's checkbox-driven 48px row height — used to
+  // scroll a tapped category to the exact top position "Height" sits at.
+  const SIDEBAR_ITEM_HEIGHT = 48;
 
   const [activeTopTab, setActiveTopTab] = useState<TopTab>("Filters");
   const [activeCategory, setActiveCategory] = useState<CategoryKey>("state");
@@ -253,6 +258,13 @@ export default function SearchMatchesScreen() {
   const handleSelectCategory = (key: CategoryKey) => {
     setActiveCategory(key);
     setSearchQuery("");
+    const index = CATEGORIES.findIndex((cat) => cat.key === key);
+    if (index >= 0) {
+      sidebarScrollRef.current?.scrollTo({
+        y: index * SIDEBAR_ITEM_HEIGHT,
+        animated: true,
+      });
+    }
   };
 
   const handleSelectOption = (id: string) => {
@@ -365,6 +377,7 @@ export default function SearchMatchesScreen() {
           <View style={{ flex: 1, minHeight: 0, flexDirection: "row" }}>
             {/* Category sidebar */}
             <ScrollView
+              ref={sidebarScrollRef}
               className="bg-app-background"
               style={{
                 flex: 1,
@@ -373,7 +386,7 @@ export default function SearchMatchesScreen() {
                 marginTop: 20,
                 marginBottom: footerHeight + 60,
               }}
-              contentContainerStyle={{ paddingTop: 55, paddingBottom: 100 }}
+              contentContainerStyle={{ paddingTop: 60, paddingBottom: 100 }}
               showsVerticalScrollIndicator={false}
             >
               {CATEGORIES.map((cat) => {
