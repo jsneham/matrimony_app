@@ -3,6 +3,7 @@ import { useNotifications } from "@/hooks/useNotifications";
 import { useSession } from "@/hooks/useSession";
 import { SESSION_KEYS } from "@/types/common";
 import { NotificationApiItem } from "@/types/notifications";
+import { navigateForNotification } from "@/utils/notificationRouting";
 import React, { useMemo } from "react";
 import { ActivityIndicator, FlatList, Text, View } from "react-native";
 
@@ -27,24 +28,7 @@ const NotificationsScreen = () => {
   );
 
   const handlePress = (item: NotificationApiItem) => {
-    if (!item.member_id) return;
-
-    // TODO: confirm actual type field/values from API
-    const isPhotoApproval = /photo\d*\s*approval/i.test(item.title ?? "");
-
-    if (isPhotoApproval) {
-      // TODO: confirm your real profile route
-      //   router.push(`/profile/${item.member_id}`);
-      //   Toast.show({
-      //     type: "success",
-      //     text1: item.title,
-      //     text2: item.message,
-      //   });
-    } else {
-      // TODO: confirm your real chat route
-      //   router.push(`/chat/${item.member_id}`);
-      //   router.push(`/profile/${item.member_id}`);
-    }
+    navigateForNotification(item);
   };
 
   const loadMore = () => {

@@ -11,6 +11,7 @@ export const useNotifications = (memberId: string) => {
       notificationServices.getNotificationList({
         memberId,
         pageNumber: pageParam,
+        appType: "Android",
       }),
     getNextPageParam: (lastPage: NotificationListResponse, allPages) => {
       // No more data available on server — matches Java's setMoreDataAvailable(false)

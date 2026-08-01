@@ -12,6 +12,7 @@ export const notificationServices = {
     const body = {
       member_id: data.memberId,
       page_number: data.pageNumber,
+      app_type: data.appType,
     };
     console.log("Notification List Request:", body);
     const response = await api.post(
