@@ -8,7 +8,6 @@ export const getCurrentLocation = async (): Promise<{
     const { status } = await Location.requestForegroundPermissionsAsync();
 
     if (status !== "granted") {
-      console.log("Location permission denied");
       return { latitude: "", longitude: "" };
     }
 
@@ -21,7 +20,6 @@ export const getCurrentLocation = async (): Promise<{
       longitude: location.coords.longitude.toString(),
     };
   } catch (error) {
-    console.log("Error getting location:", error);
     return { latitude: "", longitude: "" };
   }
 };

@@ -1,8 +1,8 @@
 import {
-    LoginRequest,
-    LoginResponse,
-    SignupRequest,
-    User,
+  LoginRequest,
+  LoginResponse,
+  SignupRequest,
+  User,
 } from "@/types/login";
 import { getCurrentLocation } from "@/utils/location";
 import { api, getDeviceToken } from "./api";
@@ -25,10 +25,7 @@ export const authService = {
       android_device_id: deviceToken,
     };
 
-    console.log("Login params:", params);
-
     const response = await api.post("login/check_login_service", params);
-    console.log("Login response:", response);
     return response.data;
   },
 
