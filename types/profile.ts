@@ -422,7 +422,7 @@ export type UserProfile = {
   gothra: string;
   horoscope: string | "Yes" | "No";
   horoscope_photo: string;
-  horoscopePhotoApprove: ApprovalStatus;
+  horoscope_photo_approve: ApprovalStatus;
   horoscopePhotoUploadedOn: string;
   manglik: ManglikStatus;
   star: string;
@@ -463,16 +463,16 @@ export type UserProfile = {
 
   // Photos & Media
   photo1: string;
-  photo1Approve: ApprovalStatus;
+  photo1_approve: ApprovalStatus;
   photo1UploadedOn: string;
   photo2: string;
-  photo2Approve: ApprovalStatus;
+  photo2_approve: ApprovalStatus;
   photo2UploadedOn: string;
   photo3: string;
-  photo3Approve: ApprovalStatus;
+  photo3_approve: ApprovalStatus;
   photo3UploadedOn: string;
   photo4: string;
-  photo4Approve: ApprovalStatus;
+  photo4_approve: ApprovalStatus;
   photo4UploadedOn: string;
   photo5: string;
   photo5Approve: ApprovalStatus;

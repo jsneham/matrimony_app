@@ -12,6 +12,7 @@ export const UploadRow = ({
   onPress,
   imageUri,
   onPressImage,
+  pending, // 👈 new
   icon: Icon = AddPhotoIcon,
 }: {
   label: string;
@@ -20,6 +21,7 @@ export const UploadRow = ({
   onPress?: () => void;
   imageUri?: string;
   onPressImage?: () => void;
+  pending?: boolean; // 👈 new
   icon?: React.ComponentType<{ size?: number; color?: string }>;
 }) => (
   <View>
@@ -39,6 +41,29 @@ export const UploadRow = ({
             resizeMode="cover"
           />
         </Pressable>
+
+        {pending && (
+          <View
+            className="absolute top-2 bg-overlay-black-50 rounded-full justify-center"
+            style={{
+              height: 28,
+              paddingHorizontal: 12,
+              maxWidth: "92%",
+              alignSelf: "center",
+            }}
+          >
+            <Text
+              className="text-white font-semibold"
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              minimumFontScale={0.75}
+              style={{ fontSize: 12 }}
+            >
+              Approval Pending
+            </Text>
+          </View>
+        )}
+
         <Pressable
           onPress={onPress}
           className="absolute bottom-3 right-3 w-7 h-7 rounded-[14px] bg-black items-center justify-center"
