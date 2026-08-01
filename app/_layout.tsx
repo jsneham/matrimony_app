@@ -120,6 +120,16 @@ export default function RootLayout() {
                 headerShadowVisible: false,
               }}
             />
+
+            <Stack.Screen
+              name="(notification)"
+              options={{
+                title: "Notifications",
+                headerShown: true,
+                headerTitleAlign: "center",
+                headerShadowVisible: false,
+              }}
+            />
           </Stack>
           {/* </SafeAreaView> */}
         </GestureHandlerRootView>
