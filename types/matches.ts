@@ -85,6 +85,101 @@ export type VisitorCardProps = {
   placeholderColor?: string;
 };
 
+export type MatchSectionKey =
+  | "profile_visitors"
+  | "recently_joined"
+  | "recently_active"
+  | "viewed_your_contact"
+  | "matchmaker_matches"
+  | "all_matches"
+  | "members_looking_for_you"
+  | "visited_by_you"
+  | "contact_viewed"
+  | "blocked_members";
+
+export type VisitorApiItem = {
+  id?: string;
+  matri_id: string;
+  user_id?: string;
+  username?: string;
+  firstname?: string;
+  lastname?: string;
+  photo1: string;
+  photo1_approve: string;
+  photoUrl: string;
+  photo_view_count: string;
+  photo_view_status: string;
+  photo_protect?: string;
+  photo_password?: string;
+  badge: string;
+  badgeUrl: string;
+  color: string;
+  age: string;
+  height: string;
+  caste_name: string;
+  religion_name: string;
+  city_name: string;
+  country_name: string;
+  state_name: string;
+  education_name: string;
+  designation_name?: string;
+  occupation_name?: string;
+  mtongue_name?: string;
+  profileby: string;
+  plan_status: string;
+  action: Record<string, any>[];
+};
+
+export type BlockedApiItem = {
+  matri_id: string;
+  user_id: string;
+  username: string;
+  photo1: string;
+  photo1_approve: string;
+  photo_view_status: string;
+  photo_view_count: string;
+  photoUrl: string;
+  birthdate: string;
+  height: string;
+  caste_name: string;
+  religion_name: string;
+  city_name: string;
+  state_name: string;
+  country_name: string;
+};
+
+export type SimpleListResponse = {
+  status: string;
+  data: VisitorApiItem[];
+};
+
+export type PaginatedListResponse = {
+  total_count: number;
+  continue_request: boolean;
+  data: VisitorApiItem[];
+};
+
+export type BlockedListResponse = {
+  total_count: number;
+  continue_request: boolean;
+  data: BlockedApiItem[];
+};
+
+export type MatchSectionConfig = {
+  key: string;
+  title: string;
+  description: string;
+  isPremiumSection?: boolean;
+  cardSize: "large" | "small";
+  isPaginated: boolean; // true = useInfiniteQuery, false = useQuery
+};
+
+export type MatchesListResponse = {
+  total_count: number;
+  continue_request: boolean;
+  data: VisitorApiItem[];
+};
+
 // ─── Mock Data ────────────────────────────────────────────────────────────────
 
 export const PROFILE_VISITORS: VisitorCardProps[] = [

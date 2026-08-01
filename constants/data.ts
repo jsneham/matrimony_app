@@ -317,3 +317,81 @@ export const PROFILE_TABS_CONFIG: TabConfig[] = [
   { id: "lifestyle", label: "Lifestyle" },
   { id: "family", label: "Family" },
 ];
+
+export const MATCH_SECTIONS = [
+  {
+    key: "profile_visitors",
+    title: "Profile Visitors",
+    description: "See who's interested. Who visited your profile.",
+    endpointBase: "my-profile/who_viewed_profile_app/", // TODO: confirm real path
+    isPremiumSection: true,
+    cardSize: "large",
+  },
+  {
+    key: "recently_joined",
+    title: "Recently Joined",
+    description: "See members who registered recently.",
+    endpointBase: "my-dashboard/recent-profile", // TODO: confirm real path
+    isPremiumSection: true,
+    cardSize: "large",
+  },
+  {
+    key: "recently_active",
+    title: "Recently Active",
+    description: "View Members that were recently active.",
+    endpointBase: "my-dashboard/recently-login", // TODO: confirm real path
+    isPremiumSection: true,
+    cardSize: "large",
+  },
+  {
+    key: "viewed_your_contact",
+    title: "Viewed your Contact",
+    description: "Members who viewed your contact details.",
+    endpointBase: "my-profile/who_viewed_contact_app/", // TODO: confirm real path
+    cardSize: "large",
+  },
+  // {
+  //   key: "matchmaker_matches",
+  //   title: "Matches from Matchmakers",
+  //   description:
+  //     "View Matches that are registered & Personally Verified by Human Matchmakers.",
+  //   endpointBase: "matches/get_matchmaker_matches/", // TODO: confirm real path
+  //   cardSize: "large",
+  // },
+  {
+    key: "all_matches",
+    title: "All Matches",
+    description: "View All Matches, outside your preferences too!",
+    endpointBase: "search/result/", // TODO: confirm real path
+    cardSize: "large",
+  },
+  // {
+  //   key: "members_looking_for_you",
+  //   title: "Members looking for you",
+  //   description:
+  //     "View members that are looking for members like you. Your profile matches their expectations",
+  //   endpointBase: "matches/search_now/", // TODO: confirm real path
+  //   cardSize: "large",
+  // },
+  {
+    key: "visited_by_you",
+    title: "Visited by you",
+    description: "Members that you visited. Want to revisit?",
+    endpointBase: "my-profile/i_viewed_profile_app/", // TODO: confirm real path
+    cardSize: "small",
+  },
+  {
+    key: "contact_viewed",
+    title: "Contact Viewed",
+    description: "Members whose contact you already viewed.",
+    endpointBase: "my-profile/who_viewed_contact_app/", // TODO: confirm real path
+    cardSize: "small",
+  },
+  {
+    key: "blocked_members",
+    title: "Blocked members",
+    description: "Members that you have blocked",
+    endpointBase: "my-profile/block-list/", // TODO: confirm real path
+    cardSize: "small",
+  },
+];

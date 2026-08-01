@@ -2,12 +2,18 @@
 import { matchesService } from "@/services/matchesService";
 import { GetMatchesResponse, MatchesRequest } from "@/types/matches";
 import {
+  useInfiniteQuery,
   useMutation,
   useQuery,
   useQueryClient,
   UseQueryResult,
 } from "@tanstack/react-query";
 import { Alert } from "react-native";
+
+import { useSession } from "@/hooks/useSession";
+import { matchesServices } from "@/services/matchesService";
+import { SESSION_KEYS } from "@/types/common";
+import { MatchesListResponse } from "@/types/matches";
 
 type UseMyMatchesResponse = {
   data: GetMatchesResponse;
@@ -151,6 +157,60 @@ export const useSendInterest = () => {
       const errorMsg =
         error.response?.data?.message || "Failed to send interest";
       Alert.alert("Error", errorMsg);
+    },
+  });
+};
+
+/**
+ * Preview mode: single page (used for the horizontal scroll rows on
+ * MoreMatchesTab — just needs the first ~10 items).
+ */
+export const useMatchesPreview = (endpointBase: string, sectionKey: string) => {
+  const { data: sessionData } = useSession([
+    SESSION_KEYS.USER_ID,
+    SESSION_KEYS.MATRI_ID,
+  ]);
+  const memberId = sessionData?.[SESSION_KEYS.USER_ID] || "";
+  const matriId = sessionData?.[SESSION_KEYS.MATRI_ID] || "";
+
+  return useQuery({
+    queryKey: ["matches-preview", sectionKey, memberId],
+    enabled: !!memberId && !!matriId,
+    queryFn: () =>
+      matchesServices.getMatchesList(endpointBase, {
+        matriId,
+        memberId,
+        page: 1,
+      }),
+  });
+};
+
+export const useMatchesFullList = (
+  endpointBase: string,
+  sectionKey: string,
+) => {
+  const { data: sessionData } = useSession([
+    SESSION_KEYS.USER_ID,
+    SESSION_KEYS.MATRI_ID,
+  ]);
+  const memberId = sessionData?.[SESSION_KEYS.USER_ID] || "";
+  const matriId = sessionData?.[SESSION_KEYS.MATRI_ID] || "";
+
+  return useInfiniteQuery({
+    queryKey: ["matches-full", sectionKey, memberId],
+    enabled: !!memberId && !!matriId,
+    initialPageParam: 1,
+    queryFn: ({ pageParam }) =>
+      matchesServices.getMatchesList(endpointBase, {
+        matriId,
+        memberId,
+        page: pageParam,
+      }),
+    getNextPageParam: (lastPage: MatchesListResponse, allPages) => {
+      // Matches Java: stop if fewer than 10 items OR total_count reached
+      if (!lastPage.data || lastPage.data.length < 10) return undefined;
+      if (lastPage.continue_request === false) return undefined;
+      return allPages.length + 1;
     },
   });
 };
