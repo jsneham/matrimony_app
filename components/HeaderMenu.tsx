@@ -6,7 +6,7 @@ export const HeaderMenu = () => {
   return (
     <View className="flex-row items-center gap-4 mr-4">
       {/* Notification Bell */}
-      <Pressable hitSlop={8}>
+      <Pressable onPress={() => router.push("/(notification)" as Href)}>
         <MaterialCommunityIcons name="bell-outline" size={24} />
       </Pressable>
 
