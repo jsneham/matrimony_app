@@ -210,37 +210,56 @@ export type CurrentPlanResponse = {
   data?: CurrentPlanData;
 };
 
-// ── Real API plan types (from AppConstants.plan_list → PremiumPlanBean) ────
-// TODO: field names below are GUESSES based on naming conventions seen
-// elsewhere in this API. Please share PremiumPlanBean.java to correct.
+// ── Real API types (from AppConstants.plan_list) ──────────────────────────
+
+// TODO: field names are GUESSES based on the static MembershipPlan shape —
+// the actual nested plan objects were truncated as "[Array]" in your log.
+// Please expand `category.plan_data[0]` and share the real keys.
 export type ApiPlanItem = {
   id: string;
-  plan_name: string;
-  category?: string; // TODO: confirm — might be what groups plans into tabs
-  duration: string; // e.g. "6 Months"
+  plan_name?: string;
+  name?: string; // TODO: confirm whether it's `plan_name` or `name`
+  duration?: string;
   days_left?: string;
-  original_price: string;
-  final_price: string;
-  discount_percent: string;
-  price_per_day: string;
-  plan_type: string; // "GOLD" | "PLATINUM" | "DIAMOND" — TODO: confirm exact values
-  features?: string[]; // TODO: confirm — might be pipe/comma-separated string instead of array
-  additional_info?: string[]; // TODO: same as above
+  original_price?: string;
+  final_price?: string;
+  discount_percent?: string;
+  price_per_day?: string;
+  plan_type?: string;
+  features?: string[];
+  additional_info?: string[];
+};
+
+// ✅ confirmed shape — this is the actual tab-level object
+export type PlanCategory = {
+  id: string;
+  category_name: string;
+  color: string;
+  icon: string; // e.g. "fas fa-gem" — a FontAwesome class name, not directly usable in RN
+  extra_text: string;
+  offer_text: string;
+  status: string;
+  is_deleted: string;
+  plan_data: ApiPlanItem[]; // the actual plans for this category
 };
 
 export type QrCodeItem = {
-  // TODO: fields unknown — payment QR code data
-  [key: string]: any;
+  id: string;
+  logo: string;
+  qr_code: string;
+  upi_id: string;
+  status: string;
+  is_deleted: string;
 };
 
 export type OfflinePaymentItem = {
-  // TODO: fields unknown — bank details for offline payment
-  [key: string]: any;
+  [key: string]: any; // TODO: unknown shape — was empty string in your sample response
 };
 
 export type PlanListResponse = {
   status: string;
-  plan_data: ApiPlanItem[];
+  plan_data: PlanCategory[]; // ✅ confirmed: this is categories, not plans
   scan_pay?: QrCodeItem[];
-  offline_payment?: OfflinePaymentItem[];
+  offline_payment?: OfflinePaymentItem[] | string; // your sample shows "" (empty string) when none exist
+  tocken?: string;
 };

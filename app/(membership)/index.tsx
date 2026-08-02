@@ -6,7 +6,7 @@ import { useWhatsApp } from "@/utils/whatsappUtils";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -21,32 +21,20 @@ const MembershipPlanList = () => {
   const router = useRouter();
   const { data, isLoading } = usePlanList();
 
-  const plans = data?.plan_data ?? [];
+  // ✅ Top-level plan_data IS the categories array
+  const categories = data?.plan_data ?? [];
 
-  // Group by `category` if the API provides one; otherwise show a single "All Plans" tab.
-  // TODO: confirm whether `category` is the real grouping field, or if tabs are
-  // determined some other way (e.g. a separate endpoint, or client-side by plan_type).
-  const groupedTabs = useMemo(() => {
-    const hasCategory = plans.some((p) => !!p.category);
-    if (!hasCategory) {
-      return [{ id: "all", title: "All Plans", plans }];
+  const [activeCategoryId, setActiveCategoryId] = useState<string | null>(null);
+
+  // Default to the first category once data arrives
+  useEffect(() => {
+    if (categories.length > 0 && !activeCategoryId) {
+      setActiveCategoryId(categories[0].id);
     }
-    const map = new Map<string, ApiPlanItem[]>();
-    plans.forEach((p) => {
-      const key = p.category || "Other";
-      if (!map.has(key)) map.set(key, []);
-      map.get(key)!.push(p);
-    });
-    return Array.from(map.entries()).map(([title, groupPlans]) => ({
-      id: title,
-      title,
-      plans: groupPlans,
-    }));
-  }, [plans]);
+  }, [categories, activeCategoryId]);
 
-  const [activeTabId, setActiveTabId] = useState<string | null>(null);
-  const activeTab =
-    groupedTabs.find((t) => t.id === activeTabId) ?? groupedTabs[0];
+  const activeCategory =
+    categories.find((c) => c.id === activeCategoryId) ?? categories[0];
 
   const handleContinue = (plan: ApiPlanItem) => {
     console.log("Selected plan:", plan);
@@ -70,18 +58,18 @@ const MembershipPlanList = () => {
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Tabs */}
         <View className="px-4 py-6">
-          {groupedTabs.length > 1 && (
+          {categories.length > 1 && (
             <ScrollView
               horizontal
               showsHorizontalScrollIndicator={false}
               className="mb-6"
             >
-              {groupedTabs.map((tab) => {
-                const isActive = tab.id === activeTab?.id;
+              {categories.map((cat) => {
+                const isActive = cat.id === activeCategory?.id;
                 return (
                   <Pressable
-                    key={tab.id}
-                    onPress={() => setActiveTabId(tab.id)}
+                    key={cat.id}
+                    onPress={() => setActiveCategoryId(cat.id)}
                     className="mr-6"
                   >
                     <Text
@@ -89,7 +77,7 @@ const MembershipPlanList = () => {
                         isActive ? "text-sky-500" : "text-gray-600"
                       }`}
                     >
-                      {tab.title}
+                      {cat.category_name}
                     </Text>
                     {isActive && (
                       <View className="h-1 bg-sky-500 rounded-full mt-2 w-32" />
@@ -99,13 +87,20 @@ const MembershipPlanList = () => {
               })}
             </ScrollView>
           )}
+
+          {/* Tab Description */}
+          {activeCategory?.extra_text && (
+            <Text className="text-gray-600 text-sm mb-4">
+              {activeCategory.extra_text}
+            </Text>
+          )}
         </View>
 
         {/* Membership Cards Carousel */}
-        {activeTab && activeTab.plans.length > 0 ? (
+        {activeCategory && activeCategory.plan_data?.length > 0 ? (
           <View className="px-4 mb-8">
             <FlatList
-              data={activeTab.plans}
+              data={activeCategory.plan_data}
               keyExtractor={(item) => item.id}
               horizontal
               showsHorizontalScrollIndicator={false}

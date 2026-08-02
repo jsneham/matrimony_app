@@ -26,9 +26,9 @@ export const MembershipCard: React.FC<MembershipCardProps> = ({
 
   const colors = getTypeColor();
 
-  const originalPrice = parseFloat(plan.original_price) || 0;
-  const finalPrice = parseFloat(plan.final_price) || 0;
-  const pricePerDay = parseFloat(plan.price_per_day) || 0;
+  const originalPrice = parseFloat(plan.original_price ?? "0") || 0;
+  const finalPrice = parseFloat(plan.final_price ?? "0") || 0;
+  const pricePerDay = parseFloat(plan.price_per_day ?? "0") || 0;
 
   return (
     <View className="bg-white rounded-2xl p-4 mr-4 shadow-md border border-gray-100 w-80">

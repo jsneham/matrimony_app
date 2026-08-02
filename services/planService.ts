@@ -14,7 +14,9 @@ export const planServices = {
   // ✅ confirmed: AppConstants.plan_list — no params needed, empty POST body
   getPlanList: async (): Promise<PlanListResponse> => {
     const response = await api.post("premium_member/get_plan_data", {});
-    // ✅ path confirmed earlier from your AppConstants dump: "premium_member/get_plan_data"
+
+    console.log("response getPlanList", response.data);
+
     return response.data;
   },
 };
