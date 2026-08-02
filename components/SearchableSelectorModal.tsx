@@ -276,7 +276,7 @@ export const SearchableSelectorModal: React.FC<
                 >
                   <Pressable
                     onPress={handleEditableSave}
-                    className="py-3 bg-pink-600 rounded-full items-center active:bg-pink-700"
+                    className="py-4 bg-pink-600 rounded-full items-center active:bg-pink-700"
                   >
                     <Text className="text-white font-bold text-base">Save</Text>
                   </Pressable>
@@ -426,7 +426,7 @@ export const SearchableSelectorModal: React.FC<
                   <View className="bg-white px-5 py-4 gap-3 pb-6">
                     <Pressable
                       onPress={handleSave}
-                      className="py-3 bg-pink-600 rounded-full items-center active:bg-pink-700"
+                      className="py-4 bg-pink-600 rounded-full items-center active:bg-pink-700"
                     >
                       <Text className="text-white font-bold text-base">
                         Save
