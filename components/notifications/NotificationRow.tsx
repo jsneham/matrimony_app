@@ -1,4 +1,4 @@
-import { NotificationApiItem } from "@/types/notification";
+import { NotificationApiItem } from "@/types/notifications";
 import React from "react";
 import { Pressable, Text, View } from "react-native";
 import { NotificationAvatar } from "./NotificationAvatar";
@@ -13,16 +13,18 @@ export const NotificationRow = ({
   return (
     <Pressable
       onPress={() => onPress(item)}
-      className="flex-row px-5 py-4 active:bg-gray-50"
+      className="flex-row mx-5 mb-3 p-5 bg-white rounded-2xl active:bg-gray-50"
     >
       <NotificationAvatar uri={item.image} />
 
       <View className="flex-1 ml-4">
-        <Text className="text-base font-bold text-gray-900">{item.title}</Text>
-        <Text className="text-sm text-gray-500 mt-1" numberOfLines={2}>
-          {item.message}
-        </Text>
-        <Text className="text-xs text-gray-400 mt-2">{item.created_at}</Text>
+        <View className="flex-row items-center justify-between">
+          <Text className="text-base font-bold text-gray-900">
+            {item.title}
+          </Text>
+          <Text className="text-xs text-gray-400">{item.created_at}</Text>
+        </View>
+        <Text className="text-sm text-gray-500 mt-3">{item.message}</Text>
       </View>
     </Pressable>
   );

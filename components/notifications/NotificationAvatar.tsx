@@ -7,7 +7,7 @@ export const NotificationAvatar = ({ uri }: { uri?: string }) => {
     return (
       <Image
         source={{ uri }}
-        style={{ width: 56, height: 56, borderRadius: 28 }}
+        style={{ width: 40, height: 40, borderRadius: 20 }}
       />
     );
   }
@@ -15,9 +15,9 @@ export const NotificationAvatar = ({ uri }: { uri?: string }) => {
   return (
     <View
       className="bg-gray-200 items-center justify-center"
-      style={{ width: 56, height: 56, borderRadius: 28 }}
+      style={{ width: 40, height: 40, borderRadius: 20 }}
     >
-      <Ionicons name="person" size={28} color="#9ca3af" />
+      <Ionicons name="person" size={22} color="#9ca3af" />
     </View>
   );
 };
