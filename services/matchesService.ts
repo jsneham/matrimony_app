@@ -1,5 +1,12 @@
 // services/matchesService.ts
-import { GetMatchesResponse, MatchesRequest } from "@/types/matches";
+import {
+  BlockedListResponse,
+  GetMatchesResponse,
+  MatchesListResponse,
+  MatchesRequest,
+  PaginatedListResponse,
+  SimpleListResponse,
+} from "@/types/matches";
 import { api } from "./api";
 
 // Get my matches
@@ -158,3 +165,125 @@ export const matchesService = {
     return response.data;
   },
 };
+
+export const matchesServices = {
+  getMatchesList: async (
+    endpointBase: string,
+    params: { matriId: string; memberId: string; page: number },
+  ): Promise<MatchesListResponse> => {
+    const url = `${endpointBase}${params.page}`;
+
+    const body = {
+      matri_id: params.matriId,
+      member_id: params.memberId,
+    };
+
+    const response = await api.post(url, body);
+    return response.data;
+  },
+};
+
+// ── Simple pattern: member_id only, no pagination, { status, data } ──────
+async function getSimpleList(
+  endpoint: string,
+  memberId: string,
+): Promise<SimpleListResponse> {
+  const body = { member_id: memberId };
+  const response = await api.post(endpoint, body);
+  return response.data;
+}
+
+export function getRecentlyJoined(memberId: string) {
+  return getSimpleList("my-dashboard/recent-profile", memberId); // TODO: confirm exact path string (only had constant NAME confirmed, not value)
+}
+
+export function getRecentlyActive(memberId: string) {
+  return getSimpleList("my-dashboard/recently-login", memberId); // ✅ confirmed — NO page number appended
+}
+
+// ── Paginated pattern: matri_id + member_id, page number in URL path ─────
+async function getPaginatedList(
+  endpointBase: string,
+  matriId: string,
+  memberId: string,
+  page: number,
+): Promise<PaginatedListResponse> {
+  const body = { matri_id: matriId, member_id: memberId };
+  const response = await api.post(`${endpointBase}${page}`, body);
+  return response.data;
+}
+
+export function getWhoViewedProfile(
+  matriId: string,
+  memberId: string,
+  page: number,
+) {
+  return getPaginatedList(
+    "my-profile/who_viewed_profile_app/",
+    matriId,
+    memberId,
+    page,
+  ); // ✅ confirmed
+}
+
+export function getWhoViewedContact(
+  matriId: string,
+  memberId: string,
+  page: number,
+) {
+  return getPaginatedList(
+    "my-profile/who_viewed_contact_app/",
+    matriId,
+    memberId,
+    page,
+  ); // ⚠️ used for both "Viewed your Contact" AND "Contact Viewed" — needs verification, likely wrong for one of them
+}
+
+export function getIViewedProfile(
+  matriId: string,
+  memberId: string,
+  page: number,
+) {
+  return getPaginatedList(
+    "my-profile/i_viewed_profile_app/",
+    matriId,
+    memberId,
+    page,
+  ); // ✅ confirmed ("Visited by you")
+}
+
+export function getAllMatches(matriId: string, memberId: string, page: number) {
+  return getPaginatedList("search/result/", matriId, memberId, page); // ✅ confirmed
+}
+
+// ── Blocked members: matri_id ONLY, different response shape ─────────────
+export async function getBlockedMembers(
+  matriId: string,
+  page: number,
+): Promise<BlockedListResponse> {
+  const body = { matri_id: matriId };
+  const response = await api.post(`my-profile/block-list/${page}`, body); // ✅ confirmed
+  return response.data;
+}
+
+// ── NOT YET CONFIRMED — placeholders, will 404 until real paths are known ─
+export function getMatchmakerMatches(
+  matriId: string,
+  memberId: string,
+  page: number,
+) {
+  return getPaginatedList(
+    "matches/matchmaker-matches/",
+    matriId,
+    memberId,
+    page,
+  ); // TODO: confirm real path
+}
+
+export function getMembersLookingForYou(
+  matriId: string,
+  memberId: string,
+  page: number,
+) {
+  return getPaginatedList("matches/looking-for-you/", matriId, memberId, page); // TODO: confirm real path
+}
