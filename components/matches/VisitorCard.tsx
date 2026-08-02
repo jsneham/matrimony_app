@@ -20,7 +20,9 @@ export const VisitorCard: React.FC<VisitorCardProps> = ({
   placeholderColor = "#e5e7eb",
 }) => {
   const isSmall = size === "small";
-  const dimensionClass = isSmall ? "w-[100px] h-[150px]" : "w-[150px] h-[225px]";
+  const dimensionClass = isSmall
+    ? "w-[100px] h-[150px]"
+    : "w-[150px] h-[225px]";
 
   return (
     <View
@@ -65,7 +67,11 @@ export const VisitorCard: React.FC<VisitorCardProps> = ({
       )}
 
       {isPremium && (
-        <View className={isSmall ? "absolute top-2 left-2" : "absolute top-3 left-3"}>
+        <View
+          className={
+            isSmall ? "absolute top-2 left-2" : "absolute top-3 left-3"
+          }
+        >
           <PremiumTag width={isSmall ? 32 : 48} height={isSmall ? 12 : 18} />
         </View>
       )}

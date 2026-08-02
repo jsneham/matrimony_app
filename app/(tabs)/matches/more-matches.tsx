@@ -37,7 +37,12 @@ const SectionShell = ({
   cardSize,
   onViewAll,
 }: SectionShellProps) => {
-  const safeItems = (items ?? []).slice(0, 5); // only show first 5 in the preview row
+  console.log(
+    "🔥🔥🔥 SectionShell VERSION CHECK — if you see this, the file reloaded 🔥🔥🔥",
+  );
+
+  const safeItems: any[] = Array.isArray(items) ? items.slice(0, 5) : [];
+  console.log("safeItems", safeItems);
 
   return (
     <View className={wrapperClass}>
