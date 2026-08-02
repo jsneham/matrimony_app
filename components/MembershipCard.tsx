@@ -1,12 +1,12 @@
 // components/MembershipCard.tsx
-import { MembershipPlan } from "@/types/plan";
+import { ApiPlanItem } from "@/types/plan";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React from "react";
 import { Pressable, Text, View } from "react-native";
 
 interface MembershipCardProps {
-  plan: MembershipPlan;
-  onContinue: (plan: MembershipPlan) => void;
+  plan: ApiPlanItem;
+  onContinue: (plan: ApiPlanItem) => void;
 }
 
 export const MembershipCard: React.FC<MembershipCardProps> = ({
@@ -14,7 +14,7 @@ export const MembershipCard: React.FC<MembershipCardProps> = ({
   onContinue,
 }) => {
   const getTypeColor = () => {
-    switch (plan.type) {
+    switch (plan.plan_type?.toUpperCase()) {
       case "PLATINUM":
         return { bg: "bg-purple-100", text: "text-purple-700" };
       case "DIAMOND":
@@ -26,20 +26,28 @@ export const MembershipCard: React.FC<MembershipCardProps> = ({
 
   const colors = getTypeColor();
 
+  const originalPrice = parseFloat(plan.original_price) || 0;
+  const finalPrice = parseFloat(plan.final_price) || 0;
+  const pricePerDay = parseFloat(plan.price_per_day) || 0;
+
   return (
     <View className="bg-white rounded-2xl p-4 mr-4 shadow-md border border-gray-100 w-80">
       {/* Header */}
       <View className="mb-4">
         <View className="flex-row justify-between items-start mb-2">
           <View>
-            <Text className="text-black font-bold text-lg">{plan.name}</Text>
-            <Text className="text-gray-500 text-sm mt-1">
-              {plan.daysLeft} Days
+            <Text className="text-black font-bold text-lg">
+              {plan.plan_name}
             </Text>
+            {plan.days_left && (
+              <Text className="text-gray-500 text-sm mt-1">
+                {plan.days_left} Days
+              </Text>
+            )}
           </View>
           <View className={`${colors.bg} px-3 py-1 rounded`}>
             <Text className={`${colors.text} font-bold text-xs`}>
-              {plan.type}
+              {plan.plan_type}
             </Text>
           </View>
         </View>
@@ -47,48 +55,58 @@ export const MembershipCard: React.FC<MembershipCardProps> = ({
 
       {/* Discount Badge and Prices */}
       <View className="bg-gradient-to-b from-amber-50 to-white rounded-lg p-4 mb-4 items-center">
-        <View className="bg-amber-600 px-4 py-2 rounded-lg mb-3">
-          <Text className="text-white font-bold text-sm">
-            {plan.discountPercent}% OFF
-          </Text>
-        </View>
+        {plan.discount_percent && (
+          <View className="bg-amber-600 px-4 py-2 rounded-lg mb-3">
+            <Text className="text-white font-bold text-sm">
+              {plan.discount_percent}% OFF
+            </Text>
+          </View>
+        )}
 
-        <Text className="text-gray-500 line-through text-sm mb-1">
-          ₹{plan.originalPrice.toLocaleString("en-IN")}
-        </Text>
+        {originalPrice > 0 && originalPrice !== finalPrice && (
+          <Text className="text-gray-500 line-through text-sm mb-1">
+            ₹{originalPrice.toLocaleString("en-IN")}
+          </Text>
+        )}
 
         <Text className="text-black font-bold text-3xl mb-1">
-          ₹{plan.finalPrice}
+          ₹{finalPrice.toLocaleString("en-IN")}
         </Text>
 
-        <Text className="text-gray-600 text-sm">
-          ₹{plan.pricePerDay.toFixed(2)} per day
-        </Text>
+        {pricePerDay > 0 && (
+          <Text className="text-gray-600 text-sm">
+            ₹{pricePerDay.toFixed(2)} per day
+          </Text>
+        )}
       </View>
 
       {/* Features */}
-      <View className="mb-4">
-        {plan.features.map((feature, index) => (
-          <View key={index} className="flex-row items-start mb-2">
-            <MaterialCommunityIcons
-              name="check-circle"
-              size={20}
-              color="#9D7E2B"
-              style={{ marginRight: 8, marginTop: 2 }}
-            />
-            <Text className="text-gray-900 text-sm flex-1">{feature}</Text>
-          </View>
-        ))}
-      </View>
+      {plan.features && plan.features.length > 0 && (
+        <View className="mb-4">
+          {plan.features.map((feature, index) => (
+            <View key={index} className="flex-row items-start mb-2">
+              <MaterialCommunityIcons
+                name="check-circle"
+                size={20}
+                color="#9D7E2B"
+                style={{ marginRight: 8, marginTop: 2 }}
+              />
+              <Text className="text-gray-900 text-sm flex-1">{feature}</Text>
+            </View>
+          ))}
+        </View>
+      )}
 
       {/* Additional Info */}
-      <View className="bg-amber-50 rounded-lg p-3 mb-4">
-        {plan.additionalInfo.map((info, index) => (
-          <Text key={index} className="text-amber-700 text-xs mb-1">
-            {"\u2022"} {info}
-          </Text>
-        ))}
-      </View>
+      {plan.additional_info && plan.additional_info.length > 0 && (
+        <View className="bg-amber-50 rounded-lg p-3 mb-4">
+          {plan.additional_info.map((info, index) => (
+            <Text key={index} className="text-amber-700 text-xs mb-1">
+              {"\u2022"} {info}
+            </Text>
+          ))}
+        </View>
+      )}
 
       {/* Continue Button */}
       <Pressable

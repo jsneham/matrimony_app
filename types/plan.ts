@@ -181,3 +181,66 @@ export const PLAN_EXTRA: PlanDetail[] = [
   { label: "GST (0%)", value: "INR 0" },
   { label: "Final Billed Amount", value: "INR 499", highlight: true },
 ];
+
+export type CurrentPlanData = {
+  plan_name: string;
+  currency: string;
+  plan_amount: string;
+  plan_activated: string;
+  plan_expired: string;
+  plan_duration: string;
+  message_used: string;
+  message: string;
+  contacts: string;
+  contacts_used: string;
+  chat: string;
+  profile: string;
+  profile_used: string;
+  tax_percentage: string;
+  tax_name: string;
+  grand_total: string;
+  tax_amount: string;
+  discount_amount: string;
+  offer_per: string;
+};
+
+export type CurrentPlanResponse = {
+  status: string;
+  is_show: boolean;
+  data?: CurrentPlanData;
+};
+
+// ── Real API plan types (from AppConstants.plan_list → PremiumPlanBean) ────
+// TODO: field names below are GUESSES based on naming conventions seen
+// elsewhere in this API. Please share PremiumPlanBean.java to correct.
+export type ApiPlanItem = {
+  id: string;
+  plan_name: string;
+  category?: string; // TODO: confirm — might be what groups plans into tabs
+  duration: string; // e.g. "6 Months"
+  days_left?: string;
+  original_price: string;
+  final_price: string;
+  discount_percent: string;
+  price_per_day: string;
+  plan_type: string; // "GOLD" | "PLATINUM" | "DIAMOND" — TODO: confirm exact values
+  features?: string[]; // TODO: confirm — might be pipe/comma-separated string instead of array
+  additional_info?: string[]; // TODO: same as above
+};
+
+export type QrCodeItem = {
+  // TODO: fields unknown — payment QR code data
+  [key: string]: any;
+};
+
+export type OfflinePaymentItem = {
+  // TODO: fields unknown — bank details for offline payment
+  [key: string]: any;
+};
+
+export type PlanListResponse = {
+  status: string;
+  plan_data: ApiPlanItem[];
+  scan_pay?: QrCodeItem[];
+  offline_payment?: OfflinePaymentItem[];
+};
