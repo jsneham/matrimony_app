@@ -243,6 +243,19 @@ export default function MoreMatchesTab() {
           <ViewAllVisitorsCard size="small" />
         </ScrollView>
       </View>
+
+      {/* ── No Data Sample - Blocked ─────────────────── */}
+      <View className="mx-5 mt-14 p-5 rounded-2xl border border-dashed border-gray-400 bg-white">
+        <Text className="text-2xl font-bold text-black">
+          No Data Sample - Blocked
+        </Text>
+        <Text className="text-base font-regular text-gray-500 mt-3">
+          Members blocked by you will appear here.
+        </Text>
+        <Text className="text-base font-regular text-gray-500 mt-10">
+          {`You have not blocked any member.\nWhen you block a member, they will not know that you have blocked them.`}
+        </Text>
+      </View>
     </ScrollView>
   );
 }
