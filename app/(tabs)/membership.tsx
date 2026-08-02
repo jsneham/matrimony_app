@@ -4,14 +4,6 @@ import React from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 
 export default function membership() {
-  // const { logout } = useSession();
-  // const router = useRouter();
-
-  // const handleLogout = async () => {
-  //   await logout();
-  //   router.replace("/(auth)/login");
-  // };
-
   return (
     <View className="flex-1 bg-gray-100">
       <ScrollView
