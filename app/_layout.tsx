@@ -75,10 +75,7 @@ export default function RootLayout() {
             <Stack.Screen
               name="(account)"
               options={{
-                title: "Account & More",
-                headerShown: true,
-                headerTitleAlign: "center",
-                headerShadowVisible: false,
+                headerShown: false,
               }}
             />
             <Stack.Screen
@@ -97,7 +94,7 @@ export default function RootLayout() {
                 headerTitleAlign: "left",
                 headerTitleStyle: {
                   fontSize: 24,
-                  fontFamily: "bold",
+                  fontFamily: "Bold",
                 },
                 headerShadowVisible: false,
               }}
@@ -105,19 +102,20 @@ export default function RootLayout() {
             <Stack.Screen
               name="help-support"
               options={{
-                title: "Help & Support",
-                headerShown: true,
-                headerTitleAlign: "center",
-                headerShadowVisible: false,
+                headerShown: false,
               }}
             />
             <Stack.Screen
               name="search-matches"
               options={{
-                title: "Search Matches",
-                headerShown: true,
-                headerTitleAlign: "center",
-                headerShadowVisible: false,
+                headerShown: false,
+              }}
+            />
+
+            <Stack.Screen
+              name="search-results"
+              options={{
+                headerShown: false,
               }}
             />
           </Stack>

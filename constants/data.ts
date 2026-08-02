@@ -33,7 +33,7 @@ export const helpSupportMenu = [
   {
     id: "2",
     icon: "help-circle",
-    title: "FAQs - Frequently Asked Questions",
+    title: "Frequently Asked Questions",
     subtitle: "Frequently asked questions can be found here",
   },
   {
@@ -108,7 +108,7 @@ export const MY_ACCOUNT_MENU = [
   {
     id: "7",
     icon: "life-buoy",
-    title: "Help & Support Center",
+    title: "Safety & Support Center",
   },
 ];
 

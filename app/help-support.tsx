@@ -1,3 +1,4 @@
+import ChevronLeftIcon from "@/assets/icons/ChevronLeftIcon";
 import { SafetyCentreSection } from "@/components/account/SafetyCentreSection";
 import BottomModal from "@/components/BottomModal";
 import { MenuItem } from "@/components/MenuItem";
@@ -5,7 +6,7 @@ import { helpSupportMenu } from "@/constants/data";
 import { useSession } from "@/hooks/useSession";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import { Platform, ScrollView, Text, View } from "react-native";
+import { Platform, Pressable, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 // Screen-specific extras, prepended to the shared helpSupportMenu list below
@@ -88,6 +89,31 @@ export default function HelpSupportScreen() {
 
   return (
     <View className="flex-1 bg-app-background">
+      {/* Header */}
+      <View
+        className="bg-white flex-row items-center"
+        style={{ paddingTop: insets.top }}
+      >
+        <Pressable
+          onPress={() => router.back()}
+          hitSlop={10}
+          style={{
+            width: 44,
+            height: 49,
+            justifyContent: "center",
+            paddingLeft: 20,
+          }}
+        >
+          <ChevronLeftIcon size={24} color="black" />
+        </Pressable>
+        <Text
+          className="flex-1 text-center text-lg font-bold text-black"
+          style={{ marginRight: 44 }}
+        >
+          Help & Support
+        </Text>
+      </View>
+
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
