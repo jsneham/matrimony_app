@@ -18,6 +18,7 @@ import { useSession } from "@/hooks/useSession";
 import { SESSION_KEYS } from "@/types/common";
 import { MatchProfile } from "@/types/matches";
 import { Ionicons } from "@expo/vector-icons";
+import { Href, router } from "expo-router";
 
 export default function MyMatchesScreen() {
   const { data: sessionData, isLoading: isSessionLoading } = useSession([
@@ -109,7 +110,15 @@ export default function MyMatchesScreen() {
         <Text className="text-gray font-regular text-sm">
           As per Partner Preferences.
         </Text>
-        <TouchableOpacity className="flex-row items-center">
+        <TouchableOpacity
+          className="flex-row items-center"
+          onPress={() =>
+            router.push({
+              pathname: "/(profile)",
+              params: { tab: "preferences" },
+            } as Href)
+          }
+        >
           <Text className="text-black text-sm font-bold">
             Update Preferences
           </Text>
