@@ -19,8 +19,10 @@ import {
   useWorkSector,
 } from "@/hooks/useMetadata";
 import { LookupItem } from "@/types/metadata";
+import ChevronLeftIcon from "@/assets/icons/ChevronLeftIcon";
 import { VerticalRangeSlider } from "@/components/VerticalRangeSlider";
 import { Feather, Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   Animated,
@@ -321,6 +323,7 @@ export default function SearchMatchesScreen() {
           toId: heights[heightHighIndex].id,
         },
     });
+    router.push("/search-results");
   };
 
   const isSelected = (id: string) =>
@@ -330,6 +333,31 @@ export default function SearchMatchesScreen() {
 
   return (
     <View style={{ flex: 1 }} className="bg-app-background">
+      {/* Header */}
+      <View
+        className="bg-white flex-row items-center"
+        style={{ paddingTop: insets.top }}
+      >
+        <Pressable
+          onPress={() => router.back()}
+          hitSlop={10}
+          style={{
+            width: 44,
+            height: 49,
+            justifyContent: "center",
+            paddingLeft: 20,
+          }}
+        >
+          <ChevronLeftIcon size={24} color="black" />
+        </Pressable>
+        <Text
+          className="flex-1 text-center text-lg font-bold text-black"
+          style={{ marginRight: 44 }}
+        >
+          Search Matches
+        </Text>
+      </View>
+
       {/* Top tabs */}
       <View className="bg-white">
         <View className="flex-row h-11 border-b border-inactive-border">
@@ -351,7 +379,7 @@ export default function SearchMatchesScreen() {
                 activeOpacity={0.7}
               >
                 <Text
-                  className={`text-lg font-bold ${
+                  className={`text-base font-bold ${
                     isActive ? "text-tab-text-active" : "text-tab-text-inactive"
                   }`}
                 >

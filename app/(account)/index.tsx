@@ -25,7 +25,7 @@ export const MyAccount = () => {
           params: { tab: "preferences" },
         } as Href);
         break;
-      case "help & support center":
+      case "safety & support center":
         router.push("/help-support" as Href);
         break;
       default:
@@ -38,7 +38,7 @@ export const MyAccount = () => {
       <Text className="px-5 pt-12 pb-4 text-sm font-bold text-black">
         Account Settings
       </Text>
-      <View className="w-full bg-white">
+      <View className="mx-5 rounded-2xl overflow-hidden bg-white">
         {MY_ACCOUNT_MENU.map((item, index) => (
           <MenuItem
             key={item.id}

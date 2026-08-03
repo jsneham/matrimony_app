@@ -74,7 +74,7 @@ const TabLayout = () => {
             headerTitleAlign: "left",
             headerTitleStyle: {
               fontSize: 24,
-              fontFamily: "bold",
+              fontFamily: "Bold",
             },
             headerTitleContainerStyle: {
               left: 4,
@@ -94,7 +94,7 @@ const TabLayout = () => {
               <Text
                 style={{
                   fontSize: 11,
-                  fontFamily: "medium",
+                  fontFamily: "Medium",
                   textAlign: "center",
                   marginBottom: 4,
                   color: focused ? colors.accent : colors.tabIconDefault,

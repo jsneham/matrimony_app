@@ -90,7 +90,7 @@ export default function MatchesLayout() {
                     />
                   )}
                   <Text
-                    className={`text-[16px] ${
+                    className={`text-base ${
                       isActive
                         ? "font-bold text-tab-text-active"
                         : "font-bold text-tab-text-inactive"
