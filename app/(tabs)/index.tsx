@@ -1,20 +1,23 @@
 import Help from "@/components/Help";
+import { SectionShell } from "@/components/matches/SectionShell";
 import MeetMatchmakers from "@/components/MeetMatchmakers";
-import { MemberCard } from "@/components/MemberCard";
 import { MembershipBanner } from "@/components/MembershipBanner";
 import { NoData } from "@/components/NoData";
 import { ProfileCard } from "@/components/ProfileCard";
 import ProfileVisitors from "@/components/ProfileVisitors";
-import { SectionHeader } from "@/components/SectionHeader";
 import SuccessStories from "@/components/SuccessStories";
 import "@/global.css";
+import {
+  useRecentlyActive,
+  useRecentlyJoined,
+} from "@/hooks/useMatchesSections";
 import { useMyProfile } from "@/hooks/useProfile";
 import { useSession } from "@/hooks/useSession";
 import { SESSION_KEYS } from "@/types/common";
-import { NEWLY_JOINED, RECENTLY_LOGGED_IN } from "@/types/home";
+import { router } from "expo-router";
 
 import React from "react";
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, View } from "react-native";
 
 export default function home() {
   const { data } = useSession([SESSION_KEYS.USER_ID]);
@@ -29,6 +32,8 @@ export default function home() {
   } = useMyProfile({
     memberId,
   });
+  const recentlyJoined = useRecentlyJoined();
+  const recentlyActive = useRecentlyActive();
 
   if (isMatchesLoading || isError) {
     return (
@@ -63,40 +68,36 @@ export default function home() {
         <MeetMatchmakers />
 
         {/* ── Newly Joined ────────────────────────────── */}
-        <View className="mt-14 mb-2">
-          <SectionHeader title="Newly Joined" />
-          <Text className="px-5 text-base font-regular text-gray-500">
-            See members who registered recently.
-          </Text>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingHorizontal: 20 }}
-            className="mt-5"
-          >
-            {NEWLY_JOINED.map((member, index) => (
-              <MemberCard key={index} {...member} />
-            ))}
-          </ScrollView>
-        </View>
+        <SectionShell
+          title="Recently Joined"
+          description="See members who registered recently."
+          isPremiumSection
+          isLoading={recentlyJoined.isLoading}
+          items={recentlyJoined.data?.data ?? []}
+          cardSize="large"
+          onViewAll={() =>
+            router.push({
+              pathname: "/matches/list/[type]",
+              params: { type: "recently-joined" },
+            })
+          }
+        />
 
         {/* ── Recently Logged In ──────────────────────── */}
-        <View className="mt-14 mb-2">
-          <SectionHeader title="Recently Active" />
-          <Text className="px-5 text-base font-regular text-gray-500">
-            View Members that were recently active.
-          </Text>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingHorizontal: 20 }}
-            className="mt-5"
-          >
-            {RECENTLY_LOGGED_IN.map((member, index) => (
-              <MemberCard key={index} {...member} />
-            ))}
-          </ScrollView>
-        </View>
+        <SectionShell
+          title="Recently Active"
+          description="View Members that were recently active."
+          isPremiumSection
+          isLoading={recentlyActive.isLoading}
+          items={recentlyActive.data?.data ?? []}
+          cardSize="large"
+          onViewAll={() =>
+            router.push({
+              pathname: "/matches/list/[type]",
+              params: { type: "recently-active" },
+            })
+          }
+        />
 
         {/* ── Profile Visitors ────────────────────────── */}
         <ProfileVisitors />
