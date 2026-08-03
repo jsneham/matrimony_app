@@ -215,17 +215,33 @@ export type CurrentPlanResponse = {
 // elsewhere in this API. Please share PremiumPlanBean.java to correct.
 export type ApiPlanItem = {
   id: string;
+  badge: string;
+  category_type: string;
+  color: string;
+
   plan_name: string;
-  category?: string; // TODO: confirm — might be what groups plans into tabs
-  duration: string; // e.g. "6 Months"
-  days_left?: string;
-  original_price: string;
-  final_price: string;
-  discount_percent: string;
-  price_per_day: string;
-  plan_type: string; // "GOLD" | "PLATINUM" | "DIAMOND" — TODO: confirm exact values
-  features?: string[]; // TODO: confirm — might be pipe/comma-separated string instead of array
-  additional_info?: string[]; // TODO: same as above
+  plan_amount: string;
+  plan_amount_type: string;
+  plan_duration: string;
+  offer_per: string;
+
+  profile: string;
+  plan_contacts: string;
+  plan_msg: string;
+  chat: string;
+  video: string;
+
+  plan_offers: string;
+
+  plan_type: string;
+
+  status: string;
+  created_on: string;
+
+  in_app_price: string | null;
+  in_app_product_id: string | null;
+
+  is_deleted: string;
 };
 
 export type QrCodeItem = {
@@ -240,7 +256,19 @@ export type OfflinePaymentItem = {
 
 export type PlanListResponse = {
   status: string;
-  plan_data: ApiPlanItem[];
+  plan_data: ApiPlanCategory[];
   scan_pay?: QrCodeItem[];
   offline_payment?: OfflinePaymentItem[];
 };
+
+export interface ApiPlanCategory {
+  id: string;
+  category_name: string;
+  color: string;
+  icon: string;
+  extra_text: string;
+  offer_text: string;
+  status: string;
+  is_deleted: string;
+  plan_data: ApiPlanItem[];
+}

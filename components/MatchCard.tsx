@@ -1,5 +1,6 @@
 import { MatchCardProps } from "@/types/matches";
 import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
 import React, { useRef } from "react";
 import {
   ActivityIndicator,
@@ -86,6 +87,13 @@ export const MatchCard: React.FC<MatchCardProps> = ({ profile }) => {
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
         className="overflow-hidden rounded-2xl bg-white shadow-lg"
+        onPress={() => {
+          console.log("Navigating to profile with matri_id:", profile.matri_id);
+          router.push({
+            pathname: "/profile/[matriId]",
+            params: { matriId: profile.id },
+          });
+        }}
       >
         <View className="relative bg-gray-200">
           {/* Image Container */}
