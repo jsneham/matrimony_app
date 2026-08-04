@@ -6,6 +6,8 @@ export type ConversationListItem = {
   unread_count: string;
   photo_url: string;
   username: string;
+  firstname?: string;
+  lastname?: string;
 };
 
 export type ConversationListResponse = {

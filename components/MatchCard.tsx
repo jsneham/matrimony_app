@@ -1,4 +1,7 @@
+import { useSession } from "@/hooks/useSession";
+import { SESSION_KEYS } from "@/types/common";
 import { MatchCardProps } from "@/types/matches";
+import { getPlanAwareName } from "@/utils/profileHelpers";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useRef } from "react";
@@ -12,6 +15,8 @@ import {
 } from "react-native";
 
 export const MatchCard: React.FC<MatchCardProps> = ({ profile }) => {
+  const { data: sessionData } = useSession([SESSION_KEYS.PLAN_STATUS]);
+  const planStatus = sessionData?.[SESSION_KEYS.PLAN_STATUS] ?? "";
   const scaleAnim = useRef(new Animated.Value(1)).current;
   const [imageLoading, setImageLoading] = React.useState(true);
   const [imageError, setImageError] = React.useState(false);
@@ -59,10 +64,13 @@ export const MatchCard: React.FC<MatchCardProps> = ({ profile }) => {
 
   // 🔴 CRITICAL: Get display name safely
   const displayName = React.useMemo(() => {
-    const first = profile?.firstname || "User";
-    const last = profile?.lastname || "";
-    return `${first} ${last}`.trim();
-  }, [profile?.firstname, profile?.lastname]);
+    return getPlanAwareName(
+      planStatus,
+      profile?.firstname,
+      profile?.lastname,
+      profile?.username,
+    );
+  }, [planStatus, profile?.firstname, profile?.lastname, profile?.username]);
 
   // 🔴 CRITICAL: Get age safely
   const displayAge = React.useMemo(() => {

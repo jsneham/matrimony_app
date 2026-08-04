@@ -1,25 +1,27 @@
 import { VisitorCard } from "@/components/matches/VisitorCard";
 import {
-    useAllMatches,
-    useBlockedMembers,
-    useIViewedProfile,
-    useMatchmakerMatches,
-    useMembersLookingForYou,
-    useRecentlyActive,
-    useRecentlyJoined,
-    useWhoViewedContact,
-    useWhoViewedProfile,
+  useAllMatches,
+  useBlockedMembers,
+  useIViewedProfile,
+  useMatchmakerMatches,
+  useMembersLookingForYou,
+  useRecentlyActive,
+  useRecentlyJoined,
+  useWhoViewedContact,
+  useWhoViewedProfile,
 } from "@/hooks/useMatchesSections";
+import { useSession } from "@/hooks/useSession";
+import { SESSION_KEYS } from "@/types/common";
 import { mapVisitorItem } from "@/utils/mapVisitorItem";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useMemo } from "react";
 import {
-    ActivityIndicator,
-    FlatList,
-    Pressable,
-    Text,
-    View,
+  ActivityIndicator,
+  FlatList,
+  Pressable,
+  Text,
+  View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -86,6 +88,8 @@ const SECTION_META: Record<
 
 const MatchListScreen = () => {
   const insets = useSafeAreaInsets();
+  const { data: sessionData } = useSession([SESSION_KEYS.PLAN_STATUS]);
+  const planStatus = sessionData?.[SESSION_KEYS.PLAN_STATUS] ?? "";
   const { type } = useLocalSearchParams<{ type: string }>();
   const meta = type ? SECTION_META[type] : undefined;
 
@@ -201,7 +205,7 @@ const MatchListScreen = () => {
           onEndReached={() => hasNextPage && fetchNextPage()}
           onEndReachedThreshold={0.5}
           renderItem={({ item }) => (
-            <VisitorCard {...mapVisitorItem(item, meta.cardSize)} />
+            <VisitorCard {...mapVisitorItem(item, meta.cardSize, planStatus)} />
           )}
           ListFooterComponent={
             isFetchingNextPage ? (

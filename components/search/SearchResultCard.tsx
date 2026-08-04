@@ -1,5 +1,7 @@
+import { useSession } from "@/hooks/useSession";
+import { SESSION_KEYS } from "@/types/common";
 import { SearchResultItem } from "@/types/searchResult";
-import { resolvePhotoUri } from "@/utils/profileHelpers";
+import { getPlanAwareName, resolvePhotoUri } from "@/utils/profileHelpers";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { Image, Pressable, Text, View } from "react-native";
@@ -19,6 +21,8 @@ export const SearchResultCard = ({
   onIgnore: () => void;
   onChat: () => void;
 }) => {
+  const { data: sessionData } = useSession([SESSION_KEYS.PLAN_STATUS]);
+  const planStatus = sessionData?.[SESSION_KEYS.PLAN_STATUS] ?? "";
   const photoUri = resolvePhotoUri(item.photoUrl, item.photo1);
   const isLocked = item.photo_view_status === "0"; // TODO: confirm exact locked-state value
   const action = item.action?.[0];
@@ -27,7 +31,12 @@ export const SearchResultCard = ({
   const isShortlisted = action?.is_shortlist === 1;
   const hasInterestSent = !!action?.is_interest && action.is_interest !== "";
 
-  const maskedName = "XXXXX";
+  const displayName = getPlanAwareName(
+    planStatus,
+    item.firstname,
+    item.lastname,
+    item.username,
+  );
 
   return (
     <Pressable
@@ -70,7 +79,7 @@ export const SearchResultCard = ({
           </View>
 
           <Text className="text-white text-2xl font-bold">
-            {isLocked ? maskedName : item.username}, {item.age}
+            {displayName}, {item.age}
           </Text>
           <Text className="text-white text-sm mt-1">
             {item.height} · {item.city_name} · {item.religion_name}

@@ -30,6 +30,9 @@ export type SearchResultItem = {
   id: string;
   matri_id: string;
   username: string;
+  firstname?: string;
+  lastname?: string;
+  plan_status?: string;
   age: string;
   height: string;
   city_name: string;

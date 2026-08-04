@@ -129,7 +129,7 @@ export enum Residence {
 
 export enum PlanStatus {
   PAID = "Paid",
-  UNPAID = "Unpaid",
+  NOT_PAID = "Not Paid",
   EXPIRED = "Expired",
 }
 

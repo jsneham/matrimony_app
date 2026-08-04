@@ -1,17 +1,28 @@
+import { useSession } from "@/hooks/useSession";
+import { SESSION_KEYS } from "@/types/common";
 import { ConversationListItem } from "@/types/message";
+import { getPlanAwareName } from "@/utils/profileHelpers";
 import { router } from "expo-router";
 import React from "react";
 import { Image, Pressable, Text, View } from "react-native";
 
 export const ConversationRow = ({ item }: { item: ConversationListItem }) => {
+  const { data: sessionData } = useSession([SESSION_KEYS.PLAN_STATUS]);
+  const planStatus = sessionData?.[SESSION_KEYS.PLAN_STATUS] ?? "";
   const unread = parseInt(item.unread_count, 10) || 0;
+  const displayName = getPlanAwareName(
+    planStatus,
+    item.firstname,
+    item.lastname,
+    item.username,
+  );
 
   return (
     <Pressable
       onPress={() =>
         router.push({
           pathname: "/message/chat/[other_matriId]",
-          params: { other_matriId: item.otherID, name: item.username },
+          params: { other_matriId: item.otherID, name: displayName },
         })
       }
       className="flex-row items-center px-5 py-4 active:bg-gray-50"
@@ -29,7 +40,7 @@ export const ConversationRow = ({ item }: { item: ConversationListItem }) => {
       <View className="flex-1 ml-4">
         <View className="flex-row items-center justify-between">
           <Text className="text-base font-bold text-gray-900" numberOfLines={1}>
-            {item.username}
+            {displayName}
           </Text>
           <Text className="text-xs text-gray-400">{item.sent_on}</Text>
         </View>

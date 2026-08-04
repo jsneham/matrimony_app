@@ -1,8 +1,45 @@
+import { PlanStatus } from "@/types/profile";
+
 export function maskMobile(mobile: string): string {
   if (!mobile) return "N/A";
   const digits = mobile.replace(/\D/g, "");
   const last4 = digits.slice(-4);
   return `${"*".repeat(Math.max(digits.length - 4, 6))}${last4}`;
+}
+
+export function normalizePlanStatus(planStatus?: string | null): PlanStatus {
+  const trimmed = (planStatus || "").trim().toLowerCase();
+
+  if (trimmed === "paid") return PlanStatus.PAID;
+  if (trimmed === "expired") return PlanStatus.EXPIRED;
+  if (trimmed === "not paid" || trimmed === "notpaid" || trimmed === "unpaid") {
+    return PlanStatus.NOT_PAID;
+  }
+
+  return PlanStatus.NOT_PAID;
+}
+
+export function getPlanAwareName(
+  planStatus?: string | null,
+  firstName?: string | null,
+  lastName?: string | null,
+  fallbackName?: string | null,
+): string {
+  const normalized = normalizePlanStatus(planStatus);
+  const fullName = [firstName, lastName].filter(Boolean).join(" ").trim();
+  const fallback = fallbackName?.trim() || fullName || "User";
+
+  if (normalized === PlanStatus.PAID) {
+    return fullName || fallback;
+  }
+
+  const first = (firstName || fallbackName || "").trim();
+  const last = (lastName || "").trim();
+
+  if (!first && !last) return fallback;
+
+  const maskedFirst = first.charAt(0);
+  return `${maskedFirst}${last ? ` ${last}` : ""}`.trim();
 }
 
 export function inchesToFeetIn(inches: string | null): string {

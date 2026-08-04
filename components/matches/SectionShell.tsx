@@ -1,6 +1,8 @@
 import PremiumTagSmallCircle from "@/assets/icons/PremiumTagSmallCircle";
 import { ViewAllVisitorsCard } from "@/components/matches/ViewAllVisitorsCard";
 import { VisitorCard } from "@/components/matches/VisitorCard";
+import { useSession } from "@/hooks/useSession";
+import { SESSION_KEYS } from "@/types/common";
 import { mapVisitorItem } from "@/utils/mapVisitorItem";
 import { router } from "expo-router";
 import React from "react";
@@ -28,12 +30,10 @@ export const SectionShell = ({
   cardSize,
   onViewAll,
 }: SectionShellProps) => {
-  console.log(
-    "🔥🔥🔥 SectionShell VERSION CHECK — if you see this, the file reloaded 🔥🔥🔥",
-  );
+  const { data: sessionData } = useSession([SESSION_KEYS.PLAN_STATUS]);
+  const planStatus = sessionData?.[SESSION_KEYS.PLAN_STATUS] ?? "";
 
   const safeItems: any[] = Array.isArray(items) ? items.slice(0, 5) : [];
-  console.log("safeItems", safeItems);
 
   return (
     <View className={wrapperClass}>
@@ -59,7 +59,7 @@ export const SectionShell = ({
           {safeItems.map((item, index) => (
             <VisitorCard
               key={`${item.matri_id ?? "item"}-${index}`}
-              {...mapVisitorItem(item, cardSize)}
+              {...mapVisitorItem(item, cardSize, planStatus)}
               onPress={() => {
                 console.log(
                   "Navigating to profile with matri_id:",

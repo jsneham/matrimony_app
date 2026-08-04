@@ -1,8 +1,10 @@
 import { VisitorApiItem, VisitorCardProps } from "@/types/matches";
+import { getPlanAwareName } from "@/utils/profileHelpers";
 
 export function mapVisitorItem(
   item: VisitorApiItem,
   size: "large" | "small",
+  planStatus?: string | null,
 ): VisitorCardProps {
   if (!item) {
     return {
@@ -22,7 +24,12 @@ export function mapVisitorItem(
     item.photoUrl && item.photo1 ? `${item.photoUrl}${item.photo1}` : undefined;
 
   return {
-    name: item.username ?? "",
+    name: getPlanAwareName(
+      planStatus,
+      item.firstname,
+      item.lastname,
+      item.username,
+    ),
     age: item.age ?? "",
     height: item.height ?? "",
     photoUri,
