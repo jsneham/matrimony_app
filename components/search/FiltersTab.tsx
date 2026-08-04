@@ -1,36 +1,38 @@
+import { UpgradePlanSheet } from "@/components/messages/UpgradePlanSheet";
 import {
-    useAge,
-    useBodyType,
-    useCastes,
-    useCities,
-    useCountries,
-    useDrinking,
-    useEating,
-    useEducations,
-    useHeight,
-    useIncome,
-    useLanguages,
-    useMaritalStatuses,
-    useOccupations,
-    useReligions,
-    useSkinTone,
-    useSmoking,
-    useStates,
-    useWorkSector,
+  useAge,
+  useBodyType,
+  useCastes,
+  useCities,
+  useCountries,
+  useDrinking,
+  useEating,
+  useEducations,
+  useHeight,
+  useIncome,
+  useLanguages,
+  useMaritalStatuses,
+  useOccupations,
+  useReligions,
+  useSkinTone,
+  useSmoking,
+  useStates,
+  useWorkSector,
 } from "@/hooks/useMetadata";
 import { useSession } from "@/hooks/useSession";
 import { SESSION_KEYS } from "@/types/common";
 import { LookupItem } from "@/types/metadata";
+import { PlanStatus } from "@/types/profile";
 import { Feather } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useMemo, useState } from "react";
 import {
-    FlatList,
-    Pressable,
-    ScrollView,
-    Text,
-    TextInput,
-    View,
+  FlatList,
+  Pressable,
+  ScrollView,
+  Text,
+  TextInput,
+  View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -81,12 +83,15 @@ export default function FiltersTab() {
   const insets = useSafeAreaInsets();
   const { data: sessionData } = useSession([
     SESSION_KEYS.USER_ID,
-    SESSION_KEYS.GENDER, // TODO: confirm this session key exists
+    SESSION_KEYS.GENDER,
+    SESSION_KEYS.PLAN_STATUS,
   ]);
   const memberId = sessionData?.[SESSION_KEYS.USER_ID] || "";
   const myGender = sessionData?.[SESSION_KEYS.GENDER] || "";
+  const planStatus = sessionData?.[SESSION_KEYS.PLAN_STATUS] || "";
 
   const [activeCategory, setActiveCategory] = useState<CategoryKey>("state");
+  const [showUpgradeSheet, setShowUpgradeSheet] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedValues, setSelectedValues] = useState<
     Partial<Record<CategoryKey, string>>
@@ -171,6 +176,11 @@ export default function FiltersTab() {
   };
 
   const handleSearch = () => {
+    if (planStatus !== PlanStatus.PAID) {
+      setShowUpgradeSheet(true);
+      return;
+    }
+
     const searchParams = {
       member_id: memberId,
       from_age: "", // TODO: wire to actual age-range picker if you have one beyond the lookup list
@@ -333,6 +343,12 @@ export default function FiltersTab() {
           <Text className="text-white font-bold text-base">Search</Text>
         </Pressable>
       </View>
+
+      <UpgradePlanSheet
+        visible={showUpgradeSheet}
+        message="Your membership plan does not allow this action. Upgrade to Premium Membership Plan."
+        onClose={() => setShowUpgradeSheet(false)}
+      />
     </View>
   );
 }

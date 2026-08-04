@@ -1,22 +1,26 @@
+import { UpgradePlanSheet } from "@/components/messages/UpgradePlanSheet";
 import { InfoRow, SectionHeading } from "@/components/otherProfile/InfoRow";
 import { useOtherProfile } from "@/hooks/useOtherProfile";
+import { useSession } from "@/hooks/useSession";
+import { SESSION_KEYS } from "@/types/common";
+import { PlanStatus } from "@/types/profile";
 import {
-    inchesToFeetIn,
-    maskMobile,
-    orNotMentioned,
-    resolvePhotoUri,
+  inchesToFeetIn,
+  maskMobile,
+  orNotMentioned,
+  resolvePhotoUri,
 } from "@/utils/profileHelpers";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 import {
-    ActivityIndicator,
-    Image,
-    Linking,
-    Pressable,
-    ScrollView,
-    Text,
-    View,
+  ActivityIndicator,
+  Image,
+  Linking,
+  Pressable,
+  ScrollView,
+  Text,
+  View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -75,9 +79,12 @@ const ProfileScreen = () => {
   const insets = useSafeAreaInsets();
   const { matriId } = useLocalSearchParams<{ matriId: string }>();
   const { data, isLoading, isError } = useOtherProfile(matriId ?? "");
+  const { data: sessionData } = useSession([SESSION_KEYS.PLAN_STATUS]);
+  const planStatus = sessionData?.[SESSION_KEYS.PLAN_STATUS] || "";
 
   const [contactRevealed, setContactRevealed] = useState(false);
   const [activePhotoIndex, setActivePhotoIndex] = useState(0);
+  const [showUpgradeSheet, setShowUpgradeSheet] = useState(false);
 
   const isApiError = data?.status !== "success";
   const profile = !isApiError ? data?.data : undefined;
@@ -138,6 +145,11 @@ const ProfileScreen = () => {
   const isVerified = profile.status === "APPROVED";
 
   const handleCall = () => {
+    if (planStatus !== PlanStatus.PAID) {
+      setShowUpgradeSheet(true);
+      return;
+    }
+
     if (!contactRevealed) {
       setContactRevealed(true);
       return;
@@ -451,6 +463,12 @@ const ProfileScreen = () => {
           <Text className="text-white font-bold ml-2">Call Now</Text>
         </Pressable>
       </View>
+
+      <UpgradePlanSheet
+        visible={showUpgradeSheet}
+        message="Your current membership plan does not allow this action. Please upgrade your plan."
+        onClose={() => setShowUpgradeSheet(false)}
+      />
     </View>
   );
 };

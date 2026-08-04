@@ -1,6 +1,9 @@
 import { SearchResultCard } from "@/components/search/SearchResultCard";
 import { useSearchResults } from "@/hooks/useSearchResults";
+import { useSession } from "@/hooks/useSession";
+import { SESSION_KEYS } from "@/types/common";
 import { SearchFilterParams, SearchResultItem } from "@/types/searchResult";
+import { getPlanAwareName } from "@/utils/profileHelpers";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useMemo } from "react";
@@ -15,6 +18,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const SearchResultsScreen = () => {
   const insets = useSafeAreaInsets();
+  const { data: sessionData } = useSession([SESSION_KEYS.PLAN_STATUS]);
+  const planStatus = sessionData?.[SESSION_KEYS.PLAN_STATUS] ?? "";
   const { searchData } = useLocalSearchParams<{ searchData: string }>();
 
   const params: SearchFilterParams | null = useMemo(() => {
@@ -51,7 +56,15 @@ const SearchResultsScreen = () => {
   const handleChat = (item: SearchResultItem) =>
     router.push({
       pathname: "/message/chat/[other_matriId]",
-      params: { other_matriId: item.matri_id, name: item.username },
+      params: {
+        other_matriId: item.matri_id,
+        name: getPlanAwareName(
+          planStatus,
+          item.firstname,
+          item.lastname,
+          item.username,
+        ),
+      },
     });
 
   return (
