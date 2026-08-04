@@ -14,7 +14,10 @@ import {
   View,
 } from "react-native";
 
-export const MatchCard: React.FC<MatchCardProps> = ({ profile }) => {
+export const MatchCard: React.FC<MatchCardProps & { cardHeight?: number }> = ({
+  profile,
+  cardHeight = 470,
+}) => {
   const { data: sessionData } = useSession([SESSION_KEYS.PLAN_STATUS]);
   const planStatus = sessionData?.[SESSION_KEYS.PLAN_STATUS] ?? "";
   const scaleAnim = useRef(new Animated.Value(1)).current;
@@ -87,14 +90,13 @@ export const MatchCard: React.FC<MatchCardProps> = ({ profile }) => {
     <Animated.View
       style={{
         transform: [{ scale: scaleAnim }],
-        marginBottom: 20,
+        marginBottom: 0,
       }}
     >
       <TouchableOpacity
         activeOpacity={1}
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
-        className="overflow-hidden rounded-2xl bg-white shadow-lg"
         onPress={() => {
           console.log("Navigating to profile with matri_id:", profile.matri_id);
           router.push({
@@ -102,14 +104,25 @@ export const MatchCard: React.FC<MatchCardProps> = ({ profile }) => {
             params: { matriId: profile.id },
           });
         }}
+        style={{
+          height: cardHeight,
+          overflow: "hidden",
+          borderRadius: 20,
+          backgroundColor: "#ffffff",
+          shadowColor: "#000",
+          shadowOpacity: 0.12,
+          shadowRadius: 10,
+          shadowOffset: { width: 0, height: 4 },
+          elevation: 6,
+        }}
       >
-        <View className="relative bg-gray-200">
+        <View className="relative flex-1 bg-gray-200">
           {/* Image Container */}
           {imageUrl && !imageError ? (
             <>
               <Image
                 source={{ uri: imageUrl }}
-                className="h-96 w-full"
+                style={{ width: "100%", height: cardHeight - 132 }}
                 resizeMode="cover"
                 onLoad={handleImageLoad}
                 onError={handleImageError}
@@ -124,7 +137,10 @@ export const MatchCard: React.FC<MatchCardProps> = ({ profile }) => {
             </>
           ) : (
             /* Fallback: No image available */
-            <View className="h-96 w-full items-center justify-center bg-gray-300">
+            <View
+              style={{ width: "100%", height: cardHeight - 132 }}
+              className="items-center justify-center bg-gray-300"
+            >
               <Ionicons name="image-outline" size={64} color="#999" />
               <Text className="mt-2 text-gray-600">No Photo</Text>
             </View>
@@ -170,14 +186,14 @@ export const MatchCard: React.FC<MatchCardProps> = ({ profile }) => {
         </View>
 
         {/* Action Buttons */}
-        <View className="flex-row gap-3 px-4 py-4">
-          <TouchableOpacity className="flex-1 flex-row items-center justify-center rounded-lg border border-red-500 py-3">
-            <Ionicons name="close" size={20} color="#ef4444" />
+        <View className="flex-row gap-3 px-4 py-3">
+          <TouchableOpacity className="flex-1 flex-row items-center justify-center rounded-lg border border-red-500 py-2.5">
+            <Ionicons name="close" size={18} color="#ef4444" />
             <Text className="ml-2 font-medium text-red-500">Pass</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity className="flex-1 flex-row items-center justify-center rounded-lg bg-blue-600 py-3">
-            <Ionicons name="heart" size={20} color="white" />
+          <TouchableOpacity className="flex-1 flex-row items-center justify-center rounded-lg bg-blue-600 py-2.5">
+            <Ionicons name="heart" size={18} color="white" />
             <Text className="ml-2 font-medium text-white">Like</Text>
           </TouchableOpacity>
         </View>

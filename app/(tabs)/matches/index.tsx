@@ -2,12 +2,14 @@
 import React, { useCallback, useMemo, useState } from "react";
 import {
   ActivityIndicator,
+  Dimensions,
   FlatList,
   RefreshControl,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import PreferencesHintIcon from "@/assets/icons/PreferencesHintIcon";
 import { MatchCard } from "@/components/MatchCard";
@@ -21,6 +23,17 @@ import { Ionicons } from "@expo/vector-icons";
 import { Href, router } from "expo-router";
 
 export default function MyMatchesScreen() {
+  const insets = useSafeAreaInsets();
+  const screenHeight = Dimensions.get("window").height;
+  const headerHeight = 100;
+  const tabBarHeight = 60 + insets.bottom;
+  const subtitleBarHeight = 34 + 16 + 12;
+  const availableHeight = Math.max(
+    screenHeight - insets.top - headerHeight - tabBarHeight - subtitleBarHeight,
+    360,
+  );
+  const cardHeight = Math.max(availableHeight - 12, 360);
+
   const { data: sessionData, isLoading: isSessionLoading } = useSession([
     SESSION_KEYS.MATRI_ID,
     SESSION_KEYS.USER_ID,
@@ -165,7 +178,18 @@ export default function MyMatchesScreen() {
       {!isLoading && !isError ? (
         <FlatList
           data={matches}
-          renderItem={({ item }) => <MatchCard profile={item} />}
+          renderItem={({ item }) => (
+            <View
+              style={{
+                height: cardHeight,
+                paddingHorizontal: 10,
+                paddingTop: 6,
+                paddingBottom: 6,
+              }}
+            >
+              <MatchCard profile={item} cardHeight={cardHeight} />
+            </View>
+          )}
           // CRITICAL: String keyExtractor for release builds
           keyExtractor={(item: MatchProfile, index: number) => {
             if (!item?.matri_id) {
@@ -174,16 +198,24 @@ export default function MyMatchesScreen() {
             }
             return String(item.matri_id);
           }}
+          getItemLayout={(_, index) => ({
+            length: cardHeight,
+            offset: cardHeight * index,
+            index,
+          })}
           // FlatList optimizations for release builds
           removeClippedSubviews={false}
           initialNumToRender={10}
           maxToRenderPerBatch={10}
           updateCellsBatchingPeriod={50}
           scrollEventThrottle={16}
+          pagingEnabled
+          snapToAlignment="start"
+          decelerationRate="fast"
           // Content styling
           contentContainerStyle={{
-            paddingHorizontal: 20,
-            paddingBottom: 30,
+            paddingHorizontal: 0,
+            paddingBottom: 110,
           }}
           showsVerticalScrollIndicator={false}
           // Pagination
