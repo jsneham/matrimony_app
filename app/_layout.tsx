@@ -89,14 +89,7 @@ export default function RootLayout() {
             <Stack.Screen
               name="(profile)"
               options={{
-                title: "Profile",
-                headerShown: true,
-                headerTitleAlign: "left",
-                headerTitleStyle: {
-                  fontSize: 24,
-                  fontFamily: "Bold",
-                },
-                headerShadowVisible: false,
+                headerShown: false,
               }}
             />
             <Stack.Screen

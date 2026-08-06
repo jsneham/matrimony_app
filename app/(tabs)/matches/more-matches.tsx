@@ -10,7 +10,7 @@ import {
 } from "@/hooks/useMatchesSections";
 import { router } from "expo-router";
 import React from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 
 // ── Screen ──────────────────────────────────────────────────────────────────
 
@@ -180,6 +180,34 @@ export default function MoreMatchesTab() {
           })
         }
       />
+
+      <View className="mx-5 mt-14 p-5 rounded-2xl border border-dashed border-gray-400 bg-white">
+        <SectionShell
+          title="No Data Sample - Blocked"
+          description={
+            <>
+              <Text className="text-base font-regular text-gray-500 mt-3">
+                Members blocked by you will appear here.
+              </Text>
+              <Text className="text-base font-regular text-gray-500 mt-10">
+                {`You have not blocked any member.\nWhen you block a member, they will not know that you have blocked them.`}
+              </Text>
+            </>
+          }
+          wrapperClass=""
+          titleClassName="px-0"
+          isLoading={false}
+          items={firstPageItems(blockedMembers.data)}
+          cardSize="small"
+          hideViewAll
+          onViewAll={() =>
+            router.push({
+              pathname: "/matches/list/[type]",
+              params: { type: "blocked-members" },
+            })
+          }
+        />
+      </View>
     </ScrollView>
   );
 }

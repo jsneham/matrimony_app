@@ -11,13 +11,16 @@ import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 // ── Shared row shell ───────────────────────────────────────────────────────
 type SectionShellProps = {
   title: string;
-  description: string;
+  description: React.ReactNode;
   isPremiumSection?: boolean;
   wrapperClass?: string;
   isLoading: boolean;
   items: any[];
   cardSize: "large" | "small";
   onViewAll: () => void;
+  hideViewAll?: boolean;
+  titleClassName?: string;
+  descriptionClassName?: string;
 };
 
 export const SectionShell = ({
@@ -29,6 +32,9 @@ export const SectionShell = ({
   items,
   cardSize,
   onViewAll,
+  hideViewAll,
+  titleClassName = "px-5",
+  descriptionClassName = "px-5 text-base font-regular text-gray-500 mt-3",
 }: SectionShellProps) => {
   const { data: sessionData } = useSession([SESSION_KEYS.PLAN_STATUS]);
   const planStatus = sessionData?.[SESSION_KEYS.PLAN_STATUS] ?? "";
@@ -37,13 +43,15 @@ export const SectionShell = ({
 
   return (
     <View className={wrapperClass}>
-      <View className="flex-row items-center gap-2 px-5">
+      <View className={`flex-row items-center gap-2 ${titleClassName}`}>
         <Text className="text-2xl font-bold text-black">{title}</Text>
         {isPremiumSection && <PremiumTagSmallCircle size={24} />}
       </View>
-      <Text className="px-5 text-base font-regular text-gray-500 mt-3">
-        {description}
-      </Text>
+      {typeof description === "string" ? (
+        <Text className={descriptionClassName}>{description}</Text>
+      ) : (
+        description
+      )}
 
       {isLoading ? (
         <View className="h-[225px] items-center justify-center">
@@ -72,7 +80,9 @@ export const SectionShell = ({
               }}
             />
           ))}
-          <ViewAllVisitorsCard size={cardSize} onPress={onViewAll} />
+          {!hideViewAll && (
+            <ViewAllVisitorsCard size={cardSize} onPress={onViewAll} />
+          )}
         </ScrollView>
       )}
     </View>

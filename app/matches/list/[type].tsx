@@ -1,3 +1,4 @@
+import ChevronLeftIcon from "@/assets/icons/ChevronLeftIcon";
 import { VisitorCard } from "@/components/matches/VisitorCard";
 import {
   useAllMatches,
@@ -13,7 +14,6 @@ import {
 import { useSession } from "@/hooks/useSession";
 import { SESSION_KEYS } from "@/types/common";
 import { mapVisitorItem } from "@/utils/mapVisitorItem";
-import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useMemo } from "react";
 import {
@@ -178,15 +178,28 @@ const MatchListScreen = () => {
     : () => {};
 
   return (
-    <View className="flex-1 bg-white" style={{ paddingTop: insets.top }}>
-      <View className="flex-row items-center px-5 py-4">
+    <View className="flex-1 bg-app-background">
+      {/* Header */}
+      <View
+        className="bg-white flex-row items-center"
+        style={{ paddingTop: insets.top }}
+      >
         <Pressable
           onPress={() => router.back()}
-          className="w-9 h-9 rounded-full bg-gray-200 items-center justify-center"
+          hitSlop={10}
+          style={{
+            width: 44,
+            height: 49,
+            justifyContent: "center",
+            paddingLeft: 20,
+          }}
         >
-          <Ionicons name="chevron-back" size={20} color="#374151" />
+          <ChevronLeftIcon size={24} color="black" />
         </Pressable>
-        <Text className="text-2xl font-bold text-gray-900 ml-4">
+        <Text
+          className="flex-1 text-center text-lg font-bold text-black"
+          style={{ marginRight: 44 }}
+        >
           {meta.title}
         </Text>
       </View>
