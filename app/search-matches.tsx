@@ -5,7 +5,7 @@ import KeywordSearchTab from "@/components/search/KeywordSearchTab";
 import SavedSearchTab from "@/components/search/SavedSearchTab";
 import { router } from "expo-router";
 import React, { useState } from "react";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const TOP_TABS = ["Filters", "ID", "Keyword", "Saved Search"] as const;
@@ -56,41 +56,31 @@ export default function SearchMatchesScreen() {
       </View>
 
       {/* Top tabs */}
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={{ height: 58, flexGrow: 0, flexShrink: 0 }}
-        className="bg-app-background"
-        contentContainerStyle={{
-          paddingHorizontal: 20,
-          alignItems: "center",
-          flexGrow: 1,
-          justifyContent: "center",
-        }}
+      <View
+        style={{ height: 58, paddingHorizontal: 20 }}
+        className="bg-app-background flex-row items-center justify-between"
       >
-        <View className="flex-row gap-[10px]">
-          {TOP_TABS.map((tab) => {
-            const isActive = tab === activeTopTab;
-            return (
-              <Pressable
-                key={tab}
-                onPress={() => setActiveTopTab(tab)}
-                className={`h-[34px] px-4 items-center justify-center rounded-full ${
-                  isActive ? "bg-black" : "bg-white"
+        {TOP_TABS.map((tab) => {
+          const isActive = tab === activeTopTab;
+          return (
+            <Pressable
+              key={tab}
+              onPress={() => setActiveTopTab(tab)}
+              className={`h-[34px] px-4 items-center justify-center rounded-full ${
+                isActive ? "bg-black" : "bg-white"
+              }`}
+            >
+              <Text
+                className={`text-sm font-medium ${
+                  isActive ? "text-white" : "text-gray"
                 }`}
               >
-                <Text
-                  className={`text-sm font-medium ${
-                    isActive ? "text-white" : "text-gray"
-                  }`}
-                >
-                  {tab}
-                </Text>
-              </Pressable>
-            );
-          })}
-        </View>
-      </ScrollView>
+                {tab}
+              </Text>
+            </Pressable>
+          );
+        })}
+      </View>
 
       {/* Active tab content */}
       {renderTabContent()}

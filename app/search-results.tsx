@@ -1,10 +1,11 @@
+import ChevronLeftIcon from "@/assets/icons/ChevronLeftIcon";
 import { SearchResultCard } from "@/components/search/SearchResultCard";
 import { useSearchResults } from "@/hooks/useSearchResults";
 import { useSession } from "@/hooks/useSession";
 import { SESSION_KEYS } from "@/types/common";
 import { SearchFilterParams, SearchResultItem } from "@/types/searchResult";
 import { getPlanAwareName } from "@/utils/profileHelpers";
-import { Feather, Ionicons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useMemo } from "react";
 import {
@@ -68,16 +69,19 @@ const SearchResultsScreen = () => {
     });
 
   return (
-    <View className="flex-1 bg-white" style={{ paddingTop: insets.top }}>
-      <View className="flex-row items-center px-4 py-3 border-b border-gray-100">
+    <View className="flex-1 bg-app-background">
+      <View
+        className="bg-white flex-row items-center px-5 py-3 border-b border-gray-100"
+        style={{ paddingTop: insets.top + 12 }}
+      >
         <Pressable onPress={() => router.back()} hitSlop={10} className="mr-3">
-          <Ionicons name="chevron-back" size={24} color="#111827" />
+          <ChevronLeftIcon size={24} color="black" />
         </Pressable>
         <View className="flex-1">
-          <Text className="text-lg font-bold text-gray-900">
+          <Text className="text-lg font-bold text-gray-900 text-center">
             Here&apos;s what we found!
           </Text>
-          <Text className="text-xs text-gray-500">
+          <Text className="text-xs text-gray-500 text-center">
             Showing {totalCount} matches
           </Text>
         </View>
@@ -94,7 +98,7 @@ const SearchResultsScreen = () => {
         <FlatList
           data={results}
           keyExtractor={(item) => item.id}
-          contentContainerStyle={{ padding: 16 }}
+          contentContainerStyle={{ paddingHorizontal: 20, paddingVertical: 16 }}
           onEndReached={() => hasNextPage && fetchNextPage()}
           onEndReachedThreshold={0.5}
           renderItem={({ item }) => (

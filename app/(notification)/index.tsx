@@ -1,13 +1,17 @@
+import ChevronLeftIcon from "@/assets/icons/ChevronLeftIcon";
 import { NotificationRow } from "@/components/notifications/NotificationRow";
 import { useNotifications } from "@/hooks/useNotifications";
 import { useSession } from "@/hooks/useSession";
 import { SESSION_KEYS } from "@/types/common";
 import { NotificationApiItem } from "@/types/notifications";
 import { navigateForNotification } from "@/utils/notificationRouting";
+import { router } from "expo-router";
 import React, { useMemo } from "react";
-import { ActivityIndicator, FlatList, Text, View } from "react-native";
+import { ActivityIndicator, FlatList, Pressable, Text, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const NotificationsScreen = () => {
+  const insets = useSafeAreaInsets();
   const { data: sessionData } = useSession([SESSION_KEYS.USER_ID]);
   const memberId = sessionData?.[SESSION_KEYS.USER_ID] || "";
 
@@ -38,7 +42,32 @@ const NotificationsScreen = () => {
   };
 
   return (
-    <View className="flex-1 bg-white">
+    <View className="flex-1 bg-app-background">
+      {/* Header */}
+      <View
+        className="bg-white flex-row items-center"
+        style={{ paddingTop: insets.top }}
+      >
+        <Pressable
+          onPress={() => router.back()}
+          hitSlop={10}
+          style={{
+            width: 44,
+            height: 49,
+            justifyContent: "center",
+            paddingLeft: 20,
+          }}
+        >
+          <ChevronLeftIcon size={24} color="black" />
+        </Pressable>
+        <Text
+          className="flex-1 text-center text-lg font-bold text-black"
+          style={{ marginRight: 44 }}
+        >
+          Notifications
+        </Text>
+      </View>
+
       {/* List */}
       {isLoading ? (
         <View className="flex-1 items-center justify-center">
@@ -53,9 +82,7 @@ const NotificationsScreen = () => {
           onEndReachedThreshold={0.5}
           refreshing={isRefetching}
           onRefresh={refetch}
-          ItemSeparatorComponent={() => (
-            <View className="h-px bg-gray-100 ml-5" />
-          )}
+          contentContainerStyle={{ paddingTop: 20, paddingBottom: 56 }}
           renderItem={({ item }) => (
             <NotificationRow item={item} onPress={handlePress} />
           )}
