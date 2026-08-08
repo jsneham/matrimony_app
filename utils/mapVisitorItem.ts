@@ -1,5 +1,6 @@
 import { VisitorApiItem, VisitorCardProps } from "@/types/matches";
-import { getPlanAwareName } from "@/utils/profileHelpers";
+import { PlanStatus } from "@/types/profile";
+import { getPlanAwareName, normalizePlanStatus } from "@/utils/profileHelpers";
 
 export function mapVisitorItem(
   item: VisitorApiItem,
@@ -20,8 +21,18 @@ export function mapVisitorItem(
 
   // photoUrl is the base folder path (e.g. "https://www.milann.in/assets/photos/"),
   // photo1 is just the filename — they must be concatenated to form a real image URL.
+  const isPhotoApproved =
+    item.photo1_approve?.trim().toUpperCase() === "APPROVED";
   const photoUri =
-    item.photoUrl && item.photo1 ? `${item.photoUrl}${item.photo1}` : undefined;
+    isPhotoApproved && item.photoUrl && item.photo1
+      ? `${item.photoUrl}${item.photo1}`
+      : undefined;
+  const isMemberPaid =
+    normalizePlanStatus(item.plan_status) === PlanStatus.PAID;
+  const badgeUri =
+    isMemberPaid && item.badgeUrl && item.badge
+      ? `${item.badgeUrl}${item.badge}`
+      : undefined;
 
   return {
     name: getPlanAwareName(
@@ -33,8 +44,12 @@ export function mapVisitorItem(
     age: item.age ?? "",
     height: item.height ?? "",
     photoUri,
-    isPremium: item.badge?.toLowerCase() === "gold" || !!item.badgeUrl,
-    isLocked: item.photo_view_status === "locked", // TODO: confirm actual value meaning "locked"
+    isPremium: !!badgeUri,
+    badgeUri,
+    isLocked:
+      planStatus === PlanStatus.NOT_PAID || planStatus === PlanStatus.EXPIRED,
     size,
+    // ||
+    // item.photo_view_status === "locked", // TODO: confirm actual value meaning "locked"
   };
 }

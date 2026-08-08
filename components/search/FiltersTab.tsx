@@ -1,4 +1,3 @@
-import { UpgradePlanSheet } from "@/components/messages/UpgradePlanSheet";
 import { VerticalRangeSlider } from "@/components/VerticalRangeSlider";
 import {
   useAge,
@@ -23,7 +22,6 @@ import {
 import { useSession } from "@/hooks/useSession";
 import { SESSION_KEYS } from "@/types/common";
 import { LookupItem } from "@/types/metadata";
-import { PlanStatus } from "@/types/profile";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useEffect, useMemo, useRef, useState } from "react";
@@ -103,10 +101,10 @@ export default function FiltersTab() {
   ]);
   const memberId = sessionData?.[SESSION_KEYS.USER_ID] || "";
   const myGender = sessionData?.[SESSION_KEYS.GENDER] || "";
-  const planStatus = sessionData?.[SESSION_KEYS.PLAN_STATUS] || "";
+  // const planStatus = sessionData?.[SESSION_KEYS.PLAN_STATUS] || "";
 
   const [activeCategory, setActiveCategory] = useState<CategoryKey>("state");
-  const [showUpgradeSheet, setShowUpgradeSheet] = useState(false);
+  // const [showUpgradeSheet, setShowUpgradeSheet] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedValues, setSelectedValues] = useState<
     Partial<Record<CategoryKey, string[]>>
@@ -274,10 +272,10 @@ export default function FiltersTab() {
   const joined = (key: CategoryKey) => (selectedValues[key] ?? []).join(",");
 
   const handleSearch = () => {
-    if (planStatus !== PlanStatus.PAID) {
-      setShowUpgradeSheet(true);
-      return;
-    }
+    // if (planStatus !== PlanStatus.PAID) {
+    //   setShowUpgradeSheet(true);
+    //   return;
+    // }
 
     const searchParams = {
       member_id: memberId,
@@ -508,11 +506,11 @@ export default function FiltersTab() {
         </Pressable>
       </View>
 
-      <UpgradePlanSheet
+      {/* <UpgradePlanSheet
         visible={showUpgradeSheet}
         message="Your membership plan does not allow this action. Upgrade to Premium Membership Plan."
         onClose={() => setShowUpgradeSheet(false)}
-      />
+      /> */}
     </View>
   );
 }

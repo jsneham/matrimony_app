@@ -1,12 +1,13 @@
 import { NotificationApiItem } from "@/types/notifications";
-import { router } from "expo-router";
+import { Href, router } from "expo-router";
 
-/**
- * Mirrors the Android NotificationBean routing switch.
- * TODO: confirm/adjust each route path to match your actual Expo Router file structure.
- */
 export function navigateForNotification(item: NotificationApiItem) {
   const senderId = item.sender_id;
+  const openPhotosTab = () =>
+    router.push({
+      pathname: "/(profile)",
+      params: { tab: "photos" },
+    } as Href);
 
   switch (item.notification_type) {
     case "payment_received":
@@ -14,33 +15,36 @@ export function navigateForNotification(item: NotificationApiItem) {
       break;
 
     case "plan_expired":
-      //   router.push("/plans");
+      router.push("/membership");
       break;
 
     case "featured_profile":
-      //   router.push("/profile/me");
+      router.push({
+        pathname: "/profile/[matriId]",
+        params: { matriId: senderId },
+      });
       break;
 
     case "profile_photo_approval":
-      router.push("/(profile)/EditPhotosMoreScreen");
+      openPhotosTab();
       break;
 
     case "id_proof_photo_approval":
-      router.push("/(profile)/EditPhotosMoreScreen");
+      openPhotosTab();
       break;
 
     case "video_approval":
-      router.push("/(profile)/EditPhotosMoreScreen");
+      openPhotosTab();
       break;
 
     case "viewed_contact_details":
     case "viewed_profile":
-      //   if (senderId) {
-      //     router.push({
-      //       pathname: "/profile/[memberId]",
-      //       params: { memberId: senderId },
-      //     });
-      //   }
+      if (senderId) {
+        router.push({
+          pathname: "/profile/[matriId]",
+          params: { matriId: senderId },
+        });
+      }
       break;
 
     case "add_shortlist":
@@ -65,15 +69,17 @@ export function navigateForNotification(item: NotificationApiItem) {
       break;
 
     case "message":
-      router.push("/(tabs)/message");
+      router.push({
+        pathname: "/message/chat/[other_matriId]",
+        params: { other_matriId: senderId },
+      });
       break;
 
     case "photo_request":
-      router.push("/(profile)/EditPhotosMoreScreen");
+      openPhotosTab();
       break;
 
     default:
-      // Nothing — matches Java's default case
       break;
   }
 }

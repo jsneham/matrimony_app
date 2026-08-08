@@ -1,19 +1,32 @@
 import ChevronLeftIcon from "@/assets/icons/ChevronLeftIcon";
+import { UpgradePlanSheet } from "@/components/messages/UpgradePlanSheet";
 import { NotificationRow } from "@/components/notifications/NotificationRow";
 import { useNotifications } from "@/hooks/useNotifications";
 import { useSession } from "@/hooks/useSession";
 import { SESSION_KEYS } from "@/types/common";
 import { NotificationApiItem } from "@/types/notifications";
+import { PlanStatus } from "@/types/profile";
 import { navigateForNotification } from "@/utils/notificationRouting";
 import { router } from "expo-router";
 import React, { useMemo } from "react";
-import { ActivityIndicator, FlatList, Pressable, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  Pressable,
+  Text,
+  View,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const NotificationsScreen = () => {
   const insets = useSafeAreaInsets();
-  const { data: sessionData } = useSession([SESSION_KEYS.USER_ID]);
+  const { data: sessionData } = useSession([
+    SESSION_KEYS.USER_ID,
+    SESSION_KEYS.PLAN_STATUS,
+  ]);
   const memberId = sessionData?.[SESSION_KEYS.USER_ID] || "";
+  const planStatus = sessionData?.[SESSION_KEYS.PLAN_STATUS] || "";
+  const [showUpgradeSheet, setShowUpgradeSheet] = React.useState(false);
 
   const {
     data,
@@ -25,13 +38,19 @@ const NotificationsScreen = () => {
     isRefetching,
   } = useNotifications(memberId);
 
-  // Flatten all pages into a single array
   const items = useMemo(
     () => data?.pages.flatMap((page) => page.data) ?? [],
     [data],
   );
 
   const handlePress = (item: NotificationApiItem) => {
+    if (item.notification_type === "message") {
+      if (planStatus !== PlanStatus.PAID) {
+        setShowUpgradeSheet(true);
+        return;
+      }
+    }
+
     navigateForNotification(item);
   };
 
@@ -96,12 +115,18 @@ const NotificationsScreen = () => {
           ListEmptyComponent={
             <View className="items-center justify-center mt-24 px-8">
               <Text className="text-gray-400 text-center">
-                You don't have any notifications yet.
+                You don&apos;t have any notifications yet.
               </Text>
             </View>
           }
         />
       )}
+
+      <UpgradePlanSheet
+        visible={showUpgradeSheet}
+        message="A paid membership is required to open and send messages."
+        onClose={() => setShowUpgradeSheet(false)}
+      />
     </View>
   );
 };

@@ -1,5 +1,4 @@
 import LockAltIcon from "@/assets/icons/LockAltIcon";
-import PremiumTag from "@/assets/icons/PremiumTag";
 import { VisitorCardProps } from "@/types/matches";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
@@ -17,6 +16,7 @@ export const VisitorCard: React.FC<
   height,
   photoUri,
   isPremium,
+  badgeUri,
   isLocked,
   size = "large",
   placeholderColor = "#e5e7eb",
@@ -70,13 +70,27 @@ export const VisitorCard: React.FC<
           </View>
         )}
 
-        {isPremium && (
+        {isPremium && badgeUri && (
           <View
             className={
               isSmall ? "absolute top-2 left-2" : "absolute top-3 left-3"
             }
+            style={{
+              width: isSmall ? 48 : 68,
+              height: isSmall ? 18 : 24,
+              overflow: "hidden",
+            }}
           >
-            <PremiumTag width={isSmall ? 32 : 48} height={isSmall ? 12 : 18} />
+            <Image
+              source={{ uri: badgeUri }}
+              style={{
+                width: isSmall ? 58 : 84,
+                height: isSmall ? 58 : 84,
+                position: "absolute",
+                top: 0,
+                left: 0,
+              }}
+            />
           </View>
         )}
 

@@ -80,6 +80,7 @@ export type VisitorCardProps = {
   height?: string;
   photoUri?: string;
   isPremium?: boolean;
+  badgeUri?: string;
   isLocked?: boolean;
   size?: "large" | "small";
   placeholderColor?: string;

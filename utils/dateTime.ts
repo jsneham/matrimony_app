@@ -1,3 +1,5 @@
+import { format, parse } from "date-fns";
+
 export const parseTimeToDate = (value?: string): Date => {
   if (!value) return new Date();
   const match = value.match(/(\d{1,2}):(\d{2})\s*(AM|PM)?/i);
@@ -18,3 +20,14 @@ export const formatTime = (date: Date): string =>
     minute: "2-digit",
     hour12: true,
   });
+
+export const formatNotificationDate = (value?: string): string => {
+  if (!value) return "";
+
+  const parsedDate = parse(value, "yyyy-MM-dd HH:mm:ss", new Date());
+  if (Number.isNaN(parsedDate.getTime())) return value;
+
+  return format(parsedDate, "MMM dd h:mma").replace(/(AM|PM)$/, (meridiem) =>
+    meridiem.toLowerCase(),
+  );
+};

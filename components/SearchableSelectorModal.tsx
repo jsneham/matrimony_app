@@ -2,7 +2,6 @@ import { EditableFieldDescriptor } from "@/types/profile";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import React, { useMemo, useState } from "react";
 import {
-  Dimensions,
   FlatList,
   KeyboardAvoidingView,
   Modal,
@@ -24,8 +23,7 @@ import Animated, {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { EditableFieldRow } from "./EditableFieldRow";
 
-const SCREEN_HEIGHT = Dimensions.get("window").height;
-const MAX_SHEET_HEIGHT = SCREEN_HEIGHT * 0.9;
+const MAX_SHEET_HEIGHT = "90%" as const;
 
 type Option = {
   id: string;
@@ -301,7 +299,7 @@ export const SearchableSelectorModal: React.FC<
                     <TextInput
                       value={searchQuery}
                       onChangeText={setSearchQuery}
-                      placeholder={`Search ${title}...`}
+                      placeholder="Search"
                       placeholderTextColor="#8B8B8B"
                       className="flex-1 text-gray text-base font-regular"
                       style={{ padding: 0, margin: 0 }}
@@ -336,7 +334,10 @@ export const SearchableSelectorModal: React.FC<
                   showsVerticalScrollIndicator={false}
                   keyboardShouldPersistTaps="handled"
                   className="flex-1 bg-white"
-                  contentContainerStyle={{ paddingTop: 24, paddingBottom: 24 }}
+                  contentContainerStyle={{
+                    paddingTop: 24,
+                    paddingBottom: 24,
+                  }}
                   initialNumToRender={12}
                   maxToRenderPerBatch={12}
                   windowSize={5}

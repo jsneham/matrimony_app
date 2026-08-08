@@ -1,9 +1,12 @@
 import PremiumTagSmallCircle from "@/assets/icons/PremiumTagSmallCircle";
 import { ViewAllVisitorsCard } from "@/components/matches/ViewAllVisitorsCard";
 import { VisitorCard } from "@/components/matches/VisitorCard";
+import { UpgradePlanSheet } from "@/components/messages/UpgradePlanSheet";
 import { useSession } from "@/hooks/useSession";
 import { SESSION_KEYS } from "@/types/common";
+import { PlanStatus } from "@/types/profile";
 import { mapVisitorItem } from "@/utils/mapVisitorItem";
+import { normalizePlanStatus } from "@/utils/profileHelpers";
 import { router } from "expo-router";
 import React from "react";
 import { ActivityIndicator, ScrollView, Text, View } from "react-native";
@@ -36,10 +39,27 @@ export const SectionShell = ({
   titleClassName = "px-5",
   descriptionClassName = "px-5 text-base font-regular text-gray-500 mt-3",
 }: SectionShellProps) => {
-  const { data: sessionData } = useSession([SESSION_KEYS.PLAN_STATUS]);
+  const { data: sessionData, isLoading: isLoadingSession } = useSession([
+    SESSION_KEYS.PLAN_STATUS,
+  ]);
   const planStatus = sessionData?.[SESSION_KEYS.PLAN_STATUS] ?? "";
+  const [showUpgradeSheet, setShowUpgradeSheet] = React.useState(false);
 
   const safeItems: any[] = Array.isArray(items) ? items.slice(0, 5) : [];
+
+  const handleViewAll = () => {
+    if (
+      !isLoadingSession &&
+      normalizePlanStatus(planStatus) !== PlanStatus.PAID
+    ) {
+      setShowUpgradeSheet(true);
+      return;
+    }
+
+    onViewAll();
+  };
+
+  console.log("items", items, title);
 
   return (
     <View className={wrapperClass}>
@@ -81,10 +101,16 @@ export const SectionShell = ({
             />
           ))}
           {!hideViewAll && (
-            <ViewAllVisitorsCard size={cardSize} onPress={onViewAll} />
+            <ViewAllVisitorsCard size={cardSize} onPress={handleViewAll} />
           )}
         </ScrollView>
       )}
+
+      <UpgradePlanSheet
+        visible={showUpgradeSheet}
+        message="Please subscribe to a paid membership to view all members in this section."
+        onClose={() => setShowUpgradeSheet(false)}
+      />
     </View>
   );
 };
