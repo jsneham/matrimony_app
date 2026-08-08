@@ -89,14 +89,7 @@ export default function RootLayout() {
             <Stack.Screen
               name="(profile)"
               options={{
-                title: "Profile",
-                headerShown: true,
-                headerTitleAlign: "left",
-                headerTitleStyle: {
-                  fontSize: 24,
-                  fontFamily: "Bold",
-                },
-                headerShadowVisible: false,
+                headerShown: false,
               }}
             />
             <Stack.Screen
@@ -122,10 +115,7 @@ export default function RootLayout() {
             <Stack.Screen
               name="(notification)"
               options={{
-                title: "Notifications",
-                headerShown: true,
-                headerTitleAlign: "center",
-                headerShadowVisible: false,
+                headerShown: false,
               }}
             />
           </Stack>

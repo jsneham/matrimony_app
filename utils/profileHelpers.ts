@@ -26,15 +26,21 @@ export function getPlanAwareName(
   fallbackName?: string | null,
 ): string {
   const normalized = normalizePlanStatus(planStatus);
-  const fullName = [firstName, lastName].filter(Boolean).join(" ").trim();
+  const fallbackParts = fallbackName?.trim().split(/\s+/) ?? [];
+  const resolvedFirstName = firstName?.trim() || fallbackParts.shift() || "";
+  const resolvedLastName = lastName?.trim() || fallbackParts.join(" ");
+  const fullName = [resolvedFirstName, resolvedLastName]
+    .filter(Boolean)
+    .join(" ")
+    .trim();
   const fallback = fallbackName?.trim() || fullName || "User";
 
   if (normalized === PlanStatus.PAID) {
     return fullName || fallback;
   }
 
-  const first = (firstName || fallbackName || "").trim();
-  const last = (lastName || "").trim();
+  const first = resolvedFirstName;
+  const last = resolvedLastName;
 
   if (!first && !last) return fallback;
 

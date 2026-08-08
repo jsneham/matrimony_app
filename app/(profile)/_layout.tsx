@@ -1,15 +1,18 @@
 import { Ionicons } from "@expo/vector-icons";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import React, { useRef, useState } from "react";
 import {
   Animated,
   Dimensions,
+  Pressable,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
 import PagerView from "react-native-pager-view";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import ChevronLeftIcon from "@/assets/icons/ChevronLeftIcon";
 import { PROFILE_TABS } from "@/constants/data";
 import EditProfileScreen from ".";
 import EditPhotosMoreScreen from "./EditPhotosMoreScreen";
@@ -26,6 +29,7 @@ const TAB_PARAM_TO_INDEX: Record<string, number> = {
 };
 
 export default function MatchesLayout() {
+  const insets = useSafeAreaInsets();
   const { tab } = useLocalSearchParams<{ tab?: string }>();
   const initialIndex =
     tab && tab in TAB_PARAM_TO_INDEX ? TAB_PARAM_TO_INDEX[tab] : 0;
@@ -64,6 +68,31 @@ export default function MatchesLayout() {
 
   return (
     <View className="flex-1 bg-white">
+      {/* ── Header ────────────────────────────────────── */}
+      <View
+        className="bg-white flex-row items-center"
+        style={{ paddingTop: insets.top }}
+      >
+        <Pressable
+          onPress={() => router.back()}
+          hitSlop={10}
+          style={{
+            width: 44,
+            height: 49,
+            justifyContent: "center",
+            paddingLeft: 20,
+          }}
+        >
+          <ChevronLeftIcon size={24} color="black" />
+        </Pressable>
+        <Text
+          className="flex-1 text-center text-lg font-bold text-black"
+          style={{ marginRight: 44 }}
+        >
+          Profile
+        </Text>
+      </View>
+
       {/* ── Top Tab Bar ───────────────────────────────── */}
       <View className="bg-white">
         <View className="flex-row h-11 border-b border-inactive-border">

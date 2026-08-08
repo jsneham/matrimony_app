@@ -19,12 +19,14 @@ export type NotificationType =
 
 export type NotificationApiItem = {
   id: string;
-  notification_type: NotificationType; // TODO: confirm exact field name from API (matches Java's getNotificationType())
+  notification_type: NotificationType;
   title: string;
-  message: string; // TODO: confirm actual field name (message/body/description?)
-  created_at: string; // TODO: confirm actual field name/format
-  sender_id?: string; // TODO: confirm exact field name (matches Java's getSenderId())
-  image?: string;
+  message: string;
+  created_on: string;
+  sender_id: string;
+  photo_url: string;
+  read_status: string;
+  receiver_id: string;
 };
 
 export type NotificationListResponse = {

@@ -1,9 +1,7 @@
-import { UpgradePlanSheet } from "@/components/messages/UpgradePlanSheet";
+import { VerticalRangeSlider } from "@/components/VerticalRangeSlider";
 import {
   useAge,
   useBodyType,
-  useCastes,
-  useCities,
   useCountries,
   useDrinking,
   useEating,
@@ -12,6 +10,8 @@ import {
   useIncome,
   useLanguages,
   useMaritalStatuses,
+  useMultiCastes,
+  useMultiCities,
   useOccupations,
   useReligions,
   useSkinTone,
@@ -22,10 +22,9 @@ import {
 import { useSession } from "@/hooks/useSession";
 import { SESSION_KEYS } from "@/types/common";
 import { LookupItem } from "@/types/metadata";
-import { PlanStatus } from "@/types/profile";
-import { Feather } from "@expo/vector-icons";
+import { Feather, Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   FlatList,
   Pressable,
@@ -35,6 +34,10 @@ import {
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+
+// Age/Height range pickers are locked to a fixed 6-step window — dragging
+// "From" always keeps "To" exactly 6 steps ahead.
+const FIXED_RANGE_STEPS = 6;
 
 type CategoryKey =
   | "height"
@@ -81,6 +84,16 @@ const NO_PREFERENCE: LookupItem = { id: "__any__", val: "No Preference (Any)" };
 
 export default function FiltersTab() {
   const insets = useSafeAreaInsets();
+  // Footer is position:absolute, so it doesn't reserve space in the row's
+  // own flex layout — this is its real rendered height (pt-4 + button + its
+  // own bottom safe-area padding), used to reserve matching space above it.
+  const footerHeight = 16 + 50 + Math.max(insets.bottom, 16);
+  const sidebarScrollRef = useRef<ScrollView>(null);
+  // Row height = paddingVertical(17*2) + text-sm line height(~14) = 48,
+  // matching the right list's checkbox-driven 48px row height — used to
+  // scroll a tapped category to the exact top position "Height" sits at.
+  const SIDEBAR_ITEM_HEIGHT = 48;
+
   const { data: sessionData } = useSession([
     SESSION_KEYS.USER_ID,
     SESSION_KEYS.GENDER,
@@ -88,14 +101,23 @@ export default function FiltersTab() {
   ]);
   const memberId = sessionData?.[SESSION_KEYS.USER_ID] || "";
   const myGender = sessionData?.[SESSION_KEYS.GENDER] || "";
-  const planStatus = sessionData?.[SESSION_KEYS.PLAN_STATUS] || "";
+  // const planStatus = sessionData?.[SESSION_KEYS.PLAN_STATUS] || "";
 
   const [activeCategory, setActiveCategory] = useState<CategoryKey>("state");
-  const [showUpgradeSheet, setShowUpgradeSheet] = useState(false);
+  // const [showUpgradeSheet, setShowUpgradeSheet] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedValues, setSelectedValues] = useState<
-    Partial<Record<CategoryKey, string>>
+    Partial<Record<CategoryKey, string[]>>
   >({});
+
+  // Age/Height are range pickers, not single-select radio lists — tracked
+  // separately as low/high index pairs into their own options arrays.
+  const [ageLowIndex, setAgeLowIndex] = useState(0);
+  const [ageHighIndex, setAgeHighIndex] = useState(0);
+  const [heightLowIndex, setHeightLowIndex] = useState(0);
+  const [heightHighIndex, setHeightHighIndex] = useState(0);
+  const ageRangeInitialized = useRef(false);
+  const heightRangeInitialized = useRef(false);
 
   const { data: heights } = useHeight();
   const { data: ages } = useAge();
@@ -118,8 +140,8 @@ export default function FiltersTab() {
     [countries],
   );
   const { data: states } = useStates(indiaId);
-  const { data: cities } = useCities(selectedValues.state);
-  const { data: castes } = useCastes(selectedValues.religion);
+  const { data: cities } = useMultiCities(selectedValues.state ?? []);
+  const { data: castes } = useMultiCastes(selectedValues.religion ?? []);
 
   const categoryData: Record<CategoryKey, LookupItem[]> = {
     height: heights ?? [],
@@ -142,6 +164,44 @@ export default function FiltersTab() {
     skinComplexion: skinTone ?? [],
   };
 
+  // Default "From" is 24 for Age and 5ft for Height — matched by value text
+  // rather than a hardcoded index, since the exact list position can vary.
+  const findAgeDefaultLowIndex = () => {
+    const idx = ages.findIndex((a) =>
+      a.val.replace(/\s+/g, " ").trim().toLowerCase().startsWith("24"),
+    );
+    return idx >= 0 ? idx : 0;
+  };
+  const findHeightDefaultLowIndex = () => {
+    const idx = heights.findIndex((h) => h.val.trim().toLowerCase() === "5ft");
+    return idx >= 0 ? idx : 0;
+  };
+
+  useEffect(() => {
+    if (!ageRangeInitialized.current && ages.length > 0) {
+      const low = findAgeDefaultLowIndex();
+      setAgeLowIndex(low);
+      setAgeHighIndex(Math.min(low + FIXED_RANGE_STEPS, ages.length - 1));
+      ageRangeInitialized.current = true;
+    }
+  }, [ages]);
+
+  useEffect(() => {
+    if (!heightRangeInitialized.current && heights.length > 0) {
+      const low = findHeightDefaultLowIndex();
+      setHeightLowIndex(low);
+      setHeightHighIndex(Math.min(low + FIXED_RANGE_STEPS, heights.length - 1));
+      heightRangeInitialized.current = true;
+    }
+  }, [heights]);
+
+  const isRangeCategory =
+    activeCategory === "age" || activeCategory === "height";
+  const rangeLabel =
+    activeCategory === "age"
+      ? `${ages[ageLowIndex]?.val ?? ""} - ${ages[ageHighIndex]?.val ?? ""}`
+      : `${heights[heightLowIndex]?.val ?? ""} - ${heights[heightHighIndex]?.val ?? ""}`;
+
   const currentOptions = categoryData[activeCategory];
 
   const filteredOptions = useMemo(() => {
@@ -156,14 +216,30 @@ export default function FiltersTab() {
   const handleSelectCategory = (key: CategoryKey) => {
     setActiveCategory(key);
     setSearchQuery("");
+    const index = CATEGORIES.findIndex((cat) => cat.key === key);
+    if (index >= 0) {
+      sidebarScrollRef.current?.scrollTo({
+        y: index * SIDEBAR_ITEM_HEIGHT,
+        animated: true,
+      });
+    }
   };
 
   const handleSelectOption = (id: string) => {
     setSelectedValues((prev) => {
-      const next = {
-        ...prev,
-        [activeCategory]: id === "__any__" ? undefined : id,
-      };
+      let nextValue: string[] | undefined;
+      if (id === "__any__") {
+        // "No Preference (Any)" clears the whole selection for this category.
+        nextValue = undefined;
+      } else {
+        const current = prev[activeCategory] ?? [];
+        nextValue = current.includes(id)
+          ? current.filter((v) => v !== id)
+          : [...current, id];
+        if (nextValue.length === 0) nextValue = undefined;
+      }
+      const next = { ...prev, [activeCategory]: nextValue };
+      // Changing a parent filter invalidates any dependent child selection.
       if (activeCategory === "religion") next.caste = undefined;
       if (activeCategory === "state") next.city = undefined;
       return next;
@@ -172,37 +248,57 @@ export default function FiltersTab() {
 
   const handleReset = () => {
     setSearchQuery("");
+    if (activeCategory === "age") {
+      const low = findAgeDefaultLowIndex();
+      setAgeLowIndex(low);
+      setAgeHighIndex(
+        Math.min(low + FIXED_RANGE_STEPS, Math.max(ages.length - 1, 0)),
+      );
+      return;
+    }
+    if (activeCategory === "height") {
+      const low = findHeightDefaultLowIndex();
+      setHeightLowIndex(low);
+      setHeightHighIndex(
+        Math.min(low + FIXED_RANGE_STEPS, Math.max(heights.length - 1, 0)),
+      );
+      return;
+    }
     setSelectedValues((prev) => ({ ...prev, [activeCategory]: undefined }));
   };
 
+  // Categories are multi-select — the API takes each filter as a single
+  // comma-separated string of selected ids.
+  const joined = (key: CategoryKey) => (selectedValues[key] ?? []).join(",");
+
   const handleSearch = () => {
-    if (planStatus !== PlanStatus.PAID) {
-      setShowUpgradeSheet(true);
-      return;
-    }
+    // if (planStatus !== PlanStatus.PAID) {
+    //   setShowUpgradeSheet(true);
+    //   return;
+    // }
 
     const searchParams = {
       member_id: memberId,
-      from_age: "", // TODO: wire to actual age-range picker if you have one beyond the lookup list
-      to_age: "",
-      from_height: "",
-      to_height: "",
-      looking_for: selectedValues.maritalStatus ?? "",
-      religion: selectedValues.religion ?? "",
-      caste: selectedValues.caste ?? "",
-      mothertongue: selectedValues.motherTongue ?? "",
-      country: selectedValues.country ?? "",
-      state: selectedValues.state ?? "",
-      city: selectedValues.city ?? "",
-      education: selectedValues.education ?? "",
-      occupation: selectedValues.occupation ?? "",
-      employee_in: selectedValues.employedIn ?? "",
-      income: selectedValues.income ?? "",
-      diet: selectedValues.foodChoices ?? "",
-      drink: selectedValues.drinks ?? "",
-      smoking: selectedValues.smoking ?? "",
-      complexion: selectedValues.skinComplexion ?? "",
-      bodytype: selectedValues.bodyType ?? "",
+      from_age: ages[ageLowIndex]?.id ?? "",
+      to_age: ages[ageHighIndex]?.id ?? "",
+      from_height: heights[heightLowIndex]?.id ?? "",
+      to_height: heights[heightHighIndex]?.id ?? "",
+      looking_for: joined("maritalStatus"),
+      religion: joined("religion"),
+      caste: joined("caste"),
+      mothertongue: joined("motherTongue"),
+      country: joined("country"),
+      state: joined("state"),
+      city: joined("city"),
+      education: joined("education"),
+      occupation: joined("occupation"),
+      employee_in: joined("employedIn"),
+      income: joined("income"),
+      diet: joined("foodChoices"),
+      drink: joined("drinks"),
+      smoking: joined("smoking"),
+      complexion: joined("skinComplexion"),
+      bodytype: joined("bodyType"),
       photo_search: "", // TODO: wire to a checkbox if you add one
       gender: myGender === "Female" ? "Male" : "Female",
     };
@@ -215,17 +311,24 @@ export default function FiltersTab() {
 
   const isSelected = (id: string) =>
     id === "__any__"
-      ? !selectedValues[activeCategory]
-      : selectedValues[activeCategory] === id;
+      ? !selectedValues[activeCategory]?.length
+      : (selectedValues[activeCategory] ?? []).includes(id);
 
   return (
     <View style={{ flex: 1, minHeight: 0, position: "relative" }}>
       <View style={{ flex: 1, minHeight: 0, flexDirection: "row" }}>
         {/* Category sidebar */}
         <ScrollView
+          ref={sidebarScrollRef}
           className="bg-app-background"
-          style={{ flex: 1, minHeight: 0, maxWidth: 145 }}
-          contentContainerStyle={{ paddingTop: 20, paddingBottom: 100 }}
+          style={{
+            flex: 1,
+            minHeight: 0,
+            maxWidth: 145,
+            marginTop: 20,
+            marginBottom: footerHeight + 60,
+          }}
+          contentContainerStyle={{ paddingTop: 60, paddingBottom: 100 }}
           showsVerticalScrollIndicator={false}
         >
           {CATEGORIES.map((cat) => {
@@ -254,74 +357,133 @@ export default function FiltersTab() {
 
         {/* Options panel */}
         <View
-          style={{ flex: 1, minHeight: 0, borderRadius: 12 }}
+          style={{
+            flex: 1,
+            minHeight: 0,
+            borderRadius: 12,
+            marginTop: 20,
+            marginBottom: footerHeight + 20,
+            marginRight: 20,
+          }}
           className="bg-white overflow-hidden"
         >
           <View className="flex-row items-center justify-between px-4 pt-4 pb-3">
-            <View
-              style={{ flex: 1, flexDirection: "row" }}
-              className="items-center"
+            {isRangeCategory ? (
+              <View style={{ height: 24 }} className="justify-center">
+                <Text className="text-sm font-bold text-pink-600">
+                  {rangeLabel}
+                </Text>
+              </View>
+            ) : (
+              <View
+                style={{ flex: 1, flexDirection: "row", height: 24 }}
+                className="items-center"
+              >
+                <Feather name="search" size={16} color="#8B8B8B" />
+                <TextInput
+                  value={searchQuery}
+                  onChangeText={setSearchQuery}
+                  placeholder="Search"
+                  placeholderTextColor="#8B8B8B"
+                  style={{ flex: 1, padding: 0, marginLeft: 8 }}
+                  className="text-sm font-regular text-black"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                />
+              </View>
+            )}
+            <Pressable
+              onPress={handleReset}
+              hitSlop={8}
+              style={{ height: 24, justifyContent: "center" }}
             >
-              <Feather name="search" size={16} color="#8B8B8B" />
-              <TextInput
-                value={searchQuery}
-                onChangeText={setSearchQuery}
-                placeholder="Search"
-                placeholderTextColor="#8B8B8B"
-                style={{ flex: 1, padding: 0, marginLeft: 8 }}
-                className="text-sm font-regular text-black"
-                autoCapitalize="none"
-                autoCorrect={false}
-              />
-            </View>
-            <Pressable onPress={handleReset} hitSlop={8}>
-              <Text className="text-sm font-bold text-gray underline">
-                Reset
-              </Text>
+              <Text className="text-sm font-bold text-gray">Reset</Text>
             </Pressable>
           </View>
           <View className="h-[1px] bg-light-divider-color mx-4" />
 
-          <FlatList
-            style={{ flex: 1, minHeight: 0 }}
-            data={filteredOptions}
-            keyExtractor={(item) => item.id}
-            showsVerticalScrollIndicator={false}
-            keyboardShouldPersistTaps="handled"
-            contentContainerStyle={{ paddingTop: 8, paddingBottom: 100 }}
-            renderItem={({ item }) => {
-              const selected = isSelected(item.id);
-              return (
-                <Pressable
-                  onPress={() => handleSelectOption(item.id)}
-                  className="flex-row items-center px-4 py-4"
-                >
-                  <View
-                    className={`w-4 h-4 rounded-full border items-center justify-center mr-2 ${
-                      selected ? "border-pink-600" : "border-black"
-                    }`}
+          {isRangeCategory ? (
+            <View style={{ flex: 1, minHeight: 0 }} className="pt-4 pb-4">
+              <View style={{ flex: 1, minHeight: 0 }} className="items-center">
+                {activeCategory === "age" ? (
+                  <VerticalRangeSlider
+                    length={ages.length}
+                    lowIndex={ageLowIndex}
+                    highIndex={ageHighIndex}
+                    labels={ages.map((a) => a.val)}
+                    fixedRange={FIXED_RANGE_STEPS}
+                    onChange={(low, high) => {
+                      setAgeLowIndex(low);
+                      setAgeHighIndex(high);
+                    }}
+                    onSlidingComplete={(low, high) => {
+                      setAgeLowIndex(low);
+                      setAgeHighIndex(high);
+                    }}
+                  />
+                ) : (
+                  <VerticalRangeSlider
+                    length={heights.length}
+                    lowIndex={heightLowIndex}
+                    highIndex={heightHighIndex}
+                    labels={heights.map((h) => h.val)}
+                    fixedRange={FIXED_RANGE_STEPS}
+                    onChange={(low, high) => {
+                      setHeightLowIndex(low);
+                      setHeightHighIndex(high);
+                    }}
+                    onSlidingComplete={(low, high) => {
+                      setHeightLowIndex(low);
+                      setHeightHighIndex(high);
+                    }}
+                  />
+                )}
+              </View>
+            </View>
+          ) : (
+            <FlatList
+              style={{ flex: 1, minHeight: 0 }}
+              data={filteredOptions}
+              keyExtractor={(item) => item.id}
+              showsVerticalScrollIndicator={false}
+              keyboardShouldPersistTaps="handled"
+              contentContainerStyle={{ paddingTop: 8, paddingBottom: 24 }}
+              renderItem={({ item }) => {
+                const selected = isSelected(item.id);
+                return (
+                  <Pressable
+                    onPress={() => handleSelectOption(item.id)}
+                    className="flex-row items-center px-4 py-4"
                   >
-                    {selected && (
-                      <View className="w-2 h-2 rounded-full bg-pink-600" />
-                    )}
-                  </View>
-                  <Text
-                    numberOfLines={1}
-                    className={`flex-1 text-sm font-bold ${
-                      selected ? "text-pink-600" : "text-gray"
-                    }`}
-                  >
-                    {item.val}
-                  </Text>
-                </Pressable>
-              );
-            }}
-            ListEmptyComponent={
-              <Text className="text-gray text-sm font-regular text-center mt-6">
-                No options found
-              </Text>
-            }
-          />
+                    <View
+                      className={`w-4 h-4 rounded border items-center justify-center mr-2 ${
+                        selected
+                          ? "bg-pink-600 border-pink-600"
+                          : "border-black bg-white"
+                      }`}
+                    >
+                      {selected && (
+                        <Ionicons name="checkmark" size={12} color="white" />
+                      )}
+                    </View>
+                    <Text
+                      numberOfLines={1}
+                      className={`flex-1 text-sm font-bold ${
+                        selected ? "text-pink-600" : "text-gray"
+                      }`}
+                    >
+                      {item.val}
+                    </Text>
+                  </Pressable>
+                );
+              }}
+              ListEmptyComponent={
+                <Text className="text-gray text-sm font-regular text-center mt-6">
+                  No options found
+                </Text>
+              }
+            />
+          )}
         </View>
       </View>
 
@@ -344,11 +506,11 @@ export default function FiltersTab() {
         </Pressable>
       </View>
 
-      <UpgradePlanSheet
+      {/* <UpgradePlanSheet
         visible={showUpgradeSheet}
         message="Your membership plan does not allow this action. Upgrade to Premium Membership Plan."
         onClose={() => setShowUpgradeSheet(false)}
-      />
+      /> */}
     </View>
   );
 }
