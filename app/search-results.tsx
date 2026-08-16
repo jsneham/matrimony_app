@@ -11,13 +11,13 @@ import { BlurView } from "expo-blur";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useMemo } from "react";
 import {
-  ActivityIndicator,
-  FlatList,
-  Image,
-  Platform,
-  Pressable,
-  Text,
-  View,
+    ActivityIndicator,
+    FlatList,
+    Image,
+    Platform,
+    Pressable,
+    Text,
+    View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -32,7 +32,10 @@ const NoResultsState = ({ gender }: { gender?: string }) => {
   const illustrationKey = gender?.toLowerCase() === "male" ? "female" : "male";
 
   return (
-    <View className="items-center justify-center mt-16 px-8">
+    <View
+      className="flex-1 items-center justify-center px-8"
+      style={{ minHeight: 320 }}
+    >
       <Image
         source={NO_RESULT_ILLUSTRATIONS[illustrationKey]}
         style={{ width: 180, height: 180 }}
@@ -133,8 +136,13 @@ const BlurredCard = ({ children }: { children: React.ReactNode }) => (
           invisible). */}
       <View
         pointerEvents="none"
-        style={{ zIndex: 30, elevation: 30 }}
-        className="absolute top-3 left-3"
+        style={{
+          zIndex: 30,
+          elevation: 30,
+          position: "absolute",
+          top: 12,
+          left: 12,
+        }}
       >
         <GoldBadge />
       </View>
@@ -143,7 +151,10 @@ const BlurredCard = ({ children }: { children: React.ReactNode }) => (
 );
 
 const SaveSearchButton = ({ isPaid }: { isPaid: boolean }) => (
-  <View className="px-5 pb-5 pt-2 bg-app-background">
+  <View
+    className="bg-app-background px-5"
+    style={{ paddingTop: 8, paddingBottom: 20 }}
+  >
     <Pressable
       onPress={
         () =>

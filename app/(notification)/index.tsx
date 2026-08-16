@@ -10,11 +10,11 @@ import { navigateForNotification } from "@/utils/notificationRouting";
 import { router } from "expo-router";
 import React, { useMemo } from "react";
 import {
-  ActivityIndicator,
-  FlatList,
-  Pressable,
-  Text,
-  View,
+    ActivityIndicator,
+    FlatList,
+    Pressable,
+    Text,
+    View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -113,7 +113,10 @@ const NotificationsScreen = () => {
             ) : null
           }
           ListEmptyComponent={
-            <View className="items-center justify-center mt-24 px-8">
+            <View
+              className="flex-1 items-center justify-center px-8"
+              style={{ minHeight: 240 }}
+            >
               <Text className="text-gray-400 text-center">
                 You don&apos;t have any notifications yet.
               </Text>

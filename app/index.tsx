@@ -4,22 +4,25 @@ import { useSession } from "@/hooks/useSession";
 import { Redirect, router } from "expo-router";
 import React from "react";
 import {
-    ActivityIndicator,
-    Image,
-    ImageBackground,
-    StatusBar,
-    Text,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  Image,
+  ImageBackground,
+  StatusBar,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import images from "../constants/images";
 
 export default function App() {
   const { isLoggedIn, isLoading } = useSession();
+  const insets = useSafeAreaInsets();
+
   if (isLoading) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" />
+      <View className="flex-1 items-center justify-center bg-black">
+        <ActivityIndicator size="large" color="#fff" />
       </View>
     );
   }
@@ -29,7 +32,7 @@ export default function App() {
   }
 
   return (
-    <View className="flex-1">
+    <View className="flex-1 bg-black">
       <StatusBar barStyle="light-content" />
 
       <ImageBackground
@@ -39,78 +42,67 @@ export default function App() {
         className="flex-1"
         resizeMode="cover"
       >
-        {/* <LinearGradient
-          colors={["rgba(0,0,0,0.4)", "rgba(0,0,0,0.4)", "rgba(0,0,0,0.7)"]}
-          locations={[0, 0.5, 1]}
-          className="flex-1"
-        > */}
-        {/* Overlay */}
         <View className="flex-1 bg-black/40">
-          {/* Logo and Brand */}
-          <View className="items-center pt-32">
+          <View
+            className="items-center"
+            style={{ paddingTop: insets.top + 24 }}
+          >
             <View className="mb-4">
-              <View className="w-16 h-16 bg-white rounded-full items-center justify-center overflow-hidden">
+              <View className="h-16 w-16 items-center justify-center overflow-hidden rounded-full bg-white">
                 <Image
                   source={images.logo}
-                  className="w-full h-full"
+                  className="h-full w-full"
                   resizeMode="contain"
                 />
               </View>
             </View>
 
-            <Text className="text-white text-4xl font-bold mb-1">Milan</Text>
-            <Text className="text-white text-lg tracking-widest mt-1 font-medium">
-              Matrimony
+            <Text className="mb-1 text-3xl font-bold text-white">Milan</Text>
+            <Text className="mt-1 text-base tracking-[0.2em] text-white font-medium">
+              MATRIMONY
             </Text>
           </View>
 
-          {/* Spacer */}
           <View className="flex-1" />
 
-          {/* Bottom Buttons Section */}
-          <View className="px-6 pb-12">
-            {/* Create Account Button */}
+          <View className="px-6" style={{ paddingBottom: insets.bottom + 12 }}>
             <TouchableOpacity
-              className="bg-white rounded-xl py-4 mb-4 shadow-lg"
+              className="mb-4 rounded-xl bg-white py-4 shadow-lg"
               activeOpacity={0.8}
             >
-              <Text className="text-black text-center text-lg font-bold">
+              <Text className="text-center text-base font-bold text-black">
                 New User? Create Account
               </Text>
             </TouchableOpacity>
 
-            {/* Login Button */}
             <TouchableOpacity
-              className="bg-transparent border-2 border-white rounded-xl py-4 mb-6"
+              className="mb-6 rounded-xl border-2 border-white bg-transparent py-4"
               activeOpacity={0.8}
               onPress={() => router.push("/login")}
             >
-              <Text className="text-white text-center text-lg font-bold">
+              <Text className="text-center text-base font-bold text-white">
                 Already have an account? Login
               </Text>
             </TouchableOpacity>
 
-            {/* Terms and Privacy */}
-            <View className="items-center mb-2">
-              <View className="flex-row">
-                <Text className="text-white/80 text-sm">
+            <View className="mb-2 items-center">
+              <View className="flex-row flex-wrap justify-center">
+                <Text className="text-sm text-white/80">
                   By continuing, you accept the{" "}
                 </Text>
-                <Text className="text-blue-400 text-sm">terms</Text>
+                <Text className="text-sm text-blue-400">terms</Text>
               </View>
-              <View className="flex-row">
-                <Text className="text-white/80 text-sm">and </Text>
-                <Text className="text-blue-400 text-sm">privacy policy</Text>
+              <View className="flex-row flex-wrap justify-center">
+                <Text className="text-sm text-white/80">and </Text>
+                <Text className="text-sm text-blue-400">privacy policy</Text>
               </View>
             </View>
 
-            {/* App Version */}
-            <Text className="text-white/60 text-center text-xs mt-2">
+            <Text className="mt-2 text-center text-xs text-white/60">
               App Version 171 ( 1.0.171 )
             </Text>
           </View>
         </View>
-        {/* </LinearGradient> */}
       </ImageBackground>
     </View>
   );

@@ -1,15 +1,15 @@
 import ChevronLeftIcon from "@/assets/icons/ChevronLeftIcon";
 import { VisitorCard } from "@/components/matches/VisitorCard";
 import {
-  useAllMatches,
-  useBlockedMembers,
-  useIViewedProfile,
-  useMatchmakerMatches,
-  useMembersLookingForYou,
-  useRecentlyActive,
-  useRecentlyJoined,
-  useWhoViewedContact,
-  useWhoViewedProfile,
+    useAllMatches,
+    useBlockedMembers,
+    useIViewedProfile,
+    useMatchmakerMatches,
+    useMembersLookingForYou,
+    useRecentlyActive,
+    useRecentlyJoined,
+    useWhoViewedContact,
+    useWhoViewedProfile,
 } from "@/hooks/useMatchesSections";
 import { useSession } from "@/hooks/useSession";
 import { SESSION_KEYS } from "@/types/common";
@@ -17,11 +17,11 @@ import { mapVisitorItem } from "@/utils/mapVisitorItem";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useMemo } from "react";
 import {
-  ActivityIndicator,
-  FlatList,
-  Pressable,
-  Text,
-  View,
+    ActivityIndicator,
+    FlatList,
+    Pressable,
+    Text,
+    View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -226,7 +226,10 @@ const MatchListScreen = () => {
             ) : null
           }
           ListEmptyComponent={
-            <View className="items-center justify-center mt-24">
+            <View
+              className="flex-1 items-center justify-center"
+              style={{ minHeight: 240 }}
+            >
               <Text className="text-gray-400">No members to show yet.</Text>
             </View>
           }

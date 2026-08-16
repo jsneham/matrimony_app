@@ -25,7 +25,10 @@ export const AccountTabBar = ({
   );
 
   return (
-    <View className="flex-row justify-evenly px-3 pt-6 border-b border-gray-200 bg-app-background">
+    <View
+      className="flex-row justify-evenly border-b border-gray-200 bg-app-background px-3"
+      style={{ paddingTop: 18 }}
+    >
       {tabNames.map((tab) => {
         const isActive = activeTab === tab;
         return (
@@ -38,8 +41,7 @@ export const AccountTabBar = ({
             <Text
               onLayout={(e) => {
                 const width = e?.nativeEvent?.layout?.width;
-                if (width)
-                  setTextWidths((prev) => ({ ...prev, [tab]: width }));
+                if (width) setTextWidths((prev) => ({ ...prev, [tab]: width }));
               }}
               numberOfLines={1}
               adjustsFontSizeToFit
