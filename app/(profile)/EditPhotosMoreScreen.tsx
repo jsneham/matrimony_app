@@ -5,6 +5,7 @@ import GalleryUploadIcon from "@/assets/icons/GalleryUploadIcon";
 import RecordVideoIcon from "@/assets/icons/RecordVideoIcon";
 import RecordVoiceIcon from "@/assets/icons/RecordVoiceIcon";
 import SetMainPhotoIcon from "@/assets/icons/SetMainPhotoIcon";
+import ImageCropModal from "@/components/common/ImageCropModal";
 import {
   ActionOptionsSheet,
   ActionSheetOption,
@@ -25,7 +26,7 @@ import {
   uploadSinglePhoto,
 } from "@/services/photoUploadApi";
 import { SESSION_KEYS } from "@/types/common";
-import { pickAndPrepareImage, pickImageSimple } from "@/utils/imagePicker";
+import { compressOnly, pickRawImage } from "@/utils/imagePicker";
 import { Feather } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
@@ -131,27 +132,38 @@ const EditPhotosMoreScreen = () => {
   // Upload progress overlay state (mirrors Android's ProgressDialog)
   const [uploadProgress, setUploadProgress] = useState<number | null>(null);
 
+  const [cropModal, setCropModal] = useState<{
+    uri: string;
+    onDone: (croppedUri: string) => void;
+  } | null>(null);
+
   // ── Image picking + crop (Expo, 1:1.5 ratio) ──────────────────────────────
+  // ── Image picking — raw pick, then hand off to the custom crop modal ────
   const pickImageWithCrop = async (
     source: "gallery" | "camera",
     onPicked: (originalUri: string, cropUri: string) => void,
   ) => {
-    const result = await pickAndPrepareImage(source, {
-      aspect: PHOTO_ASPECT,
-      cropWidth: PHOTO_CROP_WIDTH,
-      cropHeight: PHOTO_CROP_HEIGHT,
+    const rawUri = await pickRawImage(source);
+    if (!rawUri) return;
+
+    setCropModal({
+      uri: rawUri,
+      onDone: (croppedUri) => {
+        setCropModal(null);
+        onPicked(rawUri, croppedUri);
+      },
     });
-    if (!result) return;
-    onPicked(result.originalUri, result.cropUri);
   };
 
   const pickImageForHoroscope = async (
     source: "gallery" | "camera",
     onPicked: (uri: string) => void,
   ) => {
-    const uri = await pickImageSimple(source);
-    if (!uri) return;
-    onPicked(uri);
+    const rawUri = await pickRawImage(source);
+    if (!rawUri) return;
+
+    const compressedUri = await compressOnly(rawUri);
+    onPicked(compressedUri);
   };
 
   // ── Upload: profile photo slots 1-4 (org + crop, matches Java) ──────────
@@ -626,6 +638,15 @@ const EditPhotosMoreScreen = () => {
         visible={!!previewUri}
         imageUri={previewUri}
         onClose={() => setPreviewUri(undefined)}
+      />
+      <ImageCropModal
+        visible={!!cropModal}
+        imageUri={cropModal?.uri ?? null}
+        aspectRatio={PHOTO_CROP_WIDTH / PHOTO_CROP_HEIGHT} // 2:3 = 1:1.5
+        targetWidth={PHOTO_CROP_WIDTH}
+        targetHeight={PHOTO_CROP_HEIGHT}
+        onCancel={() => setCropModal(null)}
+        onConfirm={(croppedUri) => cropModal?.onDone(croppedUri)}
       />
     </View>
   );

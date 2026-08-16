@@ -790,7 +790,7 @@
   dependencies:
     "@types/hammerjs" "^2.0.36"
 
-"@emnapi/core@^1.7.1 || ^2.0.0-alpha.3":
+"@emnapi/core@^1.7.1 || ^2.0.0-alpha.4":
   version "1.10.0"
   resolved "https://registry.npmjs.org/@emnapi/core/-/core-1.10.0.tgz"
   integrity sha512-yq6OkJ4p82CAfPl0u9mQebQHKPJkY7WrIuk205cTYnYe+k2Z8YBh11FrbRG/H6ihirqcacOgl2BIO8oyMQLeXw==
@@ -798,7 +798,7 @@
     "@emnapi/wasi-threads" "1.2.1"
     tslib "^2.4.0"
 
-"@emnapi/runtime@^1.7.1 || ^2.0.0-alpha.3":
+"@emnapi/runtime@^1.7.1 || ^2.0.0-alpha.4":
   version "1.10.0"
   resolved "https://registry.npmjs.org/@emnapi/runtime/-/runtime-1.10.0.tgz"
   integrity sha512-ewvYlk86xUoGI0zQRNq/mC+16R1QeDlKQy21Ki3oSYXNgLb45GV1P6A0M+/s6nyCuNDqe5VpaY84BzXGwVbwFA==
@@ -977,9 +977,9 @@
     xml2js "0.6.0"
 
 "@expo/config-plugins@~57.0.7":
-  version "57.0.7"
-  resolved "https://registry.npmjs.org/@expo/config-plugins/-/config-plugins-57.0.7.tgz"
-  integrity sha512-jvXMiNuH8W7fmU9yCk4/jVwDX2G/5rWUg5PZ22mriccEeQVS9HJjQiUHivMaK6MxEG5L9f0RPScxe/nQfnpQvg==
+  version "57.0.8"
+  resolved "https://registry.npmjs.org/@expo/config-plugins/-/config-plugins-57.0.8.tgz"
+  integrity sha512-x6lx4s/19i39/+1dMPwb9tFCc4WR843dG5Yi+C64lhKL3YHX+6oKrT2Kv72PCEalnUY+usQDkB3NrLSrYOWtDg==
   dependencies:
     "@expo/config-types" "^57.0.2"
     "@expo/json-file" "~11.0.1"
@@ -1043,7 +1043,7 @@
     slugify "^1.3.4"
     sucrase "~3.35.1"
 
-"@expo/config@~57.0.6":
+"@expo/config@~57.0.7":
   version "57.0.7"
   resolved "https://registry.npmjs.org/@expo/config/-/config-57.0.7.tgz"
   integrity sha512-4A+V8x5OmQqNm76l84S+RrB6kVoeFrvcm/Xn/6d+ELPF/HeucDheAFchdYxYNy+NEvWzuNlI/oCvrftIeK+dbQ==
@@ -1160,14 +1160,14 @@
     json5 "^2.2.3"
 
 "@expo/metro-config@>=54":
-  version "57.0.7"
-  resolved "https://registry.npmjs.org/@expo/metro-config/-/metro-config-57.0.7.tgz"
-  integrity sha512-bVfEkg4zF1cA62OqAdYXmFOooJ6TB/I+REi7Se6Ct+PbSC+89TwSqWXnYx34L08eIs4z+1ilgbATakTZpgefmQ==
+  version "57.0.8"
+  resolved "https://registry.npmjs.org/@expo/metro-config/-/metro-config-57.0.8.tgz"
+  integrity sha512-cZOVjbljqRBMCXcloc5k23gsFOhWdiKXhDkp5jU/wY6IXR6G7cYtNOwxKfxI1QLhs0KcXY0gDmZ2UIueoHzY7g==
   dependencies:
     "@babel/code-frame" "^7.20.0"
     "@babel/core" "^7.20.0"
     "@babel/generator" "^7.20.5"
-    "@expo/config" "~57.0.6"
+    "@expo/config" "~57.0.7"
     "@expo/env" "~2.4.2"
     "@expo/json-file" "~11.0.1"
     "@expo/metro" "~56.0.0"

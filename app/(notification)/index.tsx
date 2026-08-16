@@ -1,4 +1,3 @@
-import ChevronLeftIcon from "@/assets/icons/ChevronLeftIcon";
 import { UpgradePlanSheet } from "@/components/messages/UpgradePlanSheet";
 import { NotificationRow } from "@/components/notifications/NotificationRow";
 import { useNotifications } from "@/hooks/useNotifications";
@@ -7,15 +6,8 @@ import { SESSION_KEYS } from "@/types/common";
 import { NotificationApiItem } from "@/types/notifications";
 import { PlanStatus } from "@/types/profile";
 import { navigateForNotification } from "@/utils/notificationRouting";
-import { router } from "expo-router";
 import React, { useMemo } from "react";
-import {
-  ActivityIndicator,
-  FlatList,
-  Pressable,
-  Text,
-  View,
-} from "react-native";
+import { ActivityIndicator, FlatList, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const NotificationsScreen = () => {
@@ -43,6 +35,8 @@ const NotificationsScreen = () => {
     [data],
   );
 
+  console.log("Data Notificaion", data);
+
   const handlePress = (item: NotificationApiItem) => {
     if (item.notification_type === "message") {
       if (planStatus !== PlanStatus.PAID) {
@@ -62,31 +56,6 @@ const NotificationsScreen = () => {
 
   return (
     <View className="flex-1 bg-app-background">
-      {/* Header */}
-      <View
-        className="bg-white flex-row items-center"
-        style={{ paddingTop: insets.top }}
-      >
-        <Pressable
-          onPress={() => router.back()}
-          hitSlop={10}
-          style={{
-            width: 44,
-            height: 49,
-            justifyContent: "center",
-            paddingLeft: 20,
-          }}
-        >
-          <ChevronLeftIcon size={24} color="black" />
-        </Pressable>
-        <Text
-          className="flex-1 text-center text-lg font-bold text-black"
-          style={{ marginRight: 44 }}
-        >
-          Notifications
-        </Text>
-      </View>
-
       {/* List */}
       {isLoading ? (
         <View className="flex-1 items-center justify-center">

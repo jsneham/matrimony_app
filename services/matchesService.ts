@@ -207,8 +207,16 @@ async function getPaginatedList(
   matriId: string,
   memberId: string,
   page: number,
+  gender?: string,
 ): Promise<PaginatedListResponse> {
-  const body = { matri_id: matriId, member_id: memberId };
+  const body: Record<string, string> = {
+    matri_id: matriId,
+    member_id: memberId,
+  };
+
+  if (gender && gender.trim() !== "") {
+    body.gender = gender;
+  }
   const response = await api.post(`${endpointBase}${page}`, body);
   return response.data;
 }
@@ -252,8 +260,13 @@ export function getIViewedProfile(
   ); // ✅ confirmed ("Visited by you")
 }
 
-export function getAllMatches(matriId: string, memberId: string, page: number) {
-  return getPaginatedList("search/result/", matriId, memberId, page); // ✅ confirmed
+export function getAllMatches(
+  matriId: string,
+  memberId: string,
+  page: number,
+  gender?: string,
+) {
+  return getPaginatedList("search/result/", matriId, memberId, page, gender); // ✅ confirmed
 }
 
 // ── Blocked members: matri_id ONLY, different response shape ─────────────

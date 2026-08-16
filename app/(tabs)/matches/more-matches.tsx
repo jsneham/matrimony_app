@@ -1,8 +1,10 @@
-import { SectionShell } from "@/components/matches/SectionShell";
+import { SectionWithEmptyState } from "@/components/matches/SectionWithEmptyState";
 import {
   useAllMatches,
   useBlockedMembers,
   useIViewedProfile,
+  // useMatchmakerMatches,
+  // useMembersLookingForYou,
   useRecentlyActive,
   useRecentlyJoined,
   useWhoViewedContact,
@@ -10,7 +12,7 @@ import {
 } from "@/hooks/useMatchesSections";
 import { router } from "expo-router";
 import React from "react";
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView } from "react-native";
 
 // ── Screen ──────────────────────────────────────────────────────────────────
 
@@ -37,7 +39,7 @@ export default function MoreMatchesTab() {
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{ paddingBottom: 150 }}
     >
-      <SectionShell
+      <SectionWithEmptyState
         title="Profile Visitors"
         description="See who's interested. Who visited your profile."
         isPremiumSection
@@ -50,9 +52,11 @@ export default function MoreMatchesTab() {
             params: { type: "profile-visitors" },
           })
         }
+        emptyDescriptionLine1="See who's interested. Who visited your profile."
+        emptyDescriptionLine2={`No one has visited your profile yet.\nComplete your profile to attract more visitors.`}
       />
 
-      <SectionShell
+      <SectionWithEmptyState
         title="Recently Joined"
         description="See members who registered recently."
         isPremiumSection
@@ -65,9 +69,11 @@ export default function MoreMatchesTab() {
             params: { type: "recently-joined" },
           })
         }
+        emptyDescriptionLine1="See members who registered recently."
+        emptyDescriptionLine2={`No new members have joined recently.\nCheck back soon for fresh matches.`}
       />
 
-      <SectionShell
+      <SectionWithEmptyState
         title="Recently Active"
         description="View Members that were recently active."
         isPremiumSection
@@ -80,9 +86,11 @@ export default function MoreMatchesTab() {
             params: { type: "recently-active" },
           })
         }
+        emptyDescriptionLine1="View Members that were recently active."
+        emptyDescriptionLine2={`No members were recently active.\nCheck back soon for updates.`}
       />
 
-      <SectionShell
+      <SectionWithEmptyState
         title="Viewed your Contact"
         description="Members who viewed your contact details."
         isLoading={viewedYourContact.isLoading}
@@ -94,9 +102,13 @@ export default function MoreMatchesTab() {
             params: { type: "viewed-your-contact" },
           })
         }
+        emptyDescriptionLine1="Members who viewed your contact details."
+        emptyDescriptionLine2={`No one has viewed your contact details yet.`}
       />
 
-      {/* <SectionShell
+      {/* Matches from Matchmakers — uncomment once useMatchmakerMatches has a
+          confirmed real endpoint (currently 404s, see conversation history) */}
+      {/* <SectionWithEmptyState
         title="Matches from Matchmakers"
         description="View Matches that are registered & Personally Verified by Human Matchmakers."
         wrapperClass="mb-2 bg-[#f3f3f3] pt-14 pb-5"
@@ -109,9 +121,11 @@ export default function MoreMatchesTab() {
             params: { type: "matchmaker-matches" },
           })
         }
+        emptyDescriptionLine1="View Matches that are registered & Personally Verified by Human Matchmakers."
+        emptyDescriptionLine2={`No matchmaker-verified matches yet.\nOur team is working on finding great matches for you.`}
       /> */}
 
-      <SectionShell
+      <SectionWithEmptyState
         title="All Matches"
         description="View All Matches, outside your preferences too!"
         isLoading={allMatches.isLoading}
@@ -123,9 +137,13 @@ export default function MoreMatchesTab() {
             params: { type: "all-matches" },
           })
         }
+        emptyDescriptionLine1="View All Matches, outside your preferences too!"
+        emptyDescriptionLine2={`No matches found right now.\nTry adjusting your search filters.`}
       />
 
-      {/* <SectionShell
+      {/* Members looking for you — uncomment once useMembersLookingForYou has a
+          confirmed real endpoint (currently 404s, see conversation history) */}
+      {/* <SectionWithEmptyState
         title="Members looking for you"
         description="View members that are looking for members like you. Your profile matches their expectations"
         isLoading={membersLookingForYou.isLoading}
@@ -137,9 +155,11 @@ export default function MoreMatchesTab() {
             params: { type: "members-looking-for-you" },
           })
         }
+        emptyDescriptionLine1="View members that are looking for members like you. Your profile matches their expectations"
+        emptyDescriptionLine2={`No members are looking for someone like you yet.\nCheck back soon.`}
       /> */}
 
-      <SectionShell
+      <SectionWithEmptyState
         title="Visited by you"
         description="Members that you visited. Want to revisit?"
         isLoading={visitedByYou.isLoading}
@@ -151,9 +171,11 @@ export default function MoreMatchesTab() {
             params: { type: "visited-by-you" },
           })
         }
+        emptyDescriptionLine1="Members that you visited. Want to revisit?"
+        emptyDescriptionLine2={`You haven't visited any profiles yet.`}
       />
 
-      <SectionShell
+      <SectionWithEmptyState
         title="Contact Viewed"
         description="Members whose contact you already viewed."
         isLoading={contactViewed.isLoading}
@@ -165,9 +187,11 @@ export default function MoreMatchesTab() {
             params: { type: "contact-viewed" },
           })
         }
+        emptyDescriptionLine1="Members whose contact you already viewed."
+        emptyDescriptionLine2={`You haven't viewed anyone's contact details yet.`}
       />
 
-      <SectionShell
+      <SectionWithEmptyState
         title="Blocked members"
         description="Members that you have blocked"
         isLoading={blockedMembers.isLoading}
@@ -179,35 +203,9 @@ export default function MoreMatchesTab() {
             params: { type: "blocked-members" },
           })
         }
+        emptyDescriptionLine1="Members blocked by you will appear here."
+        emptyDescriptionLine2={`You have not blocked any member.\nWhen you block a member, they will not know that you have blocked them.`}
       />
-
-      <View className="mx-5 mt-14 p-5 rounded-2xl border border-dashed border-gray-400 bg-white">
-        <SectionShell
-          title="No Data Sample - Blocked"
-          description={
-            <>
-              <Text className="text-base font-regular text-gray-500 mt-3">
-                Members blocked by you will appear here.
-              </Text>
-              <Text className="text-base font-regular text-gray-500 mt-10">
-                {`You have not blocked any member.\nWhen you block a member, they will not know that you have blocked them.`}
-              </Text>
-            </>
-          }
-          wrapperClass=""
-          titleClassName="px-0"
-          isLoading={false}
-          items={firstPageItems(blockedMembers.data)}
-          cardSize="small"
-          hideViewAll
-          onViewAll={() =>
-            router.push({
-              pathname: "/matches/list/[type]",
-              params: { type: "blocked-members" },
-            })
-          }
-        />
-      </View>
     </ScrollView>
   );
 }

@@ -1,14 +1,14 @@
 import { useSession } from "@/hooks/useSession";
 import {
-    getAllMatches,
-    getBlockedMembers,
-    getIViewedProfile,
-    getMatchmakerMatches,
-    getMembersLookingForYou,
-    getRecentlyActive,
-    getRecentlyJoined,
-    getWhoViewedContact,
-    getWhoViewedProfile,
+  getAllMatches,
+  getBlockedMembers,
+  getIViewedProfile,
+  getMatchmakerMatches,
+  getMembersLookingForYou,
+  getRecentlyActive,
+  getRecentlyJoined,
+  getWhoViewedContact,
+  getWhoViewedProfile,
 } from "@/services/matchesService";
 import { SESSION_KEYS } from "@/types/common";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
@@ -17,10 +17,12 @@ function useMemberSession() {
   const { data: sessionData } = useSession([
     SESSION_KEYS.USER_ID,
     SESSION_KEYS.MATRI_ID,
+    SESSION_KEYS.GENDER,
   ]);
   return {
     memberId: sessionData?.[SESSION_KEYS.USER_ID] || "",
     matriId: sessionData?.[SESSION_KEYS.MATRI_ID] || "",
+    gender: sessionData?.[SESSION_KEYS.GENDER] || "",
   };
 }
 
@@ -93,12 +95,14 @@ export const useIViewedProfile = () => {
 };
 
 export const useAllMatches = () => {
-  const { memberId, matriId } = useMemberSession();
+  const { memberId, matriId, gender } = useMemberSession();
+  const requestGender = gender === "Female" ? "Male" : "Female";
   return useInfiniteQuery({
     queryKey: ["matches", "all-matches", memberId],
     enabled: !!memberId && !!matriId,
     initialPageParam: 1,
-    queryFn: ({ pageParam }) => getAllMatches(matriId, memberId, pageParam),
+    queryFn: ({ pageParam }) =>
+      getAllMatches(matriId, memberId, pageParam, requestGender),
     getNextPageParam: (lastPage, allPages) =>
       !lastPage.data || lastPage.data.length === 0
         ? undefined
