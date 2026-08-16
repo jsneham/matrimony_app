@@ -1,6 +1,7 @@
 import { Feather } from "@expo/vector-icons";
 import React from "react";
 import { Pressable, Text, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type SafetyCard = {
   id: string;
@@ -34,20 +35,24 @@ const SafetyCard = ({ card }: { card: SafetyCard }) => (
   </Pressable>
 );
 
-export const SafetyCentreSection = () => (
-  <View className="px-5 pt-14">
-    <Text className="text-sm font-bold text-black mb-5">Safety Centre</Text>
-    <View className="flex-row gap-4 mb-4">
-      {SAFETY_CARDS.slice(0, 2).map((card) => (
-        <SafetyCard key={card.id} card={card} />
-      ))}
+export const SafetyCentreSection = () => {
+  const insets = useSafeAreaInsets();
+
+  return (
+    <View className="px-5" style={{ paddingTop: insets.top + 12 }}>
+      <Text className="mb-5 text-sm font-bold text-black">Safety Centre</Text>
+      <View className="mb-4 flex-row gap-4">
+        {SAFETY_CARDS.slice(0, 2).map((card) => (
+          <SafetyCard key={card.id} card={card} />
+        ))}
+      </View>
+      <View className="flex-row gap-4">
+        {SAFETY_CARDS.slice(2, 4).map((card) => (
+          <SafetyCard key={card.id} card={card} />
+        ))}
+      </View>
     </View>
-    <View className="flex-row gap-4">
-      {SAFETY_CARDS.slice(2, 4).map((card) => (
-        <SafetyCard key={card.id} card={card} />
-      ))}
-    </View>
-  </View>
-);
+  );
+};
 
 export default SafetyCentreSection;

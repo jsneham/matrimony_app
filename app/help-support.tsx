@@ -121,7 +121,10 @@ export default function HelpSupportScreen() {
         }}
       >
         <SafetyCentreSection />
-        <Text className="px-5 pt-14 pb-5 text-sm font-bold text-black">
+        <Text
+          className="px-5 pb-5 text-sm font-bold text-black"
+          style={{ paddingTop: insets.top + 18 }}
+        >
           General Help &amp; Support
         </Text>
         <View className="bg-white">

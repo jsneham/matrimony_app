@@ -6,8 +6,8 @@ import RecordVideoIcon from "@/assets/icons/RecordVideoIcon";
 import RecordVoiceIcon from "@/assets/icons/RecordVoiceIcon";
 import SetMainPhotoIcon from "@/assets/icons/SetMainPhotoIcon";
 import {
-  ActionOptionsSheet,
-  ActionSheetOption,
+    ActionOptionsSheet,
+    ActionSheetOption,
 } from "@/components/profile/photos/ActionOptionsSheet";
 import { AddPhotoSlot } from "@/components/profile/photos/AddPhotoSlot";
 import { GuidelinesLink } from "@/components/profile/photos/GuidelinesLink";
@@ -19,22 +19,22 @@ import { ProfileProgressBanner } from "@/components/profile/ProfileEditComponent
 import { useMyProfile } from "@/hooks/useProfile";
 import { useSession } from "@/hooks/useSession";
 import {
-  changePhotoVisibility,
-  setMainProfilePhoto,
-  uploadProfilePhotoWithCrop,
-  uploadSinglePhoto,
+    changePhotoVisibility,
+    setMainProfilePhoto,
+    uploadProfilePhotoWithCrop,
+    uploadSinglePhoto,
 } from "@/services/photoUploadApi";
 import { SESSION_KEYS } from "@/types/common";
 import { pickAndPrepareImage, pickImageSimple } from "@/utils/imagePicker";
 import { Feather } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
-  ActivityIndicator,
-  Alert,
-  Pressable,
-  ScrollView,
-  Text,
-  View,
+    ActivityIndicator,
+    Alert,
+    Pressable,
+    ScrollView,
+    Text,
+    View,
 } from "react-native";
 
 // 1:1.5 ratio (width:height) used for all photo crops on this screen
@@ -59,6 +59,7 @@ const PRIVACY_OPTIONS = [
 ];
 
 const EditPhotosMoreScreen = () => {
+  const insets = useSafeAreaInsets();
   const { data: sessionData, isLoading: isLoadingSession } = useSession([
     SESSION_KEYS.USER_ID,
     SESSION_KEYS.TOKEN,
@@ -509,7 +510,7 @@ const EditPhotosMoreScreen = () => {
         showsVerticalScrollIndicator={false}
       >
         {/* Main photos section */}
-        <View className="mt-14 mb-4">
+        <View className="mb-4" style={{ marginTop: insets.top + 20 }}>
           <Text className="text-2xl font-bold text-gray-900">Photos</Text>
         </View>
 

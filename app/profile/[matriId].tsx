@@ -5,22 +5,22 @@ import { useSession } from "@/hooks/useSession";
 import { SESSION_KEYS } from "@/types/common";
 import { PlanStatus } from "@/types/profile";
 import {
-  inchesToFeetIn,
-  maskMobile,
-  orNotMentioned,
-  resolvePhotoUri,
+    inchesToFeetIn,
+    maskMobile,
+    orNotMentioned,
+    resolvePhotoUri,
 } from "@/utils/profileHelpers";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 import {
-  ActivityIndicator,
-  Image,
-  Linking,
-  Pressable,
-  ScrollView,
-  Text,
-  View,
+    ActivityIndicator,
+    Image,
+    Linking,
+    Pressable,
+    ScrollView,
+    Text,
+    View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -36,8 +36,8 @@ const PhotoGridSection = ({
   if (photoUris.length === 0) return null;
 
   return (
-    <View className="px-5 pt-6 pb-2">
-      <Text className="text-xl font-bold text-gray-900 mb-4">Photos</Text>
+    <View className="px-5 pb-2" style={{ paddingTop: 16 }}>
+      <Text className="mb-4 text-xl font-bold text-gray-900">Photos</Text>
       <View className="flex-row flex-wrap" style={{ gap: 12 }}>
         {photoUris.map((uri, index) => {
           const isMain = index === 0;
@@ -401,7 +401,10 @@ const ProfileScreen = () => {
         />
 
         {/* ── Partner Preferences ─────────────────────────────── */}
-        <View className="flex-row items-center justify-between px-5 pt-6 pb-2">
+        <View
+          className="flex-row items-center justify-between px-5 pb-2"
+          style={{ paddingTop: 16 }}
+        >
           <Text className="text-xl font-bold text-gray-900">
             Partner Preferences
           </Text>

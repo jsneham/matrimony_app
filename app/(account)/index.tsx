@@ -3,8 +3,11 @@ import { MY_ACCOUNT_MENU } from "@/constants/data";
 import { Href, router } from "expo-router";
 import React from "react";
 import { Text, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export const MyAccount = () => {
+  const insets = useSafeAreaInsets();
+
   const handlePress = (item: (typeof MY_ACCOUNT_MENU)[0]) => {
     switch (item.title.toLowerCase()) {
       case "manage photos":
@@ -35,10 +38,13 @@ export const MyAccount = () => {
 
   return (
     <View className="w-full bg-app-background">
-      <Text className="px-5 pt-12 pb-4 text-sm font-bold text-black">
+      <Text
+        className="px-5 pb-4 text-sm font-bold text-black"
+        style={{ paddingTop: insets.top + 12 }}
+      >
         Account Settings
       </Text>
-      <View className="mx-5 rounded-2xl overflow-hidden bg-white">
+      <View className="mx-5 overflow-hidden rounded-2xl bg-white">
         {MY_ACCOUNT_MENU.map((item, index) => (
           <MenuItem
             key={item.id}

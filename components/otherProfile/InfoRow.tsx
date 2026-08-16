@@ -16,7 +16,10 @@ export const InfoRow = ({
 );
 
 export const SectionHeading = ({ title }: { title: string }) => (
-  <Text className="text-xl font-bold text-gray-900 px-5 pt-6 pb-2">
+  <Text
+    className="px-5 pb-2 text-xl font-bold text-gray-900"
+    style={{ paddingTop: 16 }}
+  >
     {title}
   </Text>
 );
