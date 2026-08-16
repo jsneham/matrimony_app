@@ -115,7 +115,9 @@ export default function RootLayout() {
             <Stack.Screen
               name="(notification)"
               options={{
-                headerShown: false,
+                title: "Notifications",
+                headerShown: true,
+                headerTitleAlign: "center",
               }}
             />
           </Stack>

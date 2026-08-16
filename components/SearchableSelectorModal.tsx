@@ -1,9 +1,9 @@
 import { EditableFieldDescriptor } from "@/types/profile";
 import { Feather, Ionicons } from "@expo/vector-icons";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   FlatList,
-  KeyboardAvoidingView,
+  Keyboard,
   Modal,
   Platform,
   Pressable,
@@ -39,7 +39,7 @@ type SearchableSelectorModalProps = {
   onClose: () => void;
   isMultiSelect?: boolean;
   editableTextFields?: EditableFieldDescriptor[];
-  editableFieldsData: Record<string, string>; // last SAVED values, used to seed the draft
+  editableFieldsData: Record<string, string>;
   handleEditTextSave: (fieldsData: Record<string, string>) => void;
 };
 
@@ -67,18 +67,50 @@ export const SearchableSelectorModal: React.FC<
         : [],
   );
 
-  // Local draft — all edits happen here. Only pushed to the parent on Save.
   const [draftFieldsData, setDraftFieldsData] = useState<
     Record<string, string>
   >({});
 
   const translateY = useSharedValue(900);
 
+  // ── Keyboard height tracking ────────────────────────────────────────────
+  // KeyboardAvoidingView alone is unreliable inside a Modal, especially on
+  // Android (modals render in a separate native window and often don't get
+  // automatic resize). Instead, we track the keyboard height directly and
+  // shift the sheet upward by that amount via an animated style.
+  const keyboardHeight = useSharedValue(0);
+
+  useEffect(() => {
+    const showEvent =
+      Platform.OS === "ios" ? "keyboardWillShow" : "keyboardDidShow";
+    const hideEvent =
+      Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide";
+
+    const showSub = Keyboard.addListener(showEvent, (e) => {
+      keyboardHeight.value = withTiming(e.endCoordinates.height, {
+        duration: Platform.OS === "ios" ? (e.duration ?? 250) : 200,
+      });
+    });
+    const hideSub = Keyboard.addListener(hideEvent, () => {
+      keyboardHeight.value = withTiming(0, { duration: 200 });
+    });
+
+    return () => {
+      showSub.remove();
+      hideSub.remove();
+    };
+  }, []);
+
+  const hasEditableFields = !!editableTextFields?.length;
+
   const panelStyle = useAnimatedStyle(() => ({
-    transform: [{ translateY: translateY.value }],
+    transform: [
+      { translateY: translateY.value },
+      { translateY: hasEditableFields ? -keyboardHeight.value : 0 },
+    ],
   }));
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (visible) {
       translateY.value = 900;
       setLocalSelected(
@@ -88,7 +120,6 @@ export const SearchableSelectorModal: React.FC<
             ? [selectedValue]
             : [],
       );
-      // Seed the draft fresh from the last saved values every time the sheet opens
       setDraftFieldsData(editableFieldsData);
       const timer = setTimeout(() => {
         translateY.value = withTiming(0, {
@@ -97,6 +128,8 @@ export const SearchableSelectorModal: React.FC<
         });
       }, 50);
       return () => clearTimeout(timer);
+    } else {
+      keyboardHeight.value = 0;
     }
   }, [visible, selectedValue]);
 
@@ -106,6 +139,7 @@ export const SearchableSelectorModal: React.FC<
   };
 
   const animateClose = () => {
+    Keyboard.dismiss();
     translateY.value = withTiming(
       900,
       {
@@ -148,9 +182,6 @@ export const SearchableSelectorModal: React.FC<
     }
   };
 
-  const hasEditableFields = !!editableTextFields?.length;
-
-  // Clear behaves differently depending on which sheet mode is active
   const handleReset = () => {
     if (hasEditableFields) {
       setDraftFieldsData((prev) => {
@@ -176,6 +207,7 @@ export const SearchableSelectorModal: React.FC<
   };
 
   const handleEditableSave = () => {
+    Keyboard.dismiss();
     handleEditTextSave(draftFieldsData);
   };
 
@@ -242,10 +274,7 @@ export const SearchableSelectorModal: React.FC<
             </View>
 
             {hasEditableFields ? (
-              <KeyboardAvoidingView
-                behavior={Platform.OS === "ios" ? "padding" : undefined}
-                style={{ flexShrink: 1 }}
-              >
+              <View style={{ flexShrink: 1 }}>
                 <ScrollView
                   bounces={false}
                   keyboardShouldPersistTaps="handled"
@@ -279,7 +308,7 @@ export const SearchableSelectorModal: React.FC<
                     <Text className="text-white font-bold text-base">Save</Text>
                   </Pressable>
                 </View>
-              </KeyboardAvoidingView>
+              </View>
             ) : (
               <View className="flex-1">
                 {/* Search Box */}

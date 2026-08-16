@@ -375,7 +375,7 @@ export type UserProfile = {
   birthdate: string; // YYYY-MM-DD
   age: string;
   marital_status: MaritalStatus;
-  profileText: string;
+  profile_text: string;
   description: string;
   keyword: string;
   prefix: string;

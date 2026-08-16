@@ -4,8 +4,6 @@ import {
   useAllMatches,
   useBlockedMembers,
   useIViewedProfile,
-  useMatchmakerMatches,
-  useMembersLookingForYou,
   useRecentlyActive,
   useRecentlyJoined,
   useWhoViewedContact,
@@ -99,11 +97,11 @@ const MatchListScreen = () => {
   const recentlyJoined = useRecentlyJoined();
   const recentlyActive = useRecentlyActive();
   const viewedYourContact = useWhoViewedContact();
-  const matchmakerMatches = useMatchmakerMatches();
+  // const matchmakerMatches = useMatchmakerMatches();
   const allMatches = useAllMatches();
-  const membersLookingForYou = useMembersLookingForYou();
+  // const membersLookingForYou = useMembersLookingForYou();
   const visitedByYou = useIViewedProfile();
-  const contactViewed = useWhoViewedContact(); // ⚠️ same as viewedYourContact — see note in more-matches.tsx
+  const contactViewed = useWhoViewedContact();
   const blockedMembers = useBlockedMembers();
 
   // Pick the active query result based on the route param
@@ -117,12 +115,12 @@ const MatchListScreen = () => {
         return { query: recentlyActive, paginated: false as const };
       case "viewed-your-contact":
         return { query: viewedYourContact, paginated: true as const };
-      case "matchmaker-matches":
-        return { query: matchmakerMatches, paginated: true as const };
+      // case "matchmaker-matches":
+      //   return { query: matchmakerMatches, paginated: true as const };
       case "all-matches":
         return { query: allMatches, paginated: true as const };
-      case "members-looking-for-you":
-        return { query: membersLookingForYou, paginated: true as const };
+      // case "members-looking-for-you":
+      //   return { query: membersLookingForYou, paginated: true as const };
       case "visited-by-you":
         return { query: visitedByYou, paginated: true as const };
       case "contact-viewed":
@@ -138,9 +136,9 @@ const MatchListScreen = () => {
     recentlyJoined,
     recentlyActive,
     viewedYourContact,
-    matchmakerMatches,
+    // matchmakerMatches,
     allMatches,
-    membersLookingForYou,
+    // membersLookingForYou,
     visitedByYou,
     contactViewed,
     blockedMembers,
@@ -148,14 +146,27 @@ const MatchListScreen = () => {
 
   const items = useMemo(() => {
     if (!active) return [];
+
+    let raw: any[];
     if (active.paginated) {
       const infiniteData = active.query.data as
         | { pages: { data: any[] }[] }
         | undefined;
-      return infiniteData?.pages.flatMap((p) => p.data) ?? [];
+      raw = infiniteData?.pages.flatMap((p) => p.data) ?? [];
+    } else {
+      const simpleData = active.query.data as { data: any[] } | undefined;
+      raw = simpleData?.data ?? [];
     }
-    const simpleData = active.query.data as { data: any[] } | undefined;
-    return simpleData?.data ?? [];
+
+    // Defensive de-dupe: some paginated endpoints have been observed
+    // repeating the same items across pages. Keep first occurrence only.
+    const seen = new Set<string>();
+    return raw.filter((item) => {
+      const key = item.matri_id ?? item.id ?? JSON.stringify(item);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
   }, [active]);
 
   if (!meta || !active) {
@@ -215,7 +226,11 @@ const MatchListScreen = () => {
           numColumns={2}
           columnWrapperStyle={{ gap: 12, paddingHorizontal: 20 }}
           contentContainerStyle={{ gap: 12, paddingBottom: 40 }}
-          onEndReached={() => hasNextPage && fetchNextPage()}
+          onEndReached={() => {
+            if (hasNextPage && !isFetchingNextPage) {
+              fetchNextPage();
+            }
+          }}
           onEndReachedThreshold={0.5}
           renderItem={({ item }) => (
             <VisitorCard {...mapVisitorItem(item, meta.cardSize, planStatus)} />

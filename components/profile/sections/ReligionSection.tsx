@@ -203,6 +203,28 @@ export const ReligionSection: React.FC<ReligionSectionProps> = ({
           )
         }
       />
+
+      <NonEditableText
+        isLast={false}
+        label="About Us"
+        value={profile?.profile_text}
+        onPress={() =>
+          openModal(
+            "About Us",
+            "profile_text",
+            [],
+            profile?.profile_text, // currentValue (4th param)
+            false,
+            [
+              {
+                field: "profile_text",
+                label: "About Us",
+                placeholder: "About Us",
+              },
+            ],
+          )
+        }
+      />
     </View>
   );
 };

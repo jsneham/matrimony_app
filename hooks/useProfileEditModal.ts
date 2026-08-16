@@ -411,6 +411,10 @@ export const useProfileEditModal = ({
         payload.gothra = fieldsData.gotra || "";
         break;
 
+      case "profile_text":
+        payload.profile_text = fieldsData.profile_text || "";
+        break;
+
       case "part_age_range":
         payload.part_frm_age = fieldsData.part_frm_age || "";
         payload.part_to_age = fieldsData.part_to_age || "";

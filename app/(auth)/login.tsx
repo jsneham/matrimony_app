@@ -17,10 +17,10 @@ import {
 } from "react-native";
 
 export default function LoginScreen() {
-  // const [username, setUsername] = useState("jj125575");
-  // const [password, setPassword] = useState("radhika123");
-  const [username, setUsername] = useState("jj12");
-  const [password, setPassword] = useState("bride@123");
+  const [username, setUsername] = useState("jj125575");
+  const [password, setPassword] = useState("radhika123");
+  // const [username, setUsername] = useState("jj12");
+  // const [password, setPassword] = useState("bride@123");
 
   const loginMutation = useLogin();
 
