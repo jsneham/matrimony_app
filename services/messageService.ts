@@ -47,14 +47,10 @@ export const messageServices = {
       matri_id: matriId,
     };
 
-    console.log("[sendMessage] Request →", body);
-
     try {
       const response = await api.post("message/send_message", body);
-      console.log("[sendMessage] Response ←", response.data);
       return response.data;
     } catch (err) {
-      console.log("[sendMessage] Error ←", err);
       throw err;
     }
   },

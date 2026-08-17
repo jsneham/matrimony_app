@@ -16,6 +16,7 @@ export default function AuthLayout() {
         name="login"
         options={{
           title: "Login",
+          headerBackTitle: "",
         }}
       />
 
@@ -23,12 +24,14 @@ export default function AuthLayout() {
         name="signup"
         options={{
           title: "Sign Up",
+          headerBackTitle: "",
         }}
       />
       {/*<Stack.Screen
         name="forgot-password"
         options={{
           title: "Forgot Password",
+          headerBackTitle: "", 
         }}
       /> */}
     </Stack>

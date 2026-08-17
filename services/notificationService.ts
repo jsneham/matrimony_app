@@ -14,13 +14,11 @@ export const notificationServices = {
       page_number: data.pageNumber,
       app_type: data.appType,
     };
-    console.log("Notification List Request:", body);
     const response = await api.post(
       "common_request/get_notification_list",
       body,
     );
 
-    console.log("Notification List Response:", response.data);
     return response.data;
   },
 };

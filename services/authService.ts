@@ -26,6 +26,8 @@ export const authService = {
     };
 
     const response = await api.post("login/check_login_service", params);
+    // console.log("Login Details", response.data);
+
     return response.data;
   },
 

@@ -48,10 +48,7 @@ export const useMyMatches = (data: MatchesRequest): UseMyMatchesResponse => {
 
       try {
         const result = await matchesService.getMyMatches(data);
-        console.log("✅ Query successful:", {
-          itemCount: result.data.length,
-          totalCount: result.total_count,
-        });
+
         return result;
       } catch (error) {
         console.error(" Query failed:", error);
@@ -63,7 +60,6 @@ export const useMyMatches = (data: MatchesRequest): UseMyMatchesResponse => {
     retry: 2,
     retryDelay: (attemptIndex) => {
       const delay = Math.min(1000 * Math.pow(2, attemptIndex), 10000);
-      console.log(`🔄 Retrying in ${delay}ms (attempt ${attemptIndex + 1})`);
       return delay;
     },
 
@@ -90,7 +86,6 @@ export const useMyMatches = (data: MatchesRequest): UseMyMatchesResponse => {
     isFetching: query.isFetching,
     error: query.error,
     refetch: () => {
-      console.log("🔄 Manual refetch triggered");
       query.refetch();
     },
   };
@@ -109,7 +104,6 @@ export const useLikeProfile = () => {
   return useMutation({
     mutationFn: (profileId: string) => matchesService.likeProfile(profileId),
     onSuccess: (data) => {
-      console.log("Profile liked:", data.message);
       // Invalidate matches to refresh the list
       queryClient.invalidateQueries({ queryKey: ["matches"] });
     },
@@ -127,7 +121,6 @@ export const useSkipProfile = () => {
   return useMutation({
     mutationFn: (profileId: string) => matchesService.skipProfile(profileId),
     onSuccess: (data) => {
-      console.log("Profile skipped:", data.message);
       queryClient.invalidateQueries({ queryKey: ["matches"] });
     },
     onError: (error: any) => {

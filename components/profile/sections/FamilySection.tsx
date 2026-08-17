@@ -91,7 +91,7 @@ export const FamilySection: React.FC<FamilySectionProps> = ({
             "Father's Name",
             "fatherName",
             [],
-            profile?.father_name, // currentValue (4th param)
+            profile?.father_name,
             false,
             [
               {
