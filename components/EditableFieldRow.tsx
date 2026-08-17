@@ -24,7 +24,9 @@ export const EditableFieldRow: React.FC<{
   editableFieldsData,
   onEditableFieldChange,
 }) => {
-  const { label, placeholder, type = "text" } = descriptor;
+  const { label, placeholder, type = "text", isMultiline = false } = descriptor;
+  console.log("isMultiline", isMultiline);
+
   const [showPicker, setShowPicker] = useState(false);
 
   const rowStyle = isLast
@@ -94,7 +96,9 @@ export const EditableFieldRow: React.FC<{
   }
 
   // default: plain text field
-  const maxLength = descriptor.maxLength ?? DEFAULT_MAX_LENGTH;
+  const maxLength = isMultiline
+    ? (descriptor.maxLength ?? DEFAULT_MAX_LENGTH)
+    : 50;
 
   return (
     <View
@@ -109,12 +113,17 @@ export const EditableFieldRow: React.FC<{
         onChangeText={onChange}
         placeholder={placeholder || `Enter ${label}`}
         maxLength={maxLength}
-        multiline
-        textAlignVertical="top"
+        multiline={isMultiline}
+        numberOfLines={isMultiline ? 4 : 1}
+        textAlignVertical={isMultiline ? "top" : "center"}
         className={`text-base border border-gray-300 rounded-md py-2 px-3 w-full mt-2 ${
           value ? "text-gray font-regular" : "text-placeholder font-regular"
         }`}
-        style={{ minHeight: 100, includeFontPadding: false }}
+        style={{
+          minHeight: isMultiline ? 100 : 44,
+          height: isMultiline ? undefined : 44,
+          includeFontPadding: false,
+        }}
         placeholderTextColor={colors.placeholder}
       />
       <Text className="text-xs text-gray-400 text-right mt-1">

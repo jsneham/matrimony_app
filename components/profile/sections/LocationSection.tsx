@@ -102,6 +102,7 @@ export const LocationSection: React.FC<LocationSectionProps> = ({
                 field: "address",
                 label: "Ancestral Origin (Hometown)",
                 placeholder: "Enter Ancestral Origin",
+                isMultiline: false,
               },
             ],
           )

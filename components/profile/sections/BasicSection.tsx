@@ -81,11 +81,13 @@ export const BasicsSection: React.FC<BasicsSectionProps> = ({
                 label: "First Name",
 
                 placeholder: "First Name",
+                isMultiline: false,
               },
               {
                 field: "lastname",
                 label: "Last Name",
                 placeholder: "Last Name",
+                isMultiline: false,
               },
             ],
           )
