@@ -670,4 +670,5 @@ export type EditableFieldDescriptor = {
   options?: { id: string; val: string }[];
   fromField?: string;
   toField?: string;
+  isMultiline?: boolean;
 };

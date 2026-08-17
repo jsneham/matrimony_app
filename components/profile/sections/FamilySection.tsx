@@ -91,13 +91,14 @@ export const FamilySection: React.FC<FamilySectionProps> = ({
             "Father's Name",
             "fatherName",
             [],
-            profile?.father_name, // currentValue (4th param)
+            profile?.father_name,
             false,
             [
               {
                 field: "fatherName",
                 label: "Father's Name",
                 placeholder: "Father's Name",
+                isMultiline: false,
               },
             ],
           )
@@ -113,7 +114,7 @@ export const FamilySection: React.FC<FamilySectionProps> = ({
             "Father's Occupation",
             "fatherOccupation",
             [],
-            profile?.father_occupation, // currentValue (4th param)
+            profile?.father_occupation,
             false,
             [
               {
@@ -121,6 +122,8 @@ export const FamilySection: React.FC<FamilySectionProps> = ({
                 label: "Father's Occupation",
 
                 placeholder: "Father's Occupation",
+
+                isMultiline: false,
               },
             ],
           )
@@ -144,6 +147,8 @@ export const FamilySection: React.FC<FamilySectionProps> = ({
                 label: "Mother's Name",
 
                 placeholder: "Mother's Name",
+
+                isMultiline: false,
               },
             ],
           )
@@ -166,6 +171,7 @@ export const FamilySection: React.FC<FamilySectionProps> = ({
                 field: "motherOccupation",
                 label: "Mother's Occupation",
                 placeholder: "Mother's Occupation",
+                isMultiline: false,
               },
             ],
           )
@@ -238,6 +244,7 @@ export const FamilySection: React.FC<FamilySectionProps> = ({
                 field: "familyDetails",
                 label: "About Family",
                 placeholder: "About Family",
+                isMultiline: true,
               },
             ],
           )

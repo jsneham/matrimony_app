@@ -84,6 +84,7 @@ export default function RootLayout() {
                 title: "Membership Plan",
                 headerShown: true,
                 headerTitleAlign: "center",
+                headerBackTitle: "",
               }}
             />
             <Stack.Screen
@@ -118,6 +119,7 @@ export default function RootLayout() {
                 title: "Notifications",
                 headerShown: true,
                 headerTitleAlign: "center",
+                headerBackTitle: "",
               }}
             />
           </Stack>

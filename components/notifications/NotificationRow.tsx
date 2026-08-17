@@ -11,7 +11,6 @@ export const NotificationRow = ({
   item: NotificationApiItem;
   onPress: (item: NotificationApiItem) => void;
 }) => {
-  console.log("NotificationRow rendered with item:", item);
   return (
     <Pressable
       onPress={() => onPress(item)}

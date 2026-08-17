@@ -49,24 +49,10 @@ export async function uploadProfilePhotoWithCrop({
 
   const url = `${API_BASE_URL}/modify_photo/upload_photo_new`;
 
-  console.log("[uploadProfilePhotoWithCrop] Request →", {
-    url,
-    slotIndex,
-    orgParam,
-    cropParam,
-    member_id: session.memberId,
-    user_agent: "NI-AAPP",
-    csrf_new_matrimonial: session.token,
-    originalUri,
-    cropUri,
-  });
-
   try {
     const response = await uploadWithProgress(url, formData, onProgress);
-    console.log("[uploadProfilePhotoWithCrop] Response ←", response);
     return response;
   } catch (err) {
-    console.log("[uploadProfilePhotoWithCrop] Error ←", err);
     throw err;
   }
 }
@@ -102,21 +88,10 @@ export async function uploadSinglePhoto({
 
   const url = `${API_BASE_URL}${endpointPath}`;
 
-  console.log("[uploadSinglePhoto] Request →", {
-    url,
-    fieldName,
-    member_id: session.memberId,
-    user_agent: "NI-AAPP",
-    csrf_new_matrimonial: session.token,
-    fileUri,
-  });
-
   try {
     const response = await uploadWithProgress(url, formData, onProgress);
-    console.log("[uploadSinglePhoto] Response ←", response);
     return response;
   } catch (err) {
-    console.log("[uploadSinglePhoto] Error ←", err);
     throw err;
   }
 }
@@ -159,37 +134,22 @@ function uploadWithProgress(
       if (event.lengthComputable && onProgress) {
         const percent = Math.round((event.loaded / event.total) * 100);
         onProgress(percent);
-        console.log(
-          `[uploadWithProgress] Progress: ${percent}% (${event.loaded}/${event.total} bytes)`,
-        );
       }
     };
 
     xhr.onload = () => {
-      console.log("[uploadWithProgress] Raw response ←", {
-        status: xhr.status,
-        statusText: xhr.statusText,
-        responseText: xhr.responseText,
-      });
-
       try {
         const data = JSON.parse(xhr.responseText);
         resolve(data);
       } catch (parseErr) {
-        console.log("[uploadWithProgress] JSON parse error ←", parseErr);
         reject(new Error("Invalid server response"));
       }
     };
 
     xhr.onerror = () => {
-      console.log("[uploadWithProgress] Network error ←", {
-        status: xhr.status,
-        statusText: xhr.statusText,
-      });
       reject(new Error("Network request failed"));
     };
 
-    console.log("[uploadWithProgress] Sending request to:", url);
     xhr.send(formData);
   });
 }
@@ -219,21 +179,10 @@ export async function setMainProfilePhoto({
 
   const url = `${API_BASE_URL}modify_photo/set_profile_pic`;
 
-  console.log("[setMainProfilePhoto] Request →", {
-    url,
-    member_id: memberId,
-    photo_number: photoNumber,
-    set_profile: "set_profile",
-    user_agent: "NI-AAPP",
-    csrf_new_matrimonial: session.token,
-  });
-
   try {
     const response = await uploadWithProgress(url, formData, onProgress);
-    console.log("[setMainProfilePhoto] Response ←", response);
     return response;
   } catch (err) {
-    console.log("[setMainProfilePhoto] Error ←", err);
     throw err;
   }
 }
@@ -256,19 +205,10 @@ export async function changePhotoVisibility({
   // TODO: replace with your real endpoint path (Android's AppConstants.photo_visibility_status)
   const url = `${API_BASE_URL.replace(/\/$/, "")}/modify_photo/photo_visibility_status`;
 
-  console.log("[changePhotoVisibility] Request →", {
-    url,
-    matri_id: matriId,
-    photo_view_status: photoViewStatus,
-    action: "photo_view_status",
-  });
-
   try {
     const response = await uploadWithProgress(url, formData, onProgress);
-    console.log("[changePhotoVisibility] Response ←", response);
     return response;
   } catch (err) {
-    console.log("[changePhotoVisibility] Error ←", err);
     throw err;
   }
 }

@@ -130,6 +130,7 @@ export const EducationSection: React.FC<EducationSectionProps> = ({
                 field: "profession",
                 label: "More About Profession",
                 placeholder: "More About Profession",
+                isMultiline: true,
               },
             ],
           )

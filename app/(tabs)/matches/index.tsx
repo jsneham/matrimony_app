@@ -101,20 +101,20 @@ export default function MyMatchesScreen() {
   }, [matches.length, totalCount, isFetching]);
 
   // Debug logging
-  React.useEffect(() => {
-    if (matches.length > 0) {
-      console.log("📊 MyMatchesScreen Debug:", {
-        matchesCount: matches.length,
-        totalCount: totalCount,
-        currentPage: page,
-        isLoading,
-        isError,
-        isFetching,
-        matriId: matriId ? "✅" : "",
-        memberId: memberId ? "✅" : "",
-      });
-    }
-  }, [matches.length, totalCount, page, isLoading, isError, isFetching]);
+  // React.useEffect(() => {
+  //   if (matches.length > 0) {
+  //     console.log("📊 MyMatchesScreen Debug:", {
+  //       matchesCount: matches.length,
+  //       totalCount: totalCount,
+  //       currentPage: page,
+  //       isLoading,
+  //       isError,
+  //       isFetching,
+  //       matriId: matriId ? "✅" : "",
+  //       memberId: memberId ? "✅" : "",
+  //     });
+  //   }
+  // }, [matches.length, totalCount, page, isLoading, isError, isFetching]);
 
   return (
     <View className="flex-1 bg-app-background">

@@ -59,8 +59,6 @@ export const SectionShell = ({
     onViewAll();
   };
 
-  console.log("items", items, title);
-
   return (
     <View className={wrapperClass}>
       <View className={`flex-row items-center gap-2 ${titleClassName}`}>
@@ -89,10 +87,6 @@ export const SectionShell = ({
               key={`${item.matri_id ?? "item"}-${index}`}
               {...mapVisitorItem(item, cardSize, planStatus)}
               onPress={() => {
-                console.log(
-                  "Navigating to profile with matri_id:",
-                  item.matri_id,
-                );
                 router.push({
                   pathname: "/profile/[matriId]",
                   params: { matriId: item.id },

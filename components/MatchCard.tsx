@@ -98,7 +98,6 @@ export const MatchCard: React.FC<MatchCardProps & { cardHeight?: number }> = ({
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
         onPress={() => {
-          console.log("Navigating to profile with matri_id:", profile.matri_id);
           router.push({
             pathname: "/profile/[matriId]",
             params: { matriId: profile.id },

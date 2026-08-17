@@ -1,7 +1,7 @@
 import { Stack } from "expo-router";
 import React from "react";
 
-export default function AuthLayout() {
+export default function NotificationLayout() {
   return (
     <Stack
       screenOptions={{
@@ -16,6 +16,7 @@ export default function AuthLayout() {
         name="index"
         options={{
           title: "Notifications",
+          headerBackTitle: "",
         }}
       />
     </Stack>

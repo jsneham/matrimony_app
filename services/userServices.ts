@@ -12,7 +12,6 @@ export const userServices = {
     };
 
     const response = await api.post("my-profile/get_my_profile", body);
-
     return response.data;
   },
 };

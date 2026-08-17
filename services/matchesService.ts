@@ -13,12 +13,6 @@ import { api } from "./api";
 const validateMatchesResponse = (
   data: GetMatchesResponse,
 ): GetMatchesResponse => {
-  console.log("📊 Validating response:", {
-    hasData: !!data,
-    dataType: typeof data,
-    dataKeys: typeof data === "object" ? Object.keys(data) : "N/A",
-  });
-
   // Handle different response formats
   let matches = Array.isArray(data?.data) ? data.data : [];
 
@@ -46,12 +40,6 @@ const validateMatchesResponse = (
     tocken: data.tocken,
   };
 
-  console.log("✅ Response validated:", {
-    matchCount: validatedMatches.length,
-    totalCount: response.total_count,
-    hasIds: validatedMatches.every((m) => m.id),
-  });
-
   return response;
 };
 
@@ -63,23 +51,7 @@ export const matchesService = {
         matri_id: data.matriId,
       };
 
-      console.log("🔄 Fetching matches:", {
-        endpoint: `matches/search_now/${data.page}`,
-        matriId: data.matriId ? "✅" : "",
-        memberId: data.memberId ? "✅" : "",
-        page: data.page,
-      });
-
       const response = await api.post(`matches/search_now/${data.page}`, body);
-
-      console.log("Raw API response:", {
-        status: response.status,
-        dataType: typeof response.data,
-        isArray: Array.isArray(response.data),
-        firstItem: Array.isArray(response.data)
-          ? response.data[0]
-          : response.data?.data?.[0],
-      });
 
       //  CRITICAL: Validate response before returning
       const validatedResponse = validateMatchesResponse(response.data);
@@ -109,17 +81,13 @@ export const matchesService = {
   },
 
   getMyMatches1: async (data: MatchesRequest): Promise<GetMatchesResponse> => {
-    console.log("matchesService.getMyMatches called with data:", data);
     const params = {
       matri_id: data.matriId,
       member_id: data.memberId,
       page: data.page,
     };
 
-    console.log("getMyMatches params:", params);
-
     const response = await api.get("search/result/", { params });
-    console.log("getMyMatches API Response:", response.data);
     return response.data;
   },
 

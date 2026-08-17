@@ -96,6 +96,7 @@ export const ReligionSection: React.FC<ReligionSectionProps> = ({
                 field: "subcaste",
                 label: "Sub Caste",
                 placeholder: "Sub Caste",
+                isMultiline: false,
               },
             ],
           )
@@ -124,6 +125,7 @@ export const ReligionSection: React.FC<ReligionSectionProps> = ({
                 field: "gotra",
                 label: "Gotra",
                 placeholder: "Gotra",
+                isMultiline: false,
               },
             ],
           )
@@ -198,6 +200,7 @@ export const ReligionSection: React.FC<ReligionSectionProps> = ({
                 field: "birthplace",
                 label: "Birth Place",
                 placeholder: "Birth Place",
+                isMultiline: false,
               },
             ],
           )
@@ -220,6 +223,7 @@ export const ReligionSection: React.FC<ReligionSectionProps> = ({
                 field: "profile_text",
                 label: "About Us",
                 placeholder: "About Us",
+                isMultiline: true,
               },
             ],
           )

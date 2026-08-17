@@ -4,8 +4,7 @@ import { api } from "./api";
 export const planServices = {
   // ✅ confirmed: AppConstants.check_plan
   getCurrentPlan: async (matriId: string): Promise<CurrentPlanResponse> => {
-    const response = await api.post("premium_member/check_plan", {
-      // TODO: confirm real path string for AppConstants.check_plan
+    const response = await api.post("premium-member/current-plan", {
       matri_id: matriId,
     });
     return response.data;
