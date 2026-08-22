@@ -35,6 +35,8 @@ const NotificationsScreen = () => {
     [data],
   );
 
+  console.log("items", items);
+
   const handlePress = (item: NotificationApiItem) => {
     if (item.notification_type === "message") {
       if (planStatus !== PlanStatus.PAID) {

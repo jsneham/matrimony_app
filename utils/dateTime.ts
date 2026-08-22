@@ -14,12 +14,7 @@ export const parseTimeToDate = (value?: string): Date => {
   return d;
 };
 
-export const formatTime = (date: Date): string =>
-  date.toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
-  });
+export const formatTime = (date: Date): string => format(date, "h:mm a");
 
 export const formatNotificationDate = (value?: string): string => {
   if (!value) return "";

@@ -190,18 +190,21 @@ export const FamilySection: React.FC<FamilySectionProps> = ({
           )
         }
       />
-      <EditRow
-        label="Married Brother(s)"
-        value={profile?.no_of_married_brother}
-        onPress={() =>
-          openModal(
-            "Married Brother(s)",
-            "noOfMarriedBrothers",
-            noOfMarriedBrothers,
-            profile?.no_of_married_brother,
-          )
-        }
-      />
+      {profile?.no_of_brothers && parseInt(profile.no_of_brothers) > 0 && (
+        <EditRow
+          label="Married Brother(s)"
+          value={profile?.no_of_married_brother}
+          onPress={() =>
+            openModal(
+              "Married Brother(s)",
+              "noOfMarriedBrothers",
+              noOfMarriedBrothers,
+              profile?.no_of_married_brother,
+            )
+          }
+        />
+      )}
+
       <EditRow
         label="No. Of Sister(s)"
         value={profile?.no_of_sisters}
@@ -215,18 +218,20 @@ export const FamilySection: React.FC<FamilySectionProps> = ({
         }
       />
 
-      <EditRow
-        label="Married Sister(s)"
-        value={profile?.no_of_married_sister}
-        onPress={() =>
-          openModal(
-            "Married Sister(s)",
-            "noOfMarriedSisters",
-            noOfMarriedSisters,
-            profile?.no_of_married_sister,
-          )
-        }
-      />
+      {profile?.no_of_sisters && parseInt(profile.no_of_sisters) > 0 && (
+        <EditRow
+          label="Married Sister(s)"
+          value={profile?.no_of_married_sister}
+          onPress={() =>
+            openModal(
+              "Married Sister(s)",
+              "noOfMarriedSisters",
+              noOfMarriedSisters,
+              profile?.no_of_married_sister,
+            )
+          }
+        />
+      )}
 
       <NonEditableText
         isLast
