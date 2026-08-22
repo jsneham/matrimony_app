@@ -576,7 +576,7 @@ export type UserProfile = {
   shortlistCount: number;
   myMatchesListCount: number;
   commentedCount: number;
-  notificationMessageCount: number;
+  notification_message_count: number;
   unreadMessageCount: number;
 
   // Administrative
