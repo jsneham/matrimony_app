@@ -1,12 +1,11 @@
 // hooks/useMatches.ts
 import { matchesService } from "@/services/matchesService";
-import { GetMatchesResponse, MatchesRequest } from "@/types/matches";
+import { GetMatchesResponse, MatchProfile } from "@/types/matches";
 import {
   useInfiniteQuery,
   useMutation,
   useQuery,
   useQueryClient,
-  UseQueryResult,
 } from "@tanstack/react-query";
 import { Alert } from "react-native";
 
@@ -14,6 +13,7 @@ import { useSession } from "@/hooks/useSession";
 import { matchesServices } from "@/services/matchesService";
 import { SESSION_KEYS } from "@/types/common";
 import { MatchesListResponse } from "@/types/matches";
+import { useMemo } from "react";
 
 type UseMyMatchesResponse = {
   data: GetMatchesResponse;
@@ -24,70 +24,60 @@ type UseMyMatchesResponse = {
   refetch: () => void;
 };
 
-export const useMyMatches = (data: MatchesRequest): UseMyMatchesResponse => {
-  //  CRITICAL: Only run query when both IDs are available
-  const isReady = Boolean(data.matriId?.trim() && data.memberId?.trim());
+type UseMyMatchesParams = {
+  matriId: string;
+  memberId: string;
+};
 
-  const query = useQuery({
-    //  CRITICAL: Proper query key with all dependencies
-    queryKey: ["matches", "my-matches", data.matriId, data.memberId, data.page],
+export const useMyMatches = ({ matriId, memberId }: UseMyMatchesParams) => {
+  const isReady = Boolean(matriId?.trim() && memberId?.trim());
 
-    //  CRITICAL: Only enable when ready
+  const query = useInfiniteQuery({
+    queryKey: ["matches", "my-matches", matriId, memberId],
     enabled: isReady,
-
-    queryFn: async () => {
-      if (!isReady) {
-        console.warn("⚠️ Query called before ready");
-        return {
-          data: [],
-          total_count: 0,
-          page: 1,
-          page_size: 0,
-        };
-      }
-
-      try {
-        const result = await matchesService.getMyMatches(data);
-
-        return result;
-      } catch (error) {
-        console.error(" Query failed:", error);
-        throw error;
-      }
+    initialPageParam: 1,
+    queryFn: ({ pageParam }) =>
+      matchesService.getMyMatches({ matriId, memberId, page: pageParam }),
+    getNextPageParam: (lastPage, allPages) => {
+      const loadedSoFar = allPages.reduce(
+        (sum, p) => sum + (p.data?.length ?? 0),
+        0,
+      );
+      if (loadedSoFar >= (lastPage.total_count ?? 0)) return undefined;
+      return allPages.length + 1;
     },
-
-    //  CRITICAL: Retry configuration for network issues
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
     retry: 2,
-    retryDelay: (attemptIndex) => {
-      const delay = Math.min(1000 * Math.pow(2, attemptIndex), 10000);
-      return delay;
-    },
-
-    //  CRITICAL: Cache timing for release builds
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    gcTime: 10 * 60 * 1000, // 10 minutes
-
-    //  CRITICAL: Don't throw on error - handle gracefully
+    retryDelay: (attempt) => Math.min(1000 * 2 ** attempt, 10000),
     throwOnError: false,
-  }) as UseQueryResult<GetMatchesResponse, Error>;
+  });
+
+  const matches = useMemo<MatchProfile[]>(() => {
+    const seen = new Set<string>();
+    const flat: MatchProfile[] = [];
+    query.data?.pages.forEach((page) => {
+      (page.data ?? []).forEach((item) => {
+        const key = String(item.matri_id ?? item.id);
+        if (!seen.has(key)) {
+          seen.add(key);
+          flat.push({ ...item, id: String(item.id) });
+        }
+      });
+    });
+    return flat;
+  }, [query.data]);
 
   return {
-    data: query.data || {
-      data: [],
-      total_count: 0,
-      continue_request: false,
-      errmessage: "Error",
-      errormessage: "Error",
-      status: "failed",
-      tocken: "",
-    },
+    matches,
+    totalCount: query.data?.pages?.[0]?.total_count ?? 0,
     isLoading: query.isLoading,
     isError: query.isError,
-    isFetching: query.isFetching,
-    error: query.error,
-    refetch: () => {
-      query.refetch();
-    },
+    isFetchingNextPage: query.isFetchingNextPage,
+    isRefetching: query.isRefetching,
+    hasNextPage: Boolean(query.hasNextPage),
+    fetchNextPage: () => query.fetchNextPage(),
+    refetch: () => query.refetch(),
   };
 };
 

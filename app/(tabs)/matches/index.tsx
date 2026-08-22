@@ -1,15 +1,13 @@
-// screens/MyMatchesScreen.tsx
 import React, { useCallback, useMemo, useState } from "react";
 import {
   ActivityIndicator,
-  Dimensions,
   FlatList,
+  LayoutChangeEvent,
   RefreshControl,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import PreferencesHintIcon from "@/assets/icons/PreferencesHintIcon";
 import { MatchCard } from "@/components/MatchCard";
@@ -19,73 +17,109 @@ import { useMyMatches } from "@/hooks/useMatches";
 import { useSession } from "@/hooks/useSession";
 import { SESSION_KEYS } from "@/types/common";
 import { MatchProfile } from "@/types/matches";
+
 import { Ionicons } from "@expo/vector-icons";
 import { Href, router } from "expo-router";
 
-export default function MyMatchesScreen() {
-  const insets = useSafeAreaInsets();
-  const screenHeight = Dimensions.get("window").height;
-  const headerHeight = 100;
-  const tabBarHeight = 60 + insets.bottom;
-  const subtitleBarHeight = 34 + 16 + 12;
-  const availableHeight = Math.max(
-    screenHeight - insets.top - headerHeight - tabBarHeight - subtitleBarHeight,
-    360,
-  );
-  const cardHeight = Math.max(availableHeight - 12, 360);
+/**
+ * Horizontal / top spacing around the card.
+ */
+const CARD_GAP = 12;
 
+/**
+ * Space between the bottom of the card and the bottom
+ * tab/navigation area.
+ *
+ * Increase to 60/65 if you need more space.
+ */
+const BOTTOM_TAB_GAP = 55;
+const BOTTOM_SPACE = 80;
+
+export default function MyMatchesScreen() {
+  /**
+   * This is the actual available viewport height.
+   *
+   * It is measured from the View that has flex: 1,
+   * so we don't need Dimensions.get().
+   */
+  const [viewportHeight, setViewportHeight] = useState(0);
+
+  const onViewportLayout = useCallback(
+    (event: LayoutChangeEvent) => {
+      const height = event.nativeEvent.layout.height;
+
+      if (height > 0 && Math.abs(height - viewportHeight) > 1) {
+        setViewportHeight(height);
+      }
+    },
+    [viewportHeight],
+  );
+
+  /**
+   * IMPORTANT:
+   *
+   * The FlatList item occupies the whole viewport.
+   *
+   * But the CARD itself is shorter.
+   *
+   * Example:
+   *
+   * viewport = 700
+   *
+   * card =
+   * 700
+   * - 12 top
+   * - 12 horizontal/bottom card spacing
+   * - 55 bottom tab gap
+   *
+   * The card therefore ends before the bottom tab bar.
+   */
+  const cardHeight = Math.max(viewportHeight - CARD_GAP - BOTTOM_SPACE, 0);
+  /**
+   * Session
+   */
   const { data: sessionData, isLoading: isSessionLoading } = useSession([
     SESSION_KEYS.MATRI_ID,
     SESSION_KEYS.USER_ID,
   ]);
 
-  const [page, setPage] = useState(1);
-  const [refreshing, setRefreshing] = useState(false);
-
-  // Extract IDs safely
   const matriId = useMemo(
     () => sessionData?.[SESSION_KEYS.MATRI_ID] ?? "",
     [sessionData],
   );
+
   const memberId = useMemo(
     () => sessionData?.[SESSION_KEYS.USER_ID] ?? "",
     [sessionData],
   );
 
-  // Fetch matches - only runs when IDs are available
+  /**
+   * Matches
+   */
   const {
-    data: matchesData,
+    matches,
     isLoading: isMatchesLoading,
     isError,
-    isFetching,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage,
     refetch,
   } = useMyMatches({
     matriId,
     memberId,
-    page,
   });
 
-  // Extract matches array safely
-  const matches = useMemo(() => {
-    const data = matchesData?.data || [];
-    // Ensure all items have string IDs for FlatList
-    return Array.isArray(data)
-      ? data.map((item) => ({
-          ...item,
-          id: String(item.id), // Force string ID
-        }))
-      : [];
-  }, [matchesData]);
+  const [refreshing, setRefreshing] = useState(false);
 
-  const totalCount = matchesData?.total_count || 0;
+  const showSkeleton =
+    isSessionLoading || (isMatchesLoading && matches.length === 0);
 
-  // Combined loading state
-  const isLoading = isSessionLoading || isMatchesLoading;
-
-  // Handle pull-to-refresh
+  /**
+   * Refresh
+   */
   const handleRefresh = useCallback(async () => {
     setRefreshing(true);
-    setPage(1);
+
     try {
       await refetch();
     } finally {
@@ -93,156 +127,181 @@ export default function MyMatchesScreen() {
     }
   }, [refetch]);
 
-  // Handle load more
+  /**
+   * Pagination
+   */
   const handleEndReached = useCallback(() => {
-    if (!isFetching && matches.length < totalCount) {
-      setPage((prev) => prev + 1);
+    if (hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
     }
-  }, [matches.length, totalCount, isFetching]);
-
-  // Debug logging
-  // React.useEffect(() => {
-  //   if (matches.length > 0) {
-  //     console.log("📊 MyMatchesScreen Debug:", {
-  //       matchesCount: matches.length,
-  //       totalCount: totalCount,
-  //       currentPage: page,
-  //       isLoading,
-  //       isError,
-  //       isFetching,
-  //       matriId: matriId ? "✅" : "",
-  //       memberId: memberId ? "✅" : "",
-  //     });
-  //   }
-  // }, [matches.length, totalCount, page, isLoading, isError, isFetching]);
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   return (
     <View className="flex-1 bg-app-background">
-      {/* Subtitle with Update Preferences */}
+      {/* ============================================================
+          PARTNER PREFERENCES BAR
+          ============================================================ */}
+
       <View className="flex-row items-center justify-between mx-5 h-[34px] my-3 bg-white px-3 rounded-xl">
         <Text className="text-gray font-regular text-sm">
           As per Partner Preferences.
         </Text>
+
         <TouchableOpacity
           className="flex-row items-center"
           onPress={() =>
             router.push({
               pathname: "/(profile)",
-              params: { tab: "preferences" },
+              params: {
+                tab: "preferences",
+              },
             } as Href)
           }
         >
           <Text className="text-black text-sm font-bold">
             Update Preferences
           </Text>
+
           <PreferencesHintIcon
             size={12}
             color="black"
-            style={{ marginLeft: 6 }}
+            style={{
+              marginLeft: 6,
+            }}
           />
         </TouchableOpacity>
       </View>
 
-      {/* Loading State - Skeleton Cards */}
-      {isLoading ? (
-        <FlatList
-          data={[1, 2, 3]}
-          renderItem={() => <SkeletonCard />}
-          keyExtractor={(item) => `skeleton-${item}`}
-          scrollEnabled={false}
-          showsVerticalScrollIndicator={false}
-          removeClippedSubviews={false}
-        />
-      ) : null}
+      {/* ============================================================
+          REAL CARD VIEWPORT
+          ============================================================ */}
 
-      {/* Error State */}
-      {!isLoading && isError ? (
-        <View className="flex-1 items-center justify-center px-6">
-          <Ionicons name="alert-circle" size={48} color="#ef4444" />
-          <Text className="text-red-600 font-bold mt-4 text-center">
-            Failed to load matches
-          </Text>
-          <TouchableOpacity
-            onPress={() => {
-              setPage(1);
-              refetch();
-            }}
-            className="mt-4 px-6 py-3 bg-blue-600 rounded-lg"
-          >
-            <Text className="text-white font-bold">Try Again</Text>
-          </TouchableOpacity>
-        </View>
-      ) : null}
+      <View
+        style={{
+          flex: 1,
+        }}
+        onLayout={onViewportLayout}
+      >
+        {/* Wait until layout has been measured */}
+        {viewportHeight === 0 ? null : showSkeleton ? (
+          /* ========================================================
+             SKELETON
+             ======================================================== */
 
-      {/* Matches List - FlatList for release build compatibility */}
-      {!isLoading && !isError ? (
-        <FlatList
-          data={matches}
-          renderItem={({ item }) => (
-            <View
-              style={{
-                height: cardHeight,
-                paddingHorizontal: 10,
-                paddingTop: 6,
-                paddingBottom: 6,
-              }}
-            >
-              <MatchCard profile={item} cardHeight={cardHeight} />
-            </View>
-          )}
-          // CRITICAL: String keyExtractor for release builds
-          keyExtractor={(item: MatchProfile, index: number) => {
-            if (!item?.matri_id) {
-              console.warn("⚠️ Item missing ID at index", index);
-              return `fallback-${index}`;
-            }
-            return String(item.matri_id);
-          }}
-          getItemLayout={(_, index) => ({
-            length: cardHeight,
-            offset: cardHeight * index,
-            index,
-          })}
-          // FlatList optimizations for release builds
-          removeClippedSubviews={false}
-          initialNumToRender={10}
-          maxToRenderPerBatch={10}
-          updateCellsBatchingPeriod={50}
-          scrollEventThrottle={16}
-          pagingEnabled
-          snapToAlignment="start"
-          decelerationRate="fast"
-          // Content styling
-          contentContainerStyle={{
-            paddingHorizontal: 0,
-            paddingBottom: 110,
-          }}
-          showsVerticalScrollIndicator={false}
-          // Pagination
-          onEndReached={handleEndReached}
-          onEndReachedThreshold={0.5}
-          // Pull to refresh
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={handleRefresh}
-              colors={["#0066cc"]}
-            />
-          }
-          // Empty state
-          ListEmptyComponent={
-            !isLoading && matches.length === 0 ? <NoData /> : null
-          }
-          // Footer loading indicator
-          ListFooterComponent={
-            isFetching && matches.length > 0 ? (
-              <View style={{ paddingVertical: 20 }}>
-                <ActivityIndicator size="small" color="#0066cc" />
+          <FlatList
+            data={[1]}
+            keyExtractor={(item) => `skeleton-${item}`}
+            renderItem={() => (
+              <View
+                style={{
+                  height: viewportHeight,
+                  paddingHorizontal: CARD_GAP,
+                  paddingTop: CARD_GAP,
+                  paddingBottom: BOTTOM_SPACE,
+                }}
+              >
+                <SkeletonCard />
               </View>
-            ) : null
-          }
-        />
-      ) : null}
+            )}
+            scrollEnabled={false}
+            showsVerticalScrollIndicator={false}
+          />
+        ) : isError ? (
+          /* ========================================================
+             ERROR
+             ======================================================== */
+
+          <View className="flex-1 items-center justify-center px-6">
+            <Ionicons name="alert-circle" size={48} color="#ef4444" />
+
+            <Text className="text-red-600 font-bold mt-4 text-center">
+              Failed to load matches
+            </Text>
+
+            <TouchableOpacity
+              onPress={() => refetch()}
+              className="mt-4 px-6 py-3 bg-blue-600 rounded-lg"
+            >
+              <Text className="text-white font-bold">Try Again</Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          /* ========================================================
+             MATCH LIST
+             ======================================================== */
+
+          <FlatList
+            data={matches}
+            renderItem={({ item }) => (
+              /**
+               * IMPORTANT:
+               *
+               * The ITEM is still the FULL viewport.
+               *
+               * The CARD inside it is shorter.
+               *
+               * This preserves one-card-per-swipe behavior.
+               */
+
+              <View
+                style={{
+                  height: viewportHeight,
+                  paddingHorizontal: CARD_GAP,
+                  paddingTop: CARD_GAP,
+                  paddingBottom: BOTTOM_SPACE,
+                }}
+              >
+                <MatchCard profile={item} cardHeight={cardHeight} />
+              </View>
+            )}
+            keyExtractor={(item: MatchProfile, index: number) =>
+              item?.matri_id ? String(item.matri_id) : `fallback-${index}`
+            }
+            getItemLayout={(_, index) => ({
+              length: viewportHeight,
+              offset: viewportHeight * index,
+              index,
+            })}
+            initialNumToRender={2}
+            maxToRenderPerBatch={2}
+            windowSize={3}
+            removeClippedSubviews
+            pagingEnabled
+            snapToInterval={viewportHeight}
+            snapToAlignment="start"
+            decelerationRate="fast"
+            disableIntervalMomentum
+            bounces={false}
+            overScrollMode="never"
+            showsVerticalScrollIndicator={false}
+            onEndReached={handleEndReached}
+            onEndReachedThreshold={0.6}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={handleRefresh}
+                colors={["#0066cc"]}
+              />
+            }
+            ListEmptyComponent={matches.length === 0 ? <NoData /> : null}
+            ListFooterComponent={
+              isFetchingNextPage ? (
+                <View
+                  style={{
+                    height: viewportHeight,
+
+                    alignItems: "center",
+
+                    justifyContent: "center",
+                  }}
+                >
+                  <ActivityIndicator size="small" color="#0066cc" />
+                </View>
+              ) : null
+            }
+          />
+        )}
+      </View>
     </View>
   );
 }
