@@ -111,7 +111,7 @@ export default function MoreMatchesTab() {
       {/* <SectionWithEmptyState
         title="Matches from Matchmakers"
         description="View Matches that are registered & Personally Verified by Human Matchmakers."
-        wrapperClass="mb-2 bg-[#f3f3f3] pt-14 pb-5"
+        wrapperClass="mb-2 bg-[#f3f3f3]"
         isLoading={matchmakerMatches.isLoading}
         items={firstPageItems(matchmakerMatches.data)}
         cardSize="large"

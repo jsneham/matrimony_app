@@ -241,7 +241,10 @@ const MatchListScreen = () => {
             ) : null
           }
           ListEmptyComponent={
-            <View className="items-center justify-center mt-24">
+            <View
+              className="flex-1 items-center justify-center"
+              style={{ minHeight: 240 }}
+            >
               <Text className="text-gray-400">No members to show yet.</Text>
             </View>
           }

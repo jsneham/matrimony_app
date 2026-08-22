@@ -58,9 +58,12 @@ export const SearchResultCard = ({
         )}
 
         {/* Photo count badge */}
-        <View className="absolute top-3 right-3 flex-row items-center bg-black/60 px-2 py-1 rounded-full">
+        <View
+          className="absolute right-3 flex-row items-center rounded-full bg-black/60 px-2 py-1"
+          style={{ top: 12 }}
+        >
           <Feather name="image" size={12} color="#fff" />
-          <Text className="text-white text-xs font-semibold ml-1">1</Text>
+          <Text className="ml-1 text-xs font-semibold text-white">1</Text>
         </View>
 
         {/* Overlay info */}

@@ -7,7 +7,12 @@ import { NotificationApiItem } from "@/types/notifications";
 import { PlanStatus } from "@/types/profile";
 import { navigateForNotification } from "@/utils/notificationRouting";
 import React, { useMemo } from "react";
-import { ActivityIndicator, FlatList, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  Text,
+  View
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const NotificationsScreen = () => {
@@ -82,7 +87,10 @@ const NotificationsScreen = () => {
             ) : null
           }
           ListEmptyComponent={
-            <View className="items-center justify-center mt-24 px-8">
+            <View
+              className="flex-1 items-center justify-center px-8"
+              style={{ minHeight: 240 }}
+            >
               <Text className="text-gray-400 text-center">
                 You don&apos;t have any notifications yet.
               </Text>

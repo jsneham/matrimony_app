@@ -60,17 +60,21 @@ export default function LoginScreen() {
         contentContainerStyle={{ flexGrow: 1 }}
         keyboardShouldPersistTaps="handled"
       >
-        <View className="flex-1 justify-center px-6">
+        <View
+          className="flex-1 justify-center px-6"
+          style={{ paddingTop: insets.top + 24 }}
+        >
           {/* Back Button */}
           <TouchableOpacity
-            className="absolute top-12 left-6"
+            className="absolute left-6"
+            style={{ top: insets.top + 12 }}
             onPress={() => router.back()}
             disabled={loginMutation.isPending}
           >
             <Text className="text-2xl">←</Text>
           </TouchableOpacity>
 
-          <Text className="text-3xl font-bold mb-2 text-center">
+          <Text className="mb-2 text-center text-3xl font-bold">
             Welcome Back
           </Text>
           <Text className="text-gray-500 mb-8 text-center">

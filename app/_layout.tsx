@@ -7,7 +7,16 @@ import { useColorScheme } from "@/hooks/use-color-scheme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
+import { Text, type TextProps } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+
+const NativeText = Text as typeof Text & { defaultProps?: TextProps };
+
+NativeText.defaultProps = {
+  ...NativeText.defaultProps,
+  allowFontScaling: false,
+};
 
 // Create a client
 const queryClient = new QueryClient({
@@ -41,90 +50,91 @@ export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider value={DefaultTheme}>
-        <GestureHandlerRootView style={{ flex: 1 }}>
-          {/* <SafeAreaView className="flex-1 bg-white"> */}
-          <Stack
-            screenOptions={{
-              headerShown: false,
-            }}
-          >
-            {/* Welcome/Landing Screen */}
-            <Stack.Screen
-              name="index"
-              options={{
+        <SafeAreaProvider>
+          <GestureHandlerRootView className="flex-1">
+            <Stack
+              screenOptions={{
                 headerShown: false,
               }}
-            />
+            >
+              {/* Welcome/Landing Screen */}
+              <Stack.Screen
+                name="index"
+                options={{
+                  headerShown: false,
+                }}
+              />
 
-            {/* Auth Group - login, signup, etc */}
-            <Stack.Screen
-              name="(auth)"
-              options={{
-                headerShown: false,
-              }}
-            />
+              {/* Auth Group - login, signup, etc */}
+              <Stack.Screen
+                name="(auth)"
+                options={{
+                  headerShown: false,
+                }}
+              />
 
-            {/* Main App Tabs - after login */}
-            <Stack.Screen
-              name="(tabs)"
-              options={{
-                headerShown: false,
-              }}
-            />
+              {/* Main App Tabs - after login */}
+              <Stack.Screen
+                name="(tabs)"
+                options={{
+                  headerShown: false,
+                }}
+              />
 
-            <Stack.Screen
-              name="(account)"
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="(membership)"
-              options={{
-                title: "Membership Plan",
-                headerShown: true,
-                headerTitleAlign: "center",
-                headerBackTitle: "",
-              }}
-            />
-            <Stack.Screen
-              name="(profile)"
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="help-support"
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="search-matches"
-              options={{
-                headerShown: false,
-              }}
-            />
+              <Stack.Screen
+                name="(account)"
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name="(membership)"
+                options={{
+                  title: "Membership Plan",
+                  headerShown: true,
+                  headerTitleAlign: "center",
+                  headerBackTitle: "",
+                }}
+              />
+              <Stack.Screen
+                name="(profile)"
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name="help-support"
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name="search-matches"
+                options={{
+                  headerShown: false,
+                }}
+              />
 
-            <Stack.Screen
-              name="search-results"
-              options={{
-                headerShown: false,
-              }}
-            />
+              <Stack.Screen
+                name="search-results"
+                options={{
+                  headerShown: false,
+                }}
+              />
 
-            <Stack.Screen
-              name="(notification)"
-              options={{
-                title: "Notifications",
-                headerShown: true,
-                headerTitleAlign: "center",
-                headerBackTitle: "",
-              }}
-            />
-          </Stack>
-          {/* </SafeAreaView> */}
-        </GestureHandlerRootView>
+              <Stack.Screen
+                name="(notification)"
+                options={{
+                  title: "Notifications",
+                  headerShown: true,
+                  headerTitleAlign: "center",
+                  headerBackTitle: "",
+                }}
+              />
+            </Stack>
+            {/* </SafeAreaView> */}
+          </GestureHandlerRootView>
+        </SafeAreaProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );

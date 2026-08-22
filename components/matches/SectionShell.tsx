@@ -30,7 +30,7 @@ export const SectionShell = ({
   title,
   description,
   isPremiumSection,
-  wrapperClass = "mt-14 mb-2",
+  wrapperClass = "mt-6 mb-2",
   isLoading,
   items,
   cardSize,

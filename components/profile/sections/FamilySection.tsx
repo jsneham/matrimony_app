@@ -1,7 +1,7 @@
 // components/profile/sections/FamilySection.tsx
 import {
-  EditRow,
-  EditSectionHeader,
+    EditRow,
+    EditSectionHeader,
 } from "@/components/profile/ProfileEditComponents";
 import { LookupItem } from "@/types/metadata";
 import { EditableFieldDescriptor, UserProfile } from "@/types/profile";
@@ -44,8 +44,9 @@ export const FamilySection: React.FC<FamilySectionProps> = ({
   return (
     <View
       onLayout={(e) => onLayout(sectionId, e)}
-      className="mb-12 mx-5"
+      className="mx-5 mb-12"
       style={{
+        marginTop: 18,
         backgroundColor: "#f9fafb",
         borderTopLeftRadius: 16,
         borderTopRightRadius: 16,
