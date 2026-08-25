@@ -34,7 +34,7 @@ export default function LoginScreen() {
       { username: username.trim(), password: password.trim() },
       {
         onSuccess: () => {
-          router.navigate("/(tabs)" as Href);
+          router.replace("/(tabs)" as Href);
         },
         onError: (error: any) => {
           const msg =

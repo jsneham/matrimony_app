@@ -16,7 +16,7 @@ export default function NotificationLayout() {
         name="index"
         options={{
           title: "Notifications",
-          headerBackTitle: "",
+          headerBackButtonDisplayMode: "minimal",
         }}
       />
     </Stack>

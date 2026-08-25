@@ -66,11 +66,12 @@ export const SearchResultCard = ({
         {/* Overlay info */}
         <View className="absolute bottom-0 left-0 right-0 px-4 pb-4">
           <View className="flex-row items-center gap-2 mb-1">
-            {item.badge && (
-              <View className="bg-pink-600 px-2 py-0.5 rounded">
-                <Text className="text-white text-xs font-bold">
-                  {item.badge}
-                </Text>
+            {item.badge && item.badgeUrl && (
+              <View style={{ width: 68, height: 24 }}>
+                <Image
+                  source={{ uri: item.badgeUrl + item.badge }}
+                  style={{ width: 84, height: 84 }}
+                />
               </View>
             )}
             {item.logged_in === "1" && (

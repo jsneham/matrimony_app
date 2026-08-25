@@ -84,7 +84,8 @@ export default function RootLayout() {
                 title: "Membership Plan",
                 headerShown: true,
                 headerTitleAlign: "center",
-                headerBackTitle: "",
+                headerBackButtonDisplayMode: "minimal",
+                headerShadowVisible: false, // removes header shadow/elevation (iOS & Android)
               }}
             />
             <Stack.Screen
@@ -119,7 +120,8 @@ export default function RootLayout() {
                 title: "Notifications",
                 headerShown: true,
                 headerTitleAlign: "center",
-                headerBackTitle: "",
+                headerBackButtonDisplayMode: "minimal",
+                headerShadowVisible: false,
               }}
             />
           </Stack>

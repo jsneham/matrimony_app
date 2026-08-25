@@ -65,6 +65,10 @@ export type OtherUserProfile = {
   photo2: string | null;
   photo3: string | null; // added
   photo4: string | null; // added
+  photo1_approve?: string;
+  photo2_approve?: string;
+  photo3_approve?: string;
+  photo4_approve?: string;
   photoUrl: string;
   photo_view_status?: string; // TODO: confirm — Java mentions this for photo protection logic
   photo_view_count?: string;

@@ -83,7 +83,7 @@ export default function App() {
             <TouchableOpacity
               className="bg-transparent border-2 border-white rounded-xl py-4 mb-6"
               activeOpacity={0.8}
-              onPress={() => router.push("/login")}
+              onPress={() => router.replace("/login")}
             >
               <Text className="text-white text-center text-lg font-bold">
                 Already have an account? Login
