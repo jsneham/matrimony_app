@@ -43,10 +43,10 @@ export default function SavedSearchTab() {
   if (items.length === 0) {
     return (
       <View className="flex-1 items-center justify-center px-6">
-        <NoData />
-        <Text className="text-gray text-base font-bold text-center mt-3">
-          No saved searches yet
-        </Text>
+        <NoData
+          mainMessage="No saved searches yet"
+          subText="Save your favorite searches for easy access later"
+        />
       </View>
     );
   }

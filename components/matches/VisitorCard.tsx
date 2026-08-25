@@ -1,8 +1,9 @@
 import LockAltIcon from "@/assets/icons/LockAltIcon";
+import { Text } from "@/components/ui/Text";
 import { VisitorCardProps } from "@/types/matches";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { Image, Pressable, Text, View } from "react-native";
+import { Image, Pressable, View } from "react-native";
 
 // Figma: linear-gradient(180deg, rgba(255,255,255,0) 69.00%, rgba(0,0,0,0.8) 100%)
 const FADE_START_PERCENT = 0.69;
@@ -96,13 +97,26 @@ export const VisitorCard: React.FC<
 
         {name && (
           <View className="absolute bottom-0 left-0 right-0 px-3 pb-3">
-            <Text className="text-white text-base font-bold" numberOfLines={1}>
+            <Text
+              className={`text-white font-bold ${isSmall ? "text-xs" : "text-base"}`}
+              numberOfLines={1}
+            >
               {name}
             </Text>
-            <View className="flex-row items-center gap-[6px] mt-2">
-              <Text className="text-white text-base font-regular">{age}</Text>
-              <View className="w-1 h-1 rounded-full bg-white" />
-              <Text className="text-white text-base font-regular">
+            <View
+              className={`flex-row items-center gap-[6px] ${isSmall ? "mt-0.5" : "mt-1"}`}
+            >
+              <Text
+                className={`text-white font-regular ${isSmall ? "text-xs" : "text-base"}`}
+              >
+                {age}
+              </Text>
+              <View
+                className={`${isSmall ? "w-0.5 h-0.5" : "w-1 h-1"} rounded-full bg-white`}
+              />
+              <Text
+                className={`text-white font-regular ${isSmall ? "text-xs" : "text-base"}`}
+              >
                 {height}
               </Text>
             </View>

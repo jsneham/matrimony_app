@@ -52,6 +52,31 @@
   --font-regular: Regular;
   --font-medium: Medium;
   --font-bold: Bold;
+
+  /* Font size + matched line-height, tuned for your custom fonts */
+  /* --text-xs: 12px;
+  --text-xs--line-height: 14px;
+
+  --text-sm: 14px;
+  --text-sm--line-height: 16px;
+
+  --text-base: 16px;
+  --text-base--line-height: 18px;
+
+  --text-lg: 18px;
+  --text-lg--line-height: 20px;
+
+  --text-xl: 20px;
+  --text-xl--line-height: 22px;
+
+  --text-2xl: 24px;
+  --text-2xl--line-height: 27px;
+
+  --text-3xl: 30px;
+  --text-3xl--line-height: 33px;
+
+  --text-4xl: 36px;
+  --text-4xl--line-height: 40px; */
 }
 
 @layer components {

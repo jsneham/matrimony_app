@@ -13,7 +13,7 @@ export default function MembershipLayout() {
         name="index"
         options={{
           title: "Membership Plans",
-          headerBackTitle: "",
+          headerBackButtonDisplayMode: "minimal",
         }}
       />
     </Stack>

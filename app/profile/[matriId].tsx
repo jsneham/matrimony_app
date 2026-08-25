@@ -78,6 +78,7 @@ const PhotoGridSection = ({
 const ProfileScreen = () => {
   const insets = useSafeAreaInsets();
   const { matriId } = useLocalSearchParams<{ matriId: string }>();
+  console.log("ProfileScreen matriId:", matriId);
   const { data, isLoading, isError } = useOtherProfile(matriId ?? "");
   const { data: sessionData } = useSession([SESSION_KEYS.PLAN_STATUS]);
   const planStatus = sessionData?.[SESSION_KEYS.PLAN_STATUS] || "";
@@ -88,6 +89,8 @@ const ProfileScreen = () => {
 
   const isApiError = data?.status !== "success";
   const profile = !isApiError ? data?.data : undefined;
+
+  console.log("ProfileScreen data:", data);
 
   if (isLoading) {
     return (
@@ -134,11 +137,16 @@ const ProfileScreen = () => {
     );
   }
 
+  const approvedPhoto = (photo: string | null, approval?: string) =>
+    approval?.trim().toUpperCase() === "APPROVED"
+      ? resolvePhotoUri(profile.photoUrl, photo)
+      : undefined;
+
   const photoUris = [
-    resolvePhotoUri(profile.photoUrl, profile.photo1),
-    resolvePhotoUri(profile.photoUrl, profile.photo2),
-    resolvePhotoUri(profile.photoUrl, profile.photo3),
-    resolvePhotoUri(profile.photoUrl, profile.photo4),
+    approvedPhoto(profile.photo1, profile.photo1_approve),
+    approvedPhoto(profile.photo2, profile.photo2_approve),
+    approvedPhoto(profile.photo3, profile.photo3_approve),
+    approvedPhoto(profile.photo4, profile.photo4_approve),
   ].filter((uri): uri is string => !!uri);
 
   const activePhotoUri = photoUris[activePhotoIndex];

@@ -45,6 +45,7 @@ export type SearchResultItem = {
   photoUrl: string;
   photo_view_status: string; // gates blur/lock
   badge: string; // e.g. "Pro Max"
+  badgeUrl: string; // URL for the badge image
   logged_in: string; // "1" = show "Active Today"
   action: {
     is_like: string;
