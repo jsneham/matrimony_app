@@ -1,5 +1,6 @@
 import React from "react";
-import { Modal, Pressable, Text, View } from "react-native";
+import { Modal, Pressable, View } from "react-native";
+import { Text } from "@/components/ui/Text";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Animated, {
     Easing,
@@ -127,7 +128,6 @@ export const ActionOptionsSheet: React.FC<ActionOptionsSheetProps> = ({
                     className={`text-base font-bold ${
                       option.destructive ? "text-red-500" : "text-black"
                     }`}
-                    style={{ includeFontPadding: false, textAlignVertical: "center" }}
                   >
                     {option.label}
                   </Text>

@@ -1,6 +1,7 @@
 import { MemberCardProps } from "@/types/home";
 import { Ionicons } from "@expo/vector-icons";
-import { Image, Text, View } from "react-native";
+import { Image, View } from "react-native";
+import { Text } from "@/components/ui/Text";
 
 export const MemberCard: React.FC<MemberCardProps> = ({
   name,

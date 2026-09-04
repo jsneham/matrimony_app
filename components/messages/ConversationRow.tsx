@@ -4,7 +4,8 @@ import { ConversationListItem } from "@/types/message";
 import { getPlanAwareName } from "@/utils/profileHelpers";
 import { router } from "expo-router";
 import React from "react";
-import { Image, Pressable, Text, View } from "react-native";
+import { Image, Pressable, View } from "react-native";
+import { Text } from "@/components/ui/Text";
 
 export const ConversationRow = ({ item }: { item: ConversationListItem }) => {
   const { data: sessionData } = useSession([SESSION_KEYS.PLAN_STATUS]);
@@ -54,7 +55,7 @@ export const ConversationRow = ({ item }: { item: ConversationListItem }) => {
             {item.content}
           </Text>
           {unread > 0 && (
-            <View className="bg-pink-600 rounded-full min-w-[20px] h-5 items-center justify-center px-1.5">
+            <View className="bg-pink-600 rounded-full min-w-[20px] min-h-5 items-center justify-center px-1.5">
               <Text className="text-white text-xs font-bold">{unread}</Text>
             </View>
           )}

@@ -1,9 +1,10 @@
 import { HeaderMenu } from "@/components/HeaderMenu";
+import { Text } from "@/components/ui/Text";
 import { tabs } from "@/constants/data";
 import { colors, components } from "@/constants/theme";
 import { TabIconProps } from "@/types/dashboard";
 import { Tabs } from "expo-router";
-import { Image, Text, View } from "react-native";
+import { Image, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const tabBar = components.tabBar;
@@ -74,6 +75,7 @@ const TabLayout = () => {
             headerTitleAlign: "left",
             headerTitleStyle: {
               fontSize: 24,
+              lineHeight: 24,
               fontFamily: "Bold",
             },
             headerTitleContainerStyle: {
@@ -94,11 +96,13 @@ const TabLayout = () => {
               <Text
                 style={{
                   fontSize: 11,
+                  lineHeight: 11,
                   fontFamily: "Medium",
                   textAlign: "center",
                   marginBottom: 4,
                   color: focused ? colors.accent : colors.tabIconDefault,
                 }}
+                maxFontSizeMultiplier={1.3}
               >
                 {tab.title}
               </Text>

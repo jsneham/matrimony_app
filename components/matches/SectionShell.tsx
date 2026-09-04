@@ -9,7 +9,8 @@ import { mapVisitorItem } from "@/utils/mapVisitorItem";
 import { normalizePlanStatus } from "@/utils/profileHelpers";
 import { router } from "expo-router";
 import React from "react";
-import { ActivityIndicator, ScrollView, Text, View } from "react-native";
+import { ActivityIndicator, ScrollView, View } from "react-native";
+import { Text } from "@/components/ui/Text";
 
 // ── Shared row shell ───────────────────────────────────────────────────────
 type SectionShellProps = {

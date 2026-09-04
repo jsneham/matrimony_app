@@ -13,10 +13,10 @@ import {
   ActivityIndicator,
   Animated,
   Image,
-  Text,
   TouchableOpacity,
   View,
 } from "react-native";
+import { Text } from "@/components/ui/Text";
 
 type ActionButton = {
   key: string;

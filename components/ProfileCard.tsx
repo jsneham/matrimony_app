@@ -1,6 +1,7 @@
 import { UserProfile } from "@/types/profile";
 import { Href, router } from "expo-router";
-import { Text, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
+import { Text } from "@/components/ui/Text";
 import { ProfilePhotoWIthProgress } from "./ProfilePhotoWIthProgress";
 
 export const ProfileCard = (props: { userData: UserProfile | undefined }) => {

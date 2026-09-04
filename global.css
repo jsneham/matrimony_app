@@ -53,30 +53,42 @@
   --font-medium: Medium;
   --font-bold: Bold;
 
-  /* Font size + matched line-height, tuned for your custom fonts */
-  /* --text-xs: 12px;
-  --text-xs--line-height: 14px;
+  /* Font size + matched line-height, tuned for the custom fonts.
+     Ratio 1 (line-height equals font-size) — confirmed against the Figma
+     dev-mode CSS export (App_NewMargins, node 6261-642): every text layer
+     there is annotated with a line-height identical to its box height,
+     e.g. the 11px tab labels, the 16px top-tab text, the 24px header
+     title, the 14px preference-pill text.
+     Line-height MUST be unitless (a multiplier of font-size), matching
+     Tailwind's own --text-*--line-height convention -- react-native-css
+     always resolves this property as value times fontSize at runtime, so
+     a literal px value (e.g. 23px) gets multiplied again and blows up. */
+  --text-xs: 12px;
+  --text-xs--line-height: 1;
 
   --text-sm: 14px;
-  --text-sm--line-height: 16px;
+  --text-sm--line-height: 1;
 
   --text-base: 16px;
-  --text-base--line-height: 18px;
+  --text-base--line-height: 1;
 
   --text-lg: 18px;
-  --text-lg--line-height: 20px;
+  --text-lg--line-height: 1;
 
   --text-xl: 20px;
-  --text-xl--line-height: 22px;
+  --text-xl--line-height: 1;
 
   --text-2xl: 24px;
-  --text-2xl--line-height: 27px;
+  --text-2xl--line-height: 1;
 
   --text-3xl: 30px;
-  --text-3xl--line-height: 33px;
+  --text-3xl--line-height: 1;
 
   --text-4xl: 36px;
-  --text-4xl--line-height: 40px; */
+  --text-4xl--line-height: 1;
+
+  --text-5xl: 44px;
+  --text-5xl--line-height: 1;
 }
 
 @layer components {
@@ -451,5 +463,46 @@
 
   .category-chip-text-active {
     @apply text-accent;
+  }
+
+  /* ── Typography roles ────────────────────────────────────────────
+     Opt-in semantic text styles. Each pairs a tuned text-* size with
+     an explicit font-* family so fontSize/lineHeight/fontFamily stay
+     consistent wherever they're used. Color is intentionally not
+     baked in — apply a text-* color utility alongside as needed. */
+  .text-display {
+    @apply text-5xl font-bold tracking-[-0.4px];
+  }
+
+  .text-h1 {
+    @apply text-3xl font-bold tracking-[-0.3px];
+  }
+
+  .text-h2 {
+    @apply text-2xl font-bold tracking-[-0.2px];
+  }
+
+  .text-h3 {
+    @apply text-xl font-bold;
+  }
+
+  .text-body {
+    @apply text-base font-regular;
+  }
+
+  .text-body-sm {
+    @apply text-sm font-regular;
+  }
+
+  .text-caption {
+    @apply text-xs font-medium tracking-[0.2px];
+  }
+
+  .text-button {
+    @apply text-base font-bold tracking-[0.2px];
+  }
+
+  .text-label {
+    @apply text-sm font-bold tracking-[0.2px];
   }
 }

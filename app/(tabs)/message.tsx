@@ -1,7 +1,8 @@
 import { ConversationRow } from "@/components/messages/ConversationRow";
+import { Text } from "@/components/ui/Text";
 import { useConversationList } from "@/hooks/useMessages";
 import React, { useMemo } from "react";
-import { ActivityIndicator, FlatList, Text, View } from "react-native";
+import { ActivityIndicator, FlatList, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function MessageListScreen() {

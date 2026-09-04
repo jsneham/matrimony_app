@@ -1,7 +1,8 @@
 import CurrentPlanCard from "@/components/CurrentPlanCard";
+import { Text } from "@/components/ui/Text";
 import { Href, router } from "expo-router";
 import React from "react";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, TouchableOpacity, View } from "react-native";
 
 export default function membership() {
   return (

@@ -1,5 +1,7 @@
 import "@/global.css";
 
+import { Text } from "@/components/ui/Text";
+import { TextInput } from "@/components/ui/TextInput";
 import { useLogin } from "@/hooks/useAuth";
 import { Href, router } from "expo-router";
 import React, { useState } from "react";
@@ -10,8 +12,6 @@ import {
   Platform,
   ScrollView,
   StatusBar,
-  Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
