@@ -1,7 +1,8 @@
 import ChevronLeftIcon from "@/assets/icons/ChevronLeftIcon";
 import { router } from "expo-router";
 import React from "react";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
+import { Text } from "@/components/ui/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { Tabs } from "react-native-collapsible-tab-view";

@@ -16,9 +16,9 @@ import {
   Image,
   Platform,
   Pressable,
-  Text,
   View,
 } from "react-native";
+import { Text } from "@/components/ui/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 // TODO: swap for your actual illustration assets

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
-import { ActivityIndicator, ScrollView, Text, View } from "react-native";
+import { ActivityIndicator, ScrollView, View } from "react-native";
+import { Text } from "@/components/ui/Text";
 
 // Hooks
 import {

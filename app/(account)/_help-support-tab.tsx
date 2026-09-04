@@ -4,7 +4,8 @@ import { helpSupportMenu } from "@/constants/data";
 import { useSession } from "@/hooks/useSession";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import { Platform, Text, View } from "react-native";
+import { Platform, View } from "react-native";
+import { Text } from "@/components/ui/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 // helpSupportMenu's icon names are MaterialCommunityIcons-specific (e.g.

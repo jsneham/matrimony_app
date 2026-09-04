@@ -4,7 +4,8 @@
 // laid out along the Y axis instead of X.
 import * as Haptics from "expo-haptics";
 import React, { useState } from "react";
-import { LayoutChangeEvent, Text, View } from "react-native";
+import { LayoutChangeEvent, View } from "react-native";
+import { Text } from "@/components/ui/Text";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
   runOnJS,

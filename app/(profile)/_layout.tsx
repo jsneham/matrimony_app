@@ -5,10 +5,10 @@ import {
   Animated,
   Dimensions,
   Pressable,
-  Text,
   TouchableOpacity,
   View,
 } from "react-native";
+import { Text } from "@/components/ui/Text";
 import PagerView from "react-native-pager-view";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -95,7 +95,7 @@ export default function MatchesLayout() {
 
       {/* ── Top Tab Bar ───────────────────────────────── */}
       <View className="bg-white">
-        <View className="flex-row h-11 border-b border-inactive-border">
+        <View className="flex-row min-h-11 border-b border-inactive-border">
           {PROFILE_TABS.map((tab, index) => {
             const isActive = activeIndex === index;
             return (

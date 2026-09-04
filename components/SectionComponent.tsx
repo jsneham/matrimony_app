@@ -1,6 +1,7 @@
 import { FormSection, SectionRef } from "@/types/profile";
 import React, { useCallback } from "react";
-import { LayoutChangeEvent, Text, View } from "react-native";
+import { LayoutChangeEvent, View } from "react-native";
+import { Text } from "@/components/ui/Text";
 import { FormFieldComponent } from "./FormFieldComponent";
 /**
  * Render a section with title and fields

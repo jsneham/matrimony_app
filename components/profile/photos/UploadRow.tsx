@@ -2,7 +2,8 @@ import AddPhotoIcon from "@/assets/icons/AddPhotoIcon";
 import { Feather } from "@expo/vector-icons";
 import { MoreHorizontal } from "lucide-react-native";
 import React from "react";
-import { Image, Pressable, Text, View } from "react-native";
+import { Image, Pressable, View } from "react-native";
+import { Text } from "@/components/ui/Text";
 import { GuidelinesLink } from "./GuidelinesLink";
 
 export const UploadRow = ({
@@ -46,7 +47,7 @@ export const UploadRow = ({
           <View
             className="absolute top-2 bg-overlay-black-50 rounded-full justify-center"
             style={{
-              height: 28,
+              minHeight: 28,
               paddingHorizontal: 12,
               maxWidth: "92%",
               alignSelf: "center",

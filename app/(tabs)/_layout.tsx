@@ -1,17 +1,15 @@
 import { HeaderMenu } from "@/components/HeaderMenu";
 import { Text } from "@/components/ui/Text";
 import { tabs } from "@/constants/data";
-import { colors, components } from "@/constants/theme";
+import { colors } from "@/constants/theme";
 import { TabIconProps } from "@/types/dashboard";
 import { Tabs } from "expo-router";
 import { Image, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-const tabBar = components.tabBar;
-
 const TabIcon = ({ focused, icon }: TabIconProps) => {
   return (
-    <View className="size-12 items-center justify-center">
+    <View className="w-6 h-6 items-center justify-center">
       <Image
         source={icon}
         resizeMode="contain"
@@ -39,31 +37,21 @@ const TabLayout = () => {
           left: 0,
           right: 0,
           bottom: 0,
-          height: 60 + insets.bottom,
+          height: 62 + insets.bottom,
           backgroundColor: colors.white,
           paddingBottom: insets.bottom,
-          paddingTop: 8,
           elevation: 0,
           shadowOpacity: 0,
-          // bottom: Math.max(insets.bottom, tabBar.horizontalInset),
-          // marginHorizontal: tabBar.horizontalInset,
-          // borderRadius: tabBar.radius,
-          // borderTopWidth: 1,
           borderTopColor: "#F9F9F9",
         },
-        // tabBarLabelStyle: {
-        //   fontSize: 11,
-        //   marginBottom: 4,
-        //   fontFamily: "medium",
-        // },
-        // tabBarItemStyle: {
-        //   paddingVertical: tabBar.height / 2 - tabBar.iconFrame / 1.6,
-        // },
-        // tabBarIconStyle: {
-        //   width: tabBar.iconFrame,
-        //   height: tabBar.iconFrame,
-        //   alignItems: "center",
-        // },
+        // Matches the Figma tab-item frame: padding 6px 14px 4px 15px
+        // (App_NewMargins, node 6261-642). Horizontal padding is left to
+        // the default even split (390px / 5 tabs = 78px each, matching
+        // the Figma frame width), only vertical padding is set explicitly.
+        tabBarItemStyle: {
+          paddingTop: 6,
+          paddingBottom: 4,
+        },
       }}
     >
       {tabs.map((tab) => (
@@ -73,11 +61,11 @@ const TabLayout = () => {
           options={{
             title: tab.title,
             headerTitleAlign: "left",
-            headerTitleStyle: {
-              fontSize: 24,
-              lineHeight: 24,
-              fontFamily: "Bold",
-            },
+            headerTitle: () => (
+              <Text className="text-2xl leading-none font-bold text-black">
+                {tab.title}
+              </Text>
+            ),
             headerTitleContainerStyle: {
               left: 4,
             },
@@ -92,14 +80,10 @@ const TabLayout = () => {
             tabBarIcon: ({ focused }) => (
               <TabIcon focused={focused} icon={tab.icon} />
             ),
-            tabBarLabel: ({ focused, color }) => (
+            tabBarLabel: ({ focused }) => (
               <Text
+                className="text-[11px] leading-none text-center mt-[6px] font-medium"
                 style={{
-                  fontSize: 11,
-                  lineHeight: 11,
-                  fontFamily: "Medium",
-                  textAlign: "center",
-                  marginBottom: 4,
                   color: focused ? colors.accent : colors.tabIconDefault,
                 }}
                 maxFontSizeMultiplier={1.3}

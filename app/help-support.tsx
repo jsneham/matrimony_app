@@ -6,7 +6,8 @@ import { helpSupportMenu } from "@/constants/data";
 import { useSession } from "@/hooks/useSession";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import { Platform, Pressable, ScrollView, Text, View } from "react-native";
+import { Platform, Pressable, ScrollView, View } from "react-native";
+import { Text } from "@/components/ui/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 // Screen-specific extras, prepended to the shared helpSupportMenu list below

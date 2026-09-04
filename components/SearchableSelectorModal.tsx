@@ -8,10 +8,10 @@ import {
   Platform,
   Pressable,
   ScrollView,
-  Text,
-  TextInput,
   View,
 } from "react-native";
+import { Text } from "@/components/ui/Text";
+import { TextInput } from "@/components/ui/TextInput";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Animated, {
   Easing,

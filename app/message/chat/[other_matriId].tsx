@@ -11,10 +11,10 @@ import {
   KeyboardAvoidingView,
   Platform,
   Pressable,
-  Text,
-  TextInput,
   View,
 } from "react-native";
+import { Text } from "@/components/ui/Text";
+import { TextInput } from "@/components/ui/TextInput";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const ChatScreen = () => {

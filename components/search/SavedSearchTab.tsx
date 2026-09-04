@@ -6,9 +6,9 @@ import {
   ActivityIndicator,
   FlatList,
   RefreshControl,
-  Text,
   View,
 } from "react-native";
+import { Text } from "@/components/ui/Text";
 
 const SavedSearchRow = ({ item }: { item: SavedSearchItem }) => (
   <View className="bg-white px-5 py-4 border-b border-gray-100">

@@ -6,11 +6,11 @@ import { LinearGradient } from "expo-linear-gradient";
 import React, { useState } from "react";
 import {
   ActivityIndicator,
-  Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
+import { Text } from "@/components/ui/Text";
+import { TextInput } from "@/components/ui/TextInput";
 import NonEditableFieldModal from "../NonEditableFieldModal";
 
 export const EditRow: React.FC<EditRowProps> = ({
@@ -187,7 +187,7 @@ export const ProfileProgressBanner: React.FC<ProfileProgressBannerProps> = ({
   message,
   showVerify = true,
 }) => (
-  <View className="flex-row items-center justify-between mx-5 h-[34px] my-3 bg-white px-3 rounded-xl">
+  <View className="flex-row items-center justify-between mx-5 min-h-[34px] my-3 bg-white px-3 rounded-xl">
     <View className="flex-row items-center flex-1">
       <Feather
         name="info"

@@ -1,7 +1,8 @@
 import { UserProfile } from "@/types/profile";
 import { Ionicons } from "@expo/vector-icons";
 import { Href, router } from "expo-router";
-import { Text, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
+import { Text } from "@/components/ui/Text";
 
 export const MembershipBanner = (props: {
   userData: UserProfile | undefined;

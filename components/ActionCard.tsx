@@ -1,7 +1,8 @@
 import { colors } from "@/constants/theme";
 import { ActionCardProps } from "@/types/account";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Pressable, Text } from "react-native";
+import { Pressable } from "react-native";
+import { Text } from "@/components/ui/Text";
 
 export const ActionCard: React.FC<ActionCardProps> = ({
   icon,

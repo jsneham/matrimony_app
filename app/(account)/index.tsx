@@ -2,7 +2,8 @@ import { MenuItem } from "@/components/MenuItem";
 import { MY_ACCOUNT_MENU } from "@/constants/data";
 import { Href, router } from "expo-router";
 import React from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import { Text } from "@/components/ui/Text";
 
 export const MyAccount = () => {
   const handlePress = (item: (typeof MY_ACCOUNT_MENU)[0]) => {

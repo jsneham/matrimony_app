@@ -18,9 +18,9 @@ import {
   ActivityIndicator,
   FlatList,
   Pressable,
-  Text,
   View,
 } from "react-native";
+import { Text } from "@/components/ui/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 // Static info per section — title/description/card size.

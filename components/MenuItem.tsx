@@ -1,7 +1,8 @@
 import { colors } from "@/constants/theme";
 import { MenuItemProps } from "@/types/account";
 import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
+import { Text } from "@/components/ui/Text";
 
 export const MenuItem: React.FC<MenuItemProps> = ({
   icon,

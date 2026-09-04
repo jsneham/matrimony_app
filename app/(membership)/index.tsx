@@ -10,9 +10,9 @@ import {
   FlatList,
   Pressable,
   ScrollView,
-  Text,
   View,
 } from "react-native";
+import { Text } from "@/components/ui/Text";
 
 const MembershipPlanList = () => {
   const { openWhatsApp, loading } = useWhatsApp();

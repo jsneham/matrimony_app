@@ -4,7 +4,8 @@ import { SearchResultItem } from "@/types/searchResult";
 import { getPlanAwareName, resolvePhotoUri } from "@/utils/profileHelpers";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { Image, Pressable, Text, View } from "react-native";
+import { Image, Pressable, View } from "react-native";
+import { Text } from "@/components/ui/Text";
 
 export const SearchResultCard = ({
   item,

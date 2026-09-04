@@ -1,7 +1,9 @@
 import { useIdKeywordSearch } from "@/hooks/useIdKeywordSearch";
 import { Feather } from "@expo/vector-icons";
 import React, { useState } from "react";
-import { Pressable, Text, TextInput, View } from "react-native";
+import { Pressable, View } from "react-native";
+import { Text } from "@/components/ui/Text";
+import { TextInput } from "@/components/ui/TextInput";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function IdSearchTab() {

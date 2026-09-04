@@ -1,7 +1,8 @@
 import DiamondIcon from "@/assets/icons/DiamondIcon";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
-import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, TouchableOpacity, View } from "react-native";
+import { Text } from "@/components/ui/Text";
 
 import { useCurrentPlan } from "@/hooks/useCurrentPlan";
 import { DetailRow } from "./DetailRow";

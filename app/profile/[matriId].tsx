@@ -19,9 +19,9 @@ import {
   Linking,
   Pressable,
   ScrollView,
-  Text,
   View,
 } from "react-native";
+import { Text } from "@/components/ui/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const PhotoGridSection = ({

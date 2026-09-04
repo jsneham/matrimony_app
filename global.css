@@ -469,7 +469,26 @@
      Opt-in semantic text styles. Each pairs a tuned text-* size with
      an explicit font-* family so fontSize/lineHeight/fontFamily stay
      consistent wherever they're used. Color is intentionally not
-     baked in — apply a text-* color utility alongside as needed. */
+     baked in — apply a text-* color utility alongside as needed.
+
+     Per-platform size overrides: NativeWind already registers ios:/
+     android: as real variants (see node_modules/nativewind/theme.css,
+     @custom-variant ios (@media ios) / android (@media android)) — no
+     extra setup needed. Use them directly on a className, on top of a
+     role class or a raw text-* utility, ONLY once a comparison against
+     Figma/the real device confirms that specific element genuinely
+     renders differently on the two platforms after the includeFontPadding
+     + line-height fixes (components/ui/Text.tsx, the text-*--line-height
+     scale above) — don't add these speculatively.
+
+       <Text className="text-base android:text-[15px] ...">
+
+     This overrides fontSize (and, via the paired --text-*--line-height
+     token, the matching line-height) only on Android; iOS keeps the
+     base text-base value. Prefer the smallest possible arbitrary value
+     override on the one affected element over changing the shared
+     text-* scale or a role class, so the fix stays scoped to the
+     confirmed mismatch instead of shifting sizes app-wide. */
   .text-display {
     @apply text-5xl font-bold tracking-[-0.4px];
   }

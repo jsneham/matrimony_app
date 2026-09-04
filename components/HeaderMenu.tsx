@@ -4,7 +4,8 @@ import { useSession } from "@/hooks/useSession";
 import { SESSION_KEYS } from "@/types/common";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Href, router } from "expo-router";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
+import { Text } from "@/components/ui/Text";
 
 export const HeaderMenu = () => {
   const { data: sessionData } = useSession([SESSION_KEYS.USER_ID]);
@@ -33,7 +34,7 @@ export const HeaderMenu = () => {
               top: -4,
               right: -6,
               minWidth: 16,
-              height: 16,
+              minHeight: 16,
               borderRadius: 8,
               backgroundColor: "#EF4444",
               alignItems: "center",

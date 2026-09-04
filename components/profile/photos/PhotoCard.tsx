@@ -1,6 +1,7 @@
 import { MoreHorizontal } from "lucide-react-native";
 import React from "react";
-import { Image, Pressable, Text, View } from "react-native";
+import { Image, Pressable, View } from "react-native";
+import { Text } from "@/components/ui/Text";
 
 export const PhotoCard = ({
   source,
@@ -33,7 +34,7 @@ export const PhotoCard = ({
       {pendingLabel && (
         <View
           className="absolute top-2 self-center bg-overlay-black-50 px-3 rounded-full justify-center"
-          style={{ height: 28 }}
+          style={{ minHeight: 28 }}
         >
           <Text className="text-white text-xs font-semibold">
             Approval Pending
@@ -44,7 +45,7 @@ export const PhotoCard = ({
       {mainLabel && (
         <View
           className="absolute bottom-3 left-3 bg-black px-3 rounded-full justify-center"
-          style={{ height: 28 }}
+          style={{ minHeight: 28 }}
         >
           <Text className="text-white text-xs font-semibold">{mainLabel}</Text>
         </View>

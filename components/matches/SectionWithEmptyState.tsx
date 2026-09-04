@@ -1,6 +1,7 @@
 import { SectionShell } from "@/components/matches/SectionShell";
 import React from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import { Text } from "@/components/ui/Text";
 
 type SectionWithEmptyStateProps = {
   title: string;

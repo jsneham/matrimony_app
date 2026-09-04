@@ -5,9 +5,9 @@ import {
     Modal,
     Pressable,
     StatusBar,
-    Text,
     View,
 } from "react-native";
+import { Text } from "@/components/ui/Text";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
     useAnimatedStyle,

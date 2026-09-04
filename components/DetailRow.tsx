@@ -1,5 +1,6 @@
 import { PlanDetail } from "@/types/plan";
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import { Text } from "@/components/ui/Text";
 
 export const DetailRow: React.FC<PlanDetail> = ({
   label,

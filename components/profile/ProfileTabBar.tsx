@@ -1,6 +1,7 @@
 // components/profile/ProfileTabBar.tsx
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity } from "react-native";
+import { Text } from "@/components/ui/Text";
 import { TabConfig } from "@/types/profile";
 
 interface ProfileTabBarProps {

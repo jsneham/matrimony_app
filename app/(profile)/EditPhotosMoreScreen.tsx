@@ -34,9 +34,9 @@ import {
   Alert,
   Pressable,
   ScrollView,
-  Text,
   View,
 } from "react-native";
+import { Text } from "@/components/ui/Text";
 
 // 1:1.5 ratio (width:height) used for all photo crops on this screen
 const PHOTO_ASPECT: [number, number] = [2, 3];
