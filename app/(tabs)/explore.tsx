@@ -5,7 +5,7 @@ import { Text } from "@/components/ui/Text";
 export default function explore() {
   return (
     <View>
-      <Text>Explore</Text>
+      <Text className="font-regular">Explore</Text>
     </View>
   );
 }

@@ -57,7 +57,7 @@ export default function IdSearchTab() {
               />
             </View>
             {matriIdError && (
-              <Text className="text-red-500 text-xs mt-1">{matriIdError}</Text>
+              <Text className="text-red-500 text-xs mt-1 font-regular">{matriIdError}</Text>
             )}
           </View>
         </View>

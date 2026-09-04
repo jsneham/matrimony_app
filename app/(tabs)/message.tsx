@@ -48,7 +48,7 @@ export default function MessageListScreen() {
           }
           ListEmptyComponent={
             <View className="items-center justify-center mt-24 px-8">
-              <Text className="text-gray-400 text-center">
+              <Text className="text-gray-400 text-center font-regular">
                 No messages yet.
               </Text>
             </View>

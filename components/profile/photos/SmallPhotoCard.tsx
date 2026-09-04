@@ -14,7 +14,7 @@ export const SmallPhotoCard = ({
     <Image source={source} className="w-full h-full" resizeMode="cover" />
     {mainLabel && (
       <View className="absolute bottom-1.5 left-1.5 bg-pink-600 px-2 py-1 rounded-full">
-        <Text className="text-white text-[10px] font-semibold">
+        <Text className="text-white text-[10px] font-medium">
           {mainLabel}
         </Text>
       </View>

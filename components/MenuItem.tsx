@@ -31,7 +31,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
       <View className="ml-4 flex-1">
         <Text className="text-base font-bold text-black">{title}</Text>
         {subtitle ? (
-          <Text className="text-sm text-gray-500 mt-1">{subtitle}</Text>
+          <Text className="text-sm text-gray-500 mt-1 font-regular">{subtitle}</Text>
         ) : null}
       </View>
       <Ionicons name="chevron-forward" size={16} color="#9ca3af" />

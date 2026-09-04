@@ -45,10 +45,10 @@ export const HeaderMenu = () => {
             }}
           >
             <Text
+              className="font-bold"
               style={{
                 color: "white",
                 fontSize: 10,
-                fontWeight: "700",
                 lineHeight: 12,
               }}
               numberOfLines={1}

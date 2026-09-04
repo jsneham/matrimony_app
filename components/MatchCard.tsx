@@ -319,7 +319,7 @@ export const MatchCard: React.FC<MatchCardComponentProps> = ({
             >
               <Ionicons name="image-outline" size={64} color="#999" />
 
-              <Text className="mt-2 text-gray-600">No Photo</Text>
+              <Text className="mt-2 text-gray-600 font-regular">No Photo</Text>
             </View>
           )}
 
@@ -391,7 +391,7 @@ export const MatchCard: React.FC<MatchCardComponentProps> = ({
 
             {activeLabel && (
               <Text
-                className="text-white/80 text-xs mb-1"
+                className="text-white/80 text-xs mb-1 font-regular"
                 numberOfLines={1}
                 ellipsizeMode="tail"
               >
@@ -416,7 +416,7 @@ export const MatchCard: React.FC<MatchCardComponentProps> = ({
                 ====================================================== */}
 
             <Text
-              className="mt-1 text-sm text-white"
+              className="mt-1 text-sm text-white font-regular"
               numberOfLines={1}
               ellipsizeMode="tail"
             >
@@ -431,7 +431,7 @@ export const MatchCard: React.FC<MatchCardComponentProps> = ({
 
             {(profile?.occupation_name || profile?.income) && (
               <Text
-                className="text-sm text-white"
+                className="text-sm text-white font-regular"
                 numberOfLines={1}
                 ellipsizeMode="tail"
               >
@@ -447,7 +447,7 @@ export const MatchCard: React.FC<MatchCardComponentProps> = ({
 
             {profile?.education_name && (
               <Text
-                className="text-sm text-white"
+                className="text-sm text-white font-regular"
                 numberOfLines={1}
                 ellipsizeMode="tail"
               >
@@ -461,7 +461,7 @@ export const MatchCard: React.FC<MatchCardComponentProps> = ({
 
             {managedByLabel && (
               <Text
-                className="mt-1 text-xs text-white/70 italic"
+                className="mt-1 text-xs text-white/70 italic font-regular"
                 numberOfLines={1}
                 ellipsizeMode="tail"
               >
@@ -531,7 +531,7 @@ export const MatchCard: React.FC<MatchCardComponentProps> = ({
                         ================================================== */}
 
                   <Text
-                    className="mt-1 text-xs text-white"
+                    className="mt-1 text-xs text-white font-regular"
                     numberOfLines={1}
                     ellipsizeMode="tail"
                   >

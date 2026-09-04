@@ -172,7 +172,7 @@ const MatchListScreen = () => {
   if (!meta || !active) {
     return (
       <View className="flex-1 items-center justify-center">
-        <Text className="text-gray-500">Section not found.</Text>
+        <Text className="text-gray-500 font-regular">Section not found.</Text>
       </View>
     );
   }
@@ -242,7 +242,7 @@ const MatchListScreen = () => {
           }
           ListEmptyComponent={
             <View className="items-center justify-center mt-24">
-              <Text className="text-gray-400">No members to show yet.</Text>
+              <Text className="text-gray-400 font-regular">No members to show yet.</Text>
             </View>
           }
         />

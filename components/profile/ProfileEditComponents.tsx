@@ -61,7 +61,7 @@ export const EditRow: React.FC<EditRowProps> = ({
           <View style={{ marginLeft: 36 }}>
             {/* Hidden measurement pass — detects if full text exceeds 3 lines */}
             <Text
-              className="text-base absolute opacity-0"
+              className="text-base absolute opacity-0 font-regular"
               style={{ zIndex: -1, lineHeight: 20 }}
               onTextLayout={(e) => {
                 if (e.nativeEvent.lines.length > 3 && !isTruncated) {

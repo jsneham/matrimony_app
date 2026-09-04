@@ -112,7 +112,7 @@ export const UpgradePlanSheet: React.FC<UpgradePlanSheetProps> = ({
               <Text className="text-lg font-bold text-gray-900 text-center">
                 Upgrade Required
               </Text>
-              <Text className="text-sm text-gray-500 text-center mt-2 leading-5">
+              <Text className="text-sm text-gray-500 text-center mt-2 leading-5 font-regular">
                 {message}
               </Text>
             </View>
@@ -127,7 +127,7 @@ export const UpgradePlanSheet: React.FC<UpgradePlanSheetProps> = ({
                 </Text>
               </Pressable>
               <Pressable onPress={animateClose} className="py-3 items-center">
-                <Text className="text-gray-500 font-semibold text-base">
+                <Text className="text-gray-500 font-medium text-base">
                   Maybe Later
                 </Text>
               </Pressable>

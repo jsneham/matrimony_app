@@ -48,7 +48,7 @@ export const AccountProfileHeader = () => {
           {userData?.firstname} {userData?.lastname}
         </Text>
 
-        <Text className="text-gray-500 mt-1">{userData?.matri_id}</Text>
+        <Text className="text-gray-500 mt-1 font-regular">{userData?.matri_id}</Text>
       </View>
 
       {/* Action Cards */}

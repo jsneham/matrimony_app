@@ -24,11 +24,11 @@ export const NotificationRow = ({
           <Text className="text-base font-bold text-gray-900">
             {item.title}
           </Text>
-          <Text className="text-xs text-gray-400">
+          <Text className="text-xs text-gray-400 font-regular">
             {formatNotificationDate(item.created_on)}
           </Text>
         </View>
-        <Text className="text-sm text-gray-500 mt-3">{item.message}</Text>
+        <Text className="text-sm text-gray-500 mt-3 font-regular">{item.message}</Text>
       </View>
     </Pressable>
   );

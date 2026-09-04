@@ -57,7 +57,7 @@ export default function KeywordSearchTab() {
               />
             </View>
             {keywordError && (
-              <Text className="text-red-500 text-xs mt-1">{keywordError}</Text>
+              <Text className="text-red-500 text-xs mt-1 font-regular">{keywordError}</Text>
             )}
 
             <Pressable

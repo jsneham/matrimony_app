@@ -5,7 +5,7 @@ import { Text } from "@/components/ui/Text";
 export default function signup() {
   return (
     <View>
-      <Text>signup</Text>
+      <Text className="font-regular">signup</Text>
     </View>
   );
 }

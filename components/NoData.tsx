@@ -15,7 +15,7 @@ export const NoData = ({
       <Text className="text-gray-500 font-bold mt-4 text-center">
         {mainMessage || "No more matches available"}
       </Text>
-      <Text className="text-gray-400 text-sm mt-2 text-center">
+      <Text className="text-gray-400 text-sm mt-2 text-center font-regular">
         {subText || "Check back later for new matches"}
       </Text>
     </View>

@@ -43,12 +43,14 @@ export const ConversationRow = ({ item }: { item: ConversationListItem }) => {
           <Text className="text-base font-bold text-gray-900" numberOfLines={1}>
             {displayName}
           </Text>
-          <Text className="text-xs text-gray-400">{item.sent_on}</Text>
+          <Text className="text-xs text-gray-400 font-regular">{item.sent_on}</Text>
         </View>
         <View className="flex-row items-center justify-between mt-1">
           <Text
             className={`text-sm flex-1 mr-2 ${
-              unread > 0 ? "text-gray-900 font-semibold" : "text-gray-500"
+              unread > 0
+                ? "text-gray-900 font-medium"
+                : "text-gray-500 font-regular"
             }`}
             numberOfLines={1}
           >

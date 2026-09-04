@@ -101,9 +101,9 @@ export const ProfilePhotoWIthProgress: React.FC<{
           }}
         >
           <Text
+            className="font-bold"
             style={{
               fontSize: 11,
-              fontWeight: "700",
               color: "white",
             }}
           >

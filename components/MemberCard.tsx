@@ -41,17 +41,17 @@ export const MemberCard: React.FC<MemberCardProps> = ({
 
     {/* Info */}
     <View className="px-3 py-2.5">
-      <Text className="text-gray-500 text-xs mb-1">{matriId}</Text>
-      <Text className="text-gray-600 text-xs mb-0.5">
+      <Text className="text-gray-500 text-xs mb-1 font-regular">{matriId}</Text>
+      <Text className="text-gray-600 text-xs mb-0.5 font-regular">
         {age}, {height}
       </Text>
-      <Text className="text-gray-600 text-xs mb-0.5" numberOfLines={1}>
+      <Text className="text-gray-600 text-xs mb-0.5 font-regular" numberOfLines={1}>
         {religion}, {caste}
       </Text>
-      <Text className="text-gray-600 text-xs mb-0.5" numberOfLines={1}>
+      <Text className="text-gray-600 text-xs mb-0.5 font-regular" numberOfLines={1}>
         {education}
       </Text>
-      <Text className="text-gray-500 text-xs" numberOfLines={1}>
+      <Text className="text-gray-500 text-xs font-regular" numberOfLines={1}>
         {location}
       </Text>
     </View>

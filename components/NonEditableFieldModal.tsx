@@ -101,7 +101,7 @@ export const NonEditableFieldModal: React.FC<NonEditableFieldModalProps> = ({
               Some Fields like Date of Birth, Age, Height cannot be edited
             </Text>
 
-            <Text className="text-base text-gray-400 text-center mb-8 leading-6">
+            <Text className="text-base text-gray-400 text-center mb-8 leading-6 font-regular">
               If you have made a mistake, please visit the Help Center and reach
               out to customer support team to modify these
             </Text>

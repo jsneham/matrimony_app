@@ -5,7 +5,7 @@ import { Text } from "@/components/ui/Text";
 export default function interest() {
   return (
     <View>
-      <Text>interest</Text>
+      <Text className="font-regular">interest</Text>
     </View>
   );
 }

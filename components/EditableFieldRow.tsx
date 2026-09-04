@@ -126,7 +126,7 @@ export const EditableFieldRow: React.FC<{
         }}
         placeholderTextColor={colors.placeholder}
       />
-      <Text className="text-xs text-gray-400 text-right mt-1">
+      <Text className="text-xs text-gray-400 text-right mt-1 font-regular">
         {value.length}/{maxLength}
       </Text>
     </View>

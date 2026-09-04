@@ -198,7 +198,7 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = ({
           style={{ paddingTop: insets.top + 12, paddingBottom: 12 }}
         >
           <Pressable onPress={onCancel} hitSlop={10}>
-            <Text className="text-white text-base font-semibold">Cancel</Text>
+            <Text className="text-white text-base font-medium">Cancel</Text>
           </Pressable>
           <Text className="text-white text-base font-bold">Crop Photo</Text>
           <Pressable
@@ -247,7 +247,7 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = ({
             </GestureDetector>
           </View>
 
-          <Text className="text-white text-xs mt-4 opacity-70">
+          <Text className="text-white text-xs mt-4 opacity-70 font-regular">
             Pinch to zoom, drag to reposition
           </Text>
         </View>

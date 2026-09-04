@@ -19,7 +19,7 @@ const ProfileVisitors = () => {
       </Text>
       <View className="mt-5 bg-white rounded-2xl px-5 py-6 items-center border border-gray-100">
         <Ionicons name="eye-outline" size={32} color="#cbd5e1" />
-        <Text className="text-gray-400 text-sm mt-3 text-center">
+        <Text className="text-gray-400 text-sm mt-3 text-center font-regular">
           Members who viewed your profile will appear here.
         </Text>
       </View>

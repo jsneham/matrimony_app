@@ -36,7 +36,7 @@ export const PhotoCard = ({
           className="absolute top-2 self-center bg-overlay-black-50 px-3 rounded-full justify-center"
           style={{ minHeight: 28 }}
         >
-          <Text className="text-white text-xs font-semibold">
+          <Text className="text-white text-xs font-medium">
             Approval Pending
           </Text>
         </View>
@@ -47,7 +47,7 @@ export const PhotoCard = ({
           className="absolute bottom-3 left-3 bg-black px-3 rounded-full justify-center"
           style={{ minHeight: 28 }}
         >
-          <Text className="text-white text-xs font-semibold">{mainLabel}</Text>
+          <Text className="text-white text-xs font-medium">{mainLabel}</Text>
         </View>
       )}
 

@@ -61,7 +61,7 @@ export const SearchResultCard = ({
         {/* Photo count badge */}
         <View className="absolute top-3 right-3 flex-row items-center bg-black/60 px-2 py-1 rounded-full">
           <Feather name="image" size={12} color="#fff" />
-          <Text className="text-white text-xs font-semibold ml-1">1</Text>
+          <Text className="text-white text-xs font-medium ml-1">1</Text>
         </View>
 
         {/* Overlay info */}
@@ -76,21 +76,21 @@ export const SearchResultCard = ({
               </View>
             )}
             {item.logged_in === "1" && (
-              <Text className="text-white text-xs">Active Today</Text>
+              <Text className="text-white text-xs font-regular">Active Today</Text>
             )}
           </View>
 
           <Text className="text-white text-2xl font-bold">
             {displayName}, {item.age}
           </Text>
-          <Text className="text-white text-sm mt-1">
+          <Text className="text-white text-sm mt-1 font-regular">
             {item.height} · {item.city_name} · {item.religion_name}
           </Text>
-          <Text className="text-white text-sm">
+          <Text className="text-white text-sm font-regular">
             {item.occupation_name} · Earns {item.income} p.a
           </Text>
-          <Text className="text-white text-sm">{item.education_name}</Text>
-          <Text className="text-white text-xs italic mt-1">
+          <Text className="text-white text-sm font-regular">{item.education_name}</Text>
+          <Text className="text-white text-xs italic mt-1 font-regular">
             Profile managed by {item.profileby}
           </Text>
         </View>
@@ -145,7 +145,7 @@ const ActionButton = ({
     >
       <Ionicons name={icon} size={20} color={active ? "#fff" : "#374151"} />
     </View>
-    <Text className="text-xs text-gray-600 mt-1">{label}</Text>
+    <Text className="text-xs text-gray-600 mt-1 font-regular">{label}</Text>
   </Pressable>
 );
 

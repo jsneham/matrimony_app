@@ -20,7 +20,7 @@ export const ProfileCard = (props: { userData: UserProfile | undefined }) => {
           <Text className="text-gray-900 text-lg font-bold mb-0.5">
             {userData?.firstname} {userData?.lastname}
           </Text>
-          <Text className="text-gray-400 text-sm mb-2">
+          <Text className="text-gray-400 text-sm mb-2 font-regular">
             {userData?.matri_id}
           </Text>
           <View className="flex-row items-center justify-between">

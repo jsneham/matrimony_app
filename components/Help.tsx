@@ -15,7 +15,7 @@ const Help = () => {
             <Text className="text-gray-900 text-base font-bold mb-1">
               Need Help? WhatsApp Us
             </Text>
-            <Text className="text-gray-400 text-sm leading-5">
+            <Text className="text-gray-400 text-sm leading-5 font-regular">
               Share your queries on WhatsApp.{"\n"}We'll assist you at the
               earliest.
             </Text>

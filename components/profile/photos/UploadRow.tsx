@@ -54,7 +54,7 @@ export const UploadRow = ({
             }}
           >
             <Text
-              className="text-white font-semibold"
+              className="text-white font-medium"
               numberOfLines={1}
               adjustsFontSizeToFit
               minimumFontScale={0.75}

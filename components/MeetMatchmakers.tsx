@@ -17,7 +17,7 @@ const MeetMatchmakers = () => {
           <Text className="text-gray-900 text-base font-bold mb-0.5">
             Meet Matchmakers
           </Text>
-          <Text className="text-gray-400 text-sm">View All Milan Partners</Text>
+          <Text className="text-gray-400 text-sm font-regular">View All Milan Partners</Text>
         </View>
         <Ionicons name="chevron-forward" size={20} color="#9ca3af" />
       </TouchableOpacity>

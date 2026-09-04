@@ -62,7 +62,7 @@ const PhotoGridSection = ({
               />
               {isMain && (
                 <View className="absolute bottom-2 left-2 bg-black/70 px-2.5 py-1 rounded-full">
-                  <Text className="text-white text-xs font-semibold">
+                  <Text className="text-white text-xs font-medium">
                     Main Photo
                   </Text>
                 </View>
@@ -122,7 +122,7 @@ const ProfileScreen = () => {
           <Text className="text-lg font-bold text-gray-900 mt-4">
             No data found
           </Text>
-          <Text className="text-sm text-gray-500 text-center mt-2">
+          <Text className="text-sm text-gray-500 text-center mt-2 font-regular">
             {(data as any)?.errmessage ||
               "We couldn't load this profile. Please try again."}
           </Text>
@@ -207,16 +207,16 @@ const ProfileScreen = () => {
             <Text className="text-white text-2xl font-bold">
               {profile.username}
             </Text>
-            <Text className="text-white text-base mt-1">
+            <Text className="text-white text-base mt-1 font-regular">
               {profile.age}, {profile.height}
             </Text>
-            <Text className="text-white text-base">
+            <Text className="text-white text-base font-regular">
               {profile.education_name}, {profile.occupation_name}
             </Text>
-            <Text className="text-white text-base">
+            <Text className="text-white text-base font-regular">
               {profile.religion_name}, {profile.caste_name}
             </Text>
-            <Text className="text-white text-base">
+            <Text className="text-white text-base font-regular">
               {profile.city_name}, {profile.state_name}
             </Text>
           </View>
@@ -346,7 +346,7 @@ const ProfileScreen = () => {
           <Text className="text-lg font-bold text-gray-900 mb-3">
             {profile.assign_to_staff}
           </Text>
-          <Text className="text-sm text-gray-500 text-center mb-4">
+          <Text className="text-sm text-gray-500 text-center mb-4 font-regular">
             Please mention that you&apos;re contacting from this app so the
             matchmaker understands your enquiry &amp; assists you
           </Text>
@@ -460,7 +460,7 @@ const ProfileScreen = () => {
         className="flex-row items-center justify-between px-5 py-3 border-t border-gray-100 bg-white"
         style={{ paddingBottom: Math.max(insets.bottom, 12) }}
       >
-        <Text className="text-purple-800 font-semibold italic">
+        <Text className="text-purple-800 font-medium italic">
           Liked this Profile? Don&apos;t Wait
         </Text>
         <Pressable
@@ -492,7 +492,7 @@ const PrefRow = ({
 }) => (
   <View className="flex-row items-center justify-between px-5 py-3 border-b border-gray-100">
     <View>
-      <Text className="text-gray-400 text-sm">{label}</Text>
+      <Text className="text-gray-400 text-sm font-regular">{label}</Text>
       <Text className="text-gray-900 font-bold text-base mt-0.5">{value}</Text>
     </View>
     <View

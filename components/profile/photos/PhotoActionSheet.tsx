@@ -132,7 +132,7 @@ export const PhotoActionSheet: React.FC<PhotoActionSheetProps> = ({
                   >
                     <View className="w-6 h-6 rounded-full border-2 border-gray-300 mr-4" />
                     <Text
-                      className={`text-base font-semibold ${
+                      className={`text-base font-medium ${
                         option.destructive ? "text-red-500" : "text-gray-900"
                       }`}
                     >

@@ -627,7 +627,7 @@ const EditPhotosMoreScreen = () => {
         >
           <View className="bg-white rounded-2xl px-6 py-5 items-center w-56">
             <ActivityIndicator size="large" color="#db2777" />
-            <Text className="mt-3 text-gray-900 font-semibold">
+            <Text className="mt-3 text-gray-900 font-medium">
               Uploading... {uploadProgress}%
             </Text>
           </View>
