@@ -42,7 +42,7 @@ export const EditRow: React.FC<EditRowProps> = ({
       <TouchableOpacity
         onPress={handlePress}
         activeOpacity={editable ? 0.7 : 1}
-        className={`pl-5 pr-4 pt-5 pb-4 flex-row justify-between items-center bg-white ${isLast ? "" : "border-b border-gray-100"}`}
+        className={`pl-5 pr-4 pt-5 pb-4 flex-row justify-between items-start bg-white ${isLast ? "" : "border-b border-gray-100"}`}
         style={{
           ...(isFirst
             ? { borderTopLeftRadius: 16, borderTopRightRadius: 16 }

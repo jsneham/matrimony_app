@@ -18,7 +18,7 @@ export const PhotoCard = ({
   onPressMenu?: () => void;
   onPressImage?: () => void;
 }) => {
-  const height = size === "large" ? "h-64" : "h-32";
+  const height = size === "large" ? "h-[249px]" : "h-32";
   return (
     <View
       className={`flex-1 ${height} rounded-2xl overflow-hidden border border-dashed border-gray-400 relative bg-gray-100`}
@@ -34,9 +34,9 @@ export const PhotoCard = ({
       {pendingLabel && (
         <View
           className="absolute top-2 self-center bg-overlay-black-50 px-3 rounded-full justify-center"
-          style={{ minHeight: 28 }}
+          style={{ minHeight: 32 }}
         >
-          <Text className="text-white text-xs font-medium">
+          <Text className="text-white text-sm leading-none font-bold">
             Approval Pending
           </Text>
         </View>
@@ -44,10 +44,10 @@ export const PhotoCard = ({
 
       {mainLabel && (
         <View
-          className="absolute bottom-3 left-3 bg-black px-3 rounded-full justify-center"
-          style={{ minHeight: 28 }}
+          className="absolute bottom-3 left-3 bg-black px-[13px] rounded-full justify-center"
+          style={{ minHeight: 32 }}
         >
-          <Text className="text-white text-xs font-medium">{mainLabel}</Text>
+          <Text className="text-white text-sm leading-none font-bold">{mainLabel}</Text>
         </View>
       )}
 

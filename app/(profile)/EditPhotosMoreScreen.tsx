@@ -523,7 +523,7 @@ const EditPhotosMoreScreen = () => {
       >
         {/* Main photos section */}
         <View className="mt-14 mb-4">
-          <Text className="text-2xl font-bold text-gray-900">Photos</Text>
+          <Text className="text-2xl leading-none font-bold text-black">Photos</Text>
         </View>
 
         <View className="flex-row gap-3 mb-3">
@@ -552,7 +552,7 @@ const EditPhotosMoreScreen = () => {
         </View>
 
         {/* Photo Privacy */}
-        <Text className="text-2xl font-bold text-gray-900 mb-4 mt-14">
+        <Text className="text-2xl leading-none font-bold text-black mb-4 mt-14">
           Photo Privacy
         </Text>
         <View className="border border-dashed border-gray-400 rounded-2xl px-4 py-4 flex-row items-center justify-between bg-white">

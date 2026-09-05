@@ -28,7 +28,7 @@ export const UploadRow = ({
 }) => (
   <View>
     <View className="mt-14 mb-4">
-      <Text className="text-2xl font-bold text-gray-900">{heading}</Text>
+      <Text className="text-2xl leading-none font-bold text-black">{heading}</Text>
     </View>
 
     {imageUri ? (
