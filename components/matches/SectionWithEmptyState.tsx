@@ -38,11 +38,11 @@ export const SectionWithEmptyState: React.FC<SectionWithEmptyStateProps> = ({
           title={title}
           description={
             <>
-              <Text className="text-base font-regular text-gray-500 mt-3">
+              <Text className="text-base font-regular text-gray mt-3">
                 {emptyDescriptionLine1 ?? description}
               </Text>
               {emptyDescriptionLine2 && (
-                <Text className="text-base font-regular text-gray-500 mt-10">
+                <Text className="text-base font-regular text-gray mt-10">
                   {emptyDescriptionLine2}
                 </Text>
               )}
