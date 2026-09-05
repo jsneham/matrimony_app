@@ -109,7 +109,7 @@ export const UpgradePlanSheet: React.FC<UpgradePlanSheetProps> = ({
               <View className="w-14 h-14 rounded-full bg-pink-50 items-center justify-center mb-4">
                 <Ionicons name="lock-closed" size={26} color="#db2777" />
               </View>
-              <Text className="text-lg font-bold text-gray-900 text-center">
+              <Text className="text-2xl leading-none font-bold text-black text-center">
                 Upgrade Required
               </Text>
               <Text className="text-sm text-gray-500 text-center mt-2 leading-5 font-regular">

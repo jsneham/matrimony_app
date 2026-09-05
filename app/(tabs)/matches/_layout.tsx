@@ -77,7 +77,7 @@ export default function MatchesLayout() {
                 <View className="flex-row items-center gap-[6px]">
                   {tab.key === "search" && (
                     <SearchFortabIcon
-                      size={16}
+                      size={15}
                       color={isActive ? "#000000" : "#8B8B8B"}
                     />
                   )}

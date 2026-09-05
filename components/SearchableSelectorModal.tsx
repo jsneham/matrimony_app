@@ -260,7 +260,7 @@ export const SearchableSelectorModal: React.FC<
                   </Text>
                 </Pressable>
               </View>
-              <Text className="flex-1 text-lg font-bold text-black text-center">
+              <Text className="flex-1 text-2xl leading-none font-bold text-black text-center">
                 {title}
               </Text>
               <View style={{ width: 50, alignItems: "flex-end" }}>

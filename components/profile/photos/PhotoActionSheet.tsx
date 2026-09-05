@@ -113,7 +113,7 @@ export const PhotoActionSheet: React.FC<PhotoActionSheetProps> = ({
           >
             {/* Header */}
             <View className="px-5 py-5 flex-row items-center justify-between border-b border-light-divider-color">
-              <Text className="text-xl font-bold text-black">{title}</Text>
+              <Text className="text-2xl leading-none font-bold text-black">{title}</Text>
               <Pressable
                 onPress={animateClose}
                 style={{ width: 24, alignItems: "center" }}

@@ -104,7 +104,7 @@ export const PhotoPrivacySheet: React.FC<PhotoPrivacySheetProps> = ({
           >
             {/* Header */}
             <View className="items-center px-5 py-5 border-b border-light-divider-color">
-              <Text className="text-lg font-bold text-black text-center">
+              <Text className="text-2xl leading-none font-bold text-black text-center">
                 {title}
               </Text>
             </View>

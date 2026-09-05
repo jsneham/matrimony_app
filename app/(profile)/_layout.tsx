@@ -1,18 +1,11 @@
-import { Ionicons } from "@expo/vector-icons";
-import { router, useLocalSearchParams } from "expo-router";
-import React, { useRef, useState } from "react";
-import {
-  Animated,
-  Dimensions,
-  Pressable,
-  TouchableOpacity,
-  View,
-} from "react-native";
 import { Text } from "@/components/ui/Text";
+import { Ionicons } from "@expo/vector-icons";
+import { useLocalSearchParams } from "expo-router";
+import React, { useRef, useState } from "react";
+import { Animated, Dimensions, TouchableOpacity, View } from "react-native";
 import PagerView from "react-native-pager-view";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import ChevronLeftIcon from "@/assets/icons/ChevronLeftIcon";
 import { PROFILE_TABS } from "@/constants/data";
 import EditProfileScreen from ".";
 import EditPhotosMoreScreen from "./EditPhotosMoreScreen";
@@ -28,7 +21,7 @@ const TAB_PARAM_TO_INDEX: Record<string, number> = {
   photos: 2,
 };
 
-export default function MatchesLayout() {
+export default function ProfileLayout() {
   const insets = useSafeAreaInsets();
   const { tab } = useLocalSearchParams<{ tab?: string }>();
   const initialIndex =
@@ -68,7 +61,7 @@ export default function MatchesLayout() {
 
   return (
     <View className="flex-1 bg-white">
-      {/* ── Header ────────────────────────────────────── */}
+      {/* ── Header ──────────────────────────────────────
       <View
         className="bg-white flex-row items-center"
         style={{ paddingTop: insets.top }}
@@ -91,7 +84,7 @@ export default function MatchesLayout() {
         >
           Profile
         </Text>
-      </View>
+      </View> */}
 
       {/* ── Top Tab Bar ───────────────────────────────── */}
       <View className="bg-white">
@@ -111,11 +104,7 @@ export default function MatchesLayout() {
                     <Ionicons
                       name={tab.icon}
                       size={14}
-                      color={
-                        isActive
-                          ? "text-tab-text-active"
-                          : "text-tab-text-inactive"
-                      }
+                      color={isActive ? "#000000" : "#8B8B8B"}
                     />
                   )}
                   <Text
