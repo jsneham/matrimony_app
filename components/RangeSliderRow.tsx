@@ -59,7 +59,7 @@ export const RangeSliderRow: React.FC<RangeSliderRowProps> = ({
           <DummyIcon />
           <Text className="text-base font-bold text-black">{label}</Text>
         </View>
-        <Text className="text-base text-gray-400 font-regular">
+        <Text className="text-base text-gray font-regular">
           {lowVal} - {highVal}
         </Text>
       </View>

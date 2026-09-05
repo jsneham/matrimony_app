@@ -1,6 +1,7 @@
 import LockAltIcon from "@/assets/icons/LockAltIcon";
 import { Text } from "@/components/ui/Text";
 import { VisitorCardProps } from "@/types/matches";
+import { colors } from "@/constants/theme";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { Image, Pressable, View } from "react-native";
@@ -45,7 +46,7 @@ export const VisitorCard: React.FC<
             className="w-full h-full items-center justify-center"
             style={{ backgroundColor: placeholderColor }}
           >
-            <Ionicons name="person" size={isSmall ? 32 : 48} color="#9ca3af" />
+            <Ionicons name="person" size={isSmall ? 32 : 48} color={colors.gray} />
           </View>
         )}
 

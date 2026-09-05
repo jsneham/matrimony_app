@@ -2,6 +2,7 @@ import { MemberCardProps } from "@/types/home";
 import { Ionicons } from "@expo/vector-icons";
 import { Image, View } from "react-native";
 import { Text } from "@/components/ui/Text";
+import { colors } from "@/constants/theme";
 
 export const MemberCard: React.FC<MemberCardProps> = ({
   name,
@@ -28,7 +29,7 @@ export const MemberCard: React.FC<MemberCardProps> = ({
           className="items-center justify-center bg-gray-200"
           style={{ width: "100%", height: 160 }}
         >
-          <Ionicons name="person" size={64} color="#9ca3af" />
+          <Ionicons name="person" size={64} color={colors.gray} />
         </View>
       )}
       {/* Name overlay */}

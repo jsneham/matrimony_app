@@ -3,6 +3,7 @@ import { SplashScreen, Stack } from "expo-router";
 import "react-native-reanimated";
 
 import "@/global.css";
+import { Text } from "@/components/ui/Text";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
@@ -81,7 +82,11 @@ export default function RootLayout() {
             <Stack.Screen
               name="(membership)"
               options={{
-                title: "Membership Plan",
+                headerTitle: () => (
+                  <Text className="text-lg leading-none font-bold text-black">
+                    Membership Plan
+                  </Text>
+                ),
                 headerShown: true,
                 headerTitleAlign: "center",
                 headerBackButtonDisplayMode: "minimal",
@@ -91,7 +96,11 @@ export default function RootLayout() {
             <Stack.Screen
               name="(profile)"
               options={{
-                title: "Profile",
+                headerTitle: () => (
+                  <Text className="text-lg leading-none font-bold text-black">
+                    Profile
+                  </Text>
+                ),
                 headerShown: true,
                 headerTitleAlign: "center",
                 headerBackButtonDisplayMode: "minimal",
@@ -121,7 +130,11 @@ export default function RootLayout() {
             <Stack.Screen
               name="(notification)"
               options={{
-                title: "Notifications",
+                headerTitle: () => (
+                  <Text className="text-lg leading-none font-bold text-black">
+                    Notifications
+                  </Text>
+                ),
                 headerShown: true,
                 headerTitleAlign: "center",
                 headerBackButtonDisplayMode: "minimal",

@@ -1,4 +1,5 @@
 import AddPhotoIcon from "@/assets/icons/AddPhotoIcon";
+import { colors } from "@/constants/theme";
 import { Feather } from "@expo/vector-icons";
 import { MoreHorizontal } from "lucide-react-native";
 import React from "react";
@@ -79,7 +80,7 @@ export const UploadRow = ({
       >
         <Text className="text-gray-400 font-regular text-base">{label}</Text>
         <View className="w-6 h-6 rounded-full items-center justify-center">
-          <Icon size={20} color="#9ca3af" />
+          <Icon size={20} color={colors.gray} />
         </View>
       </Pressable>
     )}
@@ -89,7 +90,7 @@ export const UploadRow = ({
         <Feather
           name="info"
           size={12}
-          color="#8B8B8B"
+          color={colors.gray}
           style={{ marginRight: 6, marginTop: -2 }}
         />
         <Text className="text-gray font-regular text-sm flex-1">{note}</Text>

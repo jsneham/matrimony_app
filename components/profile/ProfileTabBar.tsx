@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { View, TouchableOpacity } from "react-native";
 import { Text } from "@/components/ui/Text";
+import { colors } from "@/constants/theme";
 import { TabConfig } from "@/types/profile";
 
 interface ProfileTabBarProps {
@@ -18,7 +19,7 @@ export const ProfileTabBar: React.FC<ProfileTabBarProps> = ({
   const [textWidths, setTextWidths] = useState<Record<string, number>>({});
 
   return (
-    <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', paddingHorizontal: 12, borderBottomWidth: 1, borderBottomColor: '#e5e7eb', marginBottom: 8 }}>
+    <View className="flex-row justify-evenly px-3 mb-2 border-b border-gray-200">
       {tabs.map((tab) => {
         const isActive = activeTab === tab.id;
         return (
@@ -35,12 +36,9 @@ export const ProfileTabBar: React.FC<ProfileTabBarProps> = ({
               }}
               numberOfLines={1}
               adjustsFontSizeToFit
-              style={{
-                fontSize: 12,
-                fontFamily: 'Bold',
-                color: isActive ? '#111827' : '#6b7280',
-                textAlign: 'center',
-              }}
+              className={`text-xs leading-none text-center font-bold ${
+                isActive ? "text-black" : "text-gray"
+              }`}
             >
               {tab.label}
             </Text>
@@ -51,7 +49,7 @@ export const ProfileTabBar: React.FC<ProfileTabBarProps> = ({
                 height: 2,
                 width: textWidths[tab.id] ?? 0,
                 borderRadius: 1,
-                backgroundColor: isActive ? '#111827' : 'transparent',
+                backgroundColor: isActive ? colors.black : "transparent",
               }}
             />
           </TouchableOpacity>

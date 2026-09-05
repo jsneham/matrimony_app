@@ -2,6 +2,7 @@ import { useSession } from "@/hooks/useSession";
 import { SESSION_KEYS } from "@/types/common";
 import { SearchResultItem } from "@/types/searchResult";
 import { getPlanAwareName, resolvePhotoUri } from "@/utils/profileHelpers";
+import { colors } from "@/constants/theme";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { Image, Pressable, View } from "react-native";
@@ -54,7 +55,7 @@ export const SearchResultCard = ({
           />
         ) : (
           <View className="w-full h-full items-center justify-center">
-            <Ionicons name="person" size={64} color="#9ca3af" />
+            <Ionicons name="person" size={64} color={colors.gray} />
           </View>
         )}
 

@@ -2,6 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { TouchableOpacity, View } from "react-native";
 import { Text } from "@/components/ui/Text";
+import { colors } from "@/constants/theme";
 
 const SuccessStories = () => {
   return (
@@ -18,7 +19,7 @@ const SuccessStories = () => {
             Couples who found their match
           </Text>
         </View>
-        <Ionicons name="chevron-forward" size={20} color="#9ca3af" />
+        <Ionicons name="chevron-forward" size={20} color={colors.gray} />
       </TouchableOpacity>
     </View>
   );

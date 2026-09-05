@@ -7,6 +7,7 @@ import PagerView from "react-native-pager-view";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { PROFILE_TABS } from "@/constants/data";
+import { colors } from "@/constants/theme";
 import EditProfileScreen from ".";
 import EditPhotosMoreScreen from "./EditPhotosMoreScreen";
 import EditPartnerPreferenceScreen from "./partner-preference";
@@ -104,7 +105,7 @@ export default function ProfileLayout() {
                     <Ionicons
                       name={tab.icon}
                       size={14}
-                      color={isActive ? "#000000" : "#8B8B8B"}
+                      color={isActive ? colors.black : colors.gray}
                     />
                   )}
                   <Text

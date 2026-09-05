@@ -6,6 +6,7 @@ import * as Haptics from "expo-haptics";
 import React, { useState } from "react";
 import { LayoutChangeEvent, View } from "react-native";
 import { Text } from "@/components/ui/Text";
+import { colors } from "@/constants/theme";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
   runOnJS,
@@ -14,7 +15,7 @@ import Animated, {
 } from "react-native-reanimated";
 
 const THUMB_SIZE = 22;
-const LABEL_COLOR = "#8B8B8B"; // matches the sidebar category label color
+const LABEL_COLOR = colors.gray; // matches the sidebar category label color
 
 type VerticalRangeSliderProps = {
   length: number;

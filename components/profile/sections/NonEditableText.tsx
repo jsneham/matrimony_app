@@ -1,5 +1,6 @@
 import NonEditableFieldModal from "@/components/NonEditableFieldModal";
 import { DummyIcon } from "@/constants/icons";
+import { colors } from "@/constants/theme";
 import { EditRowProps } from "@/types/profile";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
@@ -56,9 +57,9 @@ export const NonEditableText: React.FC<EditRowProps> = ({
         </View>
 
         {editable ? (
-          <Ionicons name="chevron-forward" size={16} color="#9ca3af" />
+          <Ionicons name="chevron-forward" size={16} color={colors.gray} />
         ) : (
-          <Feather name="info" size={16} color="#9ca3af" />
+          <Feather name="info" size={16} color={colors.gray} />
         )}
       </TouchableOpacity>
 

@@ -62,7 +62,7 @@ export const EditRow: React.FC<EditRowProps> = ({
             {/* Hidden measurement pass — detects if full text exceeds 3 lines */}
             <Text
               className="text-base absolute opacity-0 font-regular"
-              style={{ zIndex: -1, lineHeight: 20 }}
+              style={{ zIndex: -1, lineHeight: 16 }}
               onTextLayout={(e) => {
                 if (e.nativeEvent.lines.length > 3 && !isTruncated) {
                   setIsTruncated(true);
@@ -79,7 +79,7 @@ export const EditRow: React.FC<EditRowProps> = ({
                   ? "text-gray font-regular"
                   : "text-placeholder font-regular"
               }`}
-              style={{ lineHeight: 20 }}
+              style={{ lineHeight: 16 }}
             >
               {displayText}
             </Text>
@@ -91,7 +91,7 @@ export const EditRow: React.FC<EditRowProps> = ({
                   position: "absolute",
                   right: 0,
                   bottom: 0,
-                  height: 20, // matches lineHeight — covers exactly the 3rd line
+                  height: 16, // matches lineHeight — covers exactly the 3rd line
                   flexDirection: "row",
                   alignItems: "center",
                 }}
@@ -101,7 +101,7 @@ export const EditRow: React.FC<EditRowProps> = ({
                   locations={[0, 0.35, 1]}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 0 }}
-                  style={{ width: 90, height: 20 }}
+                  style={{ width: 90, height: 16 }}
                 />
                 <TouchableOpacity
                   onPress={(e) => {
@@ -111,7 +111,7 @@ export const EditRow: React.FC<EditRowProps> = ({
                   hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
                   style={{
                     backgroundColor: "#ffffff",
-                    height: 20,
+                    height: 16,
                     justifyContent: "center",
                     paddingLeft: 2,
                     flexShrink: 0,
@@ -120,7 +120,7 @@ export const EditRow: React.FC<EditRowProps> = ({
                   <Text
                     className="text-pink-600 text-base font-regular"
                     numberOfLines={1}
-                    style={{ lineHeight: 20 }}
+                    style={{ lineHeight: 16 }}
                   >
                     View more
                   </Text>
@@ -147,9 +147,9 @@ export const EditRow: React.FC<EditRowProps> = ({
         </View>
 
         {editable ? (
-          <Ionicons name="chevron-forward" size={16} color="#9ca3af" />
+          <Ionicons name="chevron-forward" size={16} color={colors.gray} />
         ) : (
-          <Feather name="info" size={16} color="#9ca3af" />
+          <Feather name="info" size={16} color={colors.gray} />
         )}
       </TouchableOpacity>
 
@@ -192,7 +192,7 @@ export const ProfileProgressBanner: React.FC<ProfileProgressBannerProps> = ({
       <Feather
         name="info"
         size={12}
-        color="#8B8B8B"
+        color={colors.gray}
         style={{ marginRight: 6, marginTop: -2 }}
       />
       <Text className="text-gray font-regular text-sm">

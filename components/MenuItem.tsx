@@ -34,7 +34,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
           <Text className="text-sm text-gray-500 mt-1 font-regular">{subtitle}</Text>
         ) : null}
       </View>
-      <Ionicons name="chevron-forward" size={16} color="#9ca3af" />
+      <Ionicons name="chevron-forward" size={16} color={colors.gray} />
     </Pressable>
     {!isLast && <View className="h-px bg-gray-100 mx-5" />}
   </View>

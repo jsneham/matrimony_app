@@ -35,7 +35,7 @@ export const LifestylePreferenceSection: React.FC<LifestyleSectionProps> = ({
 }) => (
   <View
     onLayout={(e) => onLayout(sectionId, e)}
-    className="mb-12 mx-5"
+    className="mt-14 mx-5"
     style={{
       backgroundColor: "#f9fafb",
       borderTopLeftRadius: 16,

@@ -1,4 +1,5 @@
 import { useIdKeywordSearch } from "@/hooks/useIdKeywordSearch";
+import { colors } from "@/constants/theme";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { Pressable, View } from "react-native";
@@ -38,8 +39,8 @@ export default function KeywordSearchTab() {
               Search using a keyword — like a name, profession, or city — to
               find matching profiles.
             </Text>
-            <View className="mt-8 flex-row items-center pb-3 border-b border-[#8B8B8B]">
-              <Feather name="search" size={16} color="#8B8B8B" />
+            <View className="mt-8 flex-row items-center pb-3 border-b border-gray">
+              <Feather name="search" size={16} color={colors.gray} />
               <TextInput
                 value={keyword}
                 onChangeText={(text) => {
@@ -47,7 +48,7 @@ export default function KeywordSearchTab() {
                   setKeywordError(undefined);
                 }}
                 placeholder="Enter Keyword"
-                placeholderTextColor="#8B8B8B"
+                placeholderTextColor={colors.gray}
                 autoCapitalize="none"
                 autoCorrect={false}
                 style={{ flex: 1, padding: 0, marginLeft: 8 }}

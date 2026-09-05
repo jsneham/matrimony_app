@@ -1,4 +1,5 @@
 import { VerticalRangeSlider } from "@/components/VerticalRangeSlider";
+import { colors } from "@/constants/theme";
 import {
   useAge,
   useBodyType,
@@ -379,12 +380,12 @@ export default function FiltersTab() {
                 style={{ flex: 1, flexDirection: "row", minHeight: 24 }}
                 className="items-center"
               >
-                <Feather name="search" size={16} color="#8B8B8B" />
+                <Feather name="search" size={16} color={colors.gray} />
                 <TextInput
                   value={searchQuery}
                   onChangeText={setSearchQuery}
                   placeholder="Search"
-                  placeholderTextColor="#8B8B8B"
+                  placeholderTextColor={colors.gray}
                   style={{ flex: 1, padding: 0, marginLeft: 8 }}
                   className="text-sm font-regular text-black"
                   autoCapitalize="none"

@@ -2,6 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { TouchableOpacity, View } from "react-native";
 import { Text } from "@/components/ui/Text";
+import { colors } from "@/constants/theme";
 
 const MeetMatchmakers = () => {
   return (
@@ -19,7 +20,7 @@ const MeetMatchmakers = () => {
           </Text>
           <Text className="text-gray-400 text-sm font-regular">View All Milan Partners</Text>
         </View>
-        <Ionicons name="chevron-forward" size={20} color="#9ca3af" />
+        <Ionicons name="chevron-forward" size={20} color={colors.gray} />
       </TouchableOpacity>
     </View>
   );

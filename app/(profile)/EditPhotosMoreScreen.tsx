@@ -13,6 +13,7 @@ import {
 import { AddPhotoSlot } from "@/components/profile/photos/AddPhotoSlot";
 import { GuidelinesLink } from "@/components/profile/photos/GuidelinesLink";
 import { PhotoCard } from "@/components/profile/photos/PhotoCard";
+import { colors } from "@/constants/theme";
 import PhotoPreviewModal from "@/components/profile/photos/PhotoPreviewModal";
 import { PhotoPrivacySheet } from "@/components/profile/photos/PhotoPrivacySheet";
 import { UploadRow } from "@/components/profile/photos/UploadRow";
@@ -540,7 +541,7 @@ const EditPhotosMoreScreen = () => {
             <Feather
               name="info"
               size={12}
-              color="#8B8B8B"
+              color={colors.gray}
               style={{ marginRight: 6, marginTop: -2 }}
             />
             <Text className="text-gray font-regular text-sm flex-1">

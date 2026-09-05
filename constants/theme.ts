@@ -6,12 +6,19 @@
 const tintColorLight = "#004bfe";
 const tintColorDark = "#fff";
 
+// Matches --color-gray in global.css — the single source of truth for this
+// gray across both NativeWind classNames (text-gray, border-gray, ...) and
+// native components (Ionicons/Feather `color`, `placeholderTextColor`, ...)
+// that can't take a className and need a literal value instead.
+const gray = "#8B8B8B";
+
 export const colors = {
   text: "#11181C",
   background: "#fff",
   tint: tintColorLight,
   icon: "#687076",
-  tabIconDefault: "#8B8B8B",
+  gray,
+  tabIconDefault: gray,
   tabIconSelected: tintColorLight,
   primary: "#116FB1",
   accent: "#F33E6D",

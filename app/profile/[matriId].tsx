@@ -10,6 +10,7 @@ import {
   orNotMentioned,
   resolvePhotoUri,
 } from "@/utils/profileHelpers";
+import { colors } from "@/constants/theme";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
@@ -178,7 +179,7 @@ const ProfileScreen = () => {
             />
           ) : (
             <View className="w-full h-full bg-gray-200 items-center justify-center">
-              <Ionicons name="person" size={64} color="#9ca3af" />
+              <Ionicons name="person" size={64} color={colors.gray} />
             </View>
           )}
 
@@ -341,7 +342,7 @@ const ProfileScreen = () => {
         <SectionHeading title="Contact Matchmaker" />
         <View className="items-center px-5 pb-2">
           <View className="w-20 h-20 rounded-full bg-gray-100 items-center justify-center mb-3">
-            <Ionicons name="people-outline" size={32} color="#9ca3af" />
+            <Ionicons name="people-outline" size={32} color={colors.gray} />
           </View>
           <Text className="text-lg font-bold text-gray-900 mb-3">
             {profile.assign_to_staff}
@@ -450,7 +451,7 @@ const ProfileScreen = () => {
             <Ionicons name="call-outline" size={20} color="#db2777" />
           </Pressable>
           <Pressable className="flex-1 flex-row items-center justify-center border border-gray-200 rounded-full py-4">
-            <Ionicons name="ban-outline" size={20} color="#9ca3af" />
+            <Ionicons name="ban-outline" size={20} color={colors.gray} />
           </Pressable>
         </View>
       </ScrollView>

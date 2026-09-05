@@ -11,6 +11,7 @@ import PagerView from "react-native-pager-view";
 import SearchFortabIcon from "@/assets/icons/search_fortab";
 import { Text } from "@/components/ui/Text";
 import { TABS } from "@/constants/data";
+import { colors } from "@/constants/theme";
 import MyMatchesTab from "./index";
 import MoreMatchesTab from "./more-matches";
 
@@ -78,7 +79,7 @@ export default function MatchesLayout() {
                   {tab.key === "search" && (
                     <SearchFortabIcon
                       size={15}
-                      color={isActive ? "#000000" : "#8B8B8B"}
+                      color={isActive ? colors.black : colors.gray}
                     />
                   )}
                   <Text

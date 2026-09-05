@@ -1,4 +1,5 @@
 import { EditableFieldDescriptor } from "@/types/profile";
+import { colors } from "@/constants/theme";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import React, { useEffect, useMemo, useState } from "react";
 import {
@@ -323,13 +324,13 @@ export const SearchableSelectorModal: React.FC<
                         marginRight: 12,
                       }}
                     >
-                      <Feather name="search" size={18} color="#8B8B8B" />
+                      <Feather name="search" size={18} color={colors.gray} />
                     </View>
                     <TextInput
                       value={searchQuery}
                       onChangeText={setSearchQuery}
                       placeholder="Search"
-                      placeholderTextColor="#8B8B8B"
+                      placeholderTextColor={colors.gray}
                       className="flex-1 text-gray text-base font-regular"
                       style={{ padding: 0, margin: 0 }}
                       autoCapitalize="none"
@@ -348,7 +349,7 @@ export const SearchableSelectorModal: React.FC<
                         <Ionicons
                           name="close-circle"
                           size={18}
-                          color="#9ca3af"
+                          color={colors.gray}
                         />
                       </Pressable>
                     )}

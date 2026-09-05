@@ -11,6 +11,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { colors } from "@/constants/theme";
 
 type NonEditableFieldModalProps = {
   visible: boolean;
@@ -119,7 +120,7 @@ export const NonEditableFieldModal: React.FC<NonEditableFieldModalProps> = ({
               onPress={animateClose}
               className="w-full mt-2 items-center justify-center rounded-full py-4 active:opacity-60"
             >
-              <Text className="text-base font-bold text-[#8b8b8b]">
+              <Text className="text-base font-bold text-gray">
                 Close
               </Text>
             </Pressable>

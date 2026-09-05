@@ -11,6 +11,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { colors } from "@/constants/theme";
 
 type BottomModalProps = {
   visible: boolean;
@@ -103,7 +104,7 @@ export default function BottomModal({
             <Pressable onPress={handleConfirm} className="mt-4 mb-8">
               <Text
                 className="text-base font-regular text-gray-400 pb-[1px]"
-                style={{ borderBottomWidth: 1, borderBottomColor: "#9ca3af" }}
+                style={{ borderBottomWidth: 1, borderBottomColor: colors.gray }}
               >
                 Logout
               </Text>
@@ -122,7 +123,7 @@ export default function BottomModal({
               onPress={handleCancel}
               className="w-full mt-2 items-center justify-center rounded-full py-4 active:opacity-60"
             >
-              <Text className="text-base font-bold text-[#8b8b8b]">
+              <Text className="text-base font-bold text-gray">
                 Close
               </Text>
             </Pressable>

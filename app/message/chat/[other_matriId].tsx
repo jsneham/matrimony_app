@@ -3,6 +3,7 @@ import { useConversation, useSendMessage } from "@/hooks/useMessages";
 import { useSession } from "@/hooks/useSession";
 import { SESSION_KEYS } from "@/types/common";
 import { ChatMessageItem } from "@/types/message";
+import { colors } from "@/constants/theme";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
@@ -112,7 +113,7 @@ const ChatScreen = () => {
           value={draft}
           onChangeText={setDraft}
           placeholder="Type a message..."
-          placeholderTextColor="#9ca3af"
+          placeholderTextColor={colors.gray}
           className="flex-1 bg-gray-100 rounded-full px-4 py-3 text-base"
           multiline
         />
