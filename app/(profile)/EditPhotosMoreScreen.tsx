@@ -513,7 +513,7 @@ const EditPhotosMoreScreen = () => {
     <View className="flex-1 bg-app-background">
       <ProfileProgressBanner
         percentage={0}
-        message="Photos will be rejected if guidelines are followed."
+        message="Photos will be rejected if guidelines not followed."
         showVerify={false}
       />
       <ScrollView
