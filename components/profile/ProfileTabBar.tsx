@@ -4,6 +4,7 @@ import { View, TouchableOpacity } from "react-native";
 import { Text } from "@/components/ui/Text";
 import { colors } from "@/constants/theme";
 import { TabConfig } from "@/types/profile";
+import { platformTextSize } from "@/utils/platformTextSize";
 
 interface ProfileTabBarProps {
   tabs: TabConfig[];
@@ -36,7 +37,7 @@ export const ProfileTabBar: React.FC<ProfileTabBarProps> = ({
               }}
               numberOfLines={1}
               adjustsFontSizeToFit
-              className={`text-xs leading-none text-center font-bold ${
+              className={`${platformTextSize(13)} leading-none text-center font-bold ${
                 isActive ? "text-black" : "text-gray"
               }`}
             >
