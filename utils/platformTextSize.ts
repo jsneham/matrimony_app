@@ -54,7 +54,7 @@ const TEXT_SIZE_CLASSES = [
 ] as const;
 
 export function platformTextSize(androidSize: number): string {
-  const size = Platform.OS === "android" ? androidSize : androidSize - 1;
+  const size = Platform.OS === "android" ? androidSize : androidSize + 1;
   const clamped = Math.min(Math.max(size, 1), 50);
   return TEXT_SIZE_CLASSES[clamped - 1];
 }
