@@ -13,11 +13,12 @@ import {
 import { AddPhotoSlot } from "@/components/profile/photos/AddPhotoSlot";
 import { GuidelinesLink } from "@/components/profile/photos/GuidelinesLink";
 import { PhotoCard } from "@/components/profile/photos/PhotoCard";
-import { colors } from "@/constants/theme";
 import PhotoPreviewModal from "@/components/profile/photos/PhotoPreviewModal";
 import { PhotoPrivacySheet } from "@/components/profile/photos/PhotoPrivacySheet";
 import { UploadRow } from "@/components/profile/photos/UploadRow";
 import { ProfileProgressBanner } from "@/components/profile/ProfileEditComponents";
+import { Text } from "@/components/ui/Text";
+import { colors } from "@/constants/theme";
 import { useMyProfile } from "@/hooks/useProfile";
 import { useSession } from "@/hooks/useSession";
 import {
@@ -37,7 +38,6 @@ import {
   ScrollView,
   View,
 } from "react-native";
-import { Text } from "@/components/ui/Text";
 
 // 1:1.5 ratio (width:height) used for all photo crops on this screen
 const PHOTO_ASPECT: [number, number] = [2, 3];
@@ -513,7 +513,7 @@ const EditPhotosMoreScreen = () => {
     <View className="flex-1 bg-app-background">
       <ProfileProgressBanner
         percentage={0}
-        message="Photos will be rejected if guidelines are not followed."
+        message="Photos will be rejected if guidelines are followed."
         showVerify={false}
       />
       <ScrollView
@@ -523,7 +523,9 @@ const EditPhotosMoreScreen = () => {
       >
         {/* Main photos section */}
         <View className="mt-14 mb-4">
-          <Text className="text-2xl leading-none font-bold text-black">Photos</Text>
+          <Text className="text-2xl leading-none font-bold text-black">
+            Photos
+          </Text>
         </View>
 
         <View className="flex-row gap-3 mb-3">
