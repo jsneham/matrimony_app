@@ -53,8 +53,8 @@ const TEXT_SIZE_CLASSES = [
   "text-50",
 ] as const;
 
-export function platformTextSize(iosSize: number): string {
-  const size = Platform.OS === "android" ? iosSize - 2 : iosSize;
+export function platformTextSize(androidSize: number): string {
+  const size = Platform.OS === "android" ? androidSize : androidSize - 1;
   const clamped = Math.min(Math.max(size, 1), 50);
   return TEXT_SIZE_CLASSES[clamped - 1];
 }

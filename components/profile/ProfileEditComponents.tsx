@@ -198,7 +198,7 @@ export const ProfileProgressBanner: React.FC<ProfileProgressBannerProps> = ({
         color={colors.gray}
         style={{ marginRight: 6, marginTop: -2 }}
       />
-      <Text className={`${platformTextSize(14)} text-gray font-regular`}>
+      <Text className={`${platformTextSize(13)} text-gray font-regular`}>
         {message ?? `Profile is ${percentage}% updated.`}
       </Text>
     </View>
