@@ -187,7 +187,9 @@ export const ProfileProgressBanner: React.FC<ProfileProgressBannerProps> = ({
   percentage,
   message,
   showVerify = true,
-}) => (
+}) => 
+  
+  (
   <View className="flex-row items-center justify-between mx-5 min-h-[34px] my-3 bg-white px-3 rounded-xl">
     <View className="flex-row items-center flex-1">
       <Feather
@@ -196,7 +198,7 @@ export const ProfileProgressBanner: React.FC<ProfileProgressBannerProps> = ({
         color={colors.gray}
         style={{ marginRight: 6, marginTop: -2 }}
       />
-      <Text className={`${platformTextSize(12)} text-gray font-regular`}>
+      <Text className={`${platformTextSize(14)} text-gray font-regular`}>
         {message ?? `Profile is ${percentage}% updated.`}
       </Text>
     </View>
