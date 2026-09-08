@@ -9,9 +9,9 @@ import { Tabs } from "react-native-collapsible-tab-view";
 
 import { AccountProfileHeader } from "@/components/AccountProfileHeader";
 import { AccountTabBar } from "@/components/account/AccountTabBar";
-import { MyAccount } from ".";
-import { AppSettings } from "./app-settings";
-import { HelpSupport } from "./_help-support-tab";
+import { AppSettings } from "@/components/account/AppSettingsTab";
+import { HelpSupport } from "@/components/account/HelpSupportTab";
+import { MyAccount } from "@/components/account/MyAccountTab";
 
 const HEADER_HEIGHT = 320;
 const TOOLBAR_HEIGHT = 49;
