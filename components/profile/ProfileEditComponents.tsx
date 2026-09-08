@@ -1,6 +1,9 @@
+import { Text } from "@/components/ui/Text";
+import { TextInput } from "@/components/ui/TextInput";
 import { DummyIcon } from "@/constants/icons";
 import { colors } from "@/constants/theme";
 import { EditableTextProps, EditRowProps } from "@/types/profile";
+import { platformTextSize } from "@/utils/platformTextSize";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useState } from "react";
@@ -9,8 +12,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Text } from "@/components/ui/Text";
-import { TextInput } from "@/components/ui/TextInput";
 import NonEditableFieldModal from "../NonEditableFieldModal";
 
 export const EditRow: React.FC<EditRowProps> = ({
@@ -186,7 +187,9 @@ export const ProfileProgressBanner: React.FC<ProfileProgressBannerProps> = ({
   percentage,
   message,
   showVerify = true,
-}) => (
+}) => 
+  
+  (
   <View className="flex-row items-center justify-between mx-5 min-h-[34px] my-3 bg-white px-3 rounded-xl">
     <View className="flex-row items-center flex-1">
       <Feather
@@ -195,7 +198,7 @@ export const ProfileProgressBanner: React.FC<ProfileProgressBannerProps> = ({
         color={colors.gray}
         style={{ marginRight: 6, marginTop: -2 }}
       />
-      <Text className="text-gray font-regular text-sm">
+      <Text className={`${platformTextSize(12.5)} text-gray font-regular`}>
         {message ?? `Profile is ${percentage}% updated.`}
       </Text>
     </View>

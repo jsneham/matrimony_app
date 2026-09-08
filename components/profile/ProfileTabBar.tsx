@@ -1,10 +1,10 @@
 // components/profile/ProfileTabBar.tsx
-import React, { useState } from "react";
-import { View, TouchableOpacity } from "react-native";
 import { Text } from "@/components/ui/Text";
 import { colors } from "@/constants/theme";
 import { TabConfig } from "@/types/profile";
 import { platformTextSize } from "@/utils/platformTextSize";
+import React, { useState } from "react";
+import { TouchableOpacity, View } from "react-native";
 
 interface ProfileTabBarProps {
   tabs: TabConfig[];

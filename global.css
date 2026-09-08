@@ -140,6 +140,60 @@
   --text-48: 48px;
   --text-49: 49px;
   --text-50: 50px;
+
+  /* Half-step px scale (text-1-5 .. text-50-5), same idea as the integer
+     scale above but for the X.5px sizes platformTextSize() needs. No
+     paired --line-height, same reasoning as the integer scale. */
+  --text-1-5: 1.5px;
+  --text-2-5: 2.5px;
+  --text-3-5: 3.5px;
+  --text-4-5: 4.5px;
+  --text-5-5: 5.5px;
+  --text-6-5: 6.5px;
+  --text-7-5: 7.5px;
+  --text-8-5: 8.5px;
+  --text-9-5: 9.5px;
+  --text-10-5: 10.5px;
+  --text-11-5: 11.5px;
+  --text-12-5: 12.5px;
+  --text-13-5: 13.5px;
+  --text-14-5: 14.5px;
+  --text-15-5: 15.5px;
+  --text-16-5: 16.5px;
+  --text-17-5: 17.5px;
+  --text-18-5: 18.5px;
+  --text-19-5: 19.5px;
+  --text-20-5: 20.5px;
+  --text-21-5: 21.5px;
+  --text-22-5: 22.5px;
+  --text-23-5: 23.5px;
+  --text-24-5: 24.5px;
+  --text-25-5: 25.5px;
+  --text-26-5: 26.5px;
+  --text-27-5: 27.5px;
+  --text-28-5: 28.5px;
+  --text-29-5: 29.5px;
+  --text-30-5: 30.5px;
+  --text-31-5: 31.5px;
+  --text-32-5: 32.5px;
+  --text-33-5: 33.5px;
+  --text-34-5: 34.5px;
+  --text-35-5: 35.5px;
+  --text-36-5: 36.5px;
+  --text-37-5: 37.5px;
+  --text-38-5: 38.5px;
+  --text-39-5: 39.5px;
+  --text-40-5: 40.5px;
+  --text-41-5: 41.5px;
+  --text-42-5: 42.5px;
+  --text-43-5: 43.5px;
+  --text-44-5: 44.5px;
+  --text-45-5: 45.5px;
+  --text-46-5: 46.5px;
+  --text-47-5: 47.5px;
+  --text-48-5: 48.5px;
+  --text-49-5: 49.5px;
+  --text-50-5: 50.5px;
 }
 
 @layer components {
