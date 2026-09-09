@@ -106,9 +106,35 @@ const TEXT_SIZE_CLASSES = [
 const MIN_SIZE = 1;
 const MAX_SIZE = 50.5;
 
-export function platformTextSize(androidSize: number): string {
-  const size = Platform.OS === "android" ? androidSize : androidSize + 1;
+export function platformTextSize(sizeGiven: number): string {
+  const size = Platform.OS === "android" ? sizeGiven - 2 : sizeGiven;
   const clamped = Math.min(Math.max(size, MIN_SIZE), MAX_SIZE);
   const index = Math.round((clamped - MIN_SIZE) * 2);
   return TEXT_SIZE_CLASSES[index];
+  // return `text${index}`;
+}
+
+export function platformTextSize1(androidSize: number): string {
+  let size = 0;
+  if (Platform.OS === "android") {
+    size = androidSize;
+  } else if (Platform.OS === "ios") {
+    size = androidSize + 2;
+  } else {
+    size = MIN_SIZE;
+  }
+
+  // const size = Platform.OS === "android" ? androidSize : androidSize + 2;
+  const clamped = Math.min(Math.max(size, MIN_SIZE), MAX_SIZE);
+  const index = Math.round((clamped - MIN_SIZE) * 2);
+  return TEXT_SIZE_CLASSES[index];
+  // return `text${index}`;
+}
+
+export function platformTextSize2(iosSize: number): string {
+  const size = Platform.OS === "android" ? iosSize - 2 : iosSize;
+  const clamped = Math.min(Math.max(size, MIN_SIZE), MAX_SIZE);
+  const index = Math.round((clamped - MIN_SIZE) * 2);
+  return TEXT_SIZE_CLASSES[index];
+  // return `text${index}`;
 }

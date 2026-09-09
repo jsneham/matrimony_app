@@ -64,31 +64,31 @@
      always resolves this property as value times fontSize at runtime, so
      a literal px value (e.g. 23px) gets multiplied again and blows up. */
   --text-xs: 12px;
-  --text-xs--line-height: 1;
+  /* --text-xs--line-height: 1; */
 
   --text-sm: 14px;
-  --text-sm--line-height: 1;
+  /* --text-sm--line-height: 1; */
 
   --text-base: 16px;
-  --text-base--line-height: 1;
+  /* --text-base--line-height: 1; */
 
   --text-lg: 18px;
-  --text-lg--line-height: 1;
+  /* --text-lg--line-height: 1; */
 
   --text-xl: 20px;
-  --text-xl--line-height: 1;
+  /* --text-xl--line-height: 1; */
 
   --text-2xl: 24px;
-  --text-2xl--line-height: 1;
+  /* --text-2xl--line-height: 1; */
 
   --text-3xl: 30px;
-  --text-3xl--line-height: 1;
+  /* --text-3xl--line-height: 1; */
 
   --text-4xl: 36px;
-  --text-4xl--line-height: 1;
+  /* --text-4xl--line-height: 1; */
 
   --text-5xl: 44px;
-  --text-5xl--line-height: 1;
+  /* --text-5xl--line-height: 1; */
 
   --text-1: 1px;
   --text-2: 2px;
@@ -102,8 +102,10 @@
   --text-10: 10px;
   --text-11: 11px;
   --text-12: 12px;
+  --text-12--line-height: 1.33; /* 12px * 1.33 ≈ 16px — matches --text-14--line-height's 16px so icon rows using platformTextSize(14) center identically on Android (text-12) and iOS (text-14) */
   --text-13: 13px;
   --text-14: 14px;
+  --text-14--line-height: 1.14; /* 14px * 1.14 ≈ 16px */
   --text-15: 15px;
   --text-16: 16px;
   --text-17: 17px;
@@ -141,9 +143,16 @@
   --text-49: 49px;
   --text-50: 50px;
 
-  /* Half-step px scale (text-1-5 .. text-50-5), same idea as the integer
-     scale above but for the X.5px sizes platformTextSize() needs. No
-     paired --line-height, same reasoning as the integer scale. */
+  /* To scope a line-height to one granular size only (without touching
+     component code), add a --text-N--line-height next to that --text-N
+     entry — see --text-14--line-height above for the pattern. Must stay
+     unitless (a multiplier of font-size), same rule as the semantic
+     scale's line-height comment near the top of this block. Left
+     unpaired by default across this scale to avoid ~100 near-duplicate
+     lines; add one only where a specific size needs an override.
+
+     Half-step px scale (text-1-5 .. text-50-5), same idea as the integer
+     scale above but for the X.5px sizes platformTextSize() needs. */
   --text-1-5: 1.5px;
   --text-2-5: 2.5px;
   --text-3-5: 3.5px;
