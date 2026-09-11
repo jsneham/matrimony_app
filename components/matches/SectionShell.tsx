@@ -9,7 +9,8 @@ import { mapVisitorItem } from "@/utils/mapVisitorItem";
 import { normalizePlanStatus } from "@/utils/profileHelpers";
 import { router } from "expo-router";
 import React from "react";
-import { ActivityIndicator, ScrollView, Text, View } from "react-native";
+import { ActivityIndicator, ScrollView, View } from "react-native";
+import { Text } from "@/components/ui/Text";
 
 // ── Shared row shell ───────────────────────────────────────────────────────
 type SectionShellProps = {
@@ -37,7 +38,7 @@ export const SectionShell = ({
   onViewAll,
   hideViewAll,
   titleClassName = "px-5",
-  descriptionClassName = "px-5 text-base font-regular text-gray-500 mt-3",
+  descriptionClassName = "px-5 text-base font-regular text-gray mt-3",
 }: SectionShellProps) => {
   const { data: sessionData, isLoading: isLoadingSession } = useSession([
     SESSION_KEYS.PLAN_STATUS,

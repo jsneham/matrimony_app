@@ -6,14 +6,14 @@ import {
   ActivityIndicator,
   FlatList,
   RefreshControl,
-  Text,
   View,
 } from "react-native";
+import { Text } from "@/components/ui/Text";
 
 const SavedSearchRow = ({ item }: { item: SavedSearchItem }) => (
   <View className="bg-white px-5 py-4 border-b border-gray-100">
     <Text className="text-base font-bold text-black mb-1">{item.name}</Text>
-    <Text className="text-sm text-gray-500" numberOfLines={2}>
+    <Text className="text-sm text-gray-500 font-regular" numberOfLines={2}>
       {item.detail}
     </Text>
   </View>

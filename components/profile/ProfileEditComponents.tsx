@@ -1,16 +1,12 @@
+import { Text } from "@/components/ui/Text";
+import { TextInput } from "@/components/ui/TextInput";
 import { DummyIcon } from "@/constants/icons";
 import { colors } from "@/constants/theme";
 import { EditableTextProps, EditRowProps } from "@/types/profile";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useState } from "react";
-import {
-  ActivityIndicator,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ActivityIndicator, TouchableOpacity, View } from "react-native";
 import NonEditableFieldModal from "../NonEditableFieldModal";
 
 export const EditRow: React.FC<EditRowProps> = ({
@@ -42,7 +38,7 @@ export const EditRow: React.FC<EditRowProps> = ({
       <TouchableOpacity
         onPress={handlePress}
         activeOpacity={editable ? 0.7 : 1}
-        className={`pl-5 pr-4 pt-5 pb-4 flex-row justify-between items-center bg-white ${isLast ? "" : "border-b border-gray-100"}`}
+        className={`pl-5 pr-4 pt-5 pb-4 flex-row justify-between items-start bg-white ${isLast ? "" : "border-b border-gray-100"}`}
         style={{
           ...(isFirst
             ? { borderTopLeftRadius: 16, borderTopRightRadius: 16 }
@@ -61,8 +57,8 @@ export const EditRow: React.FC<EditRowProps> = ({
           <View style={{ marginLeft: 36 }}>
             {/* Hidden measurement pass — detects if full text exceeds 3 lines */}
             <Text
-              className="text-base absolute opacity-0"
-              style={{ zIndex: -1, lineHeight: 20 }}
+              className="text-base absolute opacity-0 font-regular"
+              style={{ zIndex: -1, lineHeight: 16 }}
               onTextLayout={(e) => {
                 if (e.nativeEvent.lines.length > 3 && !isTruncated) {
                   setIsTruncated(true);
@@ -79,7 +75,7 @@ export const EditRow: React.FC<EditRowProps> = ({
                   ? "text-gray font-regular"
                   : "text-placeholder font-regular"
               }`}
-              style={{ lineHeight: 20 }}
+              style={{ lineHeight: 16 }}
             >
               {displayText}
             </Text>
@@ -91,7 +87,7 @@ export const EditRow: React.FC<EditRowProps> = ({
                   position: "absolute",
                   right: 0,
                   bottom: 0,
-                  height: 20, // matches lineHeight — covers exactly the 3rd line
+                  height: 16, // matches lineHeight — covers exactly the 3rd line
                   flexDirection: "row",
                   alignItems: "center",
                 }}
@@ -101,7 +97,7 @@ export const EditRow: React.FC<EditRowProps> = ({
                   locations={[0, 0.35, 1]}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 0 }}
-                  style={{ width: 90, height: 20 }}
+                  style={{ width: 90, height: 16 }}
                 />
                 <TouchableOpacity
                   onPress={(e) => {
@@ -111,7 +107,7 @@ export const EditRow: React.FC<EditRowProps> = ({
                   hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
                   style={{
                     backgroundColor: "#ffffff",
-                    height: 20,
+                    height: 16,
                     justifyContent: "center",
                     paddingLeft: 2,
                     flexShrink: 0,
@@ -120,7 +116,7 @@ export const EditRow: React.FC<EditRowProps> = ({
                   <Text
                     className="text-pink-600 text-base font-regular"
                     numberOfLines={1}
-                    style={{ lineHeight: 20 }}
+                    style={{ lineHeight: 16 }}
                   >
                     View more
                   </Text>
@@ -147,9 +143,9 @@ export const EditRow: React.FC<EditRowProps> = ({
         </View>
 
         {editable ? (
-          <Ionicons name="chevron-forward" size={16} color="#9ca3af" />
+          <Ionicons name="chevron-forward" size={16} color={colors.gray} />
         ) : (
-          <Feather name="info" size={16} color="#9ca3af" />
+          <Feather name="info" size={16} color={colors.gray} />
         )}
       </TouchableOpacity>
 
@@ -187,15 +183,15 @@ export const ProfileProgressBanner: React.FC<ProfileProgressBannerProps> = ({
   message,
   showVerify = true,
 }) => (
-  <View className="flex-row items-center justify-between mx-5 h-[34px] my-3 bg-white px-3 rounded-xl">
-    <View className="flex-row items-center flex-1">
+  <View className="flex-row items-center justify-between mx-5 my-3 bg-white p-[10px] rounded-xl">
+    <View className="flex-row items-start flex-1">
       <Feather
         name="info"
         size={12}
-        color="#8B8B8B"
-        style={{ marginRight: 6, marginTop: -2 }}
+        color={colors.gray}
+        style={{ marginRight: 6, marginTop: 1 }}
       />
-      <Text className="text-gray font-regular text-sm">
+      <Text className={`${platformTextSize(14)} text-gray font-regular`}>
         {message ?? `Profile is ${percentage}% updated.`}
       </Text>
     </View>
@@ -204,7 +200,7 @@ export const ProfileProgressBanner: React.FC<ProfileProgressBannerProps> = ({
         <Text className="text-black text-sm font-bold">Verify Profile</Text>
         <Ionicons
           name="pencil"
-          size={14}
+          size={12}
           color="black"
           style={{ marginLeft: 6 }}
         />

@@ -4,13 +4,13 @@ import {
   FlatList,
   LayoutChangeEvent,
   RefreshControl,
-  Text,
   TouchableOpacity,
   View,
 } from "react-native";
 
 import PreferencesHintIcon from "@/assets/icons/PreferencesHintIcon";
 import { MatchCard } from "@/components/MatchCard";
+import { Text } from "@/components/ui/Text";
 import { NoData } from "@/components/NoData";
 import { SkeletonCard } from "@/components/SkeletonCard";
 import { useMyMatches } from "@/hooks/useMatches";
@@ -142,7 +142,7 @@ export default function MyMatchesScreen() {
           PARTNER PREFERENCES BAR
           ============================================================ */}
 
-      <View className="flex-row items-center justify-between mx-5 h-[34px] my-3 bg-white px-3 rounded-xl">
+      <View className="flex-row items-center justify-between mx-5 min-h-[34px] my-3 bg-white px-3 rounded-xl">
         <Text className="text-gray font-regular text-sm">
           As per Partner Preferences.
         </Text>

@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
+import { Text } from "@/components/ui/Text";
 
 const ProfileVisitors = () => {
   return (
@@ -18,7 +19,7 @@ const ProfileVisitors = () => {
       </Text>
       <View className="mt-5 bg-white rounded-2xl px-5 py-6 items-center border border-gray-100">
         <Ionicons name="eye-outline" size={32} color="#cbd5e1" />
-        <Text className="text-gray-400 text-sm mt-3 text-center">
+        <Text className="text-gray-400 text-sm mt-3 text-center font-regular">
           Members who viewed your profile will appear here.
         </Text>
       </View>

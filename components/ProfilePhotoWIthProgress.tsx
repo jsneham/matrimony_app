@@ -1,7 +1,8 @@
 import { colors } from "@/constants/theme";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { useEffect } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import { Text } from "@/components/ui/Text";
 import Animated, {
     useAnimatedProps,
     useSharedValue,
@@ -100,9 +101,9 @@ export const ProfilePhotoWIthProgress: React.FC<{
           }}
         >
           <Text
+            className="font-bold"
             style={{
               fontSize: 11,
-              fontWeight: "700",
               color: "white",
             }}
           >

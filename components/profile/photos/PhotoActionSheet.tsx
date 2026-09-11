@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { Modal, Pressable, Text, View } from "react-native";
+import { Modal, Pressable, View } from "react-native";
+import { Text } from "@/components/ui/Text";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Animated, {
     Easing,
@@ -112,7 +113,7 @@ export const PhotoActionSheet: React.FC<PhotoActionSheetProps> = ({
           >
             {/* Header */}
             <View className="px-5 py-5 flex-row items-center justify-between border-b border-light-divider-color">
-              <Text className="text-xl font-bold text-black">{title}</Text>
+              <Text className="text-2xl leading-none font-bold text-black">{title}</Text>
               <Pressable
                 onPress={animateClose}
                 style={{ width: 24, alignItems: "center" }}
@@ -131,7 +132,7 @@ export const PhotoActionSheet: React.FC<PhotoActionSheetProps> = ({
                   >
                     <View className="w-6 h-6 rounded-full border-2 border-gray-300 mr-4" />
                     <Text
-                      className={`text-base font-semibold ${
+                      className={`text-base font-medium ${
                         option.destructive ? "text-red-500" : "text-gray-900"
                       }`}
                     >

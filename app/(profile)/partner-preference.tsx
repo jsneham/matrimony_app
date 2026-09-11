@@ -1,5 +1,6 @@
+import { Text } from "@/components/ui/Text";
 import React, { useEffect } from "react";
-import { ActivityIndicator, ScrollView, Text, View } from "react-native";
+import { ActivityIndicator, ScrollView, View } from "react-native";
 
 // Hooks
 import {
@@ -163,7 +164,7 @@ export const EditPartnerPreferenceScreen: React.FC = () => {
 
       <ProfileProgressBanner
         percentage={profile?.percentage || 0}
-        message="You will see matches according to set preferences."
+        message="You will see matches based on your preferences."
         showVerify={false}
       />
 

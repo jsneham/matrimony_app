@@ -93,19 +93,19 @@ export default function App() {
             {/* Terms and Privacy */}
             <View className="items-center mb-2">
               <View className="flex-row">
-                <Text className="text-white/80 text-sm">
+                <Text className="text-white/80 text-sm font-regular">
                   By continuing, you accept the{" "}
                 </Text>
-                <Text className="text-blue-400 text-sm">terms</Text>
+                <Text className="text-blue-400 text-sm font-regular">terms</Text>
               </View>
               <View className="flex-row">
-                <Text className="text-white/80 text-sm">and </Text>
-                <Text className="text-blue-400 text-sm">privacy policy</Text>
+                <Text className="text-white/80 text-sm font-regular">and </Text>
+                <Text className="text-blue-400 text-sm font-regular">privacy policy</Text>
               </View>
             </View>
 
             {/* App Version */}
-            <Text className="text-white/60 text-center text-xs mt-2">
+            <Text className="text-white/60 text-center text-xs mt-2 font-regular">
               App Version 171 ( 1.0.171 )
             </Text>
           </View>

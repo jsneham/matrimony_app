@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { Modal, Pressable, Text, View } from "react-native";
+import { Modal, Pressable, View } from "react-native";
+import { Text } from "@/components/ui/Text";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Animated, {
   Easing,
@@ -103,7 +104,7 @@ export const PhotoPrivacySheet: React.FC<PhotoPrivacySheetProps> = ({
           >
             {/* Header */}
             <View className="items-center px-5 py-5 border-b border-light-divider-color">
-              <Text className="text-lg font-bold text-black text-center">
+              <Text className="text-2xl leading-none font-bold text-black text-center">
                 {title}
               </Text>
             </View>
@@ -159,7 +160,7 @@ export const PhotoPrivacySheet: React.FC<PhotoPrivacySheetProps> = ({
                 onPress={animateClose}
                 className="w-full mt-2 items-center justify-center rounded-full py-4 active:opacity-60"
               >
-                <Text className="text-base font-bold text-[#8b8b8b]">
+                <Text className="text-base font-bold text-gray">
                   Close
                 </Text>
               </Pressable>

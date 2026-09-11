@@ -1,4 +1,5 @@
 import { VerticalRangeSlider } from "@/components/VerticalRangeSlider";
+import { colors } from "@/constants/theme";
 import {
   useAge,
   useBodyType,
@@ -29,10 +30,10 @@ import {
   FlatList,
   Pressable,
   ScrollView,
-  Text,
-  TextInput,
   View,
 } from "react-native";
+import { Text } from "@/components/ui/Text";
+import { TextInput } from "@/components/ui/TextInput";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 // Age/Height range pickers are locked to a fixed 6-step window — dragging
@@ -369,22 +370,22 @@ export default function FiltersTab() {
         >
           <View className="flex-row items-center justify-between px-4 pt-4 pb-3">
             {isRangeCategory ? (
-              <View style={{ height: 24 }} className="justify-center">
+              <View style={{ minHeight: 24 }} className="justify-center">
                 <Text className="text-sm font-bold text-pink-600">
                   {rangeLabel}
                 </Text>
               </View>
             ) : (
               <View
-                style={{ flex: 1, flexDirection: "row", height: 24 }}
+                style={{ flex: 1, flexDirection: "row", minHeight: 24 }}
                 className="items-center"
               >
-                <Feather name="search" size={16} color="#8B8B8B" />
+                <Feather name="search" size={16} color={colors.gray} />
                 <TextInput
                   value={searchQuery}
                   onChangeText={setSearchQuery}
                   placeholder="Search"
-                  placeholderTextColor="#8B8B8B"
+                  placeholderTextColor={colors.gray}
                   style={{ flex: 1, padding: 0, marginLeft: 8 }}
                   className="text-sm font-regular text-black"
                   autoCapitalize="none"
@@ -395,7 +396,7 @@ export default function FiltersTab() {
             <Pressable
               onPress={handleReset}
               hitSlop={8}
-              style={{ height: 24, justifyContent: "center" }}
+              style={{ minHeight: 24, justifyContent: "center" }}
             >
               <Text className="text-sm font-bold text-gray">Reset</Text>
             </Pressable>

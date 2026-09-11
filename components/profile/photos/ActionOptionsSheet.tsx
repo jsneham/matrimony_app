@@ -1,5 +1,7 @@
 import React from "react";
-import { Modal, Pressable, Text, View } from "react-native";
+import { Modal, Pressable, View } from "react-native";
+import { Text } from "@/components/ui/Text";
+import { colors } from "@/constants/theme";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Animated, {
     Easing,
@@ -127,7 +129,6 @@ export const ActionOptionsSheet: React.FC<ActionOptionsSheetProps> = ({
                     className={`text-base font-bold ${
                       option.destructive ? "text-red-500" : "text-black"
                     }`}
-                    style={{ includeFontPadding: false, textAlignVertical: "center" }}
                   >
                     {option.label}
                   </Text>
@@ -139,7 +140,7 @@ export const ActionOptionsSheet: React.FC<ActionOptionsSheetProps> = ({
               onPress={animateClose}
               className="mt-8 items-center justify-center rounded-full py-4 active:opacity-60"
             >
-              <Text className="text-base font-bold text-[#8b8b8b]">
+              <Text className="text-base font-bold text-gray">
                 Cancel
               </Text>
             </Pressable>

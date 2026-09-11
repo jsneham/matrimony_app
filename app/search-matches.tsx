@@ -5,7 +5,8 @@ import KeywordSearchTab from "@/components/search/KeywordSearchTab";
 import SavedSearchTab from "@/components/search/SavedSearchTab";
 import { router } from "expo-router";
 import React, { useState } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
+import { Text } from "@/components/ui/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const TOP_TABS = ["Filters", "ID", "Keyword", "Saved Search"] as const;
@@ -66,7 +67,7 @@ export default function SearchMatchesScreen() {
             <Pressable
               key={tab}
               onPress={() => setActiveTopTab(tab)}
-              className={`h-[34px] px-4 items-center justify-center rounded-full ${
+              className={`min-h-[34px] px-4 items-center justify-center rounded-full ${
                 isActive ? "bg-black" : "bg-white"
               }`}
             >

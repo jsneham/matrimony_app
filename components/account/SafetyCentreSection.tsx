@@ -1,6 +1,8 @@
 import { Feather } from "@expo/vector-icons";
 import React from "react";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
+import { Text } from "@/components/ui/Text";
+import { colors } from "@/constants/theme";
 
 type SafetyCard = {
   id: string;
@@ -26,7 +28,7 @@ const SafetyCard = ({ card }: { card: SafetyCard }) => (
     className="flex-1 bg-white rounded-xl p-1 active:opacity-80"
   >
     <View className="h-[84px] bg-[#f3f3f3] rounded-t-[10px] items-center justify-center">
-      <Feather name={card.icon} size={28} color="#9ca3af" />
+      <Feather name={card.icon} size={28} color={colors.gray} />
     </View>
     <Text className="text-base font-bold text-black text-center px-3 pt-3 pb-3">
       {card.label}

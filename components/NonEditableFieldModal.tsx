@@ -1,7 +1,8 @@
 // components/profile/NonEditableFieldModal.tsx
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { Modal, Pressable, Text, View } from "react-native";
+import { Modal, Pressable, View } from "react-native";
+import { Text } from "@/components/ui/Text";
 import Animated, {
   Easing,
   runOnJS,
@@ -10,6 +11,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { colors } from "@/constants/theme";
 
 type NonEditableFieldModalProps = {
   visible: boolean;
@@ -86,7 +88,7 @@ export const NonEditableFieldModal: React.FC<NonEditableFieldModalProps> = ({
           ]}
         >
           <View className="items-center px-5 py-5 border-b border-light-divider-color">
-            <Text className="text-lg font-bold text-black text-center">
+            <Text className="text-2xl leading-none font-bold text-black text-center">
               Info Message
             </Text>
           </View>
@@ -100,7 +102,7 @@ export const NonEditableFieldModal: React.FC<NonEditableFieldModalProps> = ({
               Some Fields like Date of Birth, Age, Height cannot be edited
             </Text>
 
-            <Text className="text-base text-gray-400 text-center mb-8 leading-6">
+            <Text className="text-base text-gray-400 text-center mb-8 leading-6 font-regular">
               If you have made a mistake, please visit the Help Center and reach
               out to customer support team to modify these
             </Text>
@@ -118,7 +120,7 @@ export const NonEditableFieldModal: React.FC<NonEditableFieldModalProps> = ({
               onPress={animateClose}
               className="w-full mt-2 items-center justify-center rounded-full py-4 active:opacity-60"
             >
-              <Text className="text-base font-bold text-[#8b8b8b]">
+              <Text className="text-base font-bold text-gray">
                 Close
               </Text>
             </Pressable>

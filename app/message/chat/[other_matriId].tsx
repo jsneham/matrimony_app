@@ -3,6 +3,7 @@ import { useConversation, useSendMessage } from "@/hooks/useMessages";
 import { useSession } from "@/hooks/useSession";
 import { SESSION_KEYS } from "@/types/common";
 import { ChatMessageItem } from "@/types/message";
+import { colors } from "@/constants/theme";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
@@ -11,10 +12,10 @@ import {
   KeyboardAvoidingView,
   Platform,
   Pressable,
-  Text,
-  TextInput,
   View,
 } from "react-native";
+import { Text } from "@/components/ui/Text";
+import { TextInput } from "@/components/ui/TextInput";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const ChatScreen = () => {
@@ -63,11 +64,11 @@ const ChatScreen = () => {
           isMine ? "bg-pink-600 self-end" : "bg-gray-100 self-start"
         }`}
       >
-        <Text className={isMine ? "text-white" : "text-gray-900"}>
+        <Text className={`font-regular ${isMine ? "text-white" : "text-gray-900"}`}>
           {item.content}
         </Text>
         <Text
-          className={`text-[10px] mt-1 ${isMine ? "text-pink-100" : "text-gray-400"}`}
+          className={`text-[10px] mt-1 font-regular ${isMine ? "text-pink-100" : "text-gray-400"}`}
         >
           {item.sent_on}
         </Text>
@@ -90,7 +91,7 @@ const ChatScreen = () => {
           <Text className="text-lg font-bold text-gray-900">
             {name ?? "Chat"}
           </Text>
-          {isOnline && <Text className="text-xs text-green-600">Online</Text>}
+          {isOnline && <Text className="text-xs text-green-600 font-regular">Online</Text>}
         </View>
       </View>
 
@@ -112,7 +113,7 @@ const ChatScreen = () => {
           value={draft}
           onChangeText={setDraft}
           placeholder="Type a message..."
-          placeholderTextColor="#9ca3af"
+          placeholderTextColor={colors.gray}
           className="flex-1 bg-gray-100 rounded-full px-4 py-3 text-base"
           multiline
         />

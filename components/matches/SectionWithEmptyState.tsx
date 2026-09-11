@@ -1,6 +1,7 @@
 import { SectionShell } from "@/components/matches/SectionShell";
 import React from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import { Text } from "@/components/ui/Text";
 
 type SectionWithEmptyStateProps = {
   title: string;
@@ -37,11 +38,11 @@ export const SectionWithEmptyState: React.FC<SectionWithEmptyStateProps> = ({
           title={title}
           description={
             <>
-              <Text className="text-base font-regular text-gray-500 mt-3">
+              <Text className="text-base font-regular text-gray mt-3">
                 {emptyDescriptionLine1 ?? description}
               </Text>
               {emptyDescriptionLine2 && (
-                <Text className="text-base font-regular text-gray-500 mt-10">
+                <Text className="text-base font-regular text-gray mt-10">
                   {emptyDescriptionLine2}
                 </Text>
               )}

@@ -2,9 +2,11 @@ import { useSession } from "@/hooks/useSession";
 import { SESSION_KEYS } from "@/types/common";
 import { SearchResultItem } from "@/types/searchResult";
 import { getPlanAwareName, resolvePhotoUri } from "@/utils/profileHelpers";
+import { colors } from "@/constants/theme";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { Image, Pressable, Text, View } from "react-native";
+import { Image, Pressable, View } from "react-native";
+import { Text } from "@/components/ui/Text";
 
 export const SearchResultCard = ({
   item,
@@ -53,14 +55,14 @@ export const SearchResultCard = ({
           />
         ) : (
           <View className="w-full h-full items-center justify-center">
-            <Ionicons name="person" size={64} color="#9ca3af" />
+            <Ionicons name="person" size={64} color={colors.gray} />
           </View>
         )}
 
         {/* Photo count badge */}
         <View className="absolute top-3 right-3 flex-row items-center bg-black/60 px-2 py-1 rounded-full">
           <Feather name="image" size={12} color="#fff" />
-          <Text className="text-white text-xs font-semibold ml-1">1</Text>
+          <Text className="text-white text-xs font-medium ml-1">1</Text>
         </View>
 
         {/* Overlay info */}
@@ -75,21 +77,21 @@ export const SearchResultCard = ({
               </View>
             )}
             {item.logged_in === "1" && (
-              <Text className="text-white text-xs">Active Today</Text>
+              <Text className="text-white text-xs font-regular">Active Today</Text>
             )}
           </View>
 
           <Text className="text-white text-2xl font-bold">
             {displayName}, {item.age}
           </Text>
-          <Text className="text-white text-sm mt-1">
+          <Text className="text-white text-sm mt-1 font-regular">
             {item.height} · {item.city_name} · {item.religion_name}
           </Text>
-          <Text className="text-white text-sm">
+          <Text className="text-white text-sm font-regular">
             {item.occupation_name} · Earns {item.income} p.a
           </Text>
-          <Text className="text-white text-sm">{item.education_name}</Text>
-          <Text className="text-white text-xs italic mt-1">
+          <Text className="text-white text-sm font-regular">{item.education_name}</Text>
+          <Text className="text-white text-xs italic mt-1 font-regular">
             Profile managed by {item.profileby}
           </Text>
         </View>
@@ -144,7 +146,7 @@ const ActionButton = ({
     >
       <Ionicons name={icon} size={20} color={active ? "#fff" : "#374151"} />
     </View>
-    <Text className="text-xs text-gray-600 mt-1">{label}</Text>
+    <Text className="text-xs text-gray-600 mt-1 font-regular">{label}</Text>
   </Pressable>
 );
 

@@ -1,8 +1,10 @@
 import AddPhotoIcon from "@/assets/icons/AddPhotoIcon";
+import { colors } from "@/constants/theme";
 import { Feather } from "@expo/vector-icons";
 import { MoreHorizontal } from "lucide-react-native";
 import React from "react";
-import { Image, Pressable, Text, View } from "react-native";
+import { Image, Pressable, View } from "react-native";
+import { Text } from "@/components/ui/Text";
 import { GuidelinesLink } from "./GuidelinesLink";
 
 export const UploadRow = ({
@@ -26,7 +28,7 @@ export const UploadRow = ({
 }) => (
   <View>
     <View className="mt-14 mb-4">
-      <Text className="text-2xl font-bold text-gray-900">{heading}</Text>
+      <Text className="text-2xl leading-none font-bold text-black">{heading}</Text>
     </View>
 
     {imageUri ? (
@@ -46,14 +48,14 @@ export const UploadRow = ({
           <View
             className="absolute top-2 bg-overlay-black-50 rounded-full justify-center"
             style={{
-              height: 28,
+              minHeight: 28,
               paddingHorizontal: 12,
               maxWidth: "92%",
               alignSelf: "center",
             }}
           >
             <Text
-              className="text-white font-semibold"
+              className="text-white font-medium"
               numberOfLines={1}
               adjustsFontSizeToFit
               minimumFontScale={0.75}
@@ -78,7 +80,7 @@ export const UploadRow = ({
       >
         <Text className="text-gray-400 font-regular text-base">{label}</Text>
         <View className="w-6 h-6 rounded-full items-center justify-center">
-          <Icon size={20} color="#9ca3af" />
+          <Icon size={20} color={colors.gray} />
         </View>
       </Pressable>
     )}
@@ -88,7 +90,7 @@ export const UploadRow = ({
         <Feather
           name="info"
           size={12}
-          color="#8B8B8B"
+          color={colors.gray}
           style={{ marginRight: 6, marginTop: -2 }}
         />
         <Text className="text-gray font-regular text-sm flex-1">{note}</Text>

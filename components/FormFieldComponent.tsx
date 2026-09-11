@@ -1,7 +1,8 @@
 import { DummyIcon } from "@/constants/icons";
 import { FormField } from "@/types/profile";
 import { Ionicons } from "@expo/vector-icons";
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import { Text } from "@/components/ui/Text";
 
 /**
  * Render a single form field

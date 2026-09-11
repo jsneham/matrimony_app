@@ -1,4 +1,5 @@
-import { Text, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
+import { Text } from "@/components/ui/Text";
 
 export const SectionHeader: React.FC<{ title: string }> = ({ title }) => (
   <View className="flex-row items-center justify-between px-5 mb-3">

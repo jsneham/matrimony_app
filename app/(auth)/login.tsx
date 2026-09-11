@@ -1,5 +1,7 @@
 import "@/global.css";
 
+import { Text } from "@/components/ui/Text";
+import { TextInput } from "@/components/ui/TextInput";
 import { useLogin } from "@/hooks/useAuth";
 import { Href, router } from "expo-router";
 import React, { useState } from "react";
@@ -10,8 +12,6 @@ import {
   Platform,
   ScrollView,
   StatusBar,
-  Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -67,13 +67,13 @@ export default function LoginScreen() {
             onPress={() => router.back()}
             disabled={loginMutation.isPending}
           >
-            <Text className="text-2xl">←</Text>
+            <Text className="text-2xl font-regular">←</Text>
           </TouchableOpacity>
 
           <Text className="text-3xl font-bold mb-2 text-center">
             Welcome Back
           </Text>
-          <Text className="text-gray-500 mb-8 text-center">
+          <Text className="text-gray-500 mb-8 text-center font-regular">
             Login to continue
           </Text>
 
@@ -103,7 +103,7 @@ export default function LoginScreen() {
             // onPress={() => router.push("/(auth)/forgot-password")}
             disabled={loginMutation.isPending}
           >
-            <Text className="text-blue-600 text-sm">Forgot Password?</Text>
+            <Text className="text-blue-600 text-sm font-regular">Forgot Password?</Text>
           </TouchableOpacity>
 
           {/* Login Button */}
@@ -126,7 +126,7 @@ export default function LoginScreen() {
 
           {/* Sign Up Link */}
           <View className="flex-row justify-center mt-4">
-            <Text className="text-gray-600">Don't have an account? </Text>
+            <Text className="text-gray-600 font-regular">Don't have an account? </Text>
             <TouchableOpacity
               onPress={() => router.push("/(auth)/signup")}
               disabled={loginMutation.isPending}

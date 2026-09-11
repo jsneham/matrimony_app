@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
+import { Text } from "@/components/ui/Text";
 
 const Help = () => {
   return (
@@ -14,7 +15,7 @@ const Help = () => {
             <Text className="text-gray-900 text-base font-bold mb-1">
               Need Help? WhatsApp Us
             </Text>
-            <Text className="text-gray-400 text-sm leading-5">
+            <Text className="text-gray-400 text-sm leading-5 font-regular">
               Share your queries on WhatsApp.{"\n"}We'll assist you at the
               earliest.
             </Text>

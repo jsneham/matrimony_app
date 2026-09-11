@@ -1,7 +1,8 @@
 import { ConversationRow } from "@/components/messages/ConversationRow";
+import { Text } from "@/components/ui/Text";
 import { useConversationList } from "@/hooks/useMessages";
 import React, { useMemo } from "react";
-import { ActivityIndicator, FlatList, Text, View } from "react-native";
+import { ActivityIndicator, FlatList, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function MessageListScreen() {
@@ -47,7 +48,7 @@ export default function MessageListScreen() {
           }
           ListEmptyComponent={
             <View className="items-center justify-center mt-24 px-8">
-              <Text className="text-gray-400 text-center">
+              <Text className="text-gray-400 text-center font-regular">
                 No messages yet.
               </Text>
             </View>

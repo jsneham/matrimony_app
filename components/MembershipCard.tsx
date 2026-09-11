@@ -1,7 +1,8 @@
 import { ApiPlanItem } from "@/types/plan";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React from "react";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
+import { Text } from "@/components/ui/Text";
 
 interface Props {
   plan: ApiPlanItem;
@@ -22,7 +23,7 @@ export const MembershipCard = ({ plan, onContinue }: Props) => {
 
       <Text className="text-xl font-bold text-black">{plan.plan_name}</Text>
 
-      <Text className="text-gray-500 mt-1">{plan.plan_duration} Days</Text>
+      <Text className="text-gray-500 mt-1 font-regular">{plan.plan_duration} Days</Text>
 
       {/* Discount */}
 
@@ -47,7 +48,7 @@ export const MembershipCard = ({ plan, onContinue }: Props) => {
             size={18}
           />
 
-          <Text className="ml-2">{plan.profile} Full Profile Views</Text>
+          <Text className="ml-2 font-regular">{plan.profile} Full Profile Views</Text>
         </View>
 
         <View className="flex-row mb-2">
@@ -57,7 +58,7 @@ export const MembershipCard = ({ plan, onContinue }: Props) => {
             size={18}
           />
 
-          <Text className="ml-2">{plan.plan_contacts} Contact Numbers</Text>
+          <Text className="ml-2 font-regular">{plan.plan_contacts} Contact Numbers</Text>
         </View>
 
         <View className="flex-row mb-2">
@@ -67,7 +68,7 @@ export const MembershipCard = ({ plan, onContinue }: Props) => {
             size={18}
           />
 
-          <Text className="ml-2">Chat : {plan.chat}</Text>
+          <Text className="ml-2 font-regular">Chat : {plan.chat}</Text>
         </View>
 
         <View className="flex-row">
@@ -77,7 +78,7 @@ export const MembershipCard = ({ plan, onContinue }: Props) => {
             size={18}
           />
 
-          <Text className="ml-2">Video : {plan.video}</Text>
+          <Text className="ml-2 font-regular">Video : {plan.video}</Text>
         </View>
       </View>
 
@@ -86,7 +87,7 @@ export const MembershipCard = ({ plan, onContinue }: Props) => {
       {offers.length > 0 && (
         <View className="bg-amber-50 rounded-lg p-3 mb-4">
           {offers.map((offer, index) => (
-            <Text key={index} className="text-amber-700 text-sm mb-1">
+            <Text key={index} className="text-amber-700 text-sm mb-1 font-regular">
               • {offer}
             </Text>
           ))}

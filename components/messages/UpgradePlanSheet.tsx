@@ -1,7 +1,8 @@
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React from "react";
-import { Modal, Pressable, Text, View } from "react-native";
+import { Modal, Pressable, View } from "react-native";
+import { Text } from "@/components/ui/Text";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Animated, {
     Easing,
@@ -108,10 +109,10 @@ export const UpgradePlanSheet: React.FC<UpgradePlanSheetProps> = ({
               <View className="w-14 h-14 rounded-full bg-pink-50 items-center justify-center mb-4">
                 <Ionicons name="lock-closed" size={26} color="#db2777" />
               </View>
-              <Text className="text-lg font-bold text-gray-900 text-center">
+              <Text className="text-2xl leading-none font-bold text-black text-center">
                 Upgrade Required
               </Text>
-              <Text className="text-sm text-gray-500 text-center mt-2 leading-5">
+              <Text className="text-sm text-gray-500 text-center mt-2 leading-5 font-regular">
                 {message}
               </Text>
             </View>
@@ -126,7 +127,7 @@ export const UpgradePlanSheet: React.FC<UpgradePlanSheetProps> = ({
                 </Text>
               </Pressable>
               <Pressable onPress={animateClose} className="py-3 items-center">
-                <Text className="text-gray-500 font-semibold text-base">
+                <Text className="text-gray-500 font-medium text-base">
                   Maybe Later
                 </Text>
               </Pressable>

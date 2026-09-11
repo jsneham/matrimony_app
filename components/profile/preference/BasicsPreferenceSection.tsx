@@ -41,7 +41,7 @@ export const BasicsPreferenceSection: React.FC<BasicsSectionProps> = ({
   return (
     <View
       onLayout={(e) => onLayout(sectionId, e)}
-      className="mt-12 mb-12 mx-5"
+      className="mt-14 mx-5"
       style={{
         backgroundColor: "#f9fafb",
         borderTopLeftRadius: 16,

@@ -1,6 +1,8 @@
 import { MemberCardProps } from "@/types/home";
 import { Ionicons } from "@expo/vector-icons";
-import { Image, Text, View } from "react-native";
+import { Image, View } from "react-native";
+import { Text } from "@/components/ui/Text";
+import { colors } from "@/constants/theme";
 
 export const MemberCard: React.FC<MemberCardProps> = ({
   name,
@@ -27,7 +29,7 @@ export const MemberCard: React.FC<MemberCardProps> = ({
           className="items-center justify-center bg-gray-200"
           style={{ width: "100%", height: 160 }}
         >
-          <Ionicons name="person" size={64} color="#9ca3af" />
+          <Ionicons name="person" size={64} color={colors.gray} />
         </View>
       )}
       {/* Name overlay */}
@@ -40,17 +42,17 @@ export const MemberCard: React.FC<MemberCardProps> = ({
 
     {/* Info */}
     <View className="px-3 py-2.5">
-      <Text className="text-gray-500 text-xs mb-1">{matriId}</Text>
-      <Text className="text-gray-600 text-xs mb-0.5">
+      <Text className="text-gray-500 text-xs mb-1 font-regular">{matriId}</Text>
+      <Text className="text-gray-600 text-xs mb-0.5 font-regular">
         {age}, {height}
       </Text>
-      <Text className="text-gray-600 text-xs mb-0.5" numberOfLines={1}>
+      <Text className="text-gray-600 text-xs mb-0.5 font-regular" numberOfLines={1}>
         {religion}, {caste}
       </Text>
-      <Text className="text-gray-600 text-xs mb-0.5" numberOfLines={1}>
+      <Text className="text-gray-600 text-xs mb-0.5 font-regular" numberOfLines={1}>
         {education}
       </Text>
-      <Text className="text-gray-500 text-xs" numberOfLines={1}>
+      <Text className="text-gray-500 text-xs font-regular" numberOfLines={1}>
         {location}
       </Text>
     </View>

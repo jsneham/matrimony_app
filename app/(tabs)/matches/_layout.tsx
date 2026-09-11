@@ -3,14 +3,15 @@ import React, { useRef, useState } from "react";
 import {
   Animated,
   Dimensions,
-  Text,
   TouchableOpacity,
   View,
 } from "react-native";
 import PagerView from "react-native-pager-view";
 
 import SearchFortabIcon from "@/assets/icons/search_fortab";
+import { Text } from "@/components/ui/Text";
 import { TABS } from "@/constants/data";
+import { colors } from "@/constants/theme";
 import MyMatchesTab from "./index";
 import MoreMatchesTab from "./more-matches";
 
@@ -63,7 +64,7 @@ export default function MatchesLayout() {
     <View className="flex-1 bg-white">
       {/* ── Top Tab Bar ───────────────────────────────── */}
       <View className="bg-white">
-        <View className="flex-row h-11 border-b border-inactive-border">
+        <View className="flex-row min-h-11 border-b border-inactive-border">
           {TABS.map((tab, index) => {
             const isActive = activeIndex === index;
             return (
@@ -77,8 +78,8 @@ export default function MatchesLayout() {
                 <View className="flex-row items-center gap-[6px]">
                   {tab.key === "search" && (
                     <SearchFortabIcon
-                      size={16}
-                      color={isActive ? "#000000" : "#8B8B8B"}
+                      size={15}
+                      color={isActive ? colors.black : colors.gray}
                     />
                   )}
                   <Text
@@ -87,6 +88,7 @@ export default function MatchesLayout() {
                         ? "font-bold text-tab-text-active"
                         : "font-bold text-tab-text-inactive"
                     }`}
+                    maxFontSizeMultiplier={1.3}
                   >
                     {tab.label}
                   </Text>

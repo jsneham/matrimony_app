@@ -2,7 +2,8 @@ import { colors } from "@/constants/theme";
 import { useMyProfile } from "@/hooks/useProfile";
 import { useSession } from "@/hooks/useSession";
 import { SESSION_KEYS } from "@/types/common";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
+import { Text } from "@/components/ui/Text";
 import { ActionCard } from "./ActionCard";
 import { NoData } from "./NoData";
 import { ProfileCompletionCard } from "./ProfileCompletionCard";
@@ -47,7 +48,7 @@ export const AccountProfileHeader = () => {
           {userData?.firstname} {userData?.lastname}
         </Text>
 
-        <Text className="text-gray-500 mt-1">{userData?.matri_id}</Text>
+        <Text className="text-gray-500 mt-1 font-regular">{userData?.matri_id}</Text>
       </View>
 
       {/* Action Cards */}

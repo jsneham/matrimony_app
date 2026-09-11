@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import { Text } from "@/components/ui/Text";
 
 export const InfoRow = ({
   icon,
@@ -11,7 +12,7 @@ export const InfoRow = ({
 }) => (
   <View className="flex-row items-center px-5 py-3">
     <Ionicons name={icon} size={20} color="#111827" style={{ width: 28 }} />
-    <Text className="text-base text-gray-900 flex-1 ml-2">{text}</Text>
+    <Text className="text-base text-gray-900 flex-1 ml-2 font-regular">{text}</Text>
   </View>
 );
 

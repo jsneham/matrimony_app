@@ -2,7 +2,8 @@
 // Same visual style as components/profile/ProfileTabBar.tsx, adapted to
 // react-native-collapsible-tab-view's renderTabBar contract.
 import React, { useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
+import { Text } from "@/components/ui/Text";
 import { TabBarProps } from "react-native-collapsible-tab-view";
 import { runOnJS, useAnimatedReaction } from "react-native-reanimated";
 

@@ -4,7 +4,9 @@ import { EditableFieldDescriptor } from "@/types/profile";
 import { formatTime, parseTimeToDate } from "@/utils/dateTime";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import React, { useState } from "react";
-import { Platform, Pressable, Text, TextInput, View } from "react-native";
+import { Platform, Pressable, View } from "react-native";
+import { Text } from "@/components/ui/Text";
+import { TextInput } from "@/components/ui/TextInput";
 import RangeSliderRow from "./RangeSliderRow";
 
 const DEFAULT_MAX_LENGTH = 1000;
@@ -115,18 +117,16 @@ export const EditableFieldRow: React.FC<{
         maxLength={maxLength}
         multiline={isMultiline}
         numberOfLines={isMultiline ? 4 : 1}
-        textAlignVertical={isMultiline ? "top" : "center"}
         className={`text-base border border-gray-300 rounded-md py-2 px-3 w-full mt-2 ${
           value ? "text-gray font-regular" : "text-placeholder font-regular"
         }`}
         style={{
           minHeight: isMultiline ? 100 : 44,
           height: isMultiline ? undefined : 44,
-          includeFontPadding: false,
         }}
         placeholderTextColor={colors.placeholder}
       />
-      <Text className="text-xs text-gray-400 text-right mt-1">
+      <Text className="text-xs text-gray-400 text-right mt-1 font-regular">
         {value.length}/{maxLength}
       </Text>
     </View>

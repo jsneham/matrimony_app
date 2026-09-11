@@ -1,5 +1,6 @@
 import { PlanDetail } from "@/types/plan";
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import { Text } from "@/components/ui/Text";
 
 export const DetailRow: React.FC<PlanDetail> = ({
   label,
@@ -7,8 +8,8 @@ export const DetailRow: React.FC<PlanDetail> = ({
   highlight,
 }) => (
   <View className="flex-row items-center py-3">
-    <Text className="flex-1 text-gray-400 text-sm">{label}</Text>
-    <Text className="text-gray-400 text-sm mr-3">:</Text>
+    <Text className="flex-1 text-gray-400 text-sm font-regular">{label}</Text>
+    <Text className="text-gray-400 text-sm mr-3 font-regular">:</Text>
     <Text
       className={`text-sm font-bold ${
         highlight ? "text-orange-500" : "text-gray-900"

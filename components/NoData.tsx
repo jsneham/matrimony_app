@@ -1,5 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import { Text } from "@/components/ui/Text";
+import { colors } from "@/constants/theme";
 
 export const NoData = ({
   mainMessage,
@@ -10,11 +12,11 @@ export const NoData = ({
 }) => {
   return (
     <View className="flex-1 items-center justify-center px-6">
-      <Ionicons name="heart-dislike" size={48} color="#9ca3af" />
+      <Ionicons name="heart-dislike" size={48} color={colors.gray} />
       <Text className="text-gray-500 font-bold mt-4 text-center">
         {mainMessage || "No more matches available"}
       </Text>
-      <Text className="text-gray-400 text-sm mt-2 text-center">
+      <Text className="text-gray-400 text-sm mt-2 text-center font-regular">
         {subText || "Check back later for new matches"}
       </Text>
     </View>

@@ -10,9 +10,9 @@ import {
   FlatList,
   Pressable,
   ScrollView,
-  Text,
   View,
 } from "react-native";
+import { Text } from "@/components/ui/Text";
 
 const MembershipPlanList = () => {
   const { openWhatsApp, loading } = useWhatsApp();
@@ -78,7 +78,7 @@ const MembershipPlanList = () => {
           )}
 
           {activeTab?.extra_text ? (
-            <Text className="text-gray-600 text-sm mb-4">
+            <Text className="text-gray-600 text-sm mb-4 font-regular">
               {activeTab.extra_text}
             </Text>
           ) : null}
@@ -99,7 +99,7 @@ const MembershipPlanList = () => {
           </View>
         ) : (
           <View className="items-center py-10">
-            <Text>No Plans Available</Text>
+            <Text className="font-regular">No Plans Available</Text>
           </View>
         )}
 

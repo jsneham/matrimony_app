@@ -18,7 +18,7 @@
   --color-subscription: #8fd1bd;
   --color-tab-text-active: #000000;
   --color-tab-text-inactive: #8b8b8b;
-  --color-gray: "#8b8b8b";
+  --color-gray: #8b8b8b;
   --color-black: #000000;
   --color-inactive-border: #f9f9f9;
   --color-app-background: #f9f9f9;
@@ -53,30 +53,156 @@
   --font-medium: Medium;
   --font-bold: Bold;
 
-  /* Font size + matched line-height, tuned for your custom fonts */
-  /* --text-xs: 12px;
-  --text-xs--line-height: 14px;
+  /* Font size + matched line-height, tuned for the custom fonts.
+     Ratio 1 (line-height equals font-size) — confirmed against the Figma
+     dev-mode CSS export (App_NewMargins, node 6261-642): every text layer
+     there is annotated with a line-height identical to its box height,
+     e.g. the 11px tab labels, the 16px top-tab text, the 24px header
+     title, the 14px preference-pill text.
+     Line-height MUST be unitless (a multiplier of font-size), matching
+     Tailwind's own --text-*--line-height convention -- react-native-css
+     always resolves this property as value times fontSize at runtime, so
+     a literal px value (e.g. 23px) gets multiplied again and blows up. */
+  --text-xs: 12px;
+  /* --text-xs--line-height: 1; */
 
   --text-sm: 14px;
-  --text-sm--line-height: 16px;
+  /* --text-sm--line-height: 1; */
 
   --text-base: 16px;
-  --text-base--line-height: 18px;
+  /* --text-base--line-height: 1; */
 
   --text-lg: 18px;
-  --text-lg--line-height: 20px;
+  /* --text-lg--line-height: 1; */
 
   --text-xl: 20px;
-  --text-xl--line-height: 22px;
+  /* --text-xl--line-height: 1; */
 
   --text-2xl: 24px;
-  --text-2xl--line-height: 27px;
+  /* --text-2xl--line-height: 1; */
 
   --text-3xl: 30px;
-  --text-3xl--line-height: 33px;
+  /* --text-3xl--line-height: 1; */
 
   --text-4xl: 36px;
-  --text-4xl--line-height: 40px; */
+  /* --text-4xl--line-height: 1; */
+
+  --text-5xl: 44px;
+  /* --text-5xl--line-height: 1; */
+
+  --text-1: 1px;
+  --text-2: 2px;
+  --text-3: 3px;
+  --text-4: 4px;
+  --text-5: 5px;
+  --text-6: 6px;
+  --text-7: 7px;
+  --text-8: 8px;
+  --text-9: 9px;
+  --text-10: 10px;
+  --text-11: 11px;
+  --text-12: 12px;
+  --text-12--line-height: 1.33; /* 12px * 1.33 ≈ 16px — matches --text-14--line-height's 16px so icon rows using platformTextSize(14) center identically on Android (text-12) and iOS (text-14) */
+  --text-13: 13px;
+  --text-14: 14px;
+  --text-14--line-height: 1.14; /* 14px * 1.14 ≈ 16px */
+  --text-15: 15px;
+  --text-16: 16px;
+  --text-17: 17px;
+  --text-18: 18px;
+  --text-19: 19px;
+  --text-20: 20px;
+  --text-21: 21px;
+  --text-22: 22px;
+  --text-23: 23px;
+  --text-24: 24px;
+  --text-25: 25px;
+  --text-26: 26px;
+  --text-27: 27px;
+  --text-28: 28px;
+  --text-29: 29px;
+  --text-30: 30px;
+  --text-31: 31px;
+  --text-32: 32px;
+  --text-33: 33px;
+  --text-34: 34px;
+  --text-35: 35px;
+  --text-36: 36px;
+  --text-37: 37px;
+  --text-38: 38px;
+  --text-39: 39px;
+  --text-40: 40px;
+  --text-41: 41px;
+  --text-42: 42px;
+  --text-43: 43px;
+  --text-44: 44px;
+  --text-45: 45px;
+  --text-46: 46px;
+  --text-47: 47px;
+  --text-48: 48px;
+  --text-49: 49px;
+  --text-50: 50px;
+
+  /* To scope a line-height to one granular size only (without touching
+     component code), add a --text-N--line-height next to that --text-N
+     entry — see --text-14--line-height above for the pattern. Must stay
+     unitless (a multiplier of font-size), same rule as the semantic
+     scale's line-height comment near the top of this block. Left
+     unpaired by default across this scale to avoid ~100 near-duplicate
+     lines; add one only where a specific size needs an override.
+
+     Half-step px scale (text-1-5 .. text-50-5), same idea as the integer
+     scale above but for the X.5px sizes platformTextSize() needs. */
+  --text-1-5: 1.5px;
+  --text-2-5: 2.5px;
+  --text-3-5: 3.5px;
+  --text-4-5: 4.5px;
+  --text-5-5: 5.5px;
+  --text-6-5: 6.5px;
+  --text-7-5: 7.5px;
+  --text-8-5: 8.5px;
+  --text-9-5: 9.5px;
+  --text-10-5: 10.5px;
+  --text-11-5: 11.5px;
+  --text-12-5: 12.5px;
+  --text-13-5: 13.5px;
+  --text-14-5: 14.5px;
+  --text-15-5: 15.5px;
+  --text-16-5: 16.5px;
+  --text-17-5: 17.5px;
+  --text-18-5: 18.5px;
+  --text-19-5: 19.5px;
+  --text-20-5: 20.5px;
+  --text-21-5: 21.5px;
+  --text-22-5: 22.5px;
+  --text-23-5: 23.5px;
+  --text-24-5: 24.5px;
+  --text-25-5: 25.5px;
+  --text-26-5: 26.5px;
+  --text-27-5: 27.5px;
+  --text-28-5: 28.5px;
+  --text-29-5: 29.5px;
+  --text-30-5: 30.5px;
+  --text-31-5: 31.5px;
+  --text-32-5: 32.5px;
+  --text-33-5: 33.5px;
+  --text-34-5: 34.5px;
+  --text-35-5: 35.5px;
+  --text-36-5: 36.5px;
+  --text-37-5: 37.5px;
+  --text-38-5: 38.5px;
+  --text-39-5: 39.5px;
+  --text-40-5: 40.5px;
+  --text-41-5: 41.5px;
+  --text-42-5: 42.5px;
+  --text-43-5: 43.5px;
+  --text-44-5: 44.5px;
+  --text-45-5: 45.5px;
+  --text-46-5: 46.5px;
+  --text-47-5: 47.5px;
+  --text-48-5: 48.5px;
+  --text-49-5: 49.5px;
+  --text-50-5: 50.5px;
 }
 
 @layer components {
@@ -451,5 +577,65 @@
 
   .category-chip-text-active {
     @apply text-accent;
+  }
+
+  /* ── Typography roles ────────────────────────────────────────────
+     Opt-in semantic text styles. Each pairs a tuned text-* size with
+     an explicit font-* family so fontSize/lineHeight/fontFamily stay
+     consistent wherever they're used. Color is intentionally not
+     baked in — apply a text-* color utility alongside as needed.
+
+     Per-platform size overrides: NativeWind already registers ios:/
+     android: as real variants (see node_modules/nativewind/theme.css,
+     @custom-variant ios (@media ios) / android (@media android)) — no
+     extra setup needed. Use them directly on a className, on top of a
+     role class or a raw text-* utility, ONLY once a comparison against
+     Figma/the real device confirms that specific element genuinely
+     renders differently on the two platforms after the includeFontPadding
+     + line-height fixes (components/ui/Text.tsx, the text-*--line-height
+     scale above) — don't add these speculatively.
+
+       <Text className="text-base android:text-[15px] ...">
+
+     This overrides fontSize (and, via the paired --text-*--line-height
+     token, the matching line-height) only on Android; iOS keeps the
+     base text-base value. Prefer the smallest possible arbitrary value
+     override on the one affected element over changing the shared
+     text-* scale or a role class, so the fix stays scoped to the
+     confirmed mismatch instead of shifting sizes app-wide. */
+  .text-display {
+    @apply text-5xl font-bold tracking-[-0.4px];
+  }
+
+  .text-h1 {
+    @apply text-3xl font-bold tracking-[-0.3px];
+  }
+
+  .text-h2 {
+    @apply text-2xl font-bold tracking-[-0.2px];
+  }
+
+  .text-h3 {
+    @apply text-xl font-bold;
+  }
+
+  .text-body {
+    @apply text-base font-regular;
+  }
+
+  .text-body-sm {
+    @apply text-sm font-regular;
+  }
+
+  .text-caption {
+    @apply text-xs font-medium tracking-[0.2px];
+  }
+
+  .text-button {
+    @apply text-base font-bold tracking-[0.2px];
+  }
+
+  .text-label {
+    @apply text-sm font-bold tracking-[0.2px];
   }
 }

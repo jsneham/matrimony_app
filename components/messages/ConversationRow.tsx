@@ -4,7 +4,8 @@ import { ConversationListItem } from "@/types/message";
 import { getPlanAwareName } from "@/utils/profileHelpers";
 import { router } from "expo-router";
 import React from "react";
-import { Image, Pressable, Text, View } from "react-native";
+import { Image, Pressable, View } from "react-native";
+import { Text } from "@/components/ui/Text";
 
 export const ConversationRow = ({ item }: { item: ConversationListItem }) => {
   const { data: sessionData } = useSession([SESSION_KEYS.PLAN_STATUS]);
@@ -42,19 +43,21 @@ export const ConversationRow = ({ item }: { item: ConversationListItem }) => {
           <Text className="text-base font-bold text-gray-900" numberOfLines={1}>
             {displayName}
           </Text>
-          <Text className="text-xs text-gray-400">{item.sent_on}</Text>
+          <Text className="text-xs text-gray-400 font-regular">{item.sent_on}</Text>
         </View>
         <View className="flex-row items-center justify-between mt-1">
           <Text
             className={`text-sm flex-1 mr-2 ${
-              unread > 0 ? "text-gray-900 font-semibold" : "text-gray-500"
+              unread > 0
+                ? "text-gray-900 font-medium"
+                : "text-gray-500 font-regular"
             }`}
             numberOfLines={1}
           >
             {item.content}
           </Text>
           {unread > 0 && (
-            <View className="bg-pink-600 rounded-full min-w-[20px] h-5 items-center justify-center px-1.5">
+            <View className="bg-pink-600 rounded-full min-w-[20px] min-h-5 items-center justify-center px-1.5">
               <Text className="text-white text-xs font-bold">{unread}</Text>
             </View>
           )}

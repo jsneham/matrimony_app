@@ -16,9 +16,9 @@ import {
   Image,
   Platform,
   Pressable,
-  Text,
   View,
 } from "react-native";
+import { Text } from "@/components/ui/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 // TODO: swap for your actual illustration assets
@@ -38,10 +38,10 @@ const NoResultsState = ({ gender }: { gender?: string }) => {
         style={{ width: 180, height: 180 }}
         resizeMode="contain"
       />
-      <Text className="text-base font-semibold text-gray-700 mt-4">
+      <Text className="text-base font-medium text-gray-700 mt-4">
         No record found
       </Text>
-      <Text className="text-sm text-gray-400 text-center mt-1">
+      <Text className="text-sm text-gray-400 text-center mt-1 font-regular">
         Try adjusting your filters to see more matches.
       </Text>
     </View>
@@ -56,7 +56,7 @@ const UpgradeBanner = () => (
     <View className="bg-amber-600 rounded-full w-8 h-8 items-center justify-center mr-3">
       <Feather name="award" size={16} color="white" />
     </View>
-    <Text className="flex-1 text-xs text-gray-700 leading-4">
+    <Text className="flex-1 text-xs text-gray-700 leading-4 font-regular">
       <Text className="font-bold text-amber-700">
         Upgrade to Premium Gold Membership{" "}
       </Text>
@@ -68,7 +68,7 @@ const UpgradeBanner = () => (
 const GoldBadge = () => (
   <View className="bg-amber-700 flex-row items-center px-3 py-1 rounded-full">
     <Feather name="award" size={12} color="white" />
-    <Text className="text-white text-xs font-semibold ml-1">Gold</Text>
+    <Text className="text-white text-xs font-medium ml-1">Gold</Text>
   </View>
 );
 
@@ -253,7 +253,7 @@ const SearchResultsScreen = () => {
           <Text className="text-lg font-bold text-gray-900 text-center">
             Here&apos;s what we found!
           </Text>
-          <Text className="text-xs text-gray-500 text-center">
+          <Text className="text-xs text-gray-500 text-center font-regular">
             Showing {totalCount} matches
           </Text>
         </View>

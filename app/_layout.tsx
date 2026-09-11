@@ -1,13 +1,29 @@
-import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
+import { DefaultTheme, ThemeProvider } from "expo-router/react-navigation";
 import { SplashScreen, Stack } from "expo-router";
 import "react-native-reanimated";
+import {
+  configureReanimatedLogger,
+  ReanimatedLogLevel,
+} from "react-native-reanimated";
 
 import "@/global.css";
+import { Text } from "@/components/ui/Text";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+
+// Silences Reanimated's strict-mode "Reading from `value` during component
+// render" warning — it's a well-known false positive from third-party
+// libraries (react-native-pager-view, react-native-collapsible-tab-view)
+// that this app depends on, not from our own components (audited: every
+// useSharedValue read in this codebase happens inside useAnimatedStyle/
+// useAnimatedProps/gesture callbacks/useEffect, the safe pattern).
+configureReanimatedLogger({
+  level: ReanimatedLogLevel.warn,
+  strict: false,
+});
 
 // Create a client
 const queryClient = new QueryClient({
@@ -81,7 +97,11 @@ export default function RootLayout() {
             <Stack.Screen
               name="(membership)"
               options={{
-                title: "Membership Plan",
+                headerTitle: () => (
+                  <Text className="text-lg leading-none font-bold text-black">
+                    Membership Plan
+                  </Text>
+                ),
                 headerShown: true,
                 headerTitleAlign: "center",
                 headerBackButtonDisplayMode: "minimal",
@@ -91,7 +111,15 @@ export default function RootLayout() {
             <Stack.Screen
               name="(profile)"
               options={{
-                headerShown: false,
+                headerTitle: () => (
+                  <Text className="text-lg leading-none font-bold text-black">
+                    Profile
+                  </Text>
+                ),
+                headerShown: true,
+                headerTitleAlign: "center",
+                headerBackButtonDisplayMode: "minimal",
+                headerShadowVisible: false,
               }}
             />
             <Stack.Screen
@@ -117,7 +145,11 @@ export default function RootLayout() {
             <Stack.Screen
               name="(notification)"
               options={{
-                title: "Notifications",
+                headerTitle: () => (
+                  <Text className="text-lg leading-none font-bold text-black">
+                    Notifications
+                  </Text>
+                ),
                 headerShown: true,
                 headerTitleAlign: "center",
                 headerBackButtonDisplayMode: "minimal",
